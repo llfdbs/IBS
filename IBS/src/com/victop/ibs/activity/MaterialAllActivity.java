@@ -18,6 +18,7 @@ import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.dodola.model.DuitangInfo;
@@ -47,8 +50,7 @@ public class MaterialAllActivity extends FragmentActivity implements
 	private int currentPage = 0;
 	ContentTask task = new ContentTask(this, 2);
 
-	private Button btn_back, btn_add, btn_notsearch, btn_search,
-			btn_newtime = null;
+	private Button btn_back, btn_add, btn_search, btn_newtime = null;
 	private TextView tv_title = null;
 
 	private final String MATERIAL = "material_style";
@@ -238,10 +240,10 @@ public class MaterialAllActivity extends FragmentActivity implements
 		btn_add = (Button) findViewById(R.id.add);
 		btn_search = (Button) findViewById(R.id.btn_search);
 		btn_newtime = (Button) findViewById(R.id.btn_newtime);
-		btn_notsearch = (Button) findViewById(R.id.search);
+
 		tv_title = (TextView) findViewById(R.id.title);
+
 		btn_add.setBackgroundResource(R.drawable.btn_add);
-		btn_notsearch.setVisibility(View.GONE);
 
 		btn_back.setOnClickListener(this);
 		btn_add.setOnClickListener(this);
@@ -299,13 +301,13 @@ public class MaterialAllActivity extends FragmentActivity implements
 
 	@Override
 	public void onRefresh() {
-//		AddItemToContainer(++currentPage, 1);
+		// AddItemToContainer(++currentPage, 1);
 		mAdapterView.stopRefresh();
 	}
 
 	@Override
 	public void onLoadMore() {
-//		 AddItemToContainer(++currentPage, 2);
+		// AddItemToContainer(++currentPage, 2);
 		mAdapterView.stopLoadMore();
 	}
 

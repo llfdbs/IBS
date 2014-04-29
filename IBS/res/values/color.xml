@@ -7,4 +7,7 @@
     <drawable name="btn_shaixuan">#000000</drawable>
     <drawable name="index_top">#44546A</drawable>
     <drawable name="index_bottom">#eeeeee</drawable>
+
+    <color name="blue">#0079fa</color>
+
 </resources>

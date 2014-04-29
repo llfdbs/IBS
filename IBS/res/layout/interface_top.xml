@@ -9,13 +9,12 @@
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="fill_parent"
-        android:layout_height="40dip"
-        android:padding="3dip" >
+        android:layout_height="40dip" >
 
         <Button
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:background="@drawable/btn_back"
@@ -46,10 +45,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dip"
-            android:gravity="center_vertical"
+            android:background="@null"
             android:padding="1dip"
-            android:paddingLeft="2dip" />
+            android:paddingLeft="2dip"
+            android:textColor="@color/blue"
+             />
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/top"
+        android:layout_marginTop="5dip"
+        android:background="#D5D5D6" />
 
 </RelativeLayout>
