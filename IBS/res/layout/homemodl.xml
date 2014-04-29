@@ -29,13 +29,14 @@
                     android:layout_height="wrap_content" >
 
                     <ImageView
-                        android:id="@+id/userhead"
+                        android:id="@+id/img_userhead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
                         android:background="@drawable/user_head" />
 
                     <ImageView
+                        android:id="@+id/img_manager_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|right"
@@ -45,6 +46,7 @@
                 </FrameLayout>
 
                 <TextView
+                    android:id="@+id/tv_role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -92,7 +94,7 @@
                         android:textSize="@dimen/text_medial" />
 
                     <Button
-                        android:id="@+id/btn_manager_receivetask"
+                        android:id="@+id/btn_manager_receivedtask"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -125,7 +127,7 @@
                         android:textSize="@dimen/text_medial" />
 
                     <Button
-                        android:id="@+id/btn_manager_sendtask"
+                        android:id="@+id/btn_manager_sendedtask"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
