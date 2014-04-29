@@ -6,6 +6,17 @@
     android:background="#44546A"
     android:gravity="center_horizontal"
     >
+    <ScrollView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        >
+    <LinearLayout 
+         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
       <ImageView 
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -41,4 +52,6 @@
     android:background="@drawable/btn_login"
     android:layout_marginTop="30dp"
     />
+</LinearLayout>
+</ScrollView>
 </LinearLayout>

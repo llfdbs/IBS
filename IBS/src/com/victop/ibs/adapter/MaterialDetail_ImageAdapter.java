@@ -39,8 +39,8 @@ public class MaterialDetail_ImageAdapter extends BaseAdapter{
    public static Integer[] imgs = {
  			R.drawable.one,
  			R.drawable.two,
-			R.drawable.three,
-			R.drawable.four
+			R.drawable.three
+			
 	};
     
   

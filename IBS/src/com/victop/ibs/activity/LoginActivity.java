@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.util.ToastTools;
 
 /**
  * 登录类 登录类业务逻辑
@@ -18,6 +20,7 @@ import com.victop.ibs.base.ActivityBase;
 public class LoginActivity extends ActivityBase{
     private EditText edt_username,edt_password;
     private Button btn_login;
+    private String userName,passWord;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -35,7 +38,7 @@ public class LoginActivity extends ActivityBase{
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-
+        
 	}
 
 	@Override
@@ -51,15 +54,32 @@ public class LoginActivity extends ActivityBase{
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+			if(validate()){
 			Intent intent = new Intent(LoginActivity.this,MainActivity.class);
 			startActivity(intent);
 			finish();
+			}
 		}
 	};
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
+		
 		btn_login.setOnClickListener(mOnClick);
 	}
-
+   //校验用户名密码
+	public boolean validate(){
+	userName = edt_username.getText().toString().trim();
+	passWord = edt_password.getText().toString().trim();
+	if("".equals(userName)||null==userName){
+		Toast.makeText(LoginActivity.this, "用户名不能为空,请输入用户名!",Toast.LENGTH_SHORT).show();;
+		return false;
+	}
+	   if("".equals(passWord)||null==passWord){
+		   Toast.makeText(LoginActivity.this, "密码不能为空,请输入密码!",Toast.LENGTH_SHORT).show();;
+		return false;
+	}
+	return true;
+	}
+	
 }

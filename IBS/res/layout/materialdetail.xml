@@ -19,6 +19,7 @@
                 android:id="@+id/image_wall_gallery"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:fadingEdge="none"
                 android:spacing="1dip"
                 android:unselectedAlpha="1" >
@@ -28,8 +29,7 @@
                 android:id="@+id/gallery_point_linear"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/txt_gallerytitle"
+                android:background="#00000000"
                 android:gravity="center"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -38,28 +38,50 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#D5D5D6"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp" >
 
-                <ImageButton
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/history_version" />
+                    android:gravity="center" >
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit" />
+                    <ImageButton
+                        android:id="@+id/imgbtn_historyversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_historyversion_selector"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
 
-                <ImageButton
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/detail" />
+                    android:gravity="center" >
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_edit_selector" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_detail_selector" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -76,7 +98,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="erp>销售>销售合同" />
+                    android:singleLine="true"
+                    android:textColor="#A7A7AA"
+                    android:text="erp>销售>销售合同"
+                     />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -88,12 +113,15 @@
                         android:id="@+id/txt_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#A7A7AA"
                         android:text="版本号:" />
 
                     <TextView
                         android:id="@+id/tv_versioncode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textColor="#A7A7AA"
                         android:text="000999" />
                 </LinearLayout>
 
@@ -107,12 +135,15 @@
                         android:id="@+id/txt_taskcode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#A7A7AA"
                         android:text="任务单号:" />
 
                     <TextView
                         android:id="@+id/tv_taskcode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textColor="#A7A7AA"
                         android:text="111225" />
                 </LinearLayout>
             </LinearLayout>
@@ -120,7 +151,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal" >
 
@@ -129,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text="图片名称:"
-                    android:textColor="#000000"
+                    android:textColor="#303030"
                     android:textSize="@dimen/text_medial" />
 
                 <TextView
@@ -138,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text="IT技术与分享"
-                    android:textColor="#000000"
+                    android:textColor="#303030"
                     android:textSize="@dimen/text_medial" />
             </LinearLayout>
 
@@ -149,6 +180,7 @@
                 android:lineSpacingExtra="10dp"
                 android:maxLines="5"
                 android:paddingLeft="5dp"
+                android:textColor="#B1B1B2"
                 android:text="阿加福利费建安发发生法放啊发顺丰路附近了多少积分了积分拉时间房价利费建安路附近了多少积分了积分拉时间房价利费建安路附近了多少积分了积分拉时间房价利费建安路附近了多少积分了积分拉时间房价利费建安路附近了多少积分了积分拉时间房价利费建安路附近了多少积分了积分拉时间房价利费建安路附近了多少积分了积分拉时间房价利费建
         安路附近了多少积分了积分拉时间房价利费建安路附近了多少积分了积分拉时间房价多少份简历附件撒酒疯拉手机登陆福建登陆手机费拉德斯基" />
 
@@ -162,11 +194,6 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/btn_check" />
-
-            <com.victop.ibs.view.MyGallery
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" >
-            </com.victop.ibs.view.MyGallery>
         </LinearLayout>
     </ScrollView>
 

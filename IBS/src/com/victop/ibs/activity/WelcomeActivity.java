@@ -90,7 +90,7 @@ public class WelcomeActivity extends ActivityBase{
 	 * 跳转到... 销毁当前欢迎页
 	 */
 	private void redirectTo() {
-		openActivity(MainActivity.class);
+		openActivity(LoginActivity.class);
 		WelcomeActivity.this.finish();
 	}
 

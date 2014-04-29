@@ -18,7 +18,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:background="@drawable/btn_back"
-            android:gravity="center_vertical"
             android:padding="1dip"
             android:paddingLeft="2dip" />
 
@@ -37,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip"
             android:layout_toLeftOf="@+id/add"
-            android:gravity="center_vertical"
             android:paddingLeft="2dip" />
 
         <Button
@@ -50,8 +48,7 @@
             android:background="@null"
             android:padding="1dip"
             android:paddingLeft="2dip"
-            android:textColor="@color/blue"
-             />
+            android:textColor="@color/blue" />
     </RelativeLayout>
 
     <View
