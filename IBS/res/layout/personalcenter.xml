@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#3A4352"
+    android:gravity="center_horizontal" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/img_usercenter_userhead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/user_head" />
+
+                    <ImageView
+                        android:id="@+id/img_manager_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/img_manager_tag" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="20dp"
+                    android:text="张晓婉"
+                    android:textColor="#cccccc"
+                    android:textSize="@dimen/text_medial" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_mymaterial"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/usercenter_title_bg"
+                android:gravity="center"
+                android:text="我的素材"
+                android:textColor="#cccccc"
+                android:textSize="@dimen/text_medial" />
+
+            <LinearLayout
+                android:id="@+id/lly_uncomplete"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/usercenter_itembg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="未完成的素材"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/text_medial" />
+
+                <Button
+                    android:id="@+id/btn_uncomplete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/count"
+                    android:text="11"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lly_audit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/usercenter_itembg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="已审核的素材"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/text_medial" />
+
+                <Button
+                    android:id="@+id/btn_audit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/count"
+                    android:text="5"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lly_unaudit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/usercenter_itembg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="未审核的素材"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/text_medial" />
+
+                <Button
+                    android:id="@+id/btn_unaudit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/count"
+                    android:text="3"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_mytask"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/usercenter_title_bg"
+                android:gravity="center"
+                android:text="我的任务"
+                android:textColor="#cccccc"
+                android:textSize="@dimen/text_medial" />
+
+            <LinearLayout
+                android:id="@+id/lly_gettask"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/usercenter_itembg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="接受的任务"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/text_medial" />
+
+                <Button
+                    android:id="@+id/btn_gettask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/count"
+                    android:text="8"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lly_settask"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/usercenter_itembg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="发布的任务"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/text_medial" />
+
+                <Button
+                    android:id="@+id/btn_settask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/count"
+                    android:text="12"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_exit" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

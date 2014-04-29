@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="bg">#666666</drawable>
+    <drawable name="bg1">#ffffff</drawable>
+    <drawable name="bg2">#000000</drawable>
+    <drawable name="btn_shaixuan">#000000</drawable>
+    <drawable name="index_top">#44546A</drawable>
+    <drawable name="index_bottom">#eeeeee</drawable>
+</resources>

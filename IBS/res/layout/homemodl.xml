@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/index_bottom"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/layout_linear"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/index_top"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/userhead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/user_head" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/img_manager_tag" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/user_role_manager"
+                    android:textSize="@dimen/text_medial" />
+
+                <Button
+                    android:id="@+id/btn_manager_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edt_manager_bg"
+                    android:drawableLeft="@drawable/btn_manager_search"
+                    android:drawablePadding="10dp"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/layout_linear"
+                android:background="@drawable/index_bottom"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                 >
+
+                <LinearLayout
+                    android:id="@+id/layout_linear1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/btn_manager_addmaterial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_manager_addmaterial"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="15dp"
+                        android:text="@string/addmaterial"
+                        android:textColor="#303030"
+                        android:textSize="@dimen/text_medial" />
+
+                    <Button
+                        android:id="@+id/btn_manager_receivetask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/btn_manager_receivetask"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="15dp"
+                        android:text="@string/receivetask"
+                        android:textColor="#303030"
+                        android:textSize="@dimen/text_medial" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_linear2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_linear1"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/btn_manager_material"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_managermaterial"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="15dp"
+                        android:text="素材(99)"
+                        android:textColor="#303030"
+                        android:textSize="@dimen/text_medial" />
+
+                    <Button
+                        android:id="@+id/btn_manager_sendtask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/btn_manager_sendtask"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="15dp"
+                        android:text="@string/sendtask"
+                        android:textColor="#303030"
+                        android:textSize="@dimen/text_medial" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_addtask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_manager_addtask" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/layout_linear"
+                android:background="@drawable/index_bottom"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" 
+                android:visibility="gone"
+                >
+
+                <LinearLayout
+                    android:id="@+id/layout_linear1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/btn_employee_material"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_managermaterial"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="15dp"
+                        android:text="素材(99)"
+                        android:textColor="#303030"
+                        android:textSize="@dimen/text_medial" />
+
+                    <Button
+                        android:id="@+id/btn_employee_task"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/btn_usertask"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="15dp"
+                        android:text="任务(99)"
+                        android:textColor="#303030"
+                        android:textSize="@dimen/text_medial" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_employee_addmateria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/btn_addmaterial" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

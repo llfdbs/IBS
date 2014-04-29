@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="#44546A"
+    android:gravity="center_horizontal"
+    >
+      <ImageView 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/img_appname"
+    android:layout_marginTop="100dp"
+    />
+<EditText 
+    android:id="@+id/edt_username"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="60dp"
+    android:textSize="@dimen/text_medial"
+    android:hint="@string/login_user_hint"
+    android:textColor="#dddddd"
+    android:background="@drawable/edt_username"
+    android:paddingLeft="80dp"
+   />
+<EditText 
+    android:id="@+id/edt_password"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:textSize="@dimen/text_medial"
+    android:hint="@string/login_password_hint"
+    android:textColor="#dddddd"
+    android:background="@drawable/edt_password"
+    android:paddingLeft="80dp"
+    />
+<Button 
+    android:id="@+id/btn_login"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/btn_login"
+    android:layout_marginTop="30dp"
+    />
+</LinearLayout>
