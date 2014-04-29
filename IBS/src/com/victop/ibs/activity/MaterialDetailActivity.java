@@ -18,7 +18,12 @@ import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
 import com.victop.ibs.app.ibsApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.view.MyGallery;
-
+/**
+ * 素材详情类 素材详情类业务逻辑
+ * 
+ * @author vv
+ * 
+ */
 public class MaterialDetailActivity extends ActivityBase {
 	public List<String> urls ;
 	public MyGallery images_ga;
@@ -34,13 +39,13 @@ public class MaterialDetailActivity extends ActivityBase {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.materialdetail);
+		initViews();
 		ibsApplication.getInstance().addActivity(this);
 	}
 
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -55,8 +60,8 @@ public class MaterialDetailActivity extends ActivityBase {
 	        MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(this);  
 	        images_ga.setAdapter(imageAdapter);  
 	        LinearLayout pointLinear = (LinearLayout) findViewById(R.id.gallery_point_linear);
-	        pointLinear.setBackgroundColor(Color.argb(200, 135, 135, 152));
-	        for (int i = 0; i < 4; i++) {
+	        //pointLinear.setBackgroundColor(Color.argb(200, 135, 135, 152));
+	        for (int i = 0; i < 3; i++) {
 	        	ImageView pointView = new ImageView(this);
 	        	if(i==0){
 	        		pointView.setBackgroundResource(R.drawable.feature_point_cur);

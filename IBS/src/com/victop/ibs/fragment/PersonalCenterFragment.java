@@ -1,6 +1,7 @@
 package com.victop.ibs.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.victop.ibs.activity.LoginActivity;
 import com.victop.ibs.activity.MainActivity;
 import com.victop.ibs.activity.R;
 
@@ -105,6 +107,8 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		case R.id.tv_mytask:
 			break;
 		case R.id.btn_exit:
+			Intent intent = new Intent((MainActivity)getActivity(),LoginActivity.class);
+			startActivity(intent);
 			break;
 
 		}

@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dodola.model.DuitangInfo;
@@ -186,6 +188,7 @@ public class MaterialAllActivity extends FragmentActivity implements
 						.findViewById(R.id.news_pic);
 				holder.contentView = (TextView) convertView
 						.findViewById(R.id.news_title);
+				holder.linear_box = (LinearLayout)convertView.findViewById(R.id.news_list);
 				convertView.setTag(holder);
 			}
 
@@ -194,6 +197,15 @@ public class MaterialAllActivity extends FragmentActivity implements
 			holder.imageView.setImageHeight(duitangInfo.getHeight());
 			holder.contentView.setText(duitangInfo.getMsg());
 			mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
+			holder.linear_box.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(MaterialAllActivity.this, MaterialDetailActivity.class);
+					startActivity(intent);
+				}
+			});
 			return convertView;
 		}
 
@@ -201,6 +213,7 @@ public class MaterialAllActivity extends FragmentActivity implements
 			ScaleImageView imageView;
 			TextView contentView;
 			TextView timeView;
+			LinearLayout linear_box;
 		}
 
 		@Override
