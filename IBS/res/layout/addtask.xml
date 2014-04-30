@@ -28,7 +28,7 @@
                     android:paddingTop="10dp"
                     android:text="@string/addtask"
                     android:textColor="#303030"
-                    android:textSize="@dimen/text_big" />
+                    android:textSize="@dimen/text_medial" />
 
                 <Button
                     android:id="@+id/btn_allocation"

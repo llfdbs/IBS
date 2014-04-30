@@ -117,6 +117,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		case R.id.btn_exit:
 			Intent intent = new Intent((MainActivity)getActivity(),LoginActivity.class);
 			startActivity(intent);
+			getActivity().finish();
 			break;
 
 		}

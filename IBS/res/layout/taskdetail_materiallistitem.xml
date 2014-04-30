@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:background="#ffffff"
+    android:paddingBottom="5dp"
+    >
+    <ImageView 
+        android:id="@+id/img_taskmaterial_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/task_material_head"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        />
+ <TextView 
+     android:id="@+id/taskdetail_materialtitle"
+     android:layout_width="200dp"
+     android:layout_height="wrap_content"
+     android:textColor="#303030"
+     android:textSize="18sp"
+     android:text="素材标题素材IBS"
+     android:paddingLeft="20dp"
+     android:paddingTop="5dp"
+     android:singleLine="true"
+     /> 
+<TextView 
+    android:id="@+id/txt_object"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="#9c9ea0"
+     android:text="@string/allocation_object"
+     android:textSize="15sp"
+     android:layout_below="@id/taskdetail_materialtitle"
+     android:layout_marginTop="5dp"
+     android:layout_marginLeft="25dp"
+    />
+<TextView 
+    android:id="@+id/taskdetail_object"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="#9c9ea0"
+     android:text="策划小组"
+     android:textSize="15sp"
+     android:layout_toRightOf="@id/txt_object"
+     android:layout_below="@id/taskdetail_materialtitle"
+     android:layout_marginTop="5dp"
+     android:layout_marginLeft="5dp"
+     android:singleLine="true"
+    />
+<TextView 
+    android:id="@+id/txt_committime"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="#9c9ea0"
+     android:text="@string/committime"
+     android:textSize="15sp"
+     android:layout_below="@id/txt_object"
+     android:layout_marginTop="5dp"
+     android:layout_marginLeft="25dp"
+    />
+<TextView 
+    android:id="@+id/taskdetail_committime"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="#9c9ea0"
+     android:text="2014-4-30"
+     android:textSize="15sp"
+      android:layout_below="@id/taskdetail_object"
+     android:layout_toRightOf="@id/txt_committime"
+     android:layout_marginTop="5dp"
+     android:layout_marginLeft="5dp"
+      android:singleLine="true"
+    />
+</RelativeLayout>

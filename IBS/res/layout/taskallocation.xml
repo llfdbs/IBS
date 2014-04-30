@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="#ffffff"
+    >
+    <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff" >
+
+                <TextView
+                    android:id="@+id/tv_allocationtask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/allocationtask"
+                    android:textColor="#303030"
+                    android:textSize="@dimen/text_medial" />
+
+                <Button
+                    android:id="@+id/btn_positive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="#00000000"
+                    android:padding="10dp"
+                    android:text="@string/yes"
+                    android:textColor="#0079fa"
+                    android:textSize="@dimen/text_medial" />
+            </RelativeLayout>
+            <TextView
+                    android:id="@+id/taskdetail_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    
+                    android:background="#B9B9BA" />
+
+</LinearLayout>

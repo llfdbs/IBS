@@ -44,4 +44,10 @@
     <string name="receivedtask_tasknumber">任务单号:</string>
     <string name="receivedtask_taskstatue">完成状态:</string>
     <string name="receivedtask_tasktype">任务类别:</string>
+    <string name="taskdetail">任务详情</string>
+    <string name="taskfinish">完工</string>
+    <string name="committime">提交时间:</string>
+    <!-- 选择分配人 -->
+    <string name="allocationtask">分配任务</string>
+    <string name="yes">确定</string>
 </resources>

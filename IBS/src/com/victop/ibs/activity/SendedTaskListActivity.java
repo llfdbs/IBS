@@ -5,18 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.ibsApplication;
 import com.victop.ibs.base.ActivityBase;
-
+/**
+ * 发送的任务类 发送的任务业务逻辑
+ * 
+ * @author vv
+ * 
+ */
 public class SendedTaskListActivity extends ActivityBase {
 	private Button btn_tasksend_search,btn_tasksend_addtask;
 	private RadioGroup radiogroup_tasksended;
@@ -59,6 +67,7 @@ public class SendedTaskListActivity extends ActivityBase {
 		btn_tasksend_search.setOnClickListener(mOnClick);
 		btn_tasksend_addtask.setOnClickListener(mOnClick);
 		radiogroup_tasksended.setOnCheckedChangeListener(mOnChecked);
+		mListView.setOnItemClickListener(mOnItemClick);
 	}
 	
 	
@@ -112,6 +121,8 @@ public class SendedTaskListActivity extends ActivityBase {
 			case R.id.btn_tasksend_search:
 				break;
 			case R.id.btn_tasksend_addtask:
+				Intent intent_addtask = new Intent(SendedTaskListActivity.this,AddTaskActivity.class);
+				startActivity(intent_addtask);
 				break;
 			default:;
 			}	
@@ -159,6 +170,16 @@ public class SendedTaskListActivity extends ActivityBase {
 				default:;
 				
 				}
+			}
+		};
+		OnItemClickListener mOnItemClick = new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+	         Intent intent = new Intent(SendedTaskListActivity.this,TaskDetailActivity.class);
+	         startActivity(intent);
 			}
 		};
 }

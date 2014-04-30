@@ -1,9 +1,16 @@
 package com.victop.ibs.activity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -25,6 +32,8 @@ public class AddTaskActivity extends ActivityBase {
 	private RadioGroup radiogroup_type;//类型
 	private String str_taskName,str_allocationname,str_deadline,str_days,str_detail;//任务名称,分配人名称,截止时间,天数,任务详情
 	private String type;
+	private Calendar cal = Calendar.getInstance();
+	private String date;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,8 +84,14 @@ public class AddTaskActivity extends ActivityBase {
 			case R.id.btn_allocation:
 				break;
 			case R.id.btn_addperson:
+				Intent intent_allocation = new Intent(AddTaskActivity.this,TaskAllocationActivity.class);
+				startActivity(intent_allocation);
 				break;
 			case R.id.btn_choosedate:
+				new DatePickerDialog(AddTaskActivity.this, listener, cal.get(Calendar.YEAR),
+						cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
+						.show();
+
 				break;
 			case R.id.btn_tasksave:
 				break;
@@ -97,5 +112,27 @@ public class AddTaskActivity extends ActivityBase {
 			}
 		}
 	};
+	
+	/**
+	 * 处理日期和时间控件的Handler
+	 */
+	
+	private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth) {
+			cal.set(Calendar.YEAR, year);
+			cal.set(Calendar.MONTH, monthOfYear);
+			cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+			updateDate();
+		}
+	};
+
+	private void updateDate() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		tv_date.setText(simpleDateFormat.format(cal.getTime()));
+		date = simpleDateFormat.format(cal.getTime());
+	}
+
 
 }

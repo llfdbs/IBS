@@ -41,22 +41,19 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:background="#00000000"
-            android:text="@string/allocation"
-            android:textColor="#0079fa"
-            android:textSize="@dimen/text_medial" />
+            android:background="@drawable/btn_add"
+            />
 
         <Button
             android:id="@+id/btn_tasksend_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="40dp"
             android:layout_toRightOf="@id/tv_sendedtaskcount"
-            android:background="#00000000"
-            android:text="@string/allocation"
-            android:textColor="#0079fa"
-            android:textSize="@dimen/text_medial" />
+            android:background="@drawable/search_blue"
+      
+          />
     </RelativeLayout>
 
     <RadioGroup

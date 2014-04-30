@@ -79,6 +79,15 @@
             android:name=".SendedTaskListActivity"
             android:screenOrientation="portrait" >
         </activity>
+         <activity
+            android:name=".TaskDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name=".TaskAllocationActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
