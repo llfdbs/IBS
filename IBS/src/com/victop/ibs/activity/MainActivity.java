@@ -101,7 +101,8 @@ public class MainActivity extends ActivityBase {
 			openActivity(MaterialAllActivity.class, b);
 			break;
 		case 3:
-
+//			b.putString("material_style", "unaudit");
+			openActivity(MaterialAddActivity.class, null);
 			break;
 		case 4:
 

@@ -70,7 +70,7 @@ public class HomeModlFragment extends Fragment {
 	}
 
 	protected void initListeners() {
-		
+
 		btn_manager_search.setOnClickListener(mOnClick);
 		btn_manager_addmaterial.setOnClickListener(mOnClick);
 		btn_manager_receivedtask.setOnClickListener(mOnClick);
@@ -91,7 +91,8 @@ public class HomeModlFragment extends Fragment {
 			switch (v.getId()) {
 			case R.id.btn_manager_search:
 				break;
-			case R.id.btn_manager_addmaterial:
+			case R.id.btn_manager_addmaterial:// 新增素材
+				((MainActivity) getActivity()).rightToCenter(3);
 				break;
 			case R.id.btn_manager_receivedtask:
 				break;

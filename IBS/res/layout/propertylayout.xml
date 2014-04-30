@@ -2,24 +2,158 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     android:orientation="vertical" >
 
     <include
         android:id="@+id/top"
+        android:layout_width="match_parent"
         layout="@layout/interface_top" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dip"
+        android:layout_marginLeft="30dip"
         android:layout_marginTop="30dip" >
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
+            android:layout_height="wrap_content"
+            android:text="作者 :"
+            android:textColor="#303030"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/username"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="张某某"
+            android:textColor="#303030"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_product"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/et_back"
+        android:hint="请输入产品名称"
+        android:padding="5dip"
+        android:textColorHint="#9797A5"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dip"
+        android:layout_marginTop="20dip" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签 :"
+            android:textColor="#B2B2B2"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tagname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="e服务  首页"
+            android:textColor="#B2B2B2"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dip"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="来源 :"
+                android:textColor="#B2B2B2"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/getname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="来自网外"
+                android:textColor="#B2B2B2"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/radiogroup_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rbtn_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableLeft="@drawable/radiobutton_selector"
+                android:paddingLeft="5dip"
+                android:text="  是"
+                android:textColor="#44536A"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/rbtn_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableLeft="@drawable/radiobutton_selector"
+                android:paddingLeft="10dip"
+                android:text="  否"
+                android:textColor="#44536A"
+                android:textSize="15sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dip"
+        android:layout_marginTop="30dip" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="行业 :"
+            android:textColor="#303030"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_choose"
+            android:layout_width="100dip"
+            android:layout_height="30dip"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/tag_et"
+            android:gravity="center"
+            android:text="请选择"
+            android:textColor="#44536A"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </LinearLayout>
