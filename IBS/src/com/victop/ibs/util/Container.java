@@ -29,6 +29,10 @@ public class Container {
 	private List list;
 
 	private String currentUrl; // 当前页面显示的URL地址
+
+	public static final int TAG = 0;
+	public static final int SORT = 0;
+	public static final int TASK = 0;
 	/**
 	 * 用来存放一些键值对
 	 */

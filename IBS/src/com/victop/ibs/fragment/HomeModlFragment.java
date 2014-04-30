@@ -93,7 +93,8 @@ public class HomeModlFragment extends Fragment {
 			switch (v.getId()) {
 			case R.id.btn_manager_search:
 				break;
-			case R.id.btn_manager_addmaterial:
+			case R.id.btn_manager_addmaterial:// 新增素材
+				((MainActivity) getActivity()).rightToCenter(3);
 				break;
 			case R.id.btn_manager_receivedtask:
 				Intent intent_receivedtask = new Intent(

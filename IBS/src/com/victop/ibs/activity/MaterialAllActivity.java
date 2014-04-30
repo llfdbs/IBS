@@ -18,21 +18,23 @@ import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dodola.model.DuitangInfo;
 import com.dodowaterfall.Helper;
@@ -46,20 +48,21 @@ import com.example.android.bitmapfun.util.ImageFetcher;
  * 
  */
 public class MaterialAllActivity extends FragmentActivity implements
-		IXListViewListener, OnClickListener {
+		IXListViewListener, OnClickListener, OnItemSelectedListener {
 	private ImageFetcher mImageFetcher;// 图片加载类
 	private XListView mAdapterView = null; // 自定义控件类
 	private StaggeredAdapter mAdapter = null;
 	private int currentPage = 0;
 	ContentTask task = new ContentTask(this, 2);
 
-	private Button btn_back, btn_add, btn_search, btn_newtime = null;
+	private Button btn_back, btn_add, btn_search = null;
 	private TextView tv_title = null;
-
+	private Spinner sp_newtime;
 	private final String MATERIAL = "material_style";
 	private final String AUDIT = "audit";
 	private final String UNADIT = "unaudit";
 	private final String NOTCOMPLETE = "notcomplete";
+	private static final String[] mCountries = { "最新时间", "按首字母排序" };
 
 	private class ContentTask extends
 			AsyncTask<String, Integer, List<DuitangInfo>> {
@@ -255,7 +258,7 @@ public class MaterialAllActivity extends FragmentActivity implements
 		btn_back = (Button) findViewById(R.id.back);
 		btn_add = (Button) findViewById(R.id.add);
 		btn_search = (Button) findViewById(R.id.btn_search);
-		btn_newtime = (Button) findViewById(R.id.btn_newtime);
+		sp_newtime = (Spinner) findViewById(R.id.sp_newtime);
 
 		tv_title = (TextView) findViewById(R.id.title);
 
@@ -264,8 +267,10 @@ public class MaterialAllActivity extends FragmentActivity implements
 		btn_back.setOnClickListener(this);
 		btn_add.setOnClickListener(this);
 		btn_search.setOnClickListener(this);
-		btn_newtime.setOnClickListener(this);
-
+		ArrayAdapter<String> ad = new ArrayAdapter<String>(this,
+				R.layout.simple_spinner, mCountries);
+		// ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sp_newtime.setAdapter(ad);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			String rr = b.getString(MATERIAL);
@@ -288,17 +293,6 @@ public class MaterialAllActivity extends FragmentActivity implements
 
 		mImageFetcher = new ImageFetcher(this, 240);
 		mImageFetcher.setLoadingImage(R.drawable.empty_photo);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		return true;
 	}
 
 	@Override
@@ -337,10 +331,50 @@ public class MaterialAllActivity extends FragmentActivity implements
 		case R.id.add:
 			break;
 		case R.id.btn_search:
+			Intent intent = new Intent(MaterialAllActivity.this,
+					MaterialSearchActivity.class);
+			Bundle b = new Bundle();
+			startActivity(intent);
+			finish();
+
 			break;
-		case R.id.btn_newtime:
+		case R.id.sp_newtime:
 			break;
 
 		}
 	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item) {
+	// // if(MENU_PREFERENCES == item.getItemId()){
+	// // mActionModeHandler.startActionMode();
+	// // }
+	// if (R.id.action_settings == item.getItemId()) {
+	// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_LONG)
+	// .show();
+	// }
+	// return super.onOptionsItemSelected(item);
+	// }
+	//
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// // TODO Auto-generated method stub
+	// getMenuInflater().inflate(R.menu.main, menu);
+	//
+	// return true;
+	// }
+
 }// end of class

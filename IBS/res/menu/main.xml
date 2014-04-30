@@ -5,8 +5,9 @@
 
     <item
         android:id="@+id/action_settings"
+        android:icon="@drawable/btn_add"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        app:showAsAction="always"/>
 
 </menu>

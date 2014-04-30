@@ -5,7 +5,7 @@
     android:background="@drawable/bg1"
     android:orientation="vertical" >
 
-     <RelativeLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg1" >
@@ -53,7 +53,6 @@
             android:layout_marginTop="5dip"
             android:background="#D5D5D6" />
     </RelativeLayout>
-    
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,51 +60,84 @@
         android:orientation="horizontal"
         android:padding="5dip" >
 
-        <RelativeLayout
+        <!-- <RelativeLayout -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="40dip" -->
+        <!-- android:layout_marginLeft="10dip" -->
+        <!-- android:layout_marginRight="10dip" -->
+        <!-- android:layout_weight="1.0" -->
+        <!-- android:background="@drawable/back_eee" > -->
+
+
+        <!-- <Button -->
+        <!-- android:id="@+id/btn_search" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_centerHorizontal="true" -->
+        <!-- android:layout_centerVertical="true" -->
+        <!-- android:background="@drawable/search_icon" /> -->
+
+
+        <!-- <TextView -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_centerHorizontal="true" -->
+        <!-- android:layout_centerVertical="true" -->
+        <!-- android:layout_toRightOf="@id/btn_search" -->
+        <!-- android:paddingLeft="5dip" -->
+        <!-- android:text="搜索" -->
+        <!-- android:textColor="@drawable/bg1" -->
+        <!-- android:textSize="14sp" /> -->
+        <!-- </RelativeLayout> -->
+
+        <Button
+            android:id="@+id/btn_search"
             android:layout_width="match_parent"
             android:layout_height="40dip"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_weight="1.0"
-            android:background="@drawable/back_eee" >
+            android:background="@drawable/back_eee"
+            android:drawableLeft="@drawable/search_icon"
+            android:text="搜索"
+            android:textColor="@drawable/bg1"
+            android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/btn_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/search_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/btn_search"
-                android:paddingLeft="5dip"
-                android:text="搜索"
-                android:textColor="@drawable/bg1"
-                android:textSize="14sp" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btn_newtime"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dip"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_weight="2.0"
-            android:background="@drawable/back_eee"
-            android:drawableRight="@drawable/arrow_icon"
-            android:text="最新时间"
-            android:textColor="@drawable/bg1"
-            android:textSize="14sp" />
+            android:background="@drawable/back_eee" >
+
+            <Spinner
+                android:id="@+id/sp_newtime"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/back_eee"
+                android:text="最新时间时间"
+                android:textColor="@drawable/bg1"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow_icon" 
+                android:layout_alignParentRight="true"
+                android:paddingRight="2dip"
+                />
+        </RelativeLayout>
     </LinearLayout>
 
     <include
         android:id="@+id/cell1"
-        layout="@layout/act_pull_to_refresh_sample"
-       />
+        layout="@layout/act_pull_to_refresh_sample" />
 
 </LinearLayout>

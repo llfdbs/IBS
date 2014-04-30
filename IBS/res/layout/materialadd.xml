@@ -2,7 +2,178 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     android:orientation="vertical" >
-    
+
+    <include
+        android:id="@+id/top"
+        layout="@layout/interface_top" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="@null" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/llt_sort"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip" >
+
+                <TextView
+                    android:id="@+id/tv_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="erp"
+                    android:textColor="#727272"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_sort1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text=">销售合同"
+                    android:textColor="#303030"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:background="#cacaca" />
+
+            <LinearLayout
+                android:id="@+id/llt_tag"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip" >
+
+                <TextView
+                    android:id="@+id/tv_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="标签:"
+                    android:textColor="#727272"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_tag1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="首页 列表"
+                    android:textColor="#303030"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:background="#cacaca" />
+
+            <LinearLayout
+                android:id="@+id/llt_task"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip" >
+
+                <TextView
+                    android:id="@+id/tv_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="任务:"
+                    android:textColor="#727272"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_task1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="1111221"
+                    android:textColor="#303030"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:background="#cacaca" />
+
+            <LinearLayout
+                android:id="@+id/llt_property"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip" >
+
+                <TextView
+                    android:id="@+id/tv_property"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="详情"
+                    android:textColor="#727272"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#cacaca" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:background="#eeeeee" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="100dip" >
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="20dip"
+                android:background="#eeeeee" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#cacaca" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:background="@drawable/bg1"
+                android:hint="请输入描述"
+                android:padding="10dip" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
