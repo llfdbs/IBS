@@ -1,4 +1,6 @@
 package com.victop.ibs.view;
+import java.util.TimerTask;
+
 import com.victop.ibs.activity.MaterialDetailActivity;
 import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
 
@@ -47,11 +49,11 @@ public class MyGallery extends Gallery {
         if(this.getSelectedItemPosition()==0)
         	this.setSelection(MaterialDetail_ImageAdapter.imgs.length);
         System.out.println("DDD"+this.getSelectedItemPosition());
-//		new java.util.Timer().schedule(new TimerTask(){
-//		       public void run() {
-//		    	   m_iact.timeFlag = false;
-//		    	   this.cancel();
-//		       }}, 3000);
+		new java.util.Timer().schedule(new TimerTask(){
+		       public void run() {
+		    	   MaterialDetailActivity.timeFlag = false;
+		    	   this.cancel();
+		       }}, 3000);
         return true;  
 		
 	}

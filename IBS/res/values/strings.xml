@@ -38,4 +38,10 @@
     <string name="urgenttask">紧急任务</string>
     <string name="normaltask">普通任务</string>
     <string name="description">描述:</string>
+    <!-- 任务界面 -->
+    <string name="receivedtask">接受的任务</string>
+    <string name="sendedtask">发布的任务</string>
+    <string name="receivedtask_tasknumber">任务单号:</string>
+    <string name="receivedtask_taskstatue">完成状态:</string>
+    <string name="receivedtask_tasktype">任务类别:</string>
 </resources>

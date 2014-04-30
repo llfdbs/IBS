@@ -7,4 +7,6 @@
     <drawable name="btn_shaixuan">#000000</drawable>
     <drawable name="index_top">#44546A</drawable>
     <drawable name="index_bottom">#eeeeee</drawable>
+    <drawable name="taskstatus_finished">#53CCC5</drawable>
+    <drawable name="taskstatus_unfinish">#F8524B</drawable>
 </resources>
