@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fafafa"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/sendedtask"
+            android:textColor="#303030"
+            android:textSize="@dimen/text_medial" />
+
+        <TextView
+            android:id="@+id/tv_sendedtaskcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_title"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="(10)"
+            android:textColor="#303030"
+            android:textSize="@dimen/text_medial" />
+
+        <Button
+            android:id="@+id/btn_tasksend_addtask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="#00000000"
+            android:text="@string/allocation"
+            android:textColor="#0079fa"
+            android:textSize="@dimen/text_medial" />
+
+        <Button
+            android:id="@+id/btn_tasksend_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/tv_sendedtaskcount"
+            android:background="#00000000"
+            android:text="@string/allocation"
+            android:textColor="#0079fa"
+            android:textSize="@dimen/text_medial" />
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/radiogroup_tasksended"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rbn_sendedtask_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_sendedtask_all_selector"
+            android:button="@null"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rbn_sendedtask_unfinish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_sendedtask_unfinish_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/rbn_sendedtask_finished"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_sendedtask_finished_selector"
+            android:button="@null" />
+         <RadioButton
+            android:id="@+id/rbn_sendedtask_unsend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_sendedtask_unsend_selector"
+            android:button="@null" />
+    </RadioGroup>
+
+    <ListView
+        android:id="@+id/sendedtaskList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:cacheColorHint="#00000000" 
+        android:divider="@null"
+        android:dividerHeight="5dp"
+        android:listSelector="#00000000"
+        />
+
+
+
+</LinearLayout>

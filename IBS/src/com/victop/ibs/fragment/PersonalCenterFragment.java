@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.victop.ibs.activity.LoginActivity;
 import com.victop.ibs.activity.MainActivity;
 import com.victop.ibs.activity.R;
+import com.victop.ibs.activity.SendedTaskListActivity;
+import com.victop.ibs.activity.TaskListActivity;
 
 /**
  * 个人中心模块 功能描述：列表Fragment，用来显示滑动菜单打开后的个人中心内容
@@ -98,8 +100,14 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 			((MainActivity) getActivity()).rightToCenter(2);
 			break;
 		case R.id.lly_gettask:
+			Intent intent_gettask = new Intent((MainActivity)getActivity(),TaskListActivity.class);
+			startActivity(intent_gettask);
 			break;
 		case R.id.lly_settask:
+			Intent intent_sendedtask = new Intent(
+					(MainActivity) getActivity(),SendedTaskListActivity.class);
+
+			startActivity(intent_sendedtask);
 			break;
 		case R.id.tv_mymaterial:
 			((MainActivity) getActivity()).rightToCenter(0);

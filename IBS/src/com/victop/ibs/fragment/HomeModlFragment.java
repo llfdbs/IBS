@@ -15,6 +15,8 @@ import com.victop.ibs.activity.AddTaskActivity;
 import com.victop.ibs.activity.MainActivity;
 import com.victop.ibs.activity.MaterialAllActivity;
 import com.victop.ibs.activity.R;
+import com.victop.ibs.activity.SendedTaskListActivity;
+import com.victop.ibs.activity.TaskListActivity;
 
 /**
  * 首页模块 展示 首页的功能项
@@ -95,6 +97,10 @@ public class HomeModlFragment extends Fragment {
 				((MainActivity) getActivity()).rightToCenter(3);
 				break;
 			case R.id.btn_manager_receivedtask:
+				Intent intent_receivedtask = new Intent(
+						(MainActivity) getActivity(), TaskListActivity.class);
+
+				startActivity(intent_receivedtask);
 				break;
 
 			case R.id.btn_manager_material:
@@ -102,6 +108,10 @@ public class HomeModlFragment extends Fragment {
 				((MainActivity) getActivity()).rightToCenter(1);
 				break;
 			case R.id.btn_manager_sendedtask:
+				Intent intent_sendedtask = new Intent(
+						(MainActivity) getActivity(),SendedTaskListActivity.class);
+
+				startActivity(intent_sendedtask);
 				break;
 			case R.id.btn_employee_material:
 				break;
