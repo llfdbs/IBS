@@ -78,61 +78,17 @@ public class Tag_GirdViewAdapter extends BaseAdapter {
 		int last_temp = list.get(position).getTag();
 		if (last_temp == 1) {
 			viewHolder.itemTv.setBackgroundDrawable(context.getResources()
-					.getDrawable(R.drawable.usebutton2));
+					.getDrawable(R.drawable.tag_et1));
+			viewHolder.itemTv.setTextColor(0Xffffffff);
 		} else {
 			viewHolder.itemTv.setBackgroundDrawable(context.getResources()
-					.getDrawable(R.drawable.usebutton1));
+					.getDrawable(R.drawable.tag_et));
+			viewHolder.itemTv.setTextColor(0Xff000000);
 		}
-		viewHolder.itemTv.setPadding(1, 1, 1, 1);
-		viewHolder.itemTv.setGravity(Gravity.CENTER);
+//		viewHolder.itemTv.setPadding(1, 1, 1, 1);
+//		viewHolder.itemTv.setGravity(Gravity.CENTER);
 
-		// viewHolder.itemTv.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// // TODO Auto-generated method stub
-		//
-		// int_temp = int_temp == 0 ? 1 : 0;
-		// if (int_temp == 1) {
-		// viewHolder.itemTv.setBackgroundDrawable(context
-		// .getResources().getDrawable(R.drawable.usebutton2));
-		// } else {
-		// viewHolder.itemTv.setBackgroundDrawable(context
-		// .getResources().getDrawable(R.drawable.usebutton1));
-		// }
-		// viewHolder.itemTv.setPadding(1, 1, 1, 1);
-		// viewHolder.itemTv.setGravity(Gravity.CENTER);
-		//
-		// HashMap<Integer, SortModel> hashMap = Container.getInstance()
-		// .getTaghashSortModel();
-		//
-		// int m_temp = temp + position;
-		// System.out.println(m_temp + "---------");
-		// if (int_temp == 1) {
-		// Container.getInstance().setTaghashSortModle(m_temp,
-		// list.get(m_temp));
-		// list.get(m_temp).setTag(1);
-		// } else {
-		// if (null != hashMap.get(m_temp))
-		// hashMap.remove(m_temp);
-		// list.get(m_temp).setTag(0);
-		// }
-		//
-		// if (null != hashMap && hashMap.size() != 0) {
-		// String name = "标签（选中" + hashMap.size() + "个）";
-		// ((TagActivity) context).settitleName(name);
-		// Iterator iter = hashMap.keySet().iterator();
-		// while (iter.hasNext()) {
-		// Object key = iter.next();
-		// Object val = hashMap.get(key);
-		// System.out.println(key + ((SortModel) val).getName());
-		// }
-		// } else {
-		// ((TagActivity) context).settitleName("标签");
-		// }
-		//
-		// }
-		// });
+	 
 
 		viewHolder.itemTv.setText(rr);
 

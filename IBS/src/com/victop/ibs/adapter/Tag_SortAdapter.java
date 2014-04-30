@@ -121,13 +121,15 @@ public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
 					int_temp = 0;
 				if (int_temp == 1) {
 					bn.setBackgroundDrawable(mContext.getResources()
-							.getDrawable(R.drawable.usebutton2));
+							.getDrawable(R.drawable.tag_et1));
+					bn.setTextColor(0Xffffffff);
 				} else {
 					bn.setBackgroundDrawable(mContext.getResources()
-							.getDrawable(R.drawable.usebutton1));
+							.getDrawable(R.drawable.tag_et));
+					bn.setTextColor(0Xff000000);
 				}
-				bn.setPadding(1, 1, 1, 1);
-				bn.setGravity(Gravity.CENTER);
+//				bn.setPadding(1, 1, 1, 1);
+//				bn.setGravity(Gravity.CENTER);
 				System.out.println(int_temp + "-------------");
 				HashMap<Integer, SortModel> hashMap = Container.getInstance()
 						.getTaghashSortModel();

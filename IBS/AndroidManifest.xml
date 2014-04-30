@@ -52,6 +52,16 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
+            android:name=".SortActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name=".MaterialAddActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
             android:name=".AddTaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >

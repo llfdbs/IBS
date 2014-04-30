@@ -9,4 +9,7 @@
     <drawable name="index_bottom">#eeeeee</drawable>
     <drawable name="taskstatus_finished">#53CCC5</drawable>
     <drawable name="taskstatus_unfinish">#F8524B</drawable>
+
+    <color name="blue">#0079fa</color>
+
 </resources>
