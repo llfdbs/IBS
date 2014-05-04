@@ -30,7 +30,7 @@
     android:layout_marginTop="60dp"
     android:textSize="@dimen/text_medial"
     android:hint="@string/login_user_hint"
-    android:textColor="#dddddd"
+    android:textColor="#303030"
     android:background="@drawable/edt_username"
     android:paddingLeft="80dp"
    />
@@ -41,9 +41,10 @@
     android:layout_marginTop="10dp"
     android:textSize="@dimen/text_medial"
     android:hint="@string/login_password_hint"
-    android:textColor="#dddddd"
+    android:textColor="#303030"
     android:background="@drawable/edt_password"
     android:paddingLeft="80dp"
+    android:password="true"
     />
 <Button 
     android:id="@+id/btn_login"

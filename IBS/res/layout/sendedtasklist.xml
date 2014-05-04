@@ -49,8 +49,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@id/tv_sendedtaskcount"
+            android:layout_marginLeft="40dp" 
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/btn_tasksend_addtask"
             android:background="@drawable/search_blue"
       
           />

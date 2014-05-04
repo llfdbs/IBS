@@ -75,6 +75,19 @@ public class AddTaskActivity extends ActivityBase {
 		btn_tasksave.setOnClickListener(mOnClick);
 		radiogroup_type.setOnCheckedChangeListener(mOnChecked);
 	}
+	
+	
+	
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		switch(arg0){
+		case RESULT_OK:
+			Bundle b = arg2.getExtras();
+			String name = b.getString("name");
+			tv_allocationname.setText(name);
+			
+			break;
+		}
+	};
 	OnClickListener mOnClick = new OnClickListener() {
 		
 		@Override
@@ -84,8 +97,9 @@ public class AddTaskActivity extends ActivityBase {
 			case R.id.btn_allocation:
 				break;
 			case R.id.btn_addperson:
-				Intent intent_allocation = new Intent(AddTaskActivity.this,TaskAllocationActivity.class);
-				startActivity(intent_allocation);
+				openActivityForResult(TaskAllocationActivity.class, null, 100);
+//				Intent intent_allocation = new Intent(AddTaskActivity.this,TaskAllocationActivity.class);
+//				startActivity(intent_allocation);
 				break;
 			case R.id.btn_choosedate:
 				new DatePickerDialog(AddTaskActivity.this, listener, cal.get(Calendar.YEAR),

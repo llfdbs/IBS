@@ -51,6 +51,7 @@ public class TaskDetail_MaterialAdapter extends BaseAdapter {
 			holder.taskdetail_object = (TextView)convertView.findViewById(R.id.taskdetail_object);
 			holder.taskdetail_committime = (TextView)convertView.findViewById(R.id.taskdetail_committime);
 			holder.img_taskmaterial_head = (ImageView)convertView.findViewById(R.id.img_taskmaterial_head);
+			holder.img_checkstatue = (ImageView)convertView.findViewById(R.id.img_checkstatus);
 			convertView.setTag(holder);
 		}else{
 			holder = (Holder) convertView.getTag();
@@ -58,12 +59,17 @@ public class TaskDetail_MaterialAdapter extends BaseAdapter {
 		holder.taskdetail_title.setText(list.get(position).get("title"));
 		holder.taskdetail_object.setText(list.get(position).get("allocationobj"));
 		holder.taskdetail_committime.setText(list.get(position).get("committime"));
+		if(list.get(position).get("checkstatue").equals("00")){
+			holder.img_checkstatue.setImageResource(R.drawable.img_nopass);
+		}else{
+			holder.img_checkstatue.setImageResource(R.drawable.img_pass);
+		}
 		return convertView;
 	}
 	
 	class Holder{
 		TextView taskdetail_title,taskdetail_object,taskdetail_committime;
-		ImageView img_taskmaterial_head;
+		ImageView img_taskmaterial_head,img_checkstatue;
 	}
   
 }
