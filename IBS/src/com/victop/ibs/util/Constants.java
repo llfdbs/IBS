@@ -18,20 +18,21 @@ package com.victop.ibs.util;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.victop.ibs.activity.R;
 
-/**图片加载类设置属性
+/**
+ * 图片加载类设置属性
+ * 
  * @author vv
  */
 public final class Constants {
-    public static ImageLoader imageLoader = ImageLoader.getInstance();
-//    public static DisplayImageOptions image_display_options = new DisplayImageOptions.Builder()
-//            .showImageOnLoading(R.drawable.ic_stub)
-//            .showImageForEmptyUri(R.drawable.ic_empty)
-//            .showImageOnFail(R.drawable.ic_error)
-//            .displayer(new RoundedBitmapDisplayer(20))
-//            .cacheInMemory(true)
-//            .cacheOnDisc(true)
-//            .build();
+	public static ImageLoader imageLoader = ImageLoader.getInstance();
+	public static DisplayImageOptions image_display_options = new DisplayImageOptions.Builder()
+			.showImageOnLoading(R.drawable.task_material_head)
+			.showImageForEmptyUri(R.drawable.task_material_head)
+			.showImageOnFail(R.drawable.task_material_head)
+			.displayer(new RoundedBitmapDisplayer(20)).cacheInMemory(true)
+			.cacheOnDisc(true).build();
 
 	public static class Config {
 		public static final boolean DEVELOPER_MODE = false;

@@ -19,6 +19,8 @@ public class Container {
 	 * 单例变量
 	 */
 	public static String SESSION_ID = UUID.randomUUID().toString();
+	public static ArrayList<String> listfiles = new ArrayList<String>();// 存放图片地址
+	public static List<Map<String, String>> mData; // 存储的editTex值
 
 	private static Container container;
 
@@ -31,8 +33,8 @@ public class Container {
 	private String currentUrl; // 当前页面显示的URL地址
 
 	public static final int TAG = 0;
-	public static final int SORT = 0;
-	public static final int TASK = 0;
+	public static final int SORT = 1;
+	public static final int TASK = 2;
 	/**
 	 * 用来存放一些键值对
 	 */

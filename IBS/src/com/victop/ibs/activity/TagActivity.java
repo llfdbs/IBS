@@ -168,6 +168,9 @@ public class TagActivity extends ActivityBase implements OnClickListener {
 			finish();
 			break;
 		case R.id.add:
+
+			setResult(RESULT_OK);
+			// TASK
 			finish();
 			break;
 

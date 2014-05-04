@@ -1,15 +1,22 @@
 package com.victop.ibs.activity;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.Container;
+import com.victop.ibs.view.MyGridView;
 
 /**
  * 新增素材类
@@ -23,6 +30,8 @@ public class MaterialAddActivity extends ActivityBase implements
 	private TextView tv_title = null;
 	private LinearLayout llt_sort, llt_property, llt_task, llt_tag;
 	private TextView tv_sort, tv_task, tv_tag;
+	private MyGridView mgv_material;
+	private ImageButton ibtn_edit;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -55,10 +64,14 @@ public class MaterialAddActivity extends ActivityBase implements
 			openActivity(PropertyActivity.class, null);
 			break;
 		case R.id.llt_task:
-			// openActivityForResult(TagActivity.class,null,Container.TASK);
+			openActivityForResult(TaskSortActivity.class, null, Container.TASK);
 			break;
 		case R.id.llt_tag:
+			Container.getInstance().getTaghashSortModel().clear();
 			openActivityForResult(TagActivity.class, null, Container.TAG);
+
+			break;
+		case R.id.ibtn_edit:// 素材编辑按钮
 
 			break;
 
@@ -67,13 +80,31 @@ public class MaterialAddActivity extends ActivityBase implements
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		// case REQUEST_CODE_01:
-		// if (resultCode == Activity.RESULT_OK)
-		// // do something
-		// break;
-		// case REQUEST_CODE_02:
-		// // do something
-		// break;
+		case Container.TAG:
+			if (resultCode == RESULT_OK) {
+				String nametext = "";
+				HashMap<Integer, SortModel> hashMap = Container.getInstance()
+						.getTaghashSortModel();
+				Iterator iter = hashMap.keySet().iterator();
+				while (iter.hasNext()) {
+					Object key = iter.next();
+					Object val = hashMap.get(key);
+					nametext = nametext + ((SortModel) val).getName() + " ";
+				}
+				tv_tag.setText(nametext);
+			}
+
+			break;
+		case Container.SORT:
+
+			break;
+		case Container.TASK:// 任务编号
+			if (data != null) {
+				Bundle b = data.getExtras();
+				String tasknumber = b.getString("tasknumber");
+				tv_task.setText(tasknumber);
+			}
+			break;
 		}
 	}
 
@@ -91,6 +122,8 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_title.setText("新增素材");
 		btn_notsearch = (Button) findViewById(R.id.search);
 		btn_notsearch.setVisibility(View.GONE);
+		ibtn_edit = (ImageButton) findViewById(R.id.ibtn_edit);
+		ibtn_edit.setOnClickListener(this);
 	}
 
 	@Override
@@ -104,6 +137,11 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_sort = (TextView) findViewById(R.id.tv_sort1);
 		tv_task = (TextView) findViewById(R.id.tv_task1);
 		tv_tag = (TextView) findViewById(R.id.tv_tag1);
+
+		mgv_material = (MyGridView) findViewById(R.id.mgv_material);
+		MaterialAdd_girdViewAdapter mAdapter = new MaterialAdd_girdViewAdapter(
+				this, null, 0);
+		mgv_material.setAdapter(mAdapter);
 		llt_sort.setOnClickListener(this);
 		llt_property.setOnClickListener(this);
 		llt_tag.setOnClickListener(this);

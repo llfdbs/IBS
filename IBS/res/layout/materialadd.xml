@@ -22,7 +22,7 @@
             <LinearLayout
                 android:id="@+id/llt_sort"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
+                android:layout_height="25dip"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip" >
 
@@ -44,7 +44,7 @@
                     android:gravity="center"
                     android:text=">销售合同"
                     android:textColor="#303030"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <View
@@ -57,7 +57,7 @@
             <LinearLayout
                 android:id="@+id/llt_tag"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
+                android:layout_height="25dip"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip" >
 
@@ -77,9 +77,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:text="首页 列表"
                     android:textColor="#303030"
-                    android:textSize="16sp" />
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <View
@@ -92,7 +94,7 @@
             <LinearLayout
                 android:id="@+id/llt_task"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
+                android:layout_height="25dip"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip" >
 
@@ -114,7 +116,7 @@
                     android:gravity="center"
                     android:text="1111221"
                     android:textColor="#303030"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <View
@@ -127,7 +129,7 @@
             <LinearLayout
                 android:id="@+id/llt_property"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
+                android:layout_height="25dip"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip" >
 
@@ -147,14 +149,41 @@
                 android:layout_height="1dip"
                 android:background="#cacaca" />
 
-            <View
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="40dip"
-                android:background="#eeeeee" />
+                android:background="#eeeeee"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/ibtn_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingTop="10dip"
+                    android:src="@drawable/edit_icon" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="100dip" >
+                android:layout_height="wrap_content" 
+                android:layout_margin="10dip"
+                >
+
+                <com.victop.ibs.view.MyGridView
+                    android:id="@+id/mgv_material"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:horizontalSpacing="10dip"
+                    android:listSelector="#00000000"
+                    android:numColumns="4"
+                    android:scrollbars="@null"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="20dip" >
+                </com.victop.ibs.view.MyGridView>
             </LinearLayout>
 
             <View
@@ -172,7 +201,9 @@
                 android:layout_height="60dip"
                 android:background="@drawable/bg1"
                 android:hint="请输入描述"
-                android:padding="10dip" />
+                android:padding="10dip"
+                android:textColorHint="#727272"
+                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 

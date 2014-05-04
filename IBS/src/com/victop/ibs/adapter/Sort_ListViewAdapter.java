@@ -18,8 +18,8 @@ public class Sort_ListViewAdapter extends BaseAdapter {
 	private List<SortModel> list;
 	private ViewHolder viewHolder;
 	private int tag;
-	final String[] data = { "erp", "互联网", "互联网", "erp", "互联网", "互联网", "erp",
-			"互联网", "互联网", "erp", "互联网", "互联网", "erp", "互联网", "互联网" };
+	final String[] data = { "erp", "互联网", "互联网", "erp", "互联网", "互联网" 
+			 };
 
 	public Sort_ListViewAdapter(Context context, List<SortModel> list, int tag) {
 		this.context = context;
