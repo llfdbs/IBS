@@ -32,6 +32,7 @@ public class MaterialAddActivity extends ActivityBase implements
 	private TextView tv_sort, tv_task, tv_tag;
 	private MyGridView mgv_material;
 	private ImageButton ibtn_edit;
+	MaterialAdd_girdViewAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -72,10 +73,25 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case R.id.ibtn_edit:// 素材编辑按钮
-
+			Bundle b=new Bundle();
+			b.putString("edit", "edit");
+			openActivity(ImgShowActivity.class, b);
 			break;
 
 		}
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+		if (Container.add_mData.size() == 0)
+			ibtn_edit.setVisibility(View.INVISIBLE);
+		else
+			ibtn_edit.setVisibility(View.VISIBLE);
+		mAdapter = new MaterialAdd_girdViewAdapter(this, Container.add_mData, 0);
+		mgv_material.setAdapter(mAdapter);
+
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -104,7 +120,7 @@ public class MaterialAddActivity extends ActivityBase implements
 				String tasknumber = b.getString("tasknumber");
 				tv_task.setText(tasknumber);
 			}
-			break;
+
 		}
 	}
 
@@ -123,6 +139,8 @@ public class MaterialAddActivity extends ActivityBase implements
 		btn_notsearch = (Button) findViewById(R.id.search);
 		btn_notsearch.setVisibility(View.GONE);
 		ibtn_edit = (ImageButton) findViewById(R.id.ibtn_edit);
+		if (Container.add_mData.size() == 0)
+			ibtn_edit.setVisibility(View.INVISIBLE);
 		ibtn_edit.setOnClickListener(this);
 	}
 
@@ -139,8 +157,7 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_tag = (TextView) findViewById(R.id.tv_tag1);
 
 		mgv_material = (MyGridView) findViewById(R.id.mgv_material);
-		MaterialAdd_girdViewAdapter mAdapter = new MaterialAdd_girdViewAdapter(
-				this, null, 0);
+		mAdapter = new MaterialAdd_girdViewAdapter(this, Container.add_mData, 0);
 		mgv_material.setAdapter(mAdapter);
 		llt_sort.setOnClickListener(this);
 		llt_property.setOnClickListener(this);

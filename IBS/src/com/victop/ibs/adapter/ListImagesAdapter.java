@@ -27,6 +27,7 @@ import com.victop.ibs.util.Constants;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.util.ImgCallBack;
 import com.victop.ibs.util.Util;
+import com.victop.ibs.view.SwipeListView;
 
 public class ListImagesAdapter extends BaseAdapter {
 
@@ -38,10 +39,13 @@ public class ListImagesAdapter extends BaseAdapter {
 	float UpX;
 	// private List<Map<String, String>> mData; // �洢��editTexֵ
 	private Integer index = -1;
+	SwipeListView mSwipeListView;
 
-	public ListImagesAdapter(Context context, ArrayList<String> list) {
+	public ListImagesAdapter(Context context, ArrayList<String> list,
+			SwipeListView mSwipeListView) {
 		this.context = context;
 		this.list = list;
+		this.mSwipeListView = mSwipeListView;
 		bitmaps = new Bitmap[list.size()];
 		until = new Util(context);
 
@@ -79,8 +83,11 @@ public class ListImagesAdapter extends BaseAdapter {
 					R.layout.listimagesitem, null);
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			holder.editText = (EditText) convertView.findViewById(R.id.edit);
-			holder.btn_delete = (Button) convertView.findViewById(R.id.delete);
-			holder.btn_del = (Button) convertView.findViewById(R.id.btn_del);
+
+			holder.mBackEdit = (Button) convertView
+					.findViewById(R.id.example_row_b_action_modify);
+			holder.mBackDelete = (Button) convertView
+					.findViewById(R.id.example_row_b_action_del);
 			holder.editText.setTag(position);
 			holder.editText.setOnTouchListener(new OnTouchListener() {
 
@@ -122,13 +129,11 @@ public class ListImagesAdapter extends BaseAdapter {
 				// TODO Auto-generated method stub
 				int position = (Integer) holder.editText.getTag();
 				if (s != null && !"".equals(s.toString())) {
-					// int position = (Integer) holder.editText.getTag();
-					// ��EditText��ݷ���ı��ʱ��浽data������
+					 
 					Container.mData.get(position).put("list_item_inputvalue",
 							s.toString());
 				} else {
-					// Toast.makeText(context,
-					// "ͼƬ��������Ϊ��,��������������",Toast.LENGTH_SHORT).show();
+				 
 					Container.mData.get(position).put("list_item_inputvalue",
 							"");
 				}
@@ -145,43 +150,40 @@ public class ListImagesAdapter extends BaseAdapter {
 		if (index != -1 && index == position) {
 			holder.editText.requestFocus();
 		}
-		holder.image.setOnLongClickListener(new OnLongClickListener() {
-
+		holder.mBackDelete.setOnClickListener(new OnClickListener() {
 			@Override
-			public boolean onLongClick(View v) {
-				// TODO Auto-generated method stub
-				if (holder.btn_delete.getVisibility() == View.VISIBLE) {
-					holder.btn_delete.setVisibility(View.GONE);
-				} else {
-					holder.btn_delete.setVisibility(View.VISIBLE);
-				}
-				return true;
-			}
-		});
-		holder.btn_delete.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(context, position + "", Toast.LENGTH_SHORT)
-						.show();
+			public void onClick(View v) { 
+				Toast.makeText(context, Container.mData.get(position).get("list_item_inputvalue"),Toast.LENGTH_SHORT).show();
+				mSwipeListView.closeAnimate(position);
+				mSwipeListView.dismiss(position);
 				Container.mData.remove(position);
 				list.remove(position);
-				notifyDataSetChanged();
-				holder.btn_delete.setVisibility(View.GONE);
-
 			}
 		});
-		holder.image.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				showDialog(position);
-
-			}
-		});
+		// holder.btn_delete.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		// Toast.makeText(context, position + "", Toast.LENGTH_SHORT)
+		// .show();
+		// Container.mData.remove(position);
+		// list.remove(position);
+		// notifyDataSetChanged();
+		// holder.btn_delete.setVisibility(View.GONE);
+		//
+		// }
+		// });
+		// holder.image.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		//
+		// showDialog(position);
+		//
+		// }
+		// });
 		return convertView;
 	}
 
@@ -224,7 +226,8 @@ public class ListImagesAdapter extends BaseAdapter {
 	class Holder {
 		ImageView image;
 		EditText editText;
-		Button btn_delete, btn_del;
+		Button mBackEdit, mBackDelete;
+		// Button btn_delete, btn_del;
 	}
 
 }
