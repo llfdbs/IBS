@@ -3,7 +3,7 @@ package com.victop.ibs.activity;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,12 +12,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
-
+import com.victop.ibs.adapter.ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
 import com.victop.ibs.app.ibsApplication;
 import com.victop.ibs.base.ActivityBase;
@@ -117,31 +122,25 @@ public class MaterialDetailActivity extends ActivityBase {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				System.out.println(arg2 + "arg2");
-				/*
-				 * switch (arg2) { case 0: uri =
-				 * Uri.parse("http://www.36939.net/"); intent = new
-				 * Intent(Intent.ACTION_VIEW, uri); startActivity(intent);
-				 * 
-				 * break; case 1: uri =
-				 * Uri.parse("http://www.jiqunejia.com/default.aspx"); intent =
-				 * new Intent(Intent.ACTION_VIEW, uri); startActivity(intent);
-				 * 
-				 * break; case 2: uri = Uri.parse("http://www.jiqunejia.tv/");
-				 * intent = new Intent(Intent.ACTION_VIEW, uri);
-				 * startActivity(intent);
-				 * 
-				 * break; case 3: uri =
-				 * Uri.parse("http://city.4000100006.com/"); intent = new
-				 * Intent(Intent.ACTION_VIEW, uri); startActivity(intent);
-				 * 
-				 * break;
-				 * 
-				 * default: break; }
-				 */
+				showDialogs(arg2);
 
 			}
 		});
 
+	}
+
+	public void showDialogs(int pagerPosition) {
+		Dialog dialog = new Dialog(MaterialDetailActivity.this,
+				R.style.taskdialog);
+		View view = LayoutInflater.from(MaterialDetailActivity.this).inflate(
+				R.layout.showpicbigdialog, null);
+		dialog.setContentView(view);
+		ViewPager pager;
+		pager = (ViewPager) view.findViewById(R.id.pager);
+		pager.setAdapter(new ImagePagerAdapter(MaterialDetailActivity.this,
+				MaterialDetail_ImageAdapter.imgs));
+		pager.setCurrentItem(pagerPosition);
+		dialog.show();
 	}
 
 	public void changePointView(int cur) {
