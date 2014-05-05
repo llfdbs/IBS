@@ -20,10 +20,10 @@ public class Container {
 	 */
 	public static String SESSION_ID = UUID.randomUUID().toString();
 	public static ArrayList<String> listfiles = new ArrayList<String>();// 存放图片地址
-	public static List<Map<String, String>> mData; // 存储的editTex值
-
+	public static List<Map<String, String>> mData=new ArrayList<Map<String, String>>(); //  存放图片地址存储的editTex值
+	 
+	public static List<Map<String, String>> add_mData=new ArrayList<Map<String, String>>();//素材新增
 	private static Container container;
-
 	private List<SortModel> mobileUrls = new ArrayList<SortModel>(); // html插件的url（标题，地址，图标，简介）
 	private List<String> mobileApks = new ArrayList<String>(); // app 插件的内容
 																// （标题，地址，图标，简介）

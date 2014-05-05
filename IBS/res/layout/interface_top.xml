@@ -48,7 +48,8 @@
             android:background="@null"
             android:padding="1dip"
             android:paddingLeft="2dip"
-            android:textColor="@color/blue" />
+            android:textColor="@color/blue"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <View

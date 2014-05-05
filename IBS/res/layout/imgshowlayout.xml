@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg1"
+    android:background="@drawable/index_bottom"
     android:orientation="vertical" >
 
     <include
         android:id="@+id/top"
         layout="@layout/interface_top" />
 
-    <ListView
+    <!-- <ListView -->
+    <!-- android:id="@+id/lv_imglist" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:cacheColorHint="#00000000" -->
+    <!-- android:divider="@null" -->
+    <!-- android:listSelector="#00000000" -->
+    <!-- android:scrollbars="none" > -->
+    <!-- </ListView> -->
+
+    <com.victop.ibs.view.SwipeListView
         android:id="@+id/lv_imglist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:cacheColorHint="#00000000"
+        android:descendantFocusability="beforeDescendants"
+        android:divider="@null"
         android:listSelector="#00000000"
-        android:scrollbars="none" >
-    </ListView>
+        swipe:swipeActionLeft="reveal"
+        swipe:swipeActionRight="reveal"
+        swipe:swipeAnimationTime="0"
+        swipe:swipeBackView="@+id/back"
+        swipe:swipeCloseAllItemsWhenMoveList="true"
+        swipe:swipeFrontView="@+id/front"
+        swipe:swipeMode="both"
+        swipe:swipeOffsetLeft="0dp"
+        swipe:swipeOffsetRight="0dp"
+        swipe:swipeOpenOnLongPress="false" />
 
 </LinearLayout>

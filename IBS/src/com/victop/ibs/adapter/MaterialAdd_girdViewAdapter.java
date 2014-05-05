@@ -2,7 +2,9 @@ package com.victop.ibs.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,22 +17,25 @@ import android.widget.ImageView;
 import com.victop.ibs.activity.ImgFileListActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.SortModel;
+import com.victop.ibs.util.Constants;
 
 public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 	private Context context;
-	private List<SortModel> list;
+	// private ArrayList<String> list;
 	private ViewHolder viewHolder;
 	private int temp;
 	private int int_temp = 0;
+	// =new ArrayList<Map<String, String>>()
+	List<Map<String, String>> list;
 
-	public MaterialAdd_girdViewAdapter(Context context, List<SortModel> list,
-			int temp) {
+	public MaterialAdd_girdViewAdapter(Context context,
+			List<Map<String, String>> list, int temp) {
 		this.context = context;
 		this.temp = temp;
 		if (list != null)
 			this.list = list;
 		else
-			this.list = new ArrayList<SortModel>();
+			this.list = new ArrayList<Map<String, String>>();
 	}
 
 	@Override
@@ -62,8 +67,12 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
+
 		if (list.size() != position) {
-			// viewHolder.iv_material.setBackground(null);
+			String ff = list.get(position).keySet().iterator().next();
+			Constants.imageLoader.displayImage("file://" + ff,
+					viewHolder.iv_material, Constants.image_display_options,
+					null);
 		} else {
 			viewHolder.iv_material
 					.setBackgroundResource(R.drawable.addproperty);

@@ -9,6 +9,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -139,8 +143,15 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		public void onClick(View arg0) {
 			checkBox.setChecked(false);
 			select_layout.removeView(arg0);
-			choise_button
-					.setText("已选择(" + select_layout.getChildCount() + ")张");
+			if (select_layout.getChildCount() == 0) {
+				tv_title.setText("请选择图片");
+			} else {
+				SpannableString sp = new SpannableString("已选择"
+						+ select_layout.getChildCount() + "张");
+				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
+						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+				tv_title.setText(sp);
+			}
 			filelist.remove(filepath);
 		}
 	}
@@ -153,8 +164,17 @@ public class ImgsActivity extends Activity implements OnClickListener {
 				checkBox.setChecked(false);
 				select_layout.removeView(hashImage.get(Position));
 				filelist.remove(filapath);
-				choise_button.setText("已选择(" + select_layout.getChildCount()
-						+ ")张");
+				if (select_layout.getChildCount() == 0) {
+					tv_title.setText("请选择图片");
+				} else {
+
+					SpannableString sp = new SpannableString("已选择"
+							+ select_layout.getChildCount() + "张");
+					sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
+							Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+					tv_title.setText(sp);
+				}
 			} else {
 				try {
 					checkBox.setChecked(true);
@@ -165,8 +185,16 @@ public class ImgsActivity extends Activity implements OnClickListener {
 						hashImage.put(Position, imageView);
 						filelist.add(filapath);
 						select_layout.addView(imageView);
-						choise_button.setText("已选择("
-								+ select_layout.getChildCount() + ")张");
+
+						if (select_layout.getChildCount() == 0) {
+							tv_title.setText("请选择图片");
+						} else {
+							SpannableString sp = new SpannableString("已选择"
+									+ select_layout.getChildCount() + "张");
+							sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3,
+									4, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+							tv_title.setText(sp);
+						}
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -187,10 +215,9 @@ public class ImgsActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.add:// 保存
-//			finish();
-			
-			
+
 			sendfiles(v);
+			finish();
 			break;
 		}
 	}
