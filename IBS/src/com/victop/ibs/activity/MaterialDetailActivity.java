@@ -3,25 +3,30 @@ package com.victop.ibs.activity;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.victop.ibs.adapter.ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
 import com.victop.ibs.app.ibsApplication;
@@ -140,9 +145,20 @@ public class MaterialDetailActivity extends ActivityBase {
 		pager.setAdapter(new ImagePagerAdapter(MaterialDetailActivity.this,
 				MaterialDetail_ImageAdapter.imgs));
 		pager.setCurrentItem(pagerPosition);
+		LayoutParams lay = dialog.getWindow().getAttributes();
+		setParams(lay);
+		
 		dialog.show();
 	}
-
+	private void setParams(LayoutParams lay) {
+		  DisplayMetrics dm = new DisplayMetrics();
+		  getWindowManager().getDefaultDisplay().getMetrics(dm);
+		  Rect rect = new Rect();
+		  View view = getWindow().getDecorView();
+		  view.getWindowVisibleDisplayFrame(rect);
+		  lay.height = dm.heightPixels - rect.top;
+		  lay.width = dm.widthPixels;
+		 }
 	public void changePointView(int cur) {
 		LinearLayout pointLinear = (LinearLayout) findViewById(R.id.gallery_point_linear);
 		View view = pointLinear.getChildAt(positon);

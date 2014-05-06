@@ -12,5 +12,5 @@
 
     <color name="blue">#0079fa</color>
     <drawable name="line">#B9B9BA</drawable>
-
+    <drawable name="translate">#80000000</drawable>
 </resources>
