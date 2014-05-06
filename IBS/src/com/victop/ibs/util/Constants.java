@@ -31,7 +31,7 @@ public final class Constants {
 			.showImageOnLoading(R.drawable.task_material_head)
 			.showImageForEmptyUri(R.drawable.task_material_head)
 			.showImageOnFail(R.drawable.task_material_head)
-			.displayer(new RoundedBitmapDisplayer(20)).cacheInMemory(true)
+			.displayer(new RoundedBitmapDisplayer(0)).cacheInMemory(true)
 			.cacheOnDisc(true).build();
 
 	public static class Config {

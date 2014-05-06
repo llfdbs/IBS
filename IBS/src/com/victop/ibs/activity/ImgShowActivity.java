@@ -1,7 +1,6 @@
 package com.victop.ibs.activity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,14 +11,15 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.victop.ibs.adapter.ListImagesAdapter;
 import com.victop.ibs.app.ibsApplication;
 import com.victop.ibs.base.ActivityBase;
-import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.view.BaseSwipeListViewListener;
 import com.victop.ibs.view.SwipeListView;
@@ -107,6 +107,17 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	protected void initViews() {
 		// TODO Auto-generated method stub
 		listView = (SwipeListView) findViewById(R.id.lv_imglist);
+		// listView.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> arg0, View view, int arg2,
+		// long arg3) {
+		// // TODO Auto-generated method stub
+		// Button
+		// bn_del=(Button)view.findViewById(R.id.example_row_b_action_del);
+		// }
+		//
+		// });
 		deviceWidth = getDeviceWidth();
 
 		// listView.setVisibility(View.VISIBLE);
@@ -171,13 +182,12 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	// }
 
 	private void adddata(List<Map<String, String>> data) {
-		adapter = new ListImagesAdapter(ImgShowActivity.this, data, listView,
-				temp);
+		adapter = new ListImagesAdapter(ImgShowActivity.this, data, listView);
 
 		if (adapter != null) {
 
-			adapter.setData(data);
 			listView.setAdapter(adapter);
+
 			listView.setSwipeListViewListener(new TestBaseSwipeListViewListener());
 			reload();
 			adapter.notifyDataSetChanged();
@@ -199,75 +209,72 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		listView.setSwipeOpenOnLongPress(false);
 	}
 
-	private int temp = 0;
-
 	class TestBaseSwipeListViewListener extends BaseSwipeListViewListener {
 
 		@Override
 		public void onClickFrontView(int position) {
 			super.onClickFrontView(position);
-			Toast.makeText(ImgShowActivity.this,
-					Container.mData.get(position).toString(),
-					Toast.LENGTH_SHORT).show();
+			// Toast.makeText(ImgShowActivity.this,
+			// Container.mData.get(position).toString(),
+			// Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onDismiss(int[] reverseSortedPositions) {
 
 			for (int position : reverseSortedPositions) {
+				System.out.println(position);
+				Container.newData.remove(position);
 
-				Container.mData.remove(position);
-				listfile.remove(position);
 			}
+			SpannableString sp = new SpannableString("已选择"
+					+ Container.newData.size() + "张");
+			sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
+					Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			tv_title.setText(sp);
 			adapter.notifyDataSetChanged();
 		}
 
 		@Override
 		public void onMove(int position, float x) {
 			// TODO Auto-generated method stub
+
 			System.out.println(x + ".....................");
-			temp = (int)x;
+
 			super.onMove(position, x);
 		}
+
+		EditText et;
+		TextView text;
 
 		@Override
 		public void onOpened(int position, boolean toRight) {
 			// TODO Auto-generated method stub
-			// Toast.makeText(getApplicationContext(), "onOpened",
-			// Toast.LENGTH_SHORT).show();
 			super.onOpened(position, toRight);
+			System.out.println("onOpened");
+			et = (EditText) listView.getChildAt(position).findViewById(
+					R.id.edit);
+			text = (TextView) listView.getChildAt(position).findViewById(
+					R.id.text);
+			et.setVisibility(View.GONE);
+			text.setVisibility(View.VISIBLE);
+			text.setText(et.getText().toString());
 		}
 
 		@Override
-		public void onStartOpen(int position, int action, boolean right) {
+		public void onClosed(int position, boolean fromRight) {
 			// TODO Auto-generated method stub
-			// Toast.makeText(getApplicationContext(), "onStartOpen",
-			// Toast.LENGTH_SHORT).show();
-			super.onStartOpen(position, action, right);
+			super.onClosed(position, fromRight);
+
+			et.setVisibility(View.VISIBLE);
+			text.setVisibility(View.GONE);
 		}
 
 		@Override
 		public void onStartClose(int position, boolean right) {
 			// TODO Auto-generated method stub
-			// Toast.makeText(getApplicationContext(), "onStartClose",
-			// Toast.LENGTH_SHORT).show();
 			super.onStartClose(position, right);
-		}
-
-		@Override
-		public void onClickBackView(int position) {
-			// TODO Auto-generated method stub
-			// Toast.makeText(getApplicationContext(), "onClickBackView",
-			// Toast.LENGTH_SHORT).show();
-			super.onClickBackView(position);
-		}
-
-		@Override
-		public void onChoiceChanged(int position, boolean selected) {
-			// TODO Auto-generated method stub
-			// Toast.makeText(getApplicationContext(), "onChoiceChanged",
-			// Toast.LENGTH_SHORT).show();
-			super.onChoiceChanged(position, selected);
+			System.out.println("onStartClose");
 		}
 
 	}
