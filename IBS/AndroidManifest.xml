@@ -56,11 +56,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
+        
+        
         <activity
             android:name=".MaterialAddActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" >
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:launchMode="singleTask"
+             >
         </activity>
         <activity
             android:name=".AddTaskActivity"
@@ -122,6 +126,26 @@
         <activity
             android:name=".TaskAllocationActivity"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ImgFileListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".ImgsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".ImgShowActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".TaskSortActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
     </application>
 

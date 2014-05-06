@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,17 +46,23 @@ public class MaterialDetailActivity extends ActivityBase {
 	Uri uri;
 	Intent intent;
 	int gallerypisition = 0;
-
 	private Thread timeThread = null;
 	public static boolean timeFlag = true;
 	private boolean isExit = false;
 	public ImageTimerTask timeTaks = null;
+	private ImageButton imgbtn_historyversion, imgbtn_edit, imgbtn_detail;// 历史版本,编辑,详情按钮
+	private TextView tv_materialdetail_tag, tv_versioncode, tv_taskcode,
+			tv_picname, tv_picdetail;// 分类,版本号,详情,图片名称,描述
+	private Button btn_materialdetail_check;
+	private LinearLayout pointLinear;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.materialdetail);
 		initViews();
+		initData();
+		initListeners();
 		ibsApplication.getInstance().addActivity(this);
 		timeTaks = new ImageTimerTask();
 
@@ -97,23 +103,11 @@ public class MaterialDetailActivity extends ActivityBase {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected void initViews() {
-		// TODO Auto-generated method stub
-		Bitmap image = BitmapFactory.decodeResource(getResources(),
-				R.drawable.ic_launcher);
-		// imagesCache.put("background_non_load",image); //设置缓存中默认的图片
-
-		images_ga = (MyGallery) findViewById(R.id.image_wall_gallery);
 		images_ga.setImageActivity(this);
 
 		MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(
 				this);
 		images_ga.setAdapter(imageAdapter);
-		LinearLayout pointLinear = (LinearLayout) findViewById(R.id.gallery_point_linear);
-		// pointLinear.setBackgroundColor(Color.argb(200, 135, 135, 152));
 		for (int i = 0; i < 3; i++) {
 			ImageView pointView = new ImageView(this);
 			if (i == 0) {
@@ -122,18 +116,98 @@ public class MaterialDetailActivity extends ActivityBase {
 				pointView.setBackgroundResource(R.drawable.feature_point);
 			pointLinear.addView(pointView);
 		}
-		images_ga.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				System.out.println(arg2 + "arg2");
-				showDialogs(arg2);
-
-			}
-		});
-
 	}
 
+	@Override
+	protected void initViews() {
+		// TODO Auto-generated method stub
+		images_ga = (MyGallery) findViewById(R.id.image_wall_gallery);
+		pointLinear = (LinearLayout) findViewById(R.id.gallery_point_linear);
+		imgbtn_historyversion = (ImageButton) findViewById(R.id.imgbtn_historyversion);
+		imgbtn_edit = (ImageButton) findViewById(R.id.imgbtn_edit);
+		imgbtn_detail = (ImageButton) findViewById(R.id.imgbtn_detail);
+		tv_materialdetail_tag = (TextView)findViewById(R.id.tv_materialdetail_tag);
+		tv_versioncode = (TextView)findViewById(R.id.tv_versioncode);
+		tv_taskcode = (TextView)findViewById(R.id.tv_taskcode);
+		tv_picname = (TextView)findViewById(R.id.tv_picname);
+		tv_picdetail = (TextView)findViewById(R.id.tv_picdetail);
+		btn_materialdetail_check = (Button)findViewById(R.id.btn_materialdetail_check);
+	}
+
+	@Override
+	protected void initListeners() {
+		// TODO Auto-generated method stub
+		images_ga.setOnItemClickListener(mOnItemClick);
+		imgbtn_historyversion.setOnClickListener(mOnClick);
+		imgbtn_edit.setOnClickListener(mOnClick);
+		imgbtn_detail.setOnClickListener(mOnClick);
+		btn_materialdetail_check.setOnClickListener(mOnClick);
+	}
+    OnClickListener mOnClick = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			switch(v.getId()){
+			case R.id.imgbtn_historyversion:
+				Intent intent_history  = new Intent(MaterialDetailActivity.this,HistoryVerActivity.class);
+				startActivity(intent_history);
+				break;
+			case R.id.imgbtn_edit:
+				Intent intent_edit  = new Intent(MaterialDetailActivity.this,MaterialAddActivity.class);
+				startActivity(intent_edit);
+				break;
+			case R.id.imgbtn_detail:
+				Intent intent_detail  = new Intent(MaterialDetailActivity.this,PropertyActivity.class);
+				startActivity(intent_detail);
+				break;
+			case R.id.btn_materialdetail_check:
+				showCheckDialog();
+				break;
+			}
+		}
+	};
+    OnItemClickListener mOnItemClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			// TODO Auto-generated method stub
+			showDialogs(arg2);
+		}
+	};
+	// 审核弹出框
+		public void showCheckDialog() {
+			final Dialog dialog = new Dialog(MaterialDetailActivity.this,
+					R.style.taskdialog);
+			View view = LayoutInflater.from(MaterialDetailActivity.this).inflate(
+					R.layout.checkdialog, null);
+			dialog.setContentView(view);
+			Button btn_pass = (Button) view.findViewById(R.id.btn_check_pass);
+			Button btn_nopass = (Button) view.findViewById(R.id.btn_check_nopass);
+			Button btn_taskpositive = (Button) view
+					.findViewById(R.id.btn_taskpositive);
+			dialog.show();
+			btn_pass.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+				}
+			});
+			btn_nopass.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+					
+				}
+			});
+			
+		}
+	// 弹出大图浏览
 	public void showDialogs(int pagerPosition) {
 		Dialog dialog = new Dialog(MaterialDetailActivity.this,
 				R.style.taskdialog);
@@ -147,18 +221,21 @@ public class MaterialDetailActivity extends ActivityBase {
 		pager.setCurrentItem(pagerPosition);
 		LayoutParams lay = dialog.getWindow().getAttributes();
 		setParams(lay);
-		
+
 		dialog.show();
 	}
+
+	// 自定义dialog全屏显示
 	private void setParams(LayoutParams lay) {
-		  DisplayMetrics dm = new DisplayMetrics();
-		  getWindowManager().getDefaultDisplay().getMetrics(dm);
-		  Rect rect = new Rect();
-		  View view = getWindow().getDecorView();
-		  view.getWindowVisibleDisplayFrame(rect);
-		  lay.height = dm.heightPixels - rect.top;
-		  lay.width = dm.widthPixels;
-		 }
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		Rect rect = new Rect();
+		View view = getWindow().getDecorView();
+		view.getWindowVisibleDisplayFrame(rect);
+		lay.height = dm.heightPixels - rect.top;
+		lay.width = dm.widthPixels;
+	}
+
 	public void changePointView(int cur) {
 		LinearLayout pointLinear = (LinearLayout) findViewById(R.id.gallery_point_linear);
 		View view = pointLinear.getChildAt(positon);
@@ -170,12 +247,6 @@ public class MaterialDetailActivity extends ActivityBase {
 			curPointView.setBackgroundResource(R.drawable.feature_point_cur);
 			positon = cur;
 		}
-	}
-
-	@Override
-	protected void initListeners() {
-		// TODO Auto-generated method stub
-
 	}
 
 	class ImageTimerTask extends TimerTask {
