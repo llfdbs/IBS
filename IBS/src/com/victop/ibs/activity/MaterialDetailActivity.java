@@ -59,6 +59,7 @@ public class MaterialDetailActivity extends ActivityBase {
 		initListeners();
 		ibsApplication.getInstance().addActivity(this);
 		timeTaks = new ImageTimerTask();
+		
 
 		autoGallery.scheduleAtFixedRate(timeTaks, 5000, 5000);
 		timeThread = new Thread() {
@@ -274,4 +275,5 @@ public class MaterialDetailActivity extends ActivityBase {
 	}
 
 	Timer autoGallery = new Timer();
+	
 }
