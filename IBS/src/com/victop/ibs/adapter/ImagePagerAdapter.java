@@ -8,12 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ImagePagerAdapter extends PagerAdapter {
     private Context context;
 	private Integer[] images;
 	private LayoutInflater inflater;
-	private int[] all_id={R.drawable.one,R.drawable.two,R.drawable.three};
+	private String[] arr_detail={"我是第一张描述","ddddddddddddd","sssssssssssss"};
     public ImagePagerAdapter(Context context,Integer[] images){
     	this.context = context;
     	this.images = images;
@@ -22,7 +23,7 @@ public class ImagePagerAdapter extends PagerAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return all_id.length;
+		return images.length;
 	}
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
@@ -33,7 +34,11 @@ public class ImagePagerAdapter extends PagerAdapter {
 		View imageLayout = inflater.inflate(R.layout.pager_item, view, false);
 		assert imageLayout != null;
 		ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
+		TextView tv_detail = (TextView) imageLayout.findViewById(R.id.image_detail);
+		TextView tv_position = (TextView) imageLayout.findViewById(R.id.image_position);
 		imageView.setBackgroundResource(images[position]);
+		tv_detail.setText(arr_detail[position]);
+		tv_position.setText((position+1)+"/"+images.length);
 		view.addView(imageLayout, 0);
 		return imageLayout;
 	}
