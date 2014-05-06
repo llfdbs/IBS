@@ -276,6 +276,7 @@ public class AddTaskActivity extends ActivityBase {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				dialog.dismiss();
+				finish();
 				
 			}
 		});
@@ -285,7 +286,7 @@ public class AddTaskActivity extends ActivityBase {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				dialog.dismiss();
-				
+				finish();
 			}
 		});
 

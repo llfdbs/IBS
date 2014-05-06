@@ -3,11 +3,7 @@ package com.victop.ibs.activity;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
-
 import com.victop.ibs.adapter.ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
 import com.victop.ibs.app.ibsApplication;
@@ -44,7 +39,6 @@ public class MaterialDetailActivity extends ActivityBase {
 	public MyGallery images_ga;
 	private int positon = 0;
 	Uri uri;
-	Intent intent;
 	int gallerypisition = 0;
 	private Thread timeThread = null;
 	public static boolean timeFlag = true;
@@ -137,7 +131,7 @@ public class MaterialDetailActivity extends ActivityBase {
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
-		images_ga.setOnItemClickListener(mOnItemClick);
+		//images_ga.setOnItemClickListener(mOnItemClick);
 		imgbtn_historyversion.setOnClickListener(mOnClick);
 		imgbtn_edit.setOnClickListener(mOnClick);
 		imgbtn_detail.setOnClickListener(mOnClick);
@@ -150,16 +144,13 @@ public class MaterialDetailActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch(v.getId()){
 			case R.id.imgbtn_historyversion:
-				Intent intent_history  = new Intent(MaterialDetailActivity.this,HistoryVerActivity.class);
-				startActivity(intent_history);
+				openActivity(HistoryVerActivity.class, null);
 				break;
 			case R.id.imgbtn_edit:
-				Intent intent_edit  = new Intent(MaterialDetailActivity.this,MaterialAddActivity.class);
-				startActivity(intent_edit);
+				openActivity(MaterialAddActivity.class, null);
 				break;
 			case R.id.imgbtn_detail:
-				Intent intent_detail  = new Intent(MaterialDetailActivity.this,PropertyActivity.class);
-				startActivity(intent_detail);
+				openActivity(PropertyActivity.class);
 				break;
 			case R.id.btn_materialdetail_check:
 				showCheckDialog();
@@ -194,6 +185,7 @@ public class MaterialDetailActivity extends ActivityBase {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					dialog.dismiss();
+					finish();
 				}
 			});
 			btn_nopass.setOnClickListener(new OnClickListener() {
@@ -202,6 +194,7 @@ public class MaterialDetailActivity extends ActivityBase {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					dialog.dismiss();
+					finish();
 					
 				}
 			});

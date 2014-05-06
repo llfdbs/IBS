@@ -1,9 +1,7 @@
 package com.victop.ibs.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.fragment.HomeModlFragment;
@@ -100,17 +98,25 @@ public class MainActivity extends ActivityBase {
 			b.putString("material_style", "unaudit");
 			openActivity(MaterialAllActivity.class, b);
 			break;
-		case 3:
+		case 3://新增素材
 //			b.putString("material_style", "unaudit");
 			openActivity(MaterialAddActivity.class, null);
 			break;
-		case 4:
-
+		case 4://素材搜索
+			openActivity(MaterialSearchActivity.class, null);
 			break;
-		case 5:
-
+		case 5://接受的任务
+			openActivity(TaskListActivity.class, null);
 			break;
-
+		case 6://发布的任务
+			openActivity(SendedTaskListActivity.class, null);
+			break;
+		case 7://新增的任务
+			openActivity(AddTaskActivity.class, null);
+			break;
+		case 8://退出
+			openActivity(LoginActivity.class, null);
+			break;
 		default:
 			break;
 		}

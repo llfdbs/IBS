@@ -329,6 +329,9 @@ public class MaterialAllActivity extends FragmentActivity implements
 			finish();
 			break;
 		case R.id.add:
+			Intent intent_search = new Intent(MaterialAllActivity.this,MaterialAddActivity.class);
+
+			startActivity(intent_search);
 			break;
 		case R.id.btn_search:
 			Intent intent = new Intent(MaterialAllActivity.this,
