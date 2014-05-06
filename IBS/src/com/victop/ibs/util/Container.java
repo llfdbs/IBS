@@ -19,7 +19,10 @@ public class Container {
 	 * 单例变量
 	 */
 	public static String SESSION_ID = UUID.randomUUID().toString();
-	public static ArrayList<String> listfiles = new ArrayList<String>();// 存放图片地址
+	public static ArrayList<String> listfiles = new ArrayList<String>();// 
+	
+	public static List<Map<String, String>> newData=new ArrayList<Map<String, String>>(); //x选择图片添加地址，描述为空
+	
 	public static List<Map<String, String>> mData=new ArrayList<Map<String, String>>(); //  存放图片地址存储的editTex值
 	 
 	public static List<Map<String, String>> add_mData=new ArrayList<Map<String, String>>();//素材新增

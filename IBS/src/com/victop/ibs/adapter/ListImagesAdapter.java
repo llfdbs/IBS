@@ -1,6 +1,6 @@
 package com.victop.ibs.adapter;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -32,7 +31,7 @@ import com.victop.ibs.view.SwipeListView;
 public class ListImagesAdapter extends BaseAdapter {
 
 	Context context;
-	ArrayList<String> list;
+	List<Map<String, String>> list;
 	public Bitmap bitmaps[];
 	Util until;
 	float DownX;
@@ -40,11 +39,13 @@ public class ListImagesAdapter extends BaseAdapter {
 	// private List<Map<String, String>> mData; // �洢��editTexֵ
 	private Integer index = -1;
 	SwipeListView mSwipeListView;
+	private int temp;
 
-	public ListImagesAdapter(Context context, ArrayList<String> list,
-			SwipeListView mSwipeListView) {
+	public ListImagesAdapter(Context context, List<Map<String, String>> list,
+			SwipeListView mSwipeListView, int temp) {
 		this.context = context;
 		this.list = list;
+		this.temp = temp;
 		this.mSwipeListView = mSwipeListView;
 		bitmaps = new Bitmap[list.size()];
 		until = new Util(context);
@@ -105,8 +106,9 @@ public class ListImagesAdapter extends BaseAdapter {
 			holder = (Holder) convertView.getTag();
 			holder.editText.setTag(position);
 		}
-		Constants.imageLoader.displayImage("file://" + list.get(position),
-				holder.image, Constants.image_display_options, null);
+		Constants.imageLoader.displayImage("file://"
+				+ list.get(position).keySet().iterator().next(), holder.image,
+				Constants.image_display_options, null);
 
 		holder.editText.addTextChangedListener(new TextWatcher() {
 
@@ -129,18 +131,20 @@ public class ListImagesAdapter extends BaseAdapter {
 				// TODO Auto-generated method stub
 				int position = (Integer) holder.editText.getTag();
 				if (s != null && !"".equals(s.toString())) {
-					 
-					Container.mData.get(position).put("list_item_inputvalue",
+					// Map<String, String> map =
+					// Container.newData.get(position);
+					Container.newData.get(position).put(
+							list.get(position).keySet().iterator().next(),
 							s.toString());
+
 				} else {
-				 
-					Container.mData.get(position).put("list_item_inputvalue",
-							"");
+					// Container.newData.get(position).put(
+					// list.get(position).keySet().iterator().next(),
+					// s.toString());
 				}
 			}
 		});
-		Object value = Container.mData.get(position)
-				.get("list_item_inputvalue");
+		Object value = list.get(position).values().iterator().next();
 		if (value != null && !"".equals(value)) {
 			holder.editText.setText(value.toString());
 		} else {
@@ -150,10 +154,16 @@ public class ListImagesAdapter extends BaseAdapter {
 		if (index != -1 && index == position) {
 			holder.editText.requestFocus();
 		}
+		 
 		holder.mBackDelete.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { 
-				Toast.makeText(context, Container.mData.get(position).get("list_item_inputvalue"),Toast.LENGTH_SHORT).show();
+			public void onClick(View v) {
+			
+				Toast.makeText(
+						context,
+						Container.mData.get(position).get(
+								"list_item_inputvalue"), Toast.LENGTH_SHORT)
+						.show();
 				mSwipeListView.closeAnimate(position);
 				mSwipeListView.dismiss(position);
 				Container.mData.remove(position);
@@ -194,8 +204,9 @@ public class ListImagesAdapter extends BaseAdapter {
 		dialog.setView(view);
 		ImageView images = (ImageView) view.findViewById(R.id.bigimage);
 
-		Constants.imageLoader.displayImage("file://" + list.get(position),
-				images, Constants.image_display_options, null);
+		Constants.imageLoader.displayImage("file://"
+				+ list.get(position).keySet().iterator().next(), images,
+				Constants.image_display_options, null);
 		dialog.show();
 
 		images.setOnClickListener(new OnClickListener() {
