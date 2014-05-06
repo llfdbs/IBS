@@ -5,7 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -73,7 +78,9 @@ public class TaskDetailActivity extends ActivityBase {
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
-
+		mListView.setOnItemClickListener(mOnItemClick);
+		btn_finish.setOnClickListener(mOnClick);
+		imgbtn_addmaterial.setOnClickListener(mOnClick);
 	}
 	public void setData() {
 		Map<String, String> map;
@@ -90,5 +97,32 @@ public class TaskDetailActivity extends ActivityBase {
 	public void setText(){
 		
 	}
+	//按钮点击事件
+	OnClickListener mOnClick = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			switch(v.getId()){
+			case R.id.btn_finish:
+				break;
+			case R.id.imgbtn_addmaterial:
+				Intent intent = new Intent(TaskDetailActivity.this,MaterialAddActivity.class);
+				startActivity(intent);
+				break;
+			}
+		}
+	};
+	//列表点击事件
+	OnItemClickListener mOnItemClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent(TaskDetailActivity.this,MaterialDetailActivity.class);
+			startActivity(intent);
+		}
+	};
 
 }
