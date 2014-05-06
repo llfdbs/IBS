@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.victop.ibs.activity.AddTaskActivity;
 import com.victop.ibs.activity.MainActivity;
 import com.victop.ibs.activity.MaterialAllActivity;
+import com.victop.ibs.activity.MaterialSearchActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.activity.SendedTaskListActivity;
 import com.victop.ibs.activity.TaskListActivity;
@@ -91,36 +92,29 @@ public class HomeModlFragment extends Fragment {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.btn_manager_search:
+			case R.id.btn_manager_search://素材搜索
+				((MainActivity) getActivity()).rightToCenter(4);
 				break;
 			case R.id.btn_manager_addmaterial:// 新增素材
 				((MainActivity) getActivity()).rightToCenter(3);
 				break;
-			case R.id.btn_manager_receivedtask:
-				Intent intent_receivedtask = new Intent(
-						(MainActivity) getActivity(), TaskListActivity.class);
-
-				startActivity(intent_receivedtask);
+			case R.id.btn_manager_receivedtask://接受的任务
+				((MainActivity) getActivity()).rightToCenter(5);
 				break;
 
-			case R.id.btn_manager_material:
+			case R.id.btn_manager_material://素材
 
 				((MainActivity) getActivity()).rightToCenter(1);
 				break;
-			case R.id.btn_manager_sendedtask:
-				Intent intent_sendedtask = new Intent(
-						(MainActivity) getActivity(),SendedTaskListActivity.class);
-
-				startActivity(intent_sendedtask);
+			case R.id.btn_manager_sendedtask://发布的任务
+				((MainActivity) getActivity()).rightToCenter(6);
 				break;
 			case R.id.btn_employee_material:
 				break;
 			case R.id.btn_employee_task:
 				break;
-			case R.id.btn_addtask:
-				Intent intent1 = new Intent((MainActivity) getActivity(),
-						AddTaskActivity.class);
-				startActivity(intent1);
+			case R.id.btn_addtask://新增任务
+				((MainActivity) getActivity()).rightToCenter(7);
 
 				break;
 			case R.id.btn_employee_addmateria:

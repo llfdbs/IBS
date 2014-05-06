@@ -19,6 +19,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.ibsApplication;
 import com.victop.ibs.base.ActivityBase;
+
 /**
  * 接受的任务类 接受的任务业务逻辑
  * 
@@ -112,7 +113,8 @@ public class TaskListActivity extends ActivityBase {
 		btn_search.setOnClickListener(mOnClick);
 		btn_addtask.setOnClickListener(mOnClick);
 		radiogroup_task.setOnCheckedChangeListener(mOnChecked);
-		mListView.setOnItemClickListener(mOnItemClick);;
+		mListView.setOnItemClickListener(mOnItemClick);
+		;
 	}
 
 	// 控件点击事件
@@ -123,10 +125,11 @@ public class TaskListActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.btn_search:
+				openActivity(MaterialSearchActivity.class, null);
 				break;
 			case R.id.btn_addtask:
-				Intent intent_addtask = new Intent(TaskListActivity.this,AddTaskActivity.class);
-				startActivity(intent_addtask);
+				openActivity(AddTaskActivity.class, null);
+
 				break;
 			default:
 				;
@@ -176,8 +179,8 @@ public class TaskListActivity extends ActivityBase {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			// TODO Auto-generated method stub
-			Intent intent = new Intent(TaskListActivity.this,TaskDetailActivity.class);
-	        startActivity(intent);
+			openActivity(TaskDetailActivity.class, null);
+
 		}
 	};
 
