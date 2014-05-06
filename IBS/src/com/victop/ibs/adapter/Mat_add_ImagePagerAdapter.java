@@ -52,16 +52,16 @@ public class Mat_add_ImagePagerAdapter extends PagerAdapter {
 		View imageLayout = inflater.inflate(R.layout.pager_item, view, false);
 		assert imageLayout != null;
 		ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
-		TextView tv_detail = (TextView) imageLayout
-				.findViewById(R.id.image_detail);
-		TextView tv_position = (TextView) imageLayout
-				.findViewById(R.id.image_position);
+//		TextView tv_detail = (TextView) imageLayout
+//				.findViewById(R.id.image_detail);
+//		TextView tv_position = (TextView) imageLayout
+//				.findViewById(R.id.image_position);
 		Constants.imageLoader.displayImage("file://"
 				+ list.get(position).keySet().iterator().next(), imageView,
 				Constants.image_display_options, null);
 		// imageView.setBackgroundResource(images[position]);
-		tv_detail.setText(list.get(position).values().iterator().next());
-		tv_position.setText((position + 1) + "/" + list.size());
+//		tv_detail.setText(list.get(position).values().iterator().next());
+//		tv_position.setText((position + 1) + "/" + list.size());
 		view.addView(imageLayout, 0);
 		return imageLayout;
 	}

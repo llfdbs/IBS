@@ -82,6 +82,8 @@ public class Sort_ListViewAdapter extends BaseAdapter {
 			} else {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
+			viewHolder.tv_type.setText("");
+			viewHolder.cb.setVisibility(View.GONE);
 			viewHolder.tv_title.setText(data[arg0]);
 		}
 		return convertView;

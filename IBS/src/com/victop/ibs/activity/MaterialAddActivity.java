@@ -2,28 +2,37 @@ package com.victop.ibs.activity;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.SortModel;
+import com.victop.ibs.util.Constants;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.view.MyGridView;
 
@@ -42,6 +51,7 @@ public class MaterialAddActivity extends ActivityBase implements
 	private MyGridView mgv_material;
 	private ImageButton ibtn_edit;
 	MaterialAdd_girdViewAdapter mAdapter;
+	private TextView tv_position, tv_detail;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -123,6 +133,11 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case Container.SORT:
+			if (data != null) {
+				Bundle b = data.getExtras();
+				String tasknumber = b.getString("info");
+				tv_sort.setText(tasknumber);
+			}
 
 			break;
 		case Container.TASK:// 任务编号
@@ -202,6 +217,34 @@ public class MaterialAddActivity extends ActivityBase implements
 		pager.setAdapter(new Mat_add_ImagePagerAdapter(
 				MaterialAddActivity.this, Container.add_mData));
 		pager.setCurrentItem(pagerPosition);
+		pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				String rr = position + 1 + "/"
+						+ Container.add_mData.size();
+				String dd = Container.add_mData.get(position).values()
+						.iterator().next();
+				tv_position.setText(rr);
+				tv_detail.setText(dd);
+//				((RadioButton) dotGroupButton.getChildAt(position))
+//						.setChecked(true);
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+		tv_position = (TextView) view.findViewById(R.id.image_position);
+		tv_detail = (TextView) view.findViewById(R.id.image_detail);
+		String rr = pagerPosition + 1 + "/" + Container.add_mData.size();
+		String dd = Container.add_mData.get(pagerPosition).values().iterator()
+				.next();
+		tv_position.setText(rr);
+		tv_detail.setText(dd);
 		LayoutParams lay = dialog.getWindow().getAttributes();
 		setParams(lay);
 
@@ -217,5 +260,10 @@ public class MaterialAddActivity extends ActivityBase implements
 		view.getWindowVisibleDisplayFrame(rect);
 		lay.height = dm.heightPixels - rect.top;
 		lay.width = dm.widthPixels;
+	}
+
+	public void setText(String rr, String dd) {
+		tv_position.setText(rr);
+		tv_detail.setText(dd);
 	}
 }
