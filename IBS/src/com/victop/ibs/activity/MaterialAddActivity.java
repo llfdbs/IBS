@@ -3,15 +3,24 @@ package com.victop.ibs.activity;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.SortModel;
@@ -159,6 +168,15 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_tag = (TextView) findViewById(R.id.tv_tag1);
 
 		mgv_material = (MyGridView) findViewById(R.id.mgv_material);
+		mgv_material.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				showDialogs(arg2);
+			}
+		});
 		mAdapter = new MaterialAdd_girdViewAdapter(this, Container.add_mData, 0);
 		mgv_material.setAdapter(mAdapter);
 		llt_sort.setOnClickListener(this);
@@ -173,4 +191,31 @@ public class MaterialAddActivity extends ActivityBase implements
 
 	}
 
+	// 弹出大图浏览
+	public void showDialogs(int pagerPosition) {
+		Dialog dialog = new Dialog(MaterialAddActivity.this, R.style.taskdialog);
+		View view = LayoutInflater.from(MaterialAddActivity.this).inflate(
+				R.layout.showpicbigdialog, null);
+		dialog.setContentView(view);
+		ViewPager pager;
+		pager = (ViewPager) view.findViewById(R.id.pager);
+		pager.setAdapter(new Mat_add_ImagePagerAdapter(
+				MaterialAddActivity.this, Container.add_mData));
+		pager.setCurrentItem(pagerPosition);
+		LayoutParams lay = dialog.getWindow().getAttributes();
+		setParams(lay);
+
+		dialog.show();
+	}
+
+	// 自定义dialog全屏显示
+	private void setParams(LayoutParams lay) {
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		Rect rect = new Rect();
+		View view = getWindow().getDecorView();
+		view.getWindowVisibleDisplayFrame(rect);
+		lay.height = dm.heightPixels - rect.top;
+		lay.width = dm.widthPixels;
+	}
 }

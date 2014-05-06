@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-     >
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:background="@drawable/one"
-        android:layout_centerInParent="true"
-       />
-     <TextView 
+        android:scaleType="fitXY" />
+
+    <TextView
         android:id="@+id/image_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#ffffff"
-        android:text="1/11"
-        android:paddingBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-     
-        />
+        android:paddingBottom="20dp"
+        android:text="1/11"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-     <TextView
-         android:id="@+id/image_detail"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_above="@+id/image_position"
-         android:layout_marginBottom="50dp"
-         android:layout_marginLeft="19dp"
-         android:text="图片描述"
-         android:textColor="#ffffff"
-         android:textSize="14sp" />
+    <TextView
+        android:id="@+id/image_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/image_position"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="19dp"
+        android:text="图片描述"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package com.victop.ibs.adapter;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.victop.ibs.activity.R;
@@ -39,22 +39,20 @@ public class ListImagesAdapter extends BaseAdapter {
 	// private List<Map<String, String>> mData; // �洢��editTexֵ
 	private Integer index = -1;
 	SwipeListView mSwipeListView;
-	private int temp;
 
 	public ListImagesAdapter(Context context, List<Map<String, String>> list,
-			SwipeListView mSwipeListView, int temp) {
+			SwipeListView mSwipeListView) {
 		this.context = context;
 		this.list = list;
-		this.temp = temp;
 		this.mSwipeListView = mSwipeListView;
 		bitmaps = new Bitmap[list.size()];
 		until = new Util(context);
 
 	}
 
-	public void setData(List<Map<String, String>> data) {
-		Container.mData = data;
-	}
+	// public void setData(List<Map<String, String>> data) {
+	// Container.mData = data;
+	// }
 
 	@Override
 	public int getCount() {
@@ -84,12 +82,13 @@ public class ListImagesAdapter extends BaseAdapter {
 					R.layout.listimagesitem, null);
 			holder.image = (ImageView) convertView.findViewById(R.id.image);
 			holder.editText = (EditText) convertView.findViewById(R.id.edit);
-
+			holder.textView = (TextView) convertView.findViewById(R.id.text);
 			holder.mBackEdit = (Button) convertView
 					.findViewById(R.id.example_row_b_action_modify);
 			holder.mBackDelete = (Button) convertView
 					.findViewById(R.id.example_row_b_action_del);
 			holder.editText.setTag(position);
+			holder.textView.setTag(position);
 			holder.editText.setOnTouchListener(new OnTouchListener() {
 
 				@Override
@@ -105,6 +104,7 @@ public class ListImagesAdapter extends BaseAdapter {
 		} else {
 			holder = (Holder) convertView.getTag();
 			holder.editText.setTag(position);
+			holder.textView.setTag(position);
 		}
 		Constants.imageLoader.displayImage("file://"
 				+ list.get(position).keySet().iterator().next(), holder.image,
@@ -147,27 +147,24 @@ public class ListImagesAdapter extends BaseAdapter {
 		Object value = list.get(position).values().iterator().next();
 		if (value != null && !"".equals(value)) {
 			holder.editText.setText(value.toString());
+			holder.textView.setText(value.toString());
 		} else {
 			holder.editText.setText("");
+			holder.textView.setText("");
 		}
 		holder.editText.clearFocus();
 		if (index != -1 && index == position) {
 			holder.editText.requestFocus();
 		}
-		 
+
 		holder.mBackDelete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-			
-				Toast.makeText(
-						context,
-						Container.mData.get(position).get(
-								"list_item_inputvalue"), Toast.LENGTH_SHORT)
-						.show();
+
+				// Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
 				mSwipeListView.closeAnimate(position);
 				mSwipeListView.dismiss(position);
-				Container.mData.remove(position);
-				list.remove(position);
+
 			}
 		});
 		// holder.btn_delete.setOnClickListener(new OnClickListener() {
@@ -237,6 +234,7 @@ public class ListImagesAdapter extends BaseAdapter {
 	class Holder {
 		ImageView image;
 		EditText editText;
+		TextView textView;
 		Button mBackEdit, mBackDelete;
 		// Button btn_delete, btn_del;
 	}

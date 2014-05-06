@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginBottom="5dip"
-        android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginTop="5dip"
         android:background="#eee"
@@ -22,22 +21,21 @@
             android:background="@null" />
 
         <Button
-            android:id="@+id/example_row_b_action_del"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/mat_del"
-            android:focusable="true" />
-
-        <Button
             android:id="@+id/example_row_b_action_modify"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/mat_modify"
+            android:focusable="true" />
+
+        <Button
+            android:id="@+id/example_row_b_action_del"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/mat_del"
             android:focusable="true" />
     </LinearLayout>
 
@@ -61,6 +59,18 @@
             android:background="@drawable/task_material_head"
             android:scaleType="fitXY" />
 
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="fill_parent"
+            android:layout_height="70dip"
+            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@id/image"
+            android:background="@drawable/bg1"
+            android:gravity="top|left"
+            android:padding="3dip"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/edit"
             android:layout_width="fill_parent"
@@ -70,7 +80,9 @@
             android:background="@drawable/bg1"
             android:gravity="top|left"
             android:hint="请输入描述"
-            android:padding="3dip" />
+            android:padding="3dip"
+            android:textColor="#000"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </FrameLayout>
