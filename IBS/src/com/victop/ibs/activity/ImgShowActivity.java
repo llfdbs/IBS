@@ -70,28 +70,14 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.back:
+			Container.newData.clear();
 			finish();
 			break;
 		case R.id.add:
 
-			// Container.listfiles Container.mData
-			// Iterator iter = hashMap.keySet().iterator();
-			// while (iter.hasNext()) {
-			// Object key = iter.next();
-			// Object val = hashMap.get(key);
-			// System.out.println(key + ((SortModel) val).getName());
-			// }
-			Map<String, String> dd;
-
-			int len = Container.listfiles.size();
-			for (int i = 0; i < len; i++) {
-				dd = new HashMap<String, String>();
-				dd.put(Container.listfiles.get(i),
-						Container.mData.get(i).get("list_item_inputvalue"));
-				Container.add_mData.add(dd);
-			}
-			Container.listfiles.clear();
-			Container.mData.clear();
+			Container.add_mData.addAll(Container.newData);
+			Container.newData.clear();
+			// Container.mData.clear();
 			Intent ii = new Intent(ImgShowActivity.this,
 					MaterialAddActivity.class);
 			startActivity(ii);
@@ -125,10 +111,10 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 		// listView.setVisibility(View.VISIBLE);
 		if (listfile != null) {
-			addData(Container.listfiles, listfile);
-
-			SpannableString sp = new SpannableString("已选择" + listfile.size()
-					+ "张");
+			// addData(Container.listfiles, listfile);
+			adddata(Container.newData);
+			SpannableString sp = new SpannableString("已选择"
+					+ Container.newData.size() + "张");
 			sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
 					Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			tv_title.setText(sp);
@@ -142,48 +128,63 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 	}
 
-	public void addData(ArrayList<String> listfiles, ArrayList<String> listfile) {
-		adapter = new ListImagesAdapter(ImgShowActivity.this, listfiles,
-				listView);
-		if (listfiles.size() > 0) {
-			listfiles.addAll(listfile);
-			for (int i = 0; i < listfile.size(); i++) {
-				Map<String, String> item = new HashMap<String, String>();
-				item.put("list_item_inputvalue", "");
-				Container.mData.add(item);
-			}
-			if (adapter != null) {
-				for (int i = 0; i < listfiles.size(); i++) {
-					Map<String, String> item = new HashMap<String, String>();
-					item.put("list_item_inputvalue", Container.mData.get(i)
-							.get("list_item_inputvalue"));
-					mData.add(item);
-				}
-				adapter.setData(mData);
-				listView.setAdapter(adapter);
-				listView.setSwipeListViewListener(new TestBaseSwipeListViewListener());
-				reload();
-				adapter.notifyDataSetChanged();
-			}
-		} else {
-			for (int j = 0; j < listfile.size(); j++) {
-				listfiles.add(listfiles.size(), listfile.get(j));
-			}
+	// public void addData(ArrayList<String> listfiles, ArrayList<String>
+	// listfile) {
+	// adapter = new ListImagesAdapter(ImgShowActivity.this, listfiles,
+	// listView);
+	// if (listfiles.size() > 0) {
+	// listfiles.addAll(listfile);
+	// for (int i = 0; i < listfile.size(); i++) {
+	// Map<String, String> item = new HashMap<String, String>();
+	// item.put("list_item_inputvalue", "");
+	// Container.mData.add(item);
+	// }
+	// if (adapter != null) {
+	// for (int i = 0; i < listfiles.size(); i++) {
+	// Map<String, String> item = new HashMap<String, String>();
+	// item.put("list_item_inputvalue", Container.mData.get(i)
+	// .get("list_item_inputvalue"));
+	// mData.add(item);
+	// }
+	// adapter.setData(mData);
+	// listView.setAdapter(adapter);
+	// listView.setSwipeListViewListener(new TestBaseSwipeListViewListener());
+	// reload();
+	// adapter.notifyDataSetChanged();
+	// }
+	// } else {
+	// for (int j = 0; j < listfile.size(); j++) {
+	// listfiles.add(listfiles.size(), listfile.get(j));
+	// }
+	//
+	// for (int i = 0; i < listfiles.size(); i++) {
+	// Map<String, String> item = new HashMap<String, String>();
+	// item.put("list_item_inputvalue", "");
+	// mData.add(item);
+	// }
+	// adapter.setData(mData);
+	// listView.setAdapter(adapter);
+	// listView.setSwipeListViewListener(new TestBaseSwipeListViewListener());
+	// reload();
+	// }
+	//
+	// }
 
-			for (int i = 0; i < listfiles.size(); i++) {
-				Map<String, String> item = new HashMap<String, String>();
-				item.put("list_item_inputvalue", "");
-				mData.add(item);
-			}
-			adapter.setData(mData);
+	private void adddata(List<Map<String, String>> data) {
+		adapter = new ListImagesAdapter(ImgShowActivity.this, data, listView,
+				temp);
+
+		if (adapter != null) {
+
+			adapter.setData(data);
 			listView.setAdapter(adapter);
 			listView.setSwipeListViewListener(new TestBaseSwipeListViewListener());
 			reload();
+			adapter.notifyDataSetChanged();
 		}
 
 	}
 
- 
 	private int getDeviceWidth() {
 		return getResources().getDisplayMetrics().widthPixels;
 	}
@@ -198,6 +199,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		listView.setSwipeOpenOnLongPress(false);
 	}
 
+	private int temp = 0;
+
 	class TestBaseSwipeListViewListener extends BaseSwipeListViewListener {
 
 		@Override
@@ -210,9 +213,9 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 		@Override
 		public void onDismiss(int[] reverseSortedPositions) {
-			
+
 			for (int position : reverseSortedPositions) {
-				
+
 				Container.mData.remove(position);
 				listfile.remove(position);
 			}
@@ -222,46 +225,50 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		@Override
 		public void onMove(int position, float x) {
 			// TODO Auto-generated method stub
-			System.out.println(x+".....................");
-			 
+			System.out.println(x + ".....................");
+			temp = (int)x;
 			super.onMove(position, x);
 		}
 
 		@Override
 		public void onOpened(int position, boolean toRight) {
 			// TODO Auto-generated method stub
-//			Toast.makeText(getApplicationContext(), "onOpened", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "onOpened",
+			// Toast.LENGTH_SHORT).show();
 			super.onOpened(position, toRight);
 		}
 
 		@Override
 		public void onStartOpen(int position, int action, boolean right) {
 			// TODO Auto-generated method stub
-//			Toast.makeText(getApplicationContext(), "onStartOpen", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "onStartOpen",
+			// Toast.LENGTH_SHORT).show();
 			super.onStartOpen(position, action, right);
 		}
 
 		@Override
 		public void onStartClose(int position, boolean right) {
 			// TODO Auto-generated method stub
-//			Toast.makeText(getApplicationContext(), "onStartClose", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "onStartClose",
+			// Toast.LENGTH_SHORT).show();
 			super.onStartClose(position, right);
 		}
 
 		@Override
 		public void onClickBackView(int position) {
 			// TODO Auto-generated method stub
-//			Toast.makeText(getApplicationContext(), "onClickBackView", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "onClickBackView",
+			// Toast.LENGTH_SHORT).show();
 			super.onClickBackView(position);
 		}
 
 		@Override
 		public void onChoiceChanged(int position, boolean selected) {
 			// TODO Auto-generated method stub
-//			Toast.makeText(getApplicationContext(), "onChoiceChanged", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "onChoiceChanged",
+			// Toast.LENGTH_SHORT).show();
 			super.onChoiceChanged(position, selected);
 		}
-		
-		
+
 	}
 }

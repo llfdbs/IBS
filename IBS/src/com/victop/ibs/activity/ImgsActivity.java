@@ -3,6 +3,8 @@ package com.victop.ibs.activity;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -26,10 +28,12 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.victop.ibs.adapter.ImgsAdapter;
 import com.victop.ibs.adapter.ImgsAdapter.OnItemClickClass;
 import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.util.Container;
 import com.victop.ibs.util.FileTraversal;
 import com.victop.ibs.util.ImgCallBack;
 import com.victop.ibs.util.Util;
@@ -228,11 +232,19 @@ public class ImgsActivity extends Activity implements OnClickListener {
 	 * @param view
 	 */
 	public void sendfiles(View view) {
-		Intent intent = new Intent(this, ImgShowActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putStringArrayList("files", filelist);
-		intent.putExtras(bundle);
-		startActivity(intent);
-
+		if (filelist.size() > 0) {
+			for (String tt : filelist) {
+				Map<String, String> rr = new HashMap<String, String>();
+				rr.put(tt, "");
+				Container.newData.add(rr);
+			}
+			Intent intent = new Intent(this, ImgShowActivity.class);
+			// Bundle bundle = new Bundle();
+			// bundle.put("files", ndata);
+			// intent.putExtras(bundle);
+			startActivity(intent);
+		} else {
+			Toast.makeText(getApplicationContext(), "请选择图片", 500).show();
+		}
 	}
 }

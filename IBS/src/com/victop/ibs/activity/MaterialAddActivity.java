@@ -52,9 +52,11 @@ public class MaterialAddActivity extends ActivityBase implements
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.back:
+			Container.add_mData.clear();
 			finish();
 			break;
 		case R.id.add:// 保存
+			Container.add_mData.clear();
 			finish();
 			break;
 		case R.id.llt_sort:
@@ -73,9 +75,9 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case R.id.ibtn_edit:// 素材编辑按钮
-			Bundle b=new Bundle();
-			b.putString("edit", "edit");
-			openActivity(ImgShowActivity.class, b);
+			Container.newData.addAll(Container.add_mData);
+			Container.add_mData.clear();
+			openActivity(ImgShowActivity.class, null);
 			break;
 
 		}
