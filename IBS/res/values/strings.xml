@@ -52,4 +52,7 @@
     <!-- 选择分配人 -->
     <string name="allocationtask">分配任务</string>
     <string name="yes">确定</string>
+    <!-- 素材详情 -->
+    <string name="check_pass">通过</string>
+    <string name="check_nopass">不通过</string>
 </resources>

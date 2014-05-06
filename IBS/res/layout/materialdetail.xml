@@ -94,7 +94,7 @@
                 android:padding="5dp" >
 
                 <TextView
-                    android:id="@+id/materialdetail_tag"
+                    android:id="@+id/tv_materialdetail_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -164,7 +164,7 @@
                     android:textSize="@dimen/text_medial" />
 
                 <TextView
-                    android:id="@+id/picname"
+                    android:id="@+id/tv_picname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
@@ -174,7 +174,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/picdetail"
+                android:id="@+id/tv_picdetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="10dp"
