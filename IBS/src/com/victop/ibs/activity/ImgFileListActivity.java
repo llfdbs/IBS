@@ -17,7 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.victop.ibs.adapter.ImgFileListAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
+import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.util.FileTraversal;
 import com.victop.ibs.util.Util;
 
@@ -27,7 +28,7 @@ import com.victop.ibs.util.Util;
  * @author yao
  * 
  */
-public class ImgFileListActivity extends Activity implements
+public class ImgFileListActivity extends ActivityBase implements
 		OnItemClickListener, OnClickListener {
 
 	ListView listView;
@@ -41,7 +42,7 @@ public class ImgFileListActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.imgfilelist);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.listView1);
 		initData();
 		util = new Util(this);
@@ -82,11 +83,9 @@ public class ImgFileListActivity extends Activity implements
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Intent intent = new Intent(this, ImgsActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("data", locallist.get(arg2));
-		intent.putExtras(bundle);
-		startActivity(intent);
+		openActivity(ImgsActivity.class, bundle);
 	}
 
 	@Override
@@ -103,5 +102,16 @@ public class ImgFileListActivity extends Activity implements
 		}
 	}
 
-	 
+	@Override
+	protected void initViews() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void initListeners() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.view.ClearEditText;
 /**
@@ -28,7 +28,7 @@ public class MaterialSearchActivity extends ActivityBase implements
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.materialsearch, null);
 		setContentView(view);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initData();
 		initViews();
 		initListeners();

@@ -19,9 +19,9 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
  * @author vv
  * 
  */
-public class ibsApplication extends Application {
+public class IBSApplication extends Application {
 	private List<WeakReference<Activity>> mActivityList = new ArrayList<WeakReference<Activity>>();
-	private static ibsApplication mSingleton;
+	private static IBSApplication mSingleton;
 	
 	 
 
@@ -32,7 +32,7 @@ public class ibsApplication extends Application {
 		initImageLoader(getApplicationContext());
 	}
 
-	public static ibsApplication getInstance() {
+	public static IBSApplication getInstance() {
 		return mSingleton;
 	}
 

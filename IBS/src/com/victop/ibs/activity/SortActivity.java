@@ -99,7 +99,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 						int arg2, long arg3) {
 					TextView title = (TextView) arg1
 							.findViewById(R.id.tv_title);
-					info = info+">" + title.getText();
+					info = info + ">" + title.getText();
 					Intent i = new Intent(SortActivity.this,
 							MaterialAddActivity.class);
 					Bundle b = new Bundle();
@@ -107,6 +107,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 					i.putExtras(b);
 					setResult(Container.SORT, i);
 					finish();
+
 					// pager.setCurrentItem(2);
 					// initView(1, null);
 				}
@@ -129,7 +130,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 						int arg2, long arg3) {
 					TextView title = (TextView) arg1
 							.findViewById(R.id.tv_title);
-					info = info+">" + title.getText();
+					info = info + ">" + title.getText();
 
 					initView(1, null);
 					pager.setCurrentItem(2);

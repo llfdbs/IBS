@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.victop.ibs.adapter.PropertygridviewAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 
 /**
@@ -51,7 +51,7 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.propertylayout, null);
 		setContentView(view);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initData();
 		initViews();
 		initListeners();

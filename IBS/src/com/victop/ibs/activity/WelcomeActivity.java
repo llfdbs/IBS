@@ -9,7 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 
 /**
@@ -33,7 +33,7 @@ public class WelcomeActivity extends ActivityBase{
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(view);
-		ibsApplication.getInstance().addActivity(this);
+//		ibsApplication.getInstance().addActivity(this);
 		initData();
 		//initViews();
 		//initListeners();

@@ -8,7 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.victop.ibs.adapter.HistoryerAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 
 /**
@@ -28,7 +28,7 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.historyver, null);
 		setContentView(view);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initData();
 		initViews();
 		initListeners();

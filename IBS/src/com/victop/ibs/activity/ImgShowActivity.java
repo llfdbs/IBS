@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.victop.ibs.adapter.ListImagesAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.view.BaseSwipeListViewListener;
@@ -47,7 +47,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.imgshowlayout, null);
 		setContentView(view);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			if (bundle.getStringArrayList("files") != null) {
@@ -78,9 +78,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			Container.add_mData.addAll(Container.newData);
 			Container.newData.clear();
 			// Container.mData.clear();
-			Intent ii = new Intent(ImgShowActivity.this,
-					MaterialAddActivity.class);
-			startActivity(ii);
+
+			openActivity(MaterialAddActivity.class, null);
 			finish();
 			break;
 
@@ -223,7 +222,6 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		public void onDismiss(int[] reverseSortedPositions) {
 
 			for (int position : reverseSortedPositions) {
-				System.out.println(position);
 				Container.newData.remove(position);
 
 			}
@@ -238,8 +236,6 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		@Override
 		public void onMove(int position, float x) {
 			// TODO Auto-generated method stub
-
-			System.out.println(x + ".....................");
 
 			super.onMove(position, x);
 		}

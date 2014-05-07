@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.victop.ibs.adapter.TaskDetail_MaterialAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.view.MyListView;
 
@@ -48,7 +48,7 @@ public class TaskDetailActivity extends ActivityBase {
 		super.onCreate(arg0);
 
 		setContentView(R.layout.taskdetail);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 
 		initViews();
 		initData();

@@ -8,13 +8,13 @@ import java.util.Map;
 import android.content.Context;
 
 import com.thoughtworks.xstream.XStream;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 
 public class DatabaseConfig {
 	private static Database mDatabase;
 
 	static {
-		Context _ContextApp = ibsApplication.getInstance();
+		Context _ContextApp = IBSApplication.getInstance();
 
 		XStream _XStream = new XStream();
 		_XStream.processAnnotations(Database.class);

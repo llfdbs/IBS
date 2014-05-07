@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import com.victop.ibs.adapter.TaskAllocationAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.view.ClearEditText;
 
@@ -33,7 +33,7 @@ public class TaskAllocationActivity extends ActivityBase {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.taskallocation);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initViews();
 		initData();
 		initListeners();
@@ -145,7 +145,7 @@ public class TaskAllocationActivity extends ActivityBase {
 				employeeAdapter.notifyDataSetChanged();
 				break;
 			default:
-				;
+				break;
 			}
 		}
 	};

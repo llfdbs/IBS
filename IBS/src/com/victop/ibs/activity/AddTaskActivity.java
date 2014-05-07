@@ -18,7 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 
 
@@ -47,7 +47,7 @@ public class AddTaskActivity extends ActivityBase {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addtask);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initViews();
 		initData();
 		initListeners();
@@ -176,7 +176,7 @@ public class AddTaskActivity extends ActivityBase {
 				type = "1";
 				break;
 			default:
-				;
+				break;
 			}
 		}
 	};

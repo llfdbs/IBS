@@ -15,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.victop.ibs.adapter.TaskListAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 
 /**
@@ -37,7 +37,7 @@ public class SendedTaskListActivity extends ActivityBase {
 		super.onCreate(arg0);
 
 		setContentView(R.layout.sendedtasklist);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 
 		initViews();
 		initData();
@@ -175,7 +175,7 @@ public class SendedTaskListActivity extends ActivityBase {
 
 				break;
 			default:
-				;
+				break;
 
 			}
 		}

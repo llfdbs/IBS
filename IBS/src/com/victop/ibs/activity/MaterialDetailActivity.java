@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import com.victop.ibs.adapter.ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.view.MyGallery;
 
@@ -57,7 +57,7 @@ public class MaterialDetailActivity extends ActivityBase {
 		initViews();
 		initData();
 		initListeners();
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		timeTaks = new ImageTimerTask();
 		
 

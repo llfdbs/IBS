@@ -5,12 +5,12 @@ import java.util.List;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.db.DatabaseConfig;
 
 public class SQLiteOpenAssistant extends SQLiteOpenHelper {
 	SQLiteOpenAssistant() {
-		super(ibsApplication.getInstance(), DatabaseConfig.getDatabaseName(),
+		super(IBSApplication.getInstance(), DatabaseConfig.getDatabaseName(),
 				null, DatabaseConfig.getVersion());
 	}
 

@@ -32,7 +32,8 @@ import android.widget.Toast;
 
 import com.victop.ibs.adapter.ImgsAdapter;
 import com.victop.ibs.adapter.ImgsAdapter.OnItemClickClass;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
+import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.util.FileTraversal;
 import com.victop.ibs.util.ImgCallBack;
@@ -44,7 +45,7 @@ import com.victop.ibs.util.Util;
  * @author yao
  * 
  */
-public class ImgsActivity extends Activity implements OnClickListener {
+public class ImgsActivity extends ActivityBase implements OnClickListener {
 
 	Bundle bundle;
 	FileTraversal fileTraversal;
@@ -63,24 +64,17 @@ public class ImgsActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.photogrally);
-		ibsApplication.getInstance().addActivity(this);
-		imgGridView = (GridView) findViewById(R.id.gridView1);
+		IBSApplication.getInstance().addActivity(this);
+
 		bundle = getIntent().getExtras();
 		fileTraversal = bundle.getParcelable("data");
-		imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent,
-				onItemClickClass);
-		imgGridView.setAdapter(imgsAdapter);
-		select_layout = (LinearLayout) findViewById(R.id.selected_image_layout);
-		relativeLayout2 = (RelativeLayout) findViewById(R.id.relativeLayout2);
-		choise_button = (Button) findViewById(R.id.button3);
-		hashImage = new HashMap<Integer, ImageView>();
-		filelist = new ArrayList<String>();
-		// imgGridView.setOnItemClickListener(this);
-		util = new Util(this);
-		initView();
+		initData();
+		initViews();
 	}
 
-	private void initView() {
+	@Override
+	protected void initData() {
+		// TODO Auto-generated method stub
 		btn_back = (Button) findViewById(R.id.back);
 		tv_title = (TextView) findViewById(R.id.title);
 		btn_add = (Button) findViewById(R.id.add);
@@ -94,6 +88,21 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		btn_notsearch.setVisibility(View.GONE);
 		// ibtn_edit = (ImageButton) findViewById(R.id.ibtn_edit);
 		// ibtn_edit.setOnClickListener(this);
+	}
+
+	@Override
+	protected void initViews() {
+		imgGridView = (GridView) findViewById(R.id.gridView1);
+		imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent,
+				onItemClickClass);
+		imgGridView.setAdapter(imgsAdapter);
+		select_layout = (LinearLayout) findViewById(R.id.selected_image_layout);
+		relativeLayout2 = (RelativeLayout) findViewById(R.id.relativeLayout2);
+		choise_button = (Button) findViewById(R.id.button3);
+		hashImage = new HashMap<Integer, ImageView>();
+		filelist = new ArrayList<String>();
+		// imgGridView.setOnItemClickListener(this);
+		util = new Util(this);
 	}
 
 	class BottomImgIcon implements OnItemClickListener {
@@ -238,13 +247,17 @@ public class ImgsActivity extends Activity implements OnClickListener {
 				rr.put(tt, "");
 				Container.newData.add(rr);
 			}
-			Intent intent = new Intent(this, ImgShowActivity.class);
-			// Bundle bundle = new Bundle();
-			// bundle.put("files", ndata);
-			// intent.putExtras(bundle);
-			startActivity(intent);
+
+			openActivity(ImgShowActivity.class, null);
 		} else {
 			Toast.makeText(getApplicationContext(), "请选择图片", 500).show();
 		}
 	}
+
+	@Override
+	protected void initListeners() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

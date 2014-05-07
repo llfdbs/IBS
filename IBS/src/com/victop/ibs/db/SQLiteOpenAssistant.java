@@ -2,7 +2,7 @@ package com.victop.ibs.db;
 
 import java.util.List;
 
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,7 +11,7 @@ public class SQLiteOpenAssistant extends SQLiteOpenHelper
 {
 	private SQLiteOpenAssistant()
 	{
-		super(ibsApplication.getInstance(), DatabaseConfig.getDatabaseName(), null, DatabaseConfig.getVersion());
+		super(IBSApplication.getInstance(), DatabaseConfig.getDatabaseName(), null, DatabaseConfig.getVersion());
 	}
 	
     private static class SQLiteOpenAssistantHolder {  

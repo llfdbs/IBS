@@ -40,6 +40,7 @@ import com.dodola.model.DuitangInfo;
 import com.dodowaterfall.Helper;
 import com.dodowaterfall.widget.ScaleImageView;
 import com.example.android.bitmapfun.util.ImageFetcher;
+import com.victop.ibs.base.ActivityBase;
 
 /**
  * 全部素材，未审核素材 搜素素材 未完成素材
@@ -47,7 +48,7 @@ import com.example.android.bitmapfun.util.ImageFetcher;
  * @author vv
  * 
  */
-public class MaterialAllActivity extends FragmentActivity implements
+public class MaterialAllActivity extends ActivityBase implements
 		IXListViewListener, OnClickListener, OnItemSelectedListener {
 	private ImageFetcher mImageFetcher;// 图片加载类
 	private XListView mAdapterView = null; // 自定义控件类
@@ -329,15 +330,12 @@ public class MaterialAllActivity extends FragmentActivity implements
 			finish();
 			break;
 		case R.id.add:
-			Intent intent_search = new Intent(MaterialAllActivity.this,MaterialAddActivity.class);
 
-			startActivity(intent_search);
+			openActivity(MaterialAddActivity.class, null);
 			break;
 		case R.id.btn_search:
-			Intent intent = new Intent(MaterialAllActivity.this,
-					MaterialSearchActivity.class);
-			Bundle b = new Bundle();
-			startActivity(intent);
+
+			openActivity(MaterialSearchActivity.class, null);
 			finish();
 
 			break;
@@ -356,6 +354,24 @@ public class MaterialAllActivity extends FragmentActivity implements
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void initData() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void initViews() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void initListeners() {
 		// TODO Auto-generated method stub
 
 	}

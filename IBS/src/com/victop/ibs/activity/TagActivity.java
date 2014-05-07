@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.victop.ibs.adapter.Tag_SortAdapter;
-import com.victop.ibs.app.ibsApplication;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.CharacterParser;
@@ -55,7 +55,7 @@ public class TagActivity extends ActivityBase implements OnClickListener {
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.taglayout, null);
 		setContentView(view);
-		ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initData();
 		initViews();
 		initListeners();

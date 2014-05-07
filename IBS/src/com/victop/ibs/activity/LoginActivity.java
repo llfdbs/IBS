@@ -1,10 +1,13 @@
 package com.victop.ibs.activity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 
 /**
@@ -24,7 +27,7 @@ public class LoginActivity extends ActivityBase {
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.loginlayout, null);
 		setContentView(view);
-		// ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initData();
 		initViews();
 		initListeners();
