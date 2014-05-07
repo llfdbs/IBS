@@ -1,8 +1,11 @@
 package com.victop.ibs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -73,6 +76,21 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
-
+		listView.setOnItemClickListener(mOnItemClick);
 	}
+	OnItemClickListener mOnItemClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent(HistoryVerActivity.this,
+					MaterialDetailActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("versionname", "11225556");
+			intent.putExtras(bundle);
+			setResult(RESULT_OK, intent);
+			finish();
+		}
+	};
 }

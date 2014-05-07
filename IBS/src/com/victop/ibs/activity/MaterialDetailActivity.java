@@ -3,7 +3,9 @@ package com.victop.ibs.activity;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.victop.ibs.adapter.ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
 import com.victop.ibs.app.IBSApplication;
@@ -145,7 +148,8 @@ public class MaterialDetailActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch(v.getId()){
 			case R.id.imgbtn_historyversion:
-				openActivity(HistoryVerActivity.class, null);
+				openActivityForResult(HistoryVerActivity.class, null, 100);
+				//openActivity(HistoryVerActivity.class, null);
 				break;
 			case R.id.imgbtn_edit:
 				openActivity(MaterialAddActivity.class, null);
@@ -159,6 +163,18 @@ public class MaterialDetailActivity extends ActivityBase {
 			}
 		}
 	};
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case 100:
+			if (data != null) {
+				Bundle b = data.getExtras();
+				String name = b.getString("versionname");
+				tv_versioncode.setText(name);
+			}
+
+			break;
+		}
+	}
     OnItemClickListener mOnItemClick = new OnItemClickListener() {
 
 		@Override
