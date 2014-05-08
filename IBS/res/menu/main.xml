@@ -3,11 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.victop.ibs.MainActivity" >
 
-    <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/btn_add"
+    <item 
+        android:id="@+id/search"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="always"/>
-
+        android:title="搜索"
+        app:showAsAction="always"
+        android:icon="@drawable/search_blue"
+        />
+<item 
+        android:id="@+id/add"
+        android:orderInCategory="101"
+        android:title="添加"
+        
+        app:showAsAction="always"
+        android:icon="@drawable/btn_add"
+        />
+<item 
+        android:id="@+id/save"
+        android:orderInCategory="102"
+        android:title="保存"
+        
+        app:showAsAction="always"
+      
+        />
 </menu>

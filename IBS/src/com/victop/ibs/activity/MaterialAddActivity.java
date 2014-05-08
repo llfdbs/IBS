@@ -13,8 +13,11 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -30,6 +33,7 @@ import android.widget.TextView;
 
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.Constants;
@@ -44,8 +48,6 @@ import com.victop.ibs.view.MyGridView;
  */
 public class MaterialAddActivity extends ActivityBase implements
 		OnClickListener {
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
 	private LinearLayout llt_sort, llt_property, llt_task, llt_tag;
 	private TextView tv_sort, tv_task, tv_tag;
 	private MyGridView mgv_material;
@@ -54,13 +56,15 @@ public class MaterialAddActivity extends ActivityBase implements
 	private TextView tv_position, tv_detail;
 	private ImageView iv_addimg;
 
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.materialadd, null);
 		setContentView(view);
-		// ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initData();
 		initViews();
 		initListeners();
@@ -71,14 +75,7 @@ public class MaterialAddActivity extends ActivityBase implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.back:
-			Container.add_mData.clear();
-			finish();
-			break;
-		case R.id.add:// 保存
-			Container.add_mData.clear();
-			finish();
-			break;
+
 		case R.id.llt_sort:
 			openActivityForResult(SortActivity.class, null, Container.SORT);
 
@@ -172,17 +169,9 @@ public class MaterialAddActivity extends ActivityBase implements
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-		// btn_add.setBackgroundResource(R.drawable.btn_add);
-		// btn_add.setVisibility(View.GONE);
-		btn_add.setText("保存");
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
-		tv_title.setText("新增素材");
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
+	
+	
+		
 		ibtn_edit = (ImageButton) findViewById(R.id.ibtn_edit);
 		if (Container.add_mData.size() == 0)
 			ibtn_edit.setVisibility(View.INVISIBLE);
@@ -192,6 +181,10 @@ public class MaterialAddActivity extends ActivityBase implements
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("新增素材");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		llt_sort = (LinearLayout) findViewById(R.id.llt_sort);
 		llt_property = (LinearLayout) findViewById(R.id.llt_property);
 		llt_tag = (LinearLayout) findViewById(R.id.llt_task);
@@ -296,5 +289,48 @@ public class MaterialAddActivity extends ActivityBase implements
 	public void setText(String rr, String dd) {
 		tv_position.setText(rr);
 		tv_detail.setText(dd);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("保存");
+		save.setIcon(null);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			Container.add_mData.clear();
+			finish();
+			
+			break;
+		case R.id.search:
+			break;
+		case R.id.add:
+	
+			break;
+		case R.id.save:
+			Container.add_mData.clear();
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }

@@ -5,11 +5,7 @@
     android:background="@drawable/bg1"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/interface_top" />
+   
 
     <com.victop.ibs.view.ClearEditText
         android:id="@+id/filter_edit"

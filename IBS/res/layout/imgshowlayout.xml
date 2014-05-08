@@ -6,10 +6,7 @@
     android:background="@drawable/index_bottom"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/top"
-        layout="@layout/interface_top" />
-
+   
     <!-- <ListView -->
     <!-- android:id="@+id/lv_imglist" -->
     <!-- android:layout_width="match_parent" -->

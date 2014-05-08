@@ -7,6 +7,9 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -30,14 +33,12 @@ import com.victop.ibs.util.Container;
 public class TaskSortActivity extends ActivityBase implements OnClickListener {
 	// public static final int STYP_NUM = 3;
 	TaskListAdapter adapter;
-
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
 	private Spinner sper;
 	private ListView listView;
 	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
 	private static final String[] mCountries = { "最新时间", "按首字母排序" };
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -57,33 +58,18 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-		case R.id.add:
-
-			// TASK
-			finish();
-			break;
-
-		}
+		
 	}
 
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-		// btn_add.setBackgroundResource(R.drawable.btn_add);
-		// btn_add.setVisibility(View.GONE);
-		btn_add.setText("确定");
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
-		tv_title.setText("任务");
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("任务");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
+		
+		
 	}
 
 	@Override
@@ -161,5 +147,43 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 		// }
 
 	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("确定");
+		save.setIcon(null);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		case R.id.search:
+			break;
+		case R.id.add:
+			
+			break;
+		case R.id.save:
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }

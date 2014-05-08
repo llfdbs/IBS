@@ -2,6 +2,9 @@ package com.victop.ibs.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -21,10 +24,9 @@ import com.victop.ibs.base.ActivityBase;
  * 
  */
 public class HistoryVerActivity extends ActivityBase implements OnClickListener {
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
 	private ListView listView;
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -41,33 +43,23 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-
-		}
+	
 	}
 
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-
-		btn_add.setVisibility(View.GONE);
-		btn_back.setOnClickListener(this);
-
-		// tv_title.setText("");
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
+	
 
 	}
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		listView = (ListView) findViewById(R.id.lv_history);
 		HistoryerAdapter adapter=new   HistoryerAdapter(this,null);
 		listView.setAdapter(adapter);
@@ -93,4 +85,41 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 			finish();
 		}
 	};
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(false);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+	
+	
+	
 }

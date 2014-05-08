@@ -7,6 +7,9 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -27,12 +30,12 @@ import com.victop.ibs.base.ActivityBase;
  * 
  */
 public class TaskListActivity extends ActivityBase {
-	private Button btn_search, btn_addtask;
 	private RadioGroup radiogroup_task;
 	private ListView mListView;
 	private TaskListAdapter adapter;
 	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -100,8 +103,10 @@ public class TaskListActivity extends ActivityBase {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
-		btn_search = (Button) findViewById(R.id.btn_search);
-		btn_addtask = (Button) findViewById(R.id.btn_addtask);
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(getResources().getString(R.string.receivedtask)+"("+10+")");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);
 		mListView = (ListView) findViewById(R.id.taskList);
 
@@ -110,11 +115,10 @@ public class TaskListActivity extends ActivityBase {
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
-		btn_search.setOnClickListener(mOnClick);
-		btn_addtask.setOnClickListener(mOnClick);
+		
 		radiogroup_task.setOnCheckedChangeListener(mOnChecked);
 		mListView.setOnItemClickListener(mOnItemClick);
-		;
+		
 	}
 
 	// 控件点击事件
@@ -123,17 +127,7 @@ public class TaskListActivity extends ActivityBase {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			switch (v.getId()) {
-			case R.id.btn_search:
-				openActivity(MaterialSearchActivity.class, null);
-				break;
-			case R.id.btn_addtask:
-				openActivity(AddTaskActivity.class, null);
-
-				break;
-			default:
-				break;
-			}
+		
 		}
 	};
 	OnCheckedChangeListener mOnChecked = new OnCheckedChangeListener() {
@@ -183,5 +177,43 @@ public class TaskListActivity extends ActivityBase {
 
 		}
 	};
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(true);
+		add.setVisible(true);
+		save.setVisible(false);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		case R.id.search:
+			openActivity(MaterialSearchActivity.class, null);
+			break;
+		case R.id.add:
+			openActivity(AddTaskActivity.class, null);
+			break;
+		
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }

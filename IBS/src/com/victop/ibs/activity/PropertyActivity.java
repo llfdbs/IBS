@@ -2,8 +2,11 @@ package com.victop.ibs.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -34,8 +37,6 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	private RadioGroup rg_come;
 
 	private TextView tv_tagcontent, tv_comecontent;
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
 	private int tag = 0;// 0代表编辑状态，1代表查看状态
 	private Dialog dialog;
 	private Button btn_choose;
@@ -44,7 +45,8 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	private int temp;
 	private String[] data = { "服饰", "旅游", "美食", "分享", "服饰", "旅游", "美食", "分享",
 			"服饰", "旅游", "美食", "分享", "服饰", "旅游", "美食", "分享" };
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -52,8 +54,9 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 		final View view = View.inflate(this, R.layout.propertylayout, null);
 		setContentView(view);
 		IBSApplication.getInstance().addActivity(this);
-		initData();
 		initViews();
+		initData();
+		
 		initListeners();
 
 	}
@@ -61,27 +64,16 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-
-		// btn_add.setVisibility(View.GONE);
-		btn_back.setOnClickListener(this);
-
-		// tv_title.setText("");
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
-		if (tag == 0) {
-			btn_add.setText("完成");
-			btn_add.setOnClickListener(this);
-		} else if (tag == 1) {
-			btn_add.setText("");
-		}
+		
 	}
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		et_product = (EditText) findViewById(R.id.et_product);
 		rb_on = (RadioButton) findViewById(R.id.rbtn_no);
 		rb_off = (RadioButton) findViewById(R.id.rbtn_off);
@@ -108,12 +100,7 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-		case R.id.add:
-			finish();
-			break;
+		
 		case R.id.btn_choose:
 			showDielog();
 			break;
@@ -154,5 +141,50 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 		// lp.height = (int) (display.getHeight() * 0.9);
 
 		// dialog.getWindow().setAttributes(lp);
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		if (tag == 0) {
+			save.setTitle("完成");
+			
+		} else if (tag == 1) {
+			save.setTitle("");
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		case R.id.search:
+			break;
+		case R.id.add:
+	
+			break;
+		case R.id.save:
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }

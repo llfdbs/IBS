@@ -8,6 +8,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -35,8 +38,8 @@ public class ImgFileListActivity extends ActivityBase implements
 	Util util;
 	ImgFileListAdapter listAdapter;
 	List<FileTraversal> locallist;
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class ImgFileListActivity extends ActivityBase implements
 		setContentView(R.layout.imgfilelist);
 		IBSApplication.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.listView1);
+		initViews();
 		initData();
 		util = new Util(this);
 		locallist = util.LocalImgFileList();
@@ -69,16 +73,7 @@ public class ImgFileListActivity extends ActivityBase implements
 
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-		// btn_add.setBackgroundResource(R.drawable.btn_add);
-		btn_add.setVisibility(View.GONE);
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
-		// tv_title.setText("");
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
+		
 	}
 
 	@Override
@@ -91,21 +86,16 @@ public class ImgFileListActivity extends ActivityBase implements
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-		case R.id.add:
-			finish();
-			break;
-
-		}
+		
 	}
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
-
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 	}
 
 	@Override
@@ -113,5 +103,37 @@ public class ImgFileListActivity extends ActivityBase implements
 		// TODO Auto-generated method stub
 
 	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(false);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }

@@ -55,4 +55,5 @@
     <!-- 素材详情 -->
     <string name="check_pass">通过</string>
     <string name="check_nopass">不通过</string>
+    <string name="materialdetail">素材详情</string>
 </resources>

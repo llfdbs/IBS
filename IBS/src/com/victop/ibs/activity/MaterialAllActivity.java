@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,15 +57,15 @@ public class MaterialAllActivity extends ActivityBase implements
 	private int currentPage = 0;
 	ContentTask task = new ContentTask(this, 2);
 
-	private Button btn_back, btn_add, btn_search = null;
-	private TextView tv_title = null;
+	private Button btn_search = null;
 	private Spinner sp_newtime;
 	private final String MATERIAL = "material_style";
 	private final String AUDIT = "audit";
 	private final String UNADIT = "unaudit";
 	private final String NOTCOMPLETE = "notcomplete";
 	private static final String[] mCountries = { "最新时间", "按首字母排序" };
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	private class ContentTask extends
 			AsyncTask<String, Integer, List<DuitangInfo>> {
 
@@ -256,17 +257,9 @@ public class MaterialAllActivity extends ActivityBase implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.materitalall);
-		btn_back = (Button) findViewById(R.id.back);
-		btn_add = (Button) findViewById(R.id.add);
+		initViews();
 		btn_search = (Button) findViewById(R.id.btn_search);
 		sp_newtime = (Spinner) findViewById(R.id.sp_newtime);
-
-		tv_title = (TextView) findViewById(R.id.title);
-
-		btn_add.setBackgroundResource(R.drawable.btn_add);
-
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
 		btn_search.setOnClickListener(this);
 		ArrayAdapter<String> ad = new ArrayAdapter<String>(this,
 				R.layout.simple_spinner, mCountries);
@@ -276,11 +269,11 @@ public class MaterialAllActivity extends ActivityBase implements
 		if (b != null) {
 			String rr = b.getString(MATERIAL);
 			if (rr.equals(AUDIT)) {
-				tv_title.setText("全部素材");
+				actionBar.setTitle("全部素材");
 			} else if (rr.equals(UNADIT)) {
-				tv_title.setText("素材(未审核20)");
+				actionBar.setTitle("素材(未审核20)");
 			} else if (rr.equals(NOTCOMPLETE)) {
-				tv_title.setText("素材(未完成20)");
+				actionBar.setTitle("素材(未完成20)");
 			}
 		}
 
@@ -332,13 +325,6 @@ public class MaterialAllActivity extends ActivityBase implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-		case R.id.add:
-
-			openActivity(MaterialAddActivity.class, null);
-			break;
 		case R.id.btn_search:
 
 			openActivity(MaterialSearchActivity.class, null);
@@ -373,13 +359,52 @@ public class MaterialAllActivity extends ActivityBase implements
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
-
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 	}
 
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(true);
+		save.setVisible(false);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		case R.id.search:
+			break;
+		case R.id.add:
+			openActivity(MaterialAddActivity.class, null);
+			break;
+		case R.id.save:
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	// @Override

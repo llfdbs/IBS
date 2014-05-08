@@ -5,9 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
@@ -24,6 +27,7 @@ import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.CharacterParser;
+import com.victop.ibs.util.Container;
 import com.victop.ibs.util.PinyinComparator;
 import com.victop.ibs.view.ClearEditText;
 import com.victop.ibs.view.SideBar;
@@ -41,14 +45,11 @@ public class TagActivity extends ActivityBase implements OnClickListener {
 	private TextView dialog;
 	private Tag_SortAdapter adapter;
 	private ClearEditText mClearEditText;
-
 	private CharacterParser characterParser;
 	private List<SortModel> SourceDateList;
-
 	private PinyinComparator pinyinComparator;
-	private Button btn_back, btn_ok, btn_other;
-	private TextView tv_title;
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -71,17 +72,10 @@ public class TagActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_other = (Button) findViewById(R.id.search);
-		btn_ok = (Button) findViewById(R.id.add);
-
-		btn_back.setOnClickListener(this);
-		btn_ok.setText("确定");
-		btn_ok.setOnClickListener(this);
-		btn_other.setVisibility(View.GONE);
-		tv_title.setText("标签");
-
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("标签");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		characterParser = CharacterParser.getInstance();
 
 		pinyinComparator = new PinyinComparator();
@@ -163,18 +157,6 @@ public class TagActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-		case R.id.add:
-
-			setResult(RESULT_OK);
-			// TASK
-			finish();
-			break;
-
-		}
 	}
 
 	private void findString(String str) {
@@ -251,6 +233,47 @@ public class TagActivity extends ActivityBase implements OnClickListener {
 	}
 
 	public void settitleName(String name) {
-		tv_title.setText(name);
+		actionBar.setTitle(name);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("确定");
+		save.setIcon(null);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		case R.id.search:
+			break;
+		case R.id.add:
+	
+			break;
+		case R.id.save:
+			setResult(RESULT_OK);
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }

@@ -1,6 +1,7 @@
 package com.victop.ibs.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,7 +21,7 @@ public class LoginActivity extends ActivityBase {
 	private EditText edt_username, edt_password;
 	private Button btn_login;
 	private String userName, passWord;
-
+	private ActionBar actionBar;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -43,6 +44,8 @@ public class LoginActivity extends ActivityBase {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.hide();
 		edt_username = (EditText) findViewById(R.id.edt_username);
 		edt_password = (EditText) findViewById(R.id.edt_password);
 		btn_login = (Button) findViewById(R.id.btn_login);

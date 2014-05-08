@@ -1,7 +1,12 @@
 package com.victop.ibs.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,9 +23,10 @@ import com.victop.ibs.base.ActivityBase;
  * @author vv
  * 
  */
-public class WelcomeActivity extends ActivityBase{
+public class WelcomeActivity extends Activity{
 	private Button btn_jump = null;
-
+	private ActionBar actionBar;//导航栏
+	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -28,7 +34,7 @@ public class WelcomeActivity extends ActivityBase{
 		final View view = View.inflate(this, R.layout.welcome, null);
 		// 设置无标题
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// 设置全屏
+//		 设置全屏
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -36,31 +42,13 @@ public class WelcomeActivity extends ActivityBase{
 		
 		 
 		 System.out.println(Build.VERSION.SDK_INT+"  " );
-//		ibsApplication.getInstance().addActivity(this);
-		initData();
-		//initViews();
-		//initListeners();
+
 		MyAnimation(view);
-//		new Handler().postDelayed(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				// TODO Auto-generated method stub
-//				Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
-//				startActivity(intent);
-//				finish();
-//				
-//			}
-//		}, 1000);
+
 
 	}
 
-	@Override
-	protected void initData() {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 
 	/**
 	 * 启动动画类
@@ -93,20 +81,13 @@ public class WelcomeActivity extends ActivityBase{
 	 * 跳转到... 销毁当前欢迎页
 	 */
 	private void redirectTo() {
-		openActivity(LoginActivity.class);
+		Intent _Intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+		startActivity(_Intent);
 		WelcomeActivity.this.finish();
 	}
 
-	@Override
-	protected void initViews() {
-		// TODO Auto-generated method stub
-		
-	}
+ 
 
-	@Override
-	protected void initListeners() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

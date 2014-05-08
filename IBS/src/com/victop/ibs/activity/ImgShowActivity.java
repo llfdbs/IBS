@@ -9,12 +9,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +49,6 @@ import com.victop.ibs.view.SwipeListView;
  * 
  */
 public class ImgShowActivity extends ActivityBase implements OnClickListener {
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
 	private SwipeListView listView;
 	private ArrayList<String> listfile = new ArrayList<String>();
 	ListImagesAdapter adapter;
@@ -57,6 +58,10 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	private String edit_mat = "";
 	EditText et;
 	TextView text;
+
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+
 	boolean isAPI = false;
 	private final int API_4 = 14;
 
@@ -130,22 +135,16 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-		// btn_add.setBackgroundResource(R.drawable.btn_add);
-		btn_add.setText("确定");
-		// btn_add.setVisibility(View.GONE);
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
 
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
 	}
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		listView = (SwipeListView) findViewById(R.id.lv_imglist);
 
 		deviceWidth = getDeviceWidth();
@@ -164,7 +163,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
 
-			tv_title.setText(sp);
+			actionBar.setTitle(sp);
 		}
 
 	}
@@ -275,7 +274,29 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
 
-			tv_title.setText(sp);
+			int start = listView.getFirstVisiblePosition();
+			int end = listView.getLastVisiblePosition();
+			for (int i = start; i < end; i++) {
+				// if (i != position_) {
+				Container.et_list.get(i).setVisibility(View.VISIBLE);
+				Container.tv_list.get(i).setVisibility(View.GONE);
+				// listView.closeAnimate(i);
+				// }
+
+			}
+			actionBar.setTitle(sp);
+
+			// int start = listView.getFirstVisiblePosition();
+			// int end = listView.getLastVisiblePosition();
+			// for (int i = start; i < end; i++) {
+			// // if (i != position_) {
+			// Container.et_Map.get(i).setVisibility(View.VISIBLE);
+			// Container.tv_Map.get(i).setVisibility(View.GONE);
+			// // listView.closeAnimate(i);
+			// // }
+			//
+			// }
+
 			adapter.notifyDataSetChanged();
 		}
 
@@ -309,9 +330,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 							Container.et_Map.get(i).getText().toString());
 				}
 
-	}
-			
-			
+			}
+
 		}
 
 		EditText et;
@@ -321,27 +341,28 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		@Override
 		public void onStartOpen(int position, int action, boolean right) {
 			// TODO Auto-generated method stub
-//			int start = listView.getFirstVisiblePosition();
-//			int end = listView.getLastVisiblePosition();
-//			if (et != null && pos_temp != -2 && null != text) {
-//				System.out.println("this is swipelistview potions ~~~"
-//						+ position + "  " + start + "  " + end + "  ");
-//				if (pos_temp >= start && pos_temp - start <= end) {
-//					listView.closeAnimate(pos_temp);
-//				}
-//				et.setVisibility(View.VISIBLE);
-//				text.setVisibility(View.GONE);
-//				et = null;
-//				text = null;
-//				pos_temp = -2;
-//			}
-//			pos_temp = position;
-//			et = (EditText) listView.getChildAt(position - start).findViewById(
-//					R.id.edit);
-//			text = (TextView) listView.getChildAt(position - start)
-//					.findViewById(R.id.text);
-//			et.setVisibility(View.GONE);
-//			text.setVisibility(View.VISIBLE);
+			// int start = listView.getFirstVisiblePosition();
+			// int end = listView.getLastVisiblePosition();
+			// if (et != null && pos_temp != -2 && null != text) {
+			// System.out.println("this is swipelistview potions ~~~"
+			// + position + "  " + start + "  " + end + "  ");
+			// if (pos_temp >= start && pos_temp - start <= end) {
+			// listView.closeAnimate(pos_temp);
+			// }
+			// et.setVisibility(View.VISIBLE);
+			// text.setVisibility(View.GONE);
+			// et = null;
+			// text = null;
+			// pos_temp = -2;
+			// }
+			// pos_temp = position;
+			// et = (EditText) listView.getChildAt(position -
+			// start).findViewById(
+			// R.id.edit);
+			// text = (TextView) listView.getChildAt(position - start)
+			// .findViewById(R.id.text);
+			// et.setVisibility(View.GONE);
+			// text.setVisibility(View.VISIBLE);
 			super.onStartOpen(position, action, right);
 		}
 
@@ -373,4 +394,47 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("确定");
+		save.setIcon(null);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+
+			Container.newData.clear();
+			finish();
+
+			break;
+
+		case R.id.save:
+			Container.add_mData.addAll(Container.newData);
+			Container.newData.clear();
+			// Container.mData.clear();
+
+			openActivity(MaterialAddActivity.class, null);
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }
