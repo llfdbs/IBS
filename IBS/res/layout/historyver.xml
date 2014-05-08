@@ -5,10 +5,7 @@
     android:background="@drawable/bg1"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        layout="@layout/interface_top" />
+   
 
     <ListView
         android:id="@+id/lv_history"

@@ -9,7 +9,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,7 +36,7 @@ import com.victop.ibs.base.ActivityBase;
  */
 public class AddTaskActivity extends ActivityBase {
 
-	private Button btn_allocation, btn_tasksave;// 分配按钮,保存按钮
+	private Button btn_tasksave;// 保存按钮
 	private ImageButton imgbtn_addperson,imgbtn_choosedate;//分配人按钮,选择日期
 	private EditText edt_taskname, edt_taskdetail;// 任务名称,任务描述
 	private TextView tv_allocationname, tv_date, tv_datecount;// 分配人名称,截止时间,天数
@@ -46,7 +49,8 @@ public class AddTaskActivity extends ActivityBase {
 	private String currentdate;// 当前时间字符串
 	private int days;// 时间差
 	private Date d1, d2;//当前时间,用户选择的时间
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,7 +68,10 @@ public class AddTaskActivity extends ActivityBase {
 
 	@Override
 	public void initViews() {
-		btn_allocation = (Button) findViewById(R.id.btn_allocation);
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(getResources().getString(R.string.addtask));
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		imgbtn_addperson = (ImageButton) findViewById(R.id.imgbtn_addperson);
 		imgbtn_choosedate = (ImageButton) findViewById(R.id.imgbtn_choosedate);
 		btn_tasksave = (Button) findViewById(R.id.btn_tasksave);
@@ -78,7 +85,6 @@ public class AddTaskActivity extends ActivityBase {
 
 	@Override
 	public void initListeners() {
-		btn_allocation.setOnClickListener(mOnClick);
 		imgbtn_addperson.setOnClickListener(mOnClick);
 		imgbtn_choosedate.setOnClickListener(mOnClick);
 		btn_tasksave.setOnClickListener(mOnClick);
@@ -143,13 +149,7 @@ public class AddTaskActivity extends ActivityBase {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.btn_allocation:
-				if(validate()){
-				showDialog(
-						getResources().getString(R.string.allocationpositve),
-						"visiable");
-				}
-				break;
+			
 			case R.id.imgbtn_addperson:
 				openActivityForResult(TaskAllocationActivity.class, null, 100);
 				break;
@@ -294,6 +294,49 @@ public class AddTaskActivity extends ActivityBase {
 			}
 		});
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("分配");
+		save.setIcon(null);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		
+		case R.id.save:
+			if(validate()){
+				showDialog(
+						getResources().getString(R.string.allocationpositve),
+						"visiable");
+				}
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 }

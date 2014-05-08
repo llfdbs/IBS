@@ -7,6 +7,9 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -30,7 +33,6 @@ public class TaskDetailActivity extends ActivityBase {
 	private MyListView mListView;// 素材列表
 	private TaskDetail_MaterialAdapter adapter;
 	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
-	private Button btn_finish;// 完工
 	private ImageButton imgbtn_addmaterial;// 新增素材
 	// 任务标题,任务详情,任务单号,截止时间,任务类型,分配对象,完成状态,素材数量
 	private TextView tv_taskdetail_title, tv_taskdetail_detail,
@@ -41,7 +43,8 @@ public class TaskDetailActivity extends ActivityBase {
 			str_taskdetail_tasknumber, str_taskdetail_deadline,
 			str_taskdetail_tasktype, str_taskdetail_taskobj,
 			str_taskdetail_taskstatue, str_materialcount;
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -68,8 +71,11 @@ public class TaskDetailActivity extends ActivityBase {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(getResources().getString(R.string.taskdetail));
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		mListView = (MyListView) findViewById(R.id.taskdetail_materiallist);
-		btn_finish = (Button) findViewById(R.id.btn_finish);
 		imgbtn_addmaterial = (ImageButton) findViewById(R.id.imgbtn_addmaterial);
 		tv_taskdetail_title = (TextView) findViewById(R.id.tv_taskdetail_title);
 		tv_taskdetail_detail = (TextView) findViewById(R.id.tv_taskdetail_detail);
@@ -86,7 +92,6 @@ public class TaskDetailActivity extends ActivityBase {
 	protected void initListeners() {
 		// TODO Auto-generated method stub
 		mListView.setOnItemClickListener(mOnItemClick);
-		btn_finish.setOnClickListener(mOnClick);
 		imgbtn_addmaterial.setOnClickListener(mOnClick);
 	}
 
@@ -114,9 +119,6 @@ public class TaskDetailActivity extends ActivityBase {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.btn_finish:
-				finish();
-				break;
 			case R.id.imgbtn_addmaterial:
 				openActivity(MaterialAddActivity.class, null);
 				break;
@@ -133,5 +135,42 @@ public class TaskDetailActivity extends ActivityBase {
 			openActivity(MaterialDetailActivity.class,null);
 		}
 	};
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("完工");
+		save.setIcon(null);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		
+		case R.id.save:
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }

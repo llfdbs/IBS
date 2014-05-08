@@ -5,10 +5,7 @@
     android:background="@drawable/bg1"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/top"
-        layout="@layout/interface_top" />
-
+    
     <com.victop.ibs.view.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"

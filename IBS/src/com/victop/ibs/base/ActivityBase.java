@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ import com.victop.ibs.util.ToastTools;
  * Activity的基类，全站公用菜单、统计等代码编写
  * 
  */
-public abstract class ActivityBase extends FragmentActivity {
+public abstract class ActivityBase extends ActionBarActivity {
 	public static final int REQUEST_FIRST_USER = 1;
 
 	private int mShowingDialogID;

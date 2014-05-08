@@ -37,9 +37,7 @@
 <!--             android:textColor="@android:color/black" /> -->
 <!--     </RelativeLayout> -->
 
-    <include
-        android:id="@+id/top"
-        layout="@layout/interface_top" />
+   
 
     <GridView
         android:id="@+id/gridView1"

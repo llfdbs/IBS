@@ -11,11 +11,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -57,8 +60,8 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	HashMap<Integer, ImageView> hashImage;
 	Button choise_button;
 	ArrayList<String> filelist;
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,23 +78,15 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-		// btn_add.setBackgroundResource(R.drawable.btn_add);
-		// btn_add.setVisibility(View.GONE);
-		btn_add.setText("确定");
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
-		tv_title.setText("请选择图片");
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
-		// ibtn_edit = (ImageButton) findViewById(R.id.ibtn_edit);
-		// ibtn_edit.setOnClickListener(this);
+		
 	}
 
 	@Override
 	protected void initViews() {
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("请选择图片");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		imgGridView = (GridView) findViewById(R.id.gridView1);
 		imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent,
 				onItemClickClass);
@@ -157,7 +152,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 			checkBox.setChecked(false);
 			select_layout.removeView(arg0);
 			if (select_layout.getChildCount() == 0) {
-				tv_title.setText("请选择图片");
+				actionBar.setTitle("请选择图片");
 			} else {
 				SpannableString sp = new SpannableString("已选择"
 						+ select_layout.getChildCount() + "张");
@@ -170,7 +165,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 							Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 				}
 
-				tv_title.setText(sp);
+				actionBar.setTitle(sp);
 			}
 			filelist.remove(filepath);
 		}
@@ -185,7 +180,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 				select_layout.removeView(hashImage.get(Position));
 				filelist.remove(filapath);
 				if (select_layout.getChildCount() == 0) {
-					tv_title.setText("请选择图片");
+					actionBar.setTitle("请选择图片");
 				} else {
 
 					SpannableString sp = new SpannableString("已选择"
@@ -199,7 +194,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 								Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 					}
 
-					tv_title.setText(sp);
+					actionBar.setTitle(sp);
 				}
 			} else {
 				try {
@@ -213,7 +208,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 						select_layout.addView(imageView);
 
 						if (select_layout.getChildCount() == 0) {
-							tv_title.setText("请选择图片");
+							actionBar.setTitle("请选择图片");
 						} else {
 							SpannableString sp = new SpannableString("已选择"
 									+ select_layout.getChildCount() + "张");
@@ -227,7 +222,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 										3, 5,
 										Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 							}
-							tv_title.setText(sp);
+							actionBar.setTitle(sp);
 						}
 					}
 				} catch (FileNotFoundException e) {
@@ -244,16 +239,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-		case R.id.add:// 保存
-
-			sendfiles(v);
-			finish();
-			break;
-		}
+		
 	}
 
 	/**
@@ -261,7 +247,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	 * 
 	 * @param view
 	 */
-	public void sendfiles(View view) {
+	public void sendfiles() {
 		if (filelist.size() > 0) {
 			for (String tt : filelist) {
 				Map<String, String> rr = new HashMap<String, String>();
@@ -280,5 +266,47 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		// TODO Auto-generated method stub
 
 	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("确定");
+		save.setIcon(null);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		case R.id.search:
+			break;
+		case R.id.add:
+	
+			break;
+		case R.id.save:
+			sendfiles();//保存
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }

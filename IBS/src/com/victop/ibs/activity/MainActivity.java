@@ -1,7 +1,9 @@
 package com.victop.ibs.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
+
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.fragment.HomeModlFragment;
@@ -9,7 +11,7 @@ import com.victop.ibs.fragment.PersonalCenterFragment;
 
 public class MainActivity extends ActivityBase {
 	private SlidingMenu menu;
-
+	private ActionBar actionBar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +25,8 @@ public class MainActivity extends ActivityBase {
 	private void initSlidingMenu() {
 		// 设置主界面视图
 		// setContentView(R.layout.content_frame);
+		actionBar = getSupportActionBar();
+		actionBar.hide();
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, new HomeModlFragment()).commit();
 

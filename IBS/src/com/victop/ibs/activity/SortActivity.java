@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -33,8 +36,6 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	Sort_ListViewAdapter adapter;
 
 	final String[] data = { "erp", "互联网", "互联网" };
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
 	private ArrayList<View> mViews = null;
 
 	private CustomViewPager pager;
@@ -42,7 +43,8 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	private MyPageAdapter myAdapter;
 	View view;
 	private String info = "";
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -59,22 +61,16 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-		// btn_add.setBackgroundResource(R.drawable.btn_add);
-		btn_add.setVisibility(View.GONE);
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
-		// tv_title.setText("");
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
+		
 	}
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
-
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		pager = (CustomViewPager) findViewById(R.id.viewpager);
 		// pager.setOnPageChangeListener(pageChangeListener);// 设置页面滑动监听
 		initListViews(0);
@@ -154,15 +150,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.back:
-			finish();
-			break;
-		case R.id.add:
-			finish();
-			break;
-
-		}
+		
 	}
 
 	/**
@@ -295,5 +283,46 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 			return arg0 == arg1;
 		}
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(false);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		case R.id.search:
+			break;
+		case R.id.add:
+	
+			break;
+		case R.id.save:
+		
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }

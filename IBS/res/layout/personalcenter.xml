@@ -82,12 +82,14 @@
 
                 <Button
                     android:id="@+id/btn_uncomplete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/count"
                     android:text="11"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff" 
+                    android:singleLine="true"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -108,12 +110,14 @@
 
                 <Button
                     android:id="@+id/btn_audit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/count"
                     android:text="5"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    android:singleLine="true"
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -134,12 +138,14 @@
 
                 <Button
                     android:id="@+id/btn_unaudit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/count"
                     android:text="3"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff" 
+                    android:singleLine="true"
+                    />
             </LinearLayout>
 
             <TextView
@@ -170,12 +176,14 @@
 
                 <Button
                     android:id="@+id/btn_gettask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/count"
                     android:text="8"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff" 
+                    android:singleLine="true"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -196,12 +204,14 @@
 
                 <Button
                     android:id="@+id/btn_settask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/count"
                     android:text="12"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff" 
+                    android:singleLine="true"
+                    />
             </LinearLayout>
 
             <Button

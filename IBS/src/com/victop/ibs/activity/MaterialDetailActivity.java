@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -53,7 +56,8 @@ public class MaterialDetailActivity extends ActivityBase {
 	private Button btn_materialdetail_check;
 	private LinearLayout pointLinear;
 	private String str_tag,str_versioncode,str_taskcode;
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -120,6 +124,10 @@ public class MaterialDetailActivity extends ActivityBase {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(getResources().getString(R.string.materialdetail));
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		images_ga = (MyGallery) findViewById(R.id.image_wall_gallery);
 		pointLinear = (LinearLayout) findViewById(R.id.gallery_point_linear);
 		imgbtn_historyversion = (ImageButton) findViewById(R.id.imgbtn_historyversion);
@@ -298,5 +306,37 @@ public class MaterialDetailActivity extends ActivityBase {
 	}
 
 	Timer autoGallery = new Timer();
-	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(false);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			finish();
+			
+			break;
+		
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }

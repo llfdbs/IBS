@@ -16,34 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="@string/addtask"
-                    android:textColor="#303030"
-                    android:textSize="@dimen/text_medial" />
-
-                <Button
-                    android:id="@+id/btn_allocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="20dp"
-                    android:background="#00000000"
-                    android:padding="10dp"
-                    android:text="@string/allocation"
-                    android:textColor="#0079fa"
-                    android:textSize="@dimen/text_medial" />
-            </RelativeLayout>
+            
             <!-- 任务名称 -->
 
             <LinearLayout

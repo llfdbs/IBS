@@ -8,12 +8,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +48,6 @@ import com.victop.ibs.view.SwipeListView;
  * 
  */
 public class ImgShowActivity extends ActivityBase implements OnClickListener {
-	private Button btn_back, btn_add, btn_notsearch;
-	private TextView tv_title = null;
 	private SwipeListView listView;
 	private ArrayList<String> listfile = new ArrayList<String>();
 	ListImagesAdapter adapter;
@@ -56,7 +57,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	private String edit_mat = "";
 	EditText et;
 	TextView text;
-
+	private ActionBar actionBar;//导航栏
+	private MenuItem search, add, save;//搜索,添加，保存按钮
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -112,22 +114,16 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		btn_back = (Button) findViewById(R.id.back);
-		tv_title = (TextView) findViewById(R.id.title);
-		btn_add = (Button) findViewById(R.id.add);
-		// btn_add.setBackgroundResource(R.drawable.btn_add);
-		btn_add.setText("确定");
-		// btn_add.setVisibility(View.GONE);
-		btn_back.setOnClickListener(this);
-		btn_add.setOnClickListener(this);
-
-		btn_notsearch = (Button) findViewById(R.id.search);
-		btn_notsearch.setVisibility(View.GONE);
+		
 	}
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		listView = (SwipeListView) findViewById(R.id.lv_imglist);
 		// listView.setOnItemClickListener(new OnItemClickListener() {
 		//
@@ -156,7 +152,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
 
-			tv_title.setText(sp);
+			actionBar.setTitle(sp);
 		}
 
 	}
@@ -276,7 +272,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 				// }
 
 			}
-			tv_title.setText(sp);
+			actionBar.setTitle(sp);
 			adapter.notifyDataSetChanged();
 		}
 
@@ -356,5 +352,48 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		}
 
 	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
 
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		search = menu.findItem(R.id.search);
+		add = menu.findItem(R.id.add);
+		save = menu.findItem(R.id.save);
+		search.setVisible(false);
+		add.setVisible(false);
+		save.setVisible(true);
+		save.setTitle("确定");
+		save.setIcon(null);
+		
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			
+			Container.newData.clear();
+			finish();
+			
+			break;
+		
+		case R.id.save:
+			Container.add_mData.addAll(Container.newData);
+			Container.newData.clear();
+			// Container.mData.clear();
+
+			openActivity(MaterialAddActivity.class, null);
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 }
