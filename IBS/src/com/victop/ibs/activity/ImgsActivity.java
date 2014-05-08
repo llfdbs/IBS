@@ -161,8 +161,15 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 			} else {
 				SpannableString sp = new SpannableString("已选择"
 						+ select_layout.getChildCount() + "张");
-				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
-						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+				if (select_layout.getChildCount() < 10) {
+					sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
+							Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+				} else if (select_layout.getChildCount() < 100) {
+					sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
+							Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+				}
+
 				tv_title.setText(sp);
 			}
 			filelist.remove(filepath);
@@ -183,8 +190,14 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 
 					SpannableString sp = new SpannableString("已选择"
 							+ select_layout.getChildCount() + "张");
-					sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
-							Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+					if (select_layout.getChildCount() < 10) {
+						sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
+								Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+					} else if (select_layout.getChildCount() < 100) {
+						sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
+								Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+					}
 
 					tv_title.setText(sp);
 				}
@@ -204,8 +217,16 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 						} else {
 							SpannableString sp = new SpannableString("已选择"
 									+ select_layout.getChildCount() + "张");
-							sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3,
-									4, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+							if (select_layout.getChildCount() < 10) {
+								sp.setSpan(new ForegroundColorSpan(0xff0079fa),
+										3, 4,
+										Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+							} else if (select_layout.getChildCount() < 100) {
+								sp.setSpan(new ForegroundColorSpan(0xff0079fa),
+										3, 5,
+										Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+							}
 							tv_title.setText(sp);
 						}
 					}
