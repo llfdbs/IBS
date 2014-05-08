@@ -9,4 +9,6 @@
     android:singleLine="true"
     android:text="ss"
     android:textColor="#44526A"
-    android:textSize="11sp" />
+    android:textSize="13sp"
+    
+     />

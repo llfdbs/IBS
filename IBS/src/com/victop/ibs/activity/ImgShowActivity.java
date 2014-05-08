@@ -92,7 +92,12 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.back:
+			if (EDIT.equals(edit_mat)) {
+				Container.add_mData.addAll(Container.newData);
+			}
 			Container.newData.clear();
+			Container.et_Map.clear();
+			Container.tv_Map.clear();
 			finish();
 			break;
 		case R.id.add:
@@ -100,7 +105,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			Container.add_mData.addAll(Container.newData);
 			Container.newData.clear();
 			// Container.mData.clear();
-
+			Container.et_Map.clear();
+			Container.tv_Map.clear();
 			openActivity(MaterialAddActivity.class, null);
 			finish();
 			break;
@@ -112,7 +118,13 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
+
+		if (EDIT.equals(edit_mat)) {
+			Container.add_mData.addAll(Container.newData);
+		}
 		Container.newData.clear();
+		Container.et_Map.clear();
+		Container.tv_Map.clear();
 	}
 
 	@Override
@@ -135,17 +147,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	protected void initViews() {
 		// TODO Auto-generated method stub
 		listView = (SwipeListView) findViewById(R.id.lv_imglist);
-		// listView.setOnItemClickListener(new OnItemClickListener() {
-		//
-		// @Override
-		// public void onItemClick(AdapterView<?> arg0, View view, int arg2,
-		// long arg3) {
-		// // TODO Auto-generated method stub
-		// Button
-		// bn_del=(Button)view.findViewById(R.id.example_row_b_action_del);
-		// }
-		//
-		// });
+
 		deviceWidth = getDeviceWidth();
 
 		// listView.setVisibility(View.VISIBLE);
@@ -272,16 +274,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
-//			int start = listView.getFirstVisiblePosition();
-//			int end = listView.getLastVisiblePosition();
-//			for (int i = start; i < end; i++) {
-//				// if (i != position_) {
-//				Container.et_Map.get(i).setVisibility(View.VISIBLE);
-//				Container.tv_Map.get(i).setVisibility(View.GONE);
-//				// listView.closeAnimate(i);
-//				// }
-//
-//			}
+
 			tv_title.setText(sp);
 			adapter.notifyDataSetChanged();
 		}
@@ -299,10 +292,6 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			super.onOpened(position, toRight);
 			if (isAPI)
 				return;
-			// Toast.makeText(
-			// ImgShowActivity.this,
-			// position + " " + listView.getFirstVisiblePosition() + " "
-			// + listView.getLastVisiblePosition(), 500).show();
 
 			int start = listView.getFirstVisiblePosition();
 			int end = listView.getLastVisiblePosition();
@@ -320,14 +309,40 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 							Container.et_Map.get(i).getText().toString());
 				}
 
-			}
+	}
+			
+			
 		}
+
+		EditText et;
+		TextView text;
+		int pos_temp = -2;
 
 		@Override
 		public void onStartOpen(int position, int action, boolean right) {
 			// TODO Auto-generated method stub
+//			int start = listView.getFirstVisiblePosition();
+//			int end = listView.getLastVisiblePosition();
+//			if (et != null && pos_temp != -2 && null != text) {
+//				System.out.println("this is swipelistview potions ~~~"
+//						+ position + "  " + start + "  " + end + "  ");
+//				if (pos_temp >= start && pos_temp - start <= end) {
+//					listView.closeAnimate(pos_temp);
+//				}
+//				et.setVisibility(View.VISIBLE);
+//				text.setVisibility(View.GONE);
+//				et = null;
+//				text = null;
+//				pos_temp = -2;
+//			}
+//			pos_temp = position;
+//			et = (EditText) listView.getChildAt(position - start).findViewById(
+//					R.id.edit);
+//			text = (TextView) listView.getChildAt(position - start)
+//					.findViewById(R.id.text);
+//			et.setVisibility(View.GONE);
+//			text.setVisibility(View.VISIBLE);
 			super.onStartOpen(position, action, right);
-
 		}
 
 		@Override

@@ -8,9 +8,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:scaleType="fitXY" 
-        android:src="@drawable/one"
-        />
+        android:src="@drawable/one" />
 
 </RelativeLayout>

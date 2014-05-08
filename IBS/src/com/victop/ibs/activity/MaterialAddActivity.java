@@ -52,6 +52,7 @@ public class MaterialAddActivity extends ActivityBase implements
 	private ImageButton ibtn_edit;
 	MaterialAdd_girdViewAdapter mAdapter;
 	private TextView tv_position, tv_detail;
+	private ImageView iv_addimg;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -95,23 +96,41 @@ public class MaterialAddActivity extends ActivityBase implements
 			break;
 		case R.id.ibtn_edit:// 素材编辑按钮
 			Container.newData.addAll(Container.add_mData);
-			//Container.add_mData.clear();
+			Container.add_mData.clear();
+			Bundle b = new Bundle();
+			b.putString("edit", "edit");
 			openActivity(ImgShowActivity.class, null);
 			break;
-
+		case R.id.img:
+			openActivity(ImgFileListActivity.class, null);
+			break;
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		Container.add_mData.clear();
+		finish();
 	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
-		if (Container.add_mData.size() == 0)
+		if (Container.add_mData.size() == 0) {
 			ibtn_edit.setVisibility(View.INVISIBLE);
-		else
+			mgv_material.setVisibility(View.GONE);
+
+		} else {
+			mgv_material.setVisibility(View.VISIBLE);
+			iv_addimg.setVisibility(View.GONE);
 			ibtn_edit.setVisibility(View.VISIBLE);
-		mAdapter = new MaterialAdd_girdViewAdapter(this, Container.add_mData, 0);
-		mgv_material.setAdapter(mAdapter);
+			mAdapter = new MaterialAdd_girdViewAdapter(this,
+					Container.add_mData, 0);
+			mgv_material.setAdapter(mAdapter);
+		}
 
 	}
 
@@ -182,7 +201,20 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_task = (TextView) findViewById(R.id.tv_task1);
 		tv_tag = (TextView) findViewById(R.id.tv_tag1);
 
+		iv_addimg = (ImageView) findViewById(R.id.img);
+		iv_addimg.setOnClickListener(this);
+
 		mgv_material = (MyGridView) findViewById(R.id.mgv_material);
+
+		if (Container.add_mData.size() == 0) {
+			ibtn_edit.setVisibility(View.INVISIBLE);
+			mgv_material.setVisibility(View.GONE);
+
+		} else {
+			iv_addimg.setVisibility(View.GONE);
+			ibtn_edit.setVisibility(View.VISIBLE);
+
+		}
 		mgv_material.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -220,14 +252,13 @@ public class MaterialAddActivity extends ActivityBase implements
 		pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
-				String rr = position + 1 + "/"
-						+ Container.add_mData.size();
+				String rr = position + 1 + "/" + Container.add_mData.size();
 				String dd = Container.add_mData.get(position).values()
 						.iterator().next();
 				tv_position.setText(rr);
 				tv_detail.setText(dd);
-//				((RadioButton) dotGroupButton.getChildAt(position))
-//						.setChecked(true);
+				// ((RadioButton) dotGroupButton.getChildAt(position))
+				// .setChecked(true);
 			}
 
 			@Override
