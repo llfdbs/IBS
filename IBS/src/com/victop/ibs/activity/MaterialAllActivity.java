@@ -328,7 +328,7 @@ public class MaterialAllActivity extends ActivityBase implements
 		case R.id.btn_search:
 
 			openActivity(MaterialSearchActivity.class, null);
-			finish();
+			//finish();
 
 			break;
 		case R.id.sp_newtime:

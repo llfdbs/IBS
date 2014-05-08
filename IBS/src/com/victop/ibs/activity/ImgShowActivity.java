@@ -106,7 +106,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			finish();
 			break;
 		case R.id.add:
-
+			Container.add_mData.clear();
 			Container.add_mData.addAll(Container.newData);
 			Container.newData.clear();
 			// Container.mData.clear();
@@ -274,16 +274,16 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
 
-			int start = listView.getFirstVisiblePosition();
-			int end = listView.getLastVisiblePosition();
-			for (int i = start; i < end; i++) {
-				// if (i != position_) {
-				Container.et_list.get(i).setVisibility(View.VISIBLE);
-				Container.tv_list.get(i).setVisibility(View.GONE);
-				// listView.closeAnimate(i);
-				// }
-
-			}
+//			int start = listView.getFirstVisiblePosition();
+//			int end = listView.getLastVisiblePosition();
+//			for (int i = start; i < end; i++) {
+//				// if (i != position_) {
+//				Container.et_list.get(i).setVisibility(View.VISIBLE);
+//				Container.tv_list.get(i).setVisibility(View.GONE);
+//				// listView.closeAnimate(i);
+//				// }
+//
+//			}
 			actionBar.setTitle(sp);
 
 			// int start = listView.getFirstVisiblePosition();
@@ -311,8 +311,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		public void onOpened(int position, boolean toRight) {
 			// TODO Auto-generated method stub
 			super.onOpened(position, toRight);
-			if (isAPI)
-				return;
+//			if (isAPI)
+//				return;
 
 			int start = listView.getFirstVisiblePosition();
 			int end = listView.getLastVisiblePosition();
@@ -376,8 +376,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		public void onClosed(int position, boolean fromRight) {
 			// TODO Auto-generated method stub
 			super.onClosed(position, fromRight);
-			if (isAPI)
-				return;
+//			if (isAPI)
+//				return;
 			Container.et_Map.get(position).setVisibility(View.VISIBLE);
 			Container.tv_Map.get(position).setVisibility(View.GONE);
 
