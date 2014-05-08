@@ -294,14 +294,20 @@ public class MaterialAllActivity extends ActivityBase implements
 
 		mImageFetcher = new ImageFetcher(this, 240);
 		mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+		
+		
+		mImageFetcher.setExitTasksEarly(false);
+		mAdapterView.setAdapter(mAdapter);
+		AddItemToContainer(currentPage, 2);
+		
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mImageFetcher.setExitTasksEarly(false);
-		mAdapterView.setAdapter(mAdapter);
-		AddItemToContainer(currentPage, 2);
+//		mImageFetcher.setExitTasksEarly(false);
+//		mAdapterView.setAdapter(mAdapter);
+//		AddItemToContainer(currentPage, 2);
 	}
 
 	@Override

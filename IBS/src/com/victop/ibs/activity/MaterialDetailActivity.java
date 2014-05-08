@@ -52,6 +52,7 @@ public class MaterialDetailActivity extends ActivityBase {
 			tv_picname, tv_picdetail;// 分类,版本号,详情,图片名称,描述
 	private Button btn_materialdetail_check;
 	private LinearLayout pointLinear;
+	private String str_tag,str_versioncode,str_taskcode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +131,9 @@ public class MaterialDetailActivity extends ActivityBase {
 		tv_picname = (TextView)findViewById(R.id.tv_picname);
 		tv_picdetail = (TextView)findViewById(R.id.tv_picdetail);
 		btn_materialdetail_check = (Button)findViewById(R.id.btn_materialdetail_check);
+		str_tag = tv_materialdetail_tag.getText().toString();
+		str_versioncode = tv_taskcode.getText().toString();
+		str_taskcode = tv_taskcode.getText().toString();
 	}
 
 	@Override
@@ -152,7 +156,10 @@ public class MaterialDetailActivity extends ActivityBase {
 				//openActivity(HistoryVerActivity.class, null);
 				break;
 			case R.id.imgbtn_edit:
-				openActivity(MaterialAddActivity.class, null);
+				Bundle bundle = new Bundle();
+				bundle.putString("info", str_tag);
+				bundle.putString("tasknumber",str_versioncode);
+				openActivity(MaterialAddActivity.class, bundle);
 				break;
 			case R.id.imgbtn_detail:
 				openActivity(PropertyActivity.class);
