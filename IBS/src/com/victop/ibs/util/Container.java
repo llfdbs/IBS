@@ -36,6 +36,8 @@ public class Container {
 	HashMap<Integer, SortModel> hashMap = new HashMap<Integer, SortModel>();
 	private List list;
 	public static List<EditText> et_list = new ArrayList<EditText>();
+	public static Map<Integer, EditText> et_Map = new HashMap<Integer, EditText>();
+	public static Map<Integer, TextView> tv_Map = new HashMap<Integer, TextView>();
 	public static List<TextView> tv_list = new ArrayList<TextView>();
 	private String currentUrl; // 当前页面显示的URL地址
 

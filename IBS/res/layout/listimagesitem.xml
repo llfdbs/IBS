@@ -7,9 +7,9 @@
         android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginBottom="5dip"
+        android:layout_marginBottom="2dip"
         android:layout_marginRight="10dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="2dip"
         android:background="#eee"
         android:tag="back" >
 
@@ -62,25 +62,25 @@
         <TextView
             android:id="@+id/text"
             android:layout_width="fill_parent"
-            android:layout_height="70dip"
+            android:layout_height="76dip"
             android:layout_marginLeft="5dip"
             android:layout_toRightOf="@id/image"
             android:background="@drawable/bg1"
             android:gravity="top|left"
-            android:padding="3dip"
+            android:padding="2dip"
             android:textColor="#000"
             android:textSize="16sp" />
 
         <EditText
             android:id="@+id/edit"
             android:layout_width="fill_parent"
-            android:layout_height="70dip"
+            android:layout_height="76dip"
             android:layout_marginLeft="5dip"
             android:layout_toRightOf="@id/image"
             android:background="@drawable/bg1"
             android:gravity="top|left"
             android:hint="请输入描述"
-            android:padding="3dip"
+            android:padding="2dip"
             android:textColor="#000"
             android:textSize="16sp" />
     </RelativeLayout>

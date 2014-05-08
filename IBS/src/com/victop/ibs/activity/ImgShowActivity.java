@@ -7,6 +7,7 @@ import java.util.Map;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -56,6 +57,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	private String edit_mat = "";
 	EditText et;
 	TextView text;
+	boolean isAPI = false;
+	private final int API_4 = 14;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -73,6 +76,9 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			if (bundle.get(EDIT) != null) {
 				edit_mat = bundle.get(EDIT).toString();
 			}
+		}
+		if (Build.VERSION.SDK_INT > API_4 || Build.VERSION.SDK_INT == API_4) {
+			isAPI = true;
 		}
 
 		initData();
@@ -254,8 +260,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			for (int position : reverseSortedPositions) {
 				position_ = position;
 				Container.newData.remove(position);
-				Container.et_list.remove(position);
-				Container.tv_list.remove(position);
+				Container.et_Map.remove(position);
+				Container.tv_Map.remove(position);
 			}
 			SpannableString sp = new SpannableString("已选择"
 					+ Container.newData.size() + "张");
@@ -266,16 +272,16 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
-			int start = listView.getFirstVisiblePosition();
-			int end = listView.getLastVisiblePosition();
-			for (int i = start; i < end; i++) {
-				// if (i != position_) {
-				Container.et_list.get(i).setVisibility(View.VISIBLE);
-				Container.tv_list.get(i).setVisibility(View.GONE);
-				// listView.closeAnimate(i);
-				// }
-
-			}
+//			int start = listView.getFirstVisiblePosition();
+//			int end = listView.getLastVisiblePosition();
+//			for (int i = start; i < end; i++) {
+//				// if (i != position_) {
+//				Container.et_Map.get(i).setVisibility(View.VISIBLE);
+//				Container.tv_Map.get(i).setVisibility(View.GONE);
+//				// listView.closeAnimate(i);
+//				// }
+//
+//			}
 			tv_title.setText(sp);
 			adapter.notifyDataSetChanged();
 		}
@@ -291,33 +297,27 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		public void onOpened(int position, boolean toRight) {
 			// TODO Auto-generated method stub
 			super.onOpened(position, toRight);
+			if (isAPI)
+				return;
+			// Toast.makeText(
+			// ImgShowActivity.this,
+			// position + " " + listView.getFirstVisiblePosition() + " "
+			// + listView.getLastVisiblePosition(), 500).show();
 
-			Toast.makeText(
-					ImgShowActivity.this,
-					position + " " + listView.getFirstVisiblePosition() + " "
-							+ listView.getLastVisiblePosition(), 500).show();
-
-			// et.setVisibility(View.GONE);
-			// text.setVisibility(View.VISIBLE);
-			// text.setText(et.getText().toString());
 			int start = listView.getFirstVisiblePosition();
 			int end = listView.getLastVisiblePosition();
-			for (int i = start; i < end; i++) {
+			for (int i = start; i <= end; i++) {
 				if (i != position) {
 					listView.closeAnimate(i);
-					// System.out.println(Container.et_list.get(i).getTag()
-					// .toString()
-					// + "---------");
-					Container.et_list.get(i).setVisibility(View.VISIBLE);
-					Container.tv_list.get(i).setVisibility(View.GONE);
+					Container.et_Map.get(i).setVisibility(View.VISIBLE);
+					// Container.et_list.get(i).setVisibility(View.VISIBLE);
+					Container.tv_Map.get(i).setVisibility(View.GONE);
 				} else {
-					Container.et_list.get(i).setVisibility(View.GONE);
-					// System.out.println(Container.et_list.get(i).getTag()
-					// .toString()
-					// + "=======");
-					Container.tv_list.get(i).setVisibility(View.VISIBLE);
-					Container.tv_list.get(i).setText(
-							Container.et_list.get(i).getText().toString());
+					// Container.et_list.get(i).setVisibility(View.GONE);
+					Container.et_Map.get(i).setVisibility(View.GONE);
+					Container.tv_Map.get(i).setVisibility(View.VISIBLE);
+					Container.tv_Map.get(i).setText(
+							Container.et_Map.get(i).getText().toString());
 				}
 
 			}
@@ -340,9 +340,10 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		public void onClosed(int position, boolean fromRight) {
 			// TODO Auto-generated method stub
 			super.onClosed(position, fromRight);
-
-			Container.et_list.get(position).setVisibility(View.VISIBLE);
-			Container.tv_list.get(position).setVisibility(View.GONE);
+			if (isAPI)
+				return;
+			Container.et_Map.get(position).setVisibility(View.VISIBLE);
+			Container.tv_Map.get(position).setVisibility(View.GONE);
 
 			// et.setVisibility(View.VISIBLE);
 			// text.setVisibility(View.GONE);
