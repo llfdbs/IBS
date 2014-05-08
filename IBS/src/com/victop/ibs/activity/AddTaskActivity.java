@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -14,10 +15,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 
@@ -30,7 +33,8 @@ import com.victop.ibs.base.ActivityBase;
  */
 public class AddTaskActivity extends ActivityBase {
 
-	private Button btn_allocation, btn_addperson, btn_choosedate, btn_tasksave;// 分配按钮,分配人按钮,选择日期,保存按钮
+	private Button btn_allocation, btn_tasksave;// 分配按钮,保存按钮
+	private ImageButton imgbtn_addperson,imgbtn_choosedate;//分配人按钮,选择日期
 	private EditText edt_taskname, edt_taskdetail;// 任务名称,任务描述
 	private TextView tv_allocationname, tv_date, tv_datecount;// 分配人名称,截止时间,天数
 	private RadioGroup radiogroup_type;// 类型
@@ -61,8 +65,8 @@ public class AddTaskActivity extends ActivityBase {
 	@Override
 	public void initViews() {
 		btn_allocation = (Button) findViewById(R.id.btn_allocation);
-		btn_addperson = (Button) findViewById(R.id.btn_addperson);
-		btn_choosedate = (Button) findViewById(R.id.btn_choosedate);
+		imgbtn_addperson = (ImageButton) findViewById(R.id.imgbtn_addperson);
+		imgbtn_choosedate = (ImageButton) findViewById(R.id.imgbtn_choosedate);
 		btn_tasksave = (Button) findViewById(R.id.btn_tasksave);
 		edt_taskname = (EditText) findViewById(R.id.edt_taskname);
 		edt_taskdetail = (EditText) findViewById(R.id.edt_taskdetail);
@@ -75,8 +79,8 @@ public class AddTaskActivity extends ActivityBase {
 	@Override
 	public void initListeners() {
 		btn_allocation.setOnClickListener(mOnClick);
-		btn_addperson.setOnClickListener(mOnClick);
-		btn_choosedate.setOnClickListener(mOnClick);
+		imgbtn_addperson.setOnClickListener(mOnClick);
+		imgbtn_choosedate.setOnClickListener(mOnClick);
 		btn_tasksave.setOnClickListener(mOnClick);
 		radiogroup_type.setOnCheckedChangeListener(mOnChecked);
 	}
@@ -146,10 +150,10 @@ public class AddTaskActivity extends ActivityBase {
 						"visiable");
 				}
 				break;
-			case R.id.btn_addperson:
+			case R.id.imgbtn_addperson:
 				openActivityForResult(TaskAllocationActivity.class, null, 100);
 				break;
-			case R.id.btn_choosedate:
+			case R.id.imgbtn_choosedate:
 				new DatePickerDialog(AddTaskActivity.this, listener,
 						cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
 						cal.get(Calendar.DAY_OF_MONTH)).show();

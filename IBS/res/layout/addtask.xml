@@ -111,12 +111,14 @@
                     android:layout_weight="2"
                     />
 
-                <Button
-                    android:id="@+id/btn_addperson"
+                <ImageButton
+                    android:id="@+id/imgbtn_addperson"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:background="@drawable/btn_addperson" 
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/btn_addperson" 
+                    android:background="@null"
                     android:layout_weight="1"
                     />
             </LinearLayout>
@@ -140,12 +142,12 @@
                     android:text="@string/deadline"
                     android:textColor="#303030"
                     android:textSize="@dimen/text_medial" 
-                    android:layout_weight="1"
+                  
                     />
 
                 <TextView
                     android:id="@+id/tv_date"
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/deadline_hint"
                     android:paddingLeft="10dp"
@@ -166,13 +168,13 @@
                     android:layout_weight="1"
                     />
 
-                <Button
-                    android:id="@+id/btn_choosedate"
+                <ImageButton
+                    android:id="@+id/imgbtn_choosedate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/btn_calend" 
+                    android:src="@drawable/btn_calend" 
+                    android:background="@null"
                     android:layout_weight="1"
                     />
             </LinearLayout>
