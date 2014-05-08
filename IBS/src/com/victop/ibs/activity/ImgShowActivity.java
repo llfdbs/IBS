@@ -4,23 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.victop.ibs.adapter.ListImagesAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.util.Constants;
 import com.victop.ibs.util.Container;
+import com.victop.ibs.util.ImgCallBack;
+import com.victop.ibs.util.Util;
 import com.victop.ibs.view.BaseSwipeListViewListener;
 import com.victop.ibs.view.SwipeListView;
 
@@ -40,6 +54,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	public static int deviceWidth;
 	public static final String EDIT = "edit";
 	private String edit_mat = "";
+	EditText et;
+	TextView text;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -87,6 +103,13 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	}
 
 	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		Container.newData.clear();
+	}
+
+	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
 		btn_back = (Button) findViewById(R.id.back);
@@ -125,8 +148,14 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			adddata(Container.newData);
 			SpannableString sp = new SpannableString("已选择"
 					+ Container.newData.size() + "张");
-			sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
-					Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			if (Container.newData.size() < 10) {
+				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
+						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			} else if (Container.newData.size() < 100) {
+				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
+						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			}
+
 			tv_title.setText(sp);
 		}
 
@@ -220,15 +249,33 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 		@Override
 		public void onDismiss(int[] reverseSortedPositions) {
-
+			System.out.println("onDismiss");
+			int position_ = 0;
 			for (int position : reverseSortedPositions) {
+				position_ = position;
 				Container.newData.remove(position);
-
+				Container.et_list.remove(position);
+				Container.tv_list.remove(position);
 			}
 			SpannableString sp = new SpannableString("已选择"
 					+ Container.newData.size() + "张");
-			sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
-					Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			if (Container.newData.size() < 10) {
+				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
+						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			} else if (Container.newData.size() < 100) {
+				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
+						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			}
+			int start = listView.getFirstVisiblePosition();
+			int end = listView.getLastVisiblePosition();
+			for (int i = start; i < end; i++) {
+				// if (i != position_) {
+				Container.et_list.get(i).setVisibility(View.VISIBLE);
+				Container.tv_list.get(i).setVisibility(View.GONE);
+				// listView.closeAnimate(i);
+				// }
+
+			}
 			tv_title.setText(sp);
 			adapter.notifyDataSetChanged();
 		}
@@ -240,21 +287,53 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			super.onMove(position, x);
 		}
 
-		EditText et;
-		TextView text;
-
 		@Override
 		public void onOpened(int position, boolean toRight) {
 			// TODO Auto-generated method stub
 			super.onOpened(position, toRight);
-			System.out.println("onOpened");
-			et = (EditText) listView.getChildAt(position).findViewById(
-					R.id.edit);
-			text = (TextView) listView.getChildAt(position).findViewById(
-					R.id.text);
-			et.setVisibility(View.GONE);
-			text.setVisibility(View.VISIBLE);
-			text.setText(et.getText().toString());
+
+			Toast.makeText(
+					ImgShowActivity.this,
+					position + " " + listView.getFirstVisiblePosition() + " "
+							+ listView.getLastVisiblePosition(), 500).show();
+
+			// et.setVisibility(View.GONE);
+			// text.setVisibility(View.VISIBLE);
+			// text.setText(et.getText().toString());
+			int start = listView.getFirstVisiblePosition();
+			int end = listView.getLastVisiblePosition();
+			for (int i = start; i < end; i++) {
+				if (i != position) {
+					listView.closeAnimate(i);
+					// System.out.println(Container.et_list.get(i).getTag()
+					// .toString()
+					// + "---------");
+					Container.et_list.get(i).setVisibility(View.VISIBLE);
+					Container.tv_list.get(i).setVisibility(View.GONE);
+				} else {
+					Container.et_list.get(i).setVisibility(View.GONE);
+					// System.out.println(Container.et_list.get(i).getTag()
+					// .toString()
+					// + "=======");
+					Container.tv_list.get(i).setVisibility(View.VISIBLE);
+					Container.tv_list.get(i).setText(
+							Container.et_list.get(i).getText().toString());
+				}
+
+			}
+		}
+
+		@Override
+		public void onStartOpen(int position, int action, boolean right) {
+			// TODO Auto-generated method stub
+			super.onStartOpen(position, action, right);
+
+		}
+
+		@Override
+		public int onChangeSwipeMode(int position) {
+			// TODO Auto-generated method stub
+			return super.onChangeSwipeMode(position);
 		}
 
 		@Override
@@ -262,16 +341,20 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 			// TODO Auto-generated method stub
 			super.onClosed(position, fromRight);
 
-			et.setVisibility(View.VISIBLE);
-			text.setVisibility(View.GONE);
+			Container.et_list.get(position).setVisibility(View.VISIBLE);
+			Container.tv_list.get(position).setVisibility(View.GONE);
+
+			// et.setVisibility(View.VISIBLE);
+			// text.setVisibility(View.GONE);
 		}
 
 		@Override
-		public void onStartClose(int position, boolean right) {
+		public void onListChanged() {
 			// TODO Auto-generated method stub
-			super.onStartClose(position, right);
-			System.out.println("onStartClose");
+			super.onListChanged();
+
 		}
 
 	}
+
 }
