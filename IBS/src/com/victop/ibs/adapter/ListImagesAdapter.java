@@ -75,20 +75,21 @@ public class ListImagesAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
+		final Holder holder;
 		if (convertView == null) {
-
+			holder = new Holder();
 			convertView = LayoutInflater.from(context).inflate(
 					R.layout.listimagesitem, null);
-			image = (ImageView) convertView.findViewById(R.id.image);
-			editText = (EditText) convertView.findViewById(R.id.edit);
-			textView = (TextView) convertView.findViewById(R.id.text);
-			mBackEdit = (Button) convertView
+			holder.image = (ImageView) convertView.findViewById(R.id.image);
+			holder.editText = (EditText) convertView.findViewById(R.id.edit);
+			holder.textView = (TextView) convertView.findViewById(R.id.text);
+			holder.mBackEdit = (Button) convertView
 					.findViewById(R.id.example_row_b_action_modify);
-			mBackDelete = (Button) convertView
+			holder.mBackDelete = (Button) convertView
 					.findViewById(R.id.example_row_b_action_del);
-			editText.setTag(position);
-			// textView.setTag(position);
-			editText.setOnTouchListener(new OnTouchListener() {
+			holder.editText.setTag(position);
+			holder.textView.setTag(position);
+			holder.editText.setOnTouchListener(new OnTouchListener() {
 
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
@@ -100,21 +101,22 @@ public class ListImagesAdapter extends BaseAdapter {
 				}
 			});
 
-			convertView.setTag(editText);
+			convertView.setTag(holder);
 		} else {
-			editText = (EditText) convertView.getTag();
-			editText.setTag(position);
-			// textView.setTag(position);
+			holder = (Holder) convertView.getTag();
+			holder.editText.setTag(position);
+			holder.textView.setTag(position);
 		}
-		// System.out.println(position+"------------");
-		Container.et_list.add(position, editText);
-		Container.tv_list.add(position, textView);
-
+		System.out.println(position + "------------");
+//		Container.et_list.add(position, holder.editText);
+//		Container.tv_list.add(position, holder.textView);
+		Container.et_Map.put(position, holder.editText);
+		Container.tv_Map.put(position, holder.textView);
 		Constants.imageLoader.displayImage("file://"
-				+ list.get(position).keySet().iterator().next(), image,
+				+ list.get(position).keySet().iterator().next(), holder.image,
 				Constants.image_display_options, null);
 
-		editText.addTextChangedListener(new TextWatcher() {
+		holder.editText.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
@@ -133,7 +135,7 @@ public class ListImagesAdapter extends BaseAdapter {
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
-				int position = (Integer) editText.getTag();
+				int position = (Integer) holder.editText.getTag();
 				if (s != null && !"".equals(s.toString())) {
 					// Map<String, String> map =
 					// Container.newData.get(position);
@@ -150,18 +152,18 @@ public class ListImagesAdapter extends BaseAdapter {
 		});
 		Object value = list.get(position).values().iterator().next();
 		if (value != null && !"".equals(value)) {
-			editText.setText(value.toString());
-			textView.setText(value.toString());
+			holder.editText.setText(value.toString());
+			holder.textView.setText(value.toString());
 		} else {
-			editText.setText("");
-			textView.setText("");
+			holder.editText.setText("");
+			holder.textView.setText("");
 		}
-		editText.clearFocus();
+		holder.editText.clearFocus();
 		if (index != -1 && index == position) {
-			editText.requestFocus();
+			holder.editText.requestFocus();
 		}
 
-		mBackDelete.setOnClickListener(new OnClickListener() {
+		holder.mBackDelete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
@@ -171,7 +173,7 @@ public class ListImagesAdapter extends BaseAdapter {
 
 			}
 		});
-		// btn_delete.setOnClickListener(new OnClickListener() {
+		// holder.btn_delete.setOnClickListener(new OnClickListener() {
 		//
 		// @Override
 		// public void onClick(View v) {
@@ -181,11 +183,11 @@ public class ListImagesAdapter extends BaseAdapter {
 		// Container.mData.remove(position);
 		// list.remove(position);
 		// notifyDataSetChanged();
-		// btn_delete.setVisibility(View.GONE);
+		// holder.btn_delete.setVisibility(View.GONE);
 		//
 		// }
 		// });
-		// image.setOnClickListener(new OnClickListener() {
+		// holder.image.setOnClickListener(new OnClickListener() {
 		//
 		// @Override
 		// public void onClick(View v) {
@@ -235,17 +237,12 @@ public class ListImagesAdapter extends BaseAdapter {
 		}
 	}
 
-	ImageView image;
-	EditText editText;
-	TextView textView;
-	Button mBackEdit, mBackDelete;
-	//
-	// class Holder {
-	// ImageView image;
-	// EditText editText;
-	// TextView textView;
-	// Button mBackEdit, mBackDelete;
-	// // Button btn_delete, btn_del;
-	// }
+	class Holder {
+		ImageView image;
+		EditText editText;
+		TextView textView;
+		Button mBackEdit, mBackDelete;
+		// Button btn_delete, btn_del;
+	}
 
 }
