@@ -95,7 +95,7 @@ public class MaterialAddActivity extends ActivityBase implements
 			Container.newData.addAll(Container.add_mData);
 			Bundle b = new Bundle();
 			b.putString("edit", "edit");
-			openActivity(ImgShowActivity.class, null);
+			openActivity(ImgShowActivity.class, b);
 			break;
 		case R.id.img:
 			openActivity(ImgFileListActivity.class, null);

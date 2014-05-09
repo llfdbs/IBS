@@ -95,28 +95,28 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.back:
-			if (EDIT.equals(edit_mat)) {
-				Container.add_mData.addAll(Container.newData);
-			}
-			Container.newData.clear();
-			Container.et_Map.clear();
-			Container.tv_Map.clear();
-			finish();
-			break;
-		case R.id.add:
-			Container.add_mData.clear();
-			Container.add_mData.addAll(Container.newData);
-			Container.newData.clear();
-			// Container.mData.clear();
-			Container.et_Map.clear();
-			Container.tv_Map.clear();
-			openActivity(MaterialAddActivity.class, null);
-			finish();
-			break;
-
-		}
+		// switch (v.getId()) {
+		// case R.id.back:
+		// if (EDIT.equals(edit_mat)) {
+		// Container.add_mData.addAll(Container.newData);
+		// }
+		// Container.newData.clear();
+		// Container.et_Map.clear();
+		// Container.tv_Map.clear();
+		// finish();
+		// break;
+		// case R.id.add:
+		// Container.add_mData.clear();
+		// Container.add_mData.addAll(Container.newData);
+		// Container.newData.clear();
+		// // Container.mData.clear();
+		// Container.et_Map.clear();
+		// Container.tv_Map.clear();
+		// openActivity(MaterialAddActivity.class, null);
+		// finish();
+		// break;
+		//
+		// }
 	}
 
 	@Override
@@ -125,6 +125,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		super.onBackPressed();
 
 		if (EDIT.equals(edit_mat)) {
+			Container.add_mData.clear();
 			Container.add_mData.addAll(Container.newData);
 		}
 		Container.newData.clear();
@@ -274,28 +275,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
 
-//			int start = listView.getFirstVisiblePosition();
-//			int end = listView.getLastVisiblePosition();
-//			for (int i = start; i < end; i++) {
-//				// if (i != position_) {
-//				Container.et_list.get(i).setVisibility(View.VISIBLE);
-//				Container.tv_list.get(i).setVisibility(View.GONE);
-//				// listView.closeAnimate(i);
-//				// }
-//
-//			}
 			actionBar.setTitle(sp);
-
-			// int start = listView.getFirstVisiblePosition();
-			// int end = listView.getLastVisiblePosition();
-			// for (int i = start; i < end; i++) {
-			// // if (i != position_) {
-			// Container.et_Map.get(i).setVisibility(View.VISIBLE);
-			// Container.tv_Map.get(i).setVisibility(View.GONE);
-			// // listView.closeAnimate(i);
-			// // }
-			//
-			// }
 
 			adapter.notifyDataSetChanged();
 		}
@@ -311,8 +291,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		public void onOpened(int position, boolean toRight) {
 			// TODO Auto-generated method stub
 			super.onOpened(position, toRight);
-//			if (isAPI)
-//				return;
+			// if (isAPI)
+			// return;
 
 			int start = listView.getFirstVisiblePosition();
 			int end = listView.getLastVisiblePosition();
@@ -376,8 +356,8 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		public void onClosed(int position, boolean fromRight) {
 			// TODO Auto-generated method stub
 			super.onClosed(position, fromRight);
-//			if (isAPI)
-//				return;
+			// if (isAPI)
+			// return;
 			Container.et_Map.get(position).setVisibility(View.VISIBLE);
 			Container.tv_Map.get(position).setVisibility(View.GONE);
 
@@ -420,16 +400,25 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
+			if (EDIT.equals(edit_mat)) {
+				Container.add_mData.clear();
+				Container.add_mData.addAll(Container.newData);
+			}
 			Container.newData.clear();
+			Container.et_Map.clear();
+			Container.tv_Map.clear();
 			finish();
-
 			break;
 
 		case R.id.save:
+			if (EDIT.equals(edit_mat))
+
+				Container.add_mData.clear();
 			Container.add_mData.addAll(Container.newData);
 			Container.newData.clear();
 			// Container.mData.clear();
-
+			Container.et_Map.clear();
+			Container.tv_Map.clear();
 			openActivity(MaterialAddActivity.class, null);
 			finish();
 			break;
