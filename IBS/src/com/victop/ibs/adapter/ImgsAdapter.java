@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -75,6 +76,9 @@ public class ImgsAdapter extends BaseAdapter {
 		}
 		else {
 			holder.imageView.setImageBitmap(bitmaps[arg0]);
+//			Bitmap bm = bitmaps[arg0];
+//			BitmapDrawable bd=new BitmapDrawable(bm); 
+//			holder.imageView.setBackgroundDrawable(bd);;
 		}
 		arg1.setOnClickListener(new OnPhotoClick(arg0, holder.checkBox));
 		return arg1;

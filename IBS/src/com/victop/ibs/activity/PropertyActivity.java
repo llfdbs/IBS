@@ -71,7 +71,7 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	protected void initViews() {
 		// TODO Auto-generated method stub
 		actionBar = getSupportActionBar();
-		actionBar.setTitle("");
+		actionBar.setTitle("详情");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		et_product = (EditText) findViewById(R.id.et_product);

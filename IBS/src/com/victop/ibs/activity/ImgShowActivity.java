@@ -97,15 +97,9 @@ public class ImgShowActivity extends ActivityBase {
 
 	}
 
-	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-
-		// if (EDIT.equals(edit_mat)) {
-		// Container.add_mData.addAll(Container.newData);
-		// }
-		// Container.newData.clear();
 		Container.et_Map.clear();
 		Container.tv_Map.clear();
 		finish();
@@ -268,8 +262,8 @@ public class ImgShowActivity extends ActivityBase {
 		public void onOpened(int position, boolean toRight) {
 			// TODO Auto-generated method stub
 			super.onOpened(position, toRight);
-			if (isAPI)
-				return;
+			// if (isAPI)
+			// return;
 
 			int start = listView.getFirstVisiblePosition();
 			int end = listView.getLastVisiblePosition();
@@ -333,8 +327,8 @@ public class ImgShowActivity extends ActivityBase {
 		public void onClosed(int position, boolean fromRight) {
 			// TODO Auto-generated method stub
 			super.onClosed(position, fromRight);
-			if (isAPI)
-				return;
+			// if (isAPI)
+			// return;
 			Container.et_Map.get(position).setVisibility(View.VISIBLE);
 			Container.tv_Map.get(position).setVisibility(View.GONE);
 
@@ -377,12 +371,14 @@ public class ImgShowActivity extends ActivityBase {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			// Container.newData.clear();
-			finish();
+			Container.et_Map.clear();
+			Container.tv_Map.clear();
 
+			finish();
 			break;
 
 		case R.id.save:
+
 			// Container.add_mData.addAll(Container.newData);
 			// Container.newData.clear();
 			// Container.mData.clear();

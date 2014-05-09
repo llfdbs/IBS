@@ -98,11 +98,11 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case R.id.ibtn_edit:// 素材编辑按钮
-			// Container.newData.addAll(Container.add_mData);
-			// Container.add_mData.clear();
+
 			Bundle b = new Bundle();
 			b.putString("edit_icon", "edit");
 			b.putSerializable("edit", (Serializable) img_list);
+
 			openActivity(ImgShowActivity.class, b);
 			break;
 		case R.id.img:

@@ -125,6 +125,8 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		float alpha = 100;
 		// imageView.setAlpha(alpha);
 		util.imgExcute(imageView, imgCallBack, filepath);
+		
+		
 		imageView.setOnClickListener(new ImgOnclick(filepath, checkBox));
 		return imageView;
 	}

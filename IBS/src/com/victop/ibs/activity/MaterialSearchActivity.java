@@ -56,7 +56,7 @@ public class MaterialSearchActivity extends ActivityBase implements
 	protected void initViews() {
 		// TODO Auto-generated method stub
 		actionBar = getSupportActionBar();
-		actionBar.setTitle("");
+		actionBar.setTitle("搜索");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);

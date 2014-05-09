@@ -57,7 +57,7 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 	protected void initViews() {
 		// TODO Auto-generated method stub
 		actionBar = getSupportActionBar();
-		actionBar.setTitle("");
+		actionBar.setTitle("历史版本");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		listView = (ListView) findViewById(R.id.lv_history);

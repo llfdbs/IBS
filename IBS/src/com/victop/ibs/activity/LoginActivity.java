@@ -73,20 +73,18 @@ public class LoginActivity extends ActivityBase {
 
 	// 校验用户名密码
 	public boolean validate() {
-		userName = edt_username.getText().toString().trim();
-		passWord = edt_password.getText().toString().trim();
-		if ("".equals(userName) || null == userName) {
-			Toast.makeText(LoginActivity.this, "用户名不能为空,请输入用户名!",
-					Toast.LENGTH_SHORT).show();
-			;
-			return false;
-		}
-		if ("".equals(passWord) || null == passWord) {
-			Toast.makeText(LoginActivity.this, "密码不能为空,请输入密码!",
-					Toast.LENGTH_SHORT).show();
-			;
-			return false;
-		}
+//		userName = edt_username.getText().toString().trim();
+//		passWord = edt_password.getText().toString().trim();
+//		if ("".equals(userName) || null == userName) {
+//			Toast.makeText(LoginActivity.this, "用户名不能为空,请输入用户名!",
+//					Toast.LENGTH_SHORT).show();
+//			return false;
+//		}
+//		if ("".equals(passWord) || null == passWord) {
+//			Toast.makeText(LoginActivity.this, "密码不能为空,请输入密码!",
+//					Toast.LENGTH_SHORT).show();
+//			return false;
+//		}
 		return true;
 	}
 
