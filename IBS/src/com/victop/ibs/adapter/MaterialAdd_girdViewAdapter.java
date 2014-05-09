@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.victop.ibs.activity.ImgFileListActivity;
 import com.victop.ibs.activity.R;
+import com.victop.ibs.bean.Entity;
 import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.Constants;
 
@@ -26,16 +27,16 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 	private int temp;
 	private int int_temp = 0;
 	// =new ArrayList<Map<String, String>>()
-	List<Map<String, String>> list;
+	List<Entity> list;
 
-	public MaterialAdd_girdViewAdapter(Context context,
-			List<Map<String, String>> list, int temp) {
+	public MaterialAdd_girdViewAdapter(Context context, List<Entity> list,
+			int temp) {
 		this.context = context;
 		this.temp = temp;
 		if (list != null)
 			this.list = list;
 		else
-			this.list = new ArrayList<Map<String, String>>();
+			this.list = new ArrayList<Entity>();
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 		}
 
 		if (list.size() != position) {
-			String ff = list.get(position).keySet().iterator().next();
+			String ff = list.get(position).getURL();
 			Constants.imageLoader.displayImage("file://" + ff,
 					viewHolder.iv_material, Constants.image_display_options,
 					null);

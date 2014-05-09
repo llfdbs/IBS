@@ -21,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.victop.ibs.activity.ImgShowActivity;
 import com.victop.ibs.activity.R;
+import com.victop.ibs.bean.Entity;
 import com.victop.ibs.util.Constants;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.util.ImgCallBack;
@@ -31,7 +33,7 @@ import com.victop.ibs.view.SwipeListView;
 public class ListImagesAdapter extends BaseAdapter {
 
 	Context context;
-	List<Map<String, String>> list;
+	List<Entity> list;
 	public Bitmap bitmaps[];
 	Util until;
 	float DownX;
@@ -40,7 +42,7 @@ public class ListImagesAdapter extends BaseAdapter {
 	private Integer index = -1;
 	SwipeListView mSwipeListView;
 
-	public ListImagesAdapter(Context context, List<Map<String, String>> list,
+	public ListImagesAdapter(Context context, List<Entity> list,
 			SwipeListView mSwipeListView) {
 		this.context = context;
 		this.list = list;
@@ -108,12 +110,12 @@ public class ListImagesAdapter extends BaseAdapter {
 			holder.textView.setTag(position);
 		}
 		System.out.println(position + "------------");
-//		Container.et_list.add(position, holder.editText);
-//		Container.tv_list.add(position, holder.textView);
+		// Container.et_list.add(position, holder.editText);
+		// Container.tv_list.add(position, holder.textView);
 		Container.et_Map.put(position, holder.editText);
 		Container.tv_Map.put(position, holder.textView);
 		Constants.imageLoader.displayImage("file://"
-				+ list.get(position).keySet().iterator().next(), holder.image,
+				+ list.get(position).getURL(), holder.image,
 				Constants.image_display_options, null);
 
 		holder.editText.addTextChangedListener(new TextWatcher() {
@@ -137,11 +139,18 @@ public class ListImagesAdapter extends BaseAdapter {
 				// TODO Auto-generated method stub
 				int position = (Integer) holder.editText.getTag();
 				if (s != null && !"".equals(s.toString())) {
-					// Map<String, String> map =
-					// Container.newData.get(position);
-					Container.newData.get(position).put(
-							list.get(position).keySet().iterator().next(),
-							s.toString());
+
+					int count = 0;
+					for (Entity r : ((ImgShowActivity) context).img_list) {
+						if (r.getURL().equals(list.get(position).getURL())) {
+
+							r.setText(s.toString());
+							count = 1;
+						}
+						if (count == 1) {
+							break;
+						}
+					}
 
 				} else {
 					// Container.newData.get(position).put(
@@ -150,7 +159,7 @@ public class ListImagesAdapter extends BaseAdapter {
 				}
 			}
 		});
-		Object value = list.get(position).values().iterator().next();
+		Object value = list.get(position).getText();
 		if (value != null && !"".equals(value)) {
 			holder.editText.setText(value.toString());
 			holder.textView.setText(value.toString());
@@ -208,7 +217,7 @@ public class ListImagesAdapter extends BaseAdapter {
 		ImageView images = (ImageView) view.findViewById(R.id.bigimage);
 
 		Constants.imageLoader.displayImage("file://"
-				+ list.get(position).keySet().iterator().next(), images,
+				+ list.get(position).getURL(), images,
 				Constants.image_display_options, null);
 		dialog.show();
 

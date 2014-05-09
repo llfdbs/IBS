@@ -1,17 +1,14 @@
 package com.victop.ibs.activity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
@@ -19,24 +16,21 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.Entity;
 import com.victop.ibs.bean.SortModel;
-import com.victop.ibs.util.Constants;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.view.MyGridView;
 
@@ -56,8 +50,10 @@ public class MaterialAddActivity extends ActivityBase implements
 	private TextView tv_position, tv_detail;
 	private ImageView iv_addimg;
 
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	public List<Entity> img_list = null;// 传递数据
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -65,10 +61,20 @@ public class MaterialAddActivity extends ActivityBase implements
 		final View view = View.inflate(this, R.layout.materialadd, null);
 		setContentView(view);
 		IBSApplication.getInstance().addActivity(this);
+		Bundle bundle = getIntent().getExtras();
+		// if (bundle != null) {
+		// if (bundle.getSerializable("imgshow_data") != null) {
+		// img_list = extracted(bundle);
+		// }
+		// }
 		initData();
 		initViews();
 		initListeners();
 
+	}
+
+	private List<Entity> extracted(Bundle bundle) {
+		return (List<Entity>) bundle.getSerializable("data");
 	}
 
 	@Override
@@ -92,11 +98,12 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case R.id.ibtn_edit:// 素材编辑按钮
-			Container.newData.addAll(Container.add_mData);
-			Container.add_mData.clear();
+			// Container.newData.addAll(Container.add_mData);
+			// Container.add_mData.clear();
 			Bundle b = new Bundle();
-			b.putString("edit", "edit");
-			openActivity(ImgShowActivity.class, null);
+			b.putString("edit_icon", "edit");
+			b.putSerializable("edit", (Serializable) img_list);
+			openActivity(ImgShowActivity.class, b);
 			break;
 		case R.id.img:
 			openActivity(ImgFileListActivity.class, null);
@@ -108,7 +115,7 @@ public class MaterialAddActivity extends ActivityBase implements
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		Container.add_mData.clear();
+		// Container.add_mData.clear();
 		finish();
 	}
 
@@ -116,17 +123,56 @@ public class MaterialAddActivity extends ActivityBase implements
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
-		if (Container.add_mData.size() == 0) {
-			ibtn_edit.setVisibility(View.INVISIBLE);
-			mgv_material.setVisibility(View.GONE);
+		Bundle b = intent.getExtras();
+		if (b != null) {
 
-		} else {
-			mgv_material.setVisibility(View.VISIBLE);
-			iv_addimg.setVisibility(View.GONE);
-			ibtn_edit.setVisibility(View.VISIBLE);
-			mAdapter = new MaterialAdd_girdViewAdapter(this,
-					Container.add_mData, 0);
-			mgv_material.setAdapter(mAdapter);
+			List<Entity> ee = (List<Entity>) b.getSerializable("imgshow_data");// 非编辑状态
+			List<Entity> ee1 = (List<Entity>) b
+					.getSerializable("edit_imgshow_data");// 编辑状态
+			if (null != ee) {// 非编辑状态
+				if (img_list == null) {
+					img_list = ee;
+					if (null != img_list && img_list.size() == 0) {
+						iv_addimg.setVisibility(View.VISIBLE);
+						ibtn_edit.setVisibility(View.INVISIBLE);
+						mgv_material.setVisibility(View.GONE);
+					} else {
+
+						mgv_material.setVisibility(View.VISIBLE);
+						iv_addimg.setVisibility(View.GONE);
+						ibtn_edit.setVisibility(View.VISIBLE);
+						mAdapter = new MaterialAdd_girdViewAdapter(this,
+								img_list, 0);
+						mgv_material.setAdapter(mAdapter);
+					}
+				} else {
+					img_list.addAll(ee);
+					mgv_material.setVisibility(View.VISIBLE);
+					iv_addimg.setVisibility(View.GONE);
+					ibtn_edit.setVisibility(View.VISIBLE);
+					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
+							0);
+					mgv_material.setAdapter(mAdapter);
+
+				}
+
+			} else if (null != ee1) {
+				img_list.clear();
+				img_list.addAll(ee1);
+				if (img_list.size() == 0) {
+					iv_addimg.setVisibility(View.VISIBLE);
+					ibtn_edit.setVisibility(View.INVISIBLE);
+					mgv_material.setVisibility(View.GONE);
+				} else {
+					mgv_material.setVisibility(View.VISIBLE);
+					iv_addimg.setVisibility(View.GONE);
+					ibtn_edit.setVisibility(View.VISIBLE);
+					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
+							0);
+					mgv_material.setAdapter(mAdapter);
+				}
+			}
+
 		}
 
 	}
@@ -169,13 +215,7 @@ public class MaterialAddActivity extends ActivityBase implements
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-	
-	
-		
-		ibtn_edit = (ImageButton) findViewById(R.id.ibtn_edit);
-		if (Container.add_mData.size() == 0)
-			ibtn_edit.setVisibility(View.INVISIBLE);
-		ibtn_edit.setOnClickListener(this);
+
 	}
 
 	@Override
@@ -198,8 +238,10 @@ public class MaterialAddActivity extends ActivityBase implements
 		iv_addimg.setOnClickListener(this);
 
 		mgv_material = (MyGridView) findViewById(R.id.mgv_material);
+		ibtn_edit = (ImageButton) findViewById(R.id.ibtn_edit);
 
-		if (Container.add_mData.size() == 0) {
+		ibtn_edit.setOnClickListener(this);
+		if (null == img_list || null != img_list && img_list.size() == 0) {
 			ibtn_edit.setVisibility(View.INVISIBLE);
 			mgv_material.setVisibility(View.GONE);
 
@@ -217,7 +259,7 @@ public class MaterialAddActivity extends ActivityBase implements
 				showDialogs(arg2);
 			}
 		});
-		mAdapter = new MaterialAdd_girdViewAdapter(this, Container.add_mData, 0);
+		mAdapter = new MaterialAdd_girdViewAdapter(this, img_list, 0);
 		mgv_material.setAdapter(mAdapter);
 		llt_sort.setOnClickListener(this);
 		llt_property.setOnClickListener(this);
@@ -240,14 +282,13 @@ public class MaterialAddActivity extends ActivityBase implements
 		ViewPager pager;
 		pager = (ViewPager) view.findViewById(R.id.pager);
 		pager.setAdapter(new Mat_add_ImagePagerAdapter(
-				MaterialAddActivity.this, Container.add_mData));
+				MaterialAddActivity.this, img_list));
 		pager.setCurrentItem(pagerPosition);
 		pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
-				String rr = position + 1 + "/" + Container.add_mData.size();
-				String dd = Container.add_mData.get(position).values()
-						.iterator().next();
+				String rr = position + 1 + "/" + img_list.size();
+				String dd = img_list.get(position).getText();
 				tv_position.setText(rr);
 				tv_detail.setText(dd);
 				// ((RadioButton) dotGroupButton.getChildAt(position))
@@ -264,9 +305,9 @@ public class MaterialAddActivity extends ActivityBase implements
 		});
 		tv_position = (TextView) view.findViewById(R.id.image_position);
 		tv_detail = (TextView) view.findViewById(R.id.image_detail);
-		String rr = pagerPosition + 1 + "/" + Container.add_mData.size();
-		String dd = Container.add_mData.get(pagerPosition).values().iterator()
-				.next();
+		String rr = pagerPosition + 1 + "/" + img_list.size();
+		String dd = img_list.get(pagerPosition).getText();
+
 		tv_position.setText(rr);
 		tv_detail.setText(dd);
 		LayoutParams lay = dialog.getWindow().getAttributes();
@@ -290,7 +331,7 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_position.setText(rr);
 		tv_detail.setText(dd);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -316,17 +357,17 @@ public class MaterialAddActivity extends ActivityBase implements
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			Container.add_mData.clear();
+			// Container.add_mData.clear();
 			finish();
-			
+
 			break;
 		case R.id.search:
 			break;
 		case R.id.add:
-	
+
 			break;
 		case R.id.save:
-			Container.add_mData.clear();
+			// Container.add_mData.clear();
 			finish();
 			break;
 		}

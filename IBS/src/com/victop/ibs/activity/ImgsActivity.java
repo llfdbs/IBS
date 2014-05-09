@@ -1,20 +1,18 @@
 package com.victop.ibs.activity;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
@@ -30,13 +28,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.victop.ibs.adapter.ImgsAdapter;
 import com.victop.ibs.adapter.ImgsAdapter.OnItemClickClass;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.Entity;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.util.FileTraversal;
 import com.victop.ibs.util.ImgCallBack;
@@ -60,8 +58,8 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	HashMap<Integer, ImageView> hashImage;
 	Button choise_button;
 	ArrayList<String> filelist;
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +76,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -239,8 +237,10 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
+	Entity e;
 
 	/**
 	 * FIXME
@@ -249,13 +249,20 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	 */
 	public void sendfiles() {
 		if (filelist.size() > 0) {
+			List<Entity> ee = new ArrayList<Entity>();
 			for (String tt : filelist) {
-				Map<String, String> rr = new HashMap<String, String>();
-				rr.put(tt, "");
-				Container.newData.add(rr);
+				// Map<String, String> rr = new HashMap<String, String>();
+				// rr.put(tt, "");
+				// Container.newData.add(rr);
+				e = new Entity();
+				e.setText("");
+				e.setURL(tt);
+				ee.add(e);
 			}
+			Bundle b = new Bundle();
+			b.putSerializable("data", (Serializable) ee);
 
-			openActivity(ImgShowActivity.class, null);
+			openActivity(ImgShowActivity.class, b);
 		} else {
 			Toast.makeText(getApplicationContext(), "请选择图片", 500).show();
 		}
@@ -266,6 +273,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -280,7 +288,6 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		save.setVisible(true);
 		save.setTitle("确定");
 		save.setIcon(null);
-		
 
 		return true;
 	}
@@ -292,17 +299,17 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			
+
 			finish();
-			
+
 			break;
 		case R.id.search:
 			break;
 		case R.id.add:
-	
+
 			break;
 		case R.id.save:
-			sendfiles();//保存
+			sendfiles();// 保存
 			finish();
 			break;
 		}

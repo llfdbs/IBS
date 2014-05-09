@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -12,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.victop.ibs.activity.R;
+import com.victop.ibs.bean.Entity;
 import com.victop.ibs.util.Constants;
+import com.victop.ibs.util.ImgCallBack;
 import com.victop.ibs.util.PictureUtil;
+import com.victop.ibs.util.Util;
 
 /**
  * 新增素材图片浏览适配器
@@ -27,11 +31,11 @@ public class Mat_add_ImagePagerAdapter extends PagerAdapter {
 	private LayoutInflater inflater;
 	// private String[] arr_detail = { "我是第一张描述", "ddddddddddddd",
 	// "sssssssssssss" };
-	private List<Map<String, String>> list;
+	private List<Entity> list;
 
-	public Mat_add_ImagePagerAdapter(Context context,
-			List<Map<String, String>> list) {
+	public Mat_add_ImagePagerAdapter(Context context, List<Entity> list) {
 		this.context = context;
+		util = new Util(context);
 		this.list = list;
 		this.inflater = LayoutInflater.from(context);
 	}
@@ -57,7 +61,7 @@ public class Mat_add_ImagePagerAdapter extends PagerAdapter {
 		// TextView tv_position = (TextView) imageLayout
 		// .findViewById(R.id.image_position);
 		Constants.imageLoader.displayImage("file://"
-				+ list.get(position).keySet().iterator().next(), imageView,
+				+ list.get(position).getURL(), imageView,
 				Constants.image_display_options, null);
 
 		// imageView.setBackgroundResource(images[position]);
@@ -80,4 +84,9 @@ public class Mat_add_ImagePagerAdapter extends PagerAdapter {
 	public Parcelable saveState() {
 		return null;
 	}
+
+	String filecount = "filecount";
+	String filename = "filename";
+	String imgpath = "imgpath";
+	Util util;
 }
