@@ -208,12 +208,13 @@
                     android:id="@+id/edt_taskdetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
                     android:background="@drawable/task_detail_edt_bg"
                     android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textColor="#bababb"
-                    android:textSize="@dimen/text_medial" />
+                    android:textSize="@dimen/text_medial"
+                    android:layout_gravity="center"
+                     />
             </LinearLayout>
 
             <Button

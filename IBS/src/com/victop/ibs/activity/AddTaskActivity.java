@@ -202,19 +202,32 @@ public class AddTaskActivity extends ActivityBase {
 
 	private void updateDate() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		tv_date.setText(simpleDateFormat.format(cal.getTime()));
+		
 		date = simpleDateFormat.format(cal.getTime());
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");// 设置日期格式
 		currentdate = df.format(new Date());
 		try {
 			d1 = df.parse(currentdate);
 			d2 = df.parse(date);
+			if (d2.getTime()<d1.getTime()) {
+				Calendar cals = Calendar.getInstance();
+//				cals.set(Calendar.YEAR,cals.get(Calendar.YEAR));
+//				cals.set(Calendar.MONTH,cals.get(Calendar.MONTH));
+//				cals.set(Calendar.DAY_OF_MONTH,cals.get(Calendar.DAY_OF_MONTH));
+				cal.setTime(d1);
+				Toast.makeText(AddTaskActivity.this, "截止日期要大于当前时间,当前日期为:"+currentdate,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}else{
 			days = daysBetween(d1, d2);
+			tv_date.setText(simpleDateFormat.format(cal.getTime()));
+			tv_datecount.setText(days + "天");
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		tv_datecount.setText(days + "天");
+		
 
 	}
 
