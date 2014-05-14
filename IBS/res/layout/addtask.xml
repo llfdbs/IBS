@@ -206,14 +206,17 @@
 
                 <EditText
                     android:id="@+id/edt_taskdetail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/task_detail_edt_bg"
+                    android:background="@drawable/rounded_edittext"
                     android:gravity="top|left"
-                    android:paddingLeft="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:textColor="#bababb"
                     android:textSize="@dimen/text_medial"
                     android:layout_gravity="center"
+                    android:minLines="8"
+                    android:paddingLeft="10dp"
                      />
             </LinearLayout>
 

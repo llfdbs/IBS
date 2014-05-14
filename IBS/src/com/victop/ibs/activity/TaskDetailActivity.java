@@ -45,6 +45,8 @@ public class TaskDetailActivity extends ActivityBase {
 			str_taskdetail_taskstatue, str_materialcount;
 	private ActionBar actionBar;//导航栏
 	private MenuItem search, add, save;//搜索,添加，保存按钮
+	Bundle bundle;
+	String status;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -64,7 +66,7 @@ public class TaskDetailActivity extends ActivityBase {
 		// TODO Auto-generated method stub
 		setData();
 		adapter = new TaskDetail_MaterialAdapter(TaskDetailActivity.this,
-				listData);
+				listData,status);
 		mListView.setAdapter(adapter);
 	}
 
@@ -85,6 +87,9 @@ public class TaskDetailActivity extends ActivityBase {
 		tv_taskdetail_taskobj = (TextView) findViewById(R.id.tv_taskdetail_taskobj);
 		tv_taskdetail_taskstatue = (TextView) findViewById(R.id.tv_taskdetail_taskstatue);
 		tv_materialcount = (TextView) findViewById(R.id.tv_materialcount);
+		bundle = getIntent().getExtras();
+		status = bundle.getString("statue");
+		
 
 	}
 
@@ -149,7 +154,14 @@ public class TaskDetailActivity extends ActivityBase {
 		save.setVisible(true);
 		save.setTitle("完工");
 		save.setIcon(null);
-		
+		//未完成
+				if(status.equals("00")){
+					imgbtn_addmaterial.setVisibility(View.VISIBLE);
+					save.setVisible(true);
+				}else{
+					imgbtn_addmaterial.setVisibility(View.GONE);
+					save.setVisible(false);
+				}
 
 		return true;
 	}

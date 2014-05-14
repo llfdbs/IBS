@@ -73,7 +73,7 @@ public class HomeModlFragment extends Fragment {
 	}
 
 	protected void initListeners() {
-
+		img_userhead.setOnClickListener(mOnClick);
 		btn_manager_search.setOnClickListener(mOnClick);
 		btn_manager_addmaterial.setOnClickListener(mOnClick);
 		btn_manager_receivedtask.setOnClickListener(mOnClick);
@@ -92,6 +92,9 @@ public class HomeModlFragment extends Fragment {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
+			case R.id.img_userhead://用户头头像
+				((MainActivity) getActivity()).showMenuRight();
+				break;
 			case R.id.btn_manager_search://素材搜索
 				((MainActivity) getActivity()).rightToCenter(4);
 				break;

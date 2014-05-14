@@ -21,10 +21,16 @@
     <string name="user_role_manager">管理者</string>
     <string name="user_role_employees">普通员工</string>
     <string name="addmaterial">新增素材</string>
-    <string name="receivetask">接受的任务</string>
+    <string name="receivetask">接收的任务</string>
     <string name="material">素材</string>
     <string name="sendtask">发布的任务</string>
     <string name="task">任务</string>
+    <!-- 个人中心 -->
+    <string name="mymaterial">我的素材</string>
+    <string name="unfinishedmaterial">未完成的素材</string>
+    <string name="checkedmaterial">已审核的素材</string>
+    <string name="uncheckedmaterial">未审核的素材</string>
+    <string name="mytask">我的任务</string>
     <!-- 新增任务 -->
     <string name="addtask">新增任务</string>
     <string name="allocation">分配</string>
@@ -41,7 +47,7 @@
     <string name="allocationpositve">确定要分配此任务吗?</string>
     <string name="tasksave">是否保存当前内容?</string>
     <!-- 任务界面 -->
-    <string name="receivedtask">接受的任务</string>
+    <string name="receivedtask">接收的任务</string>
     <string name="sendedtask">发布的任务</string>
     <string name="receivedtask_tasknumber">任务单号:</string>
     <string name="receivedtask_taskstatue">完成状态:</string>

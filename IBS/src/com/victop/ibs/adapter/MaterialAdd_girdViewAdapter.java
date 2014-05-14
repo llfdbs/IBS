@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.victop.ibs.activity.ImgFileListActivity;
+import com.victop.ibs.activity.MaterialAddActivity;
 import com.victop.ibs.activity.R;
+import com.victop.ibs.adapter.ImgsAdapter.OnItemClickClass;
 import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.Constants;
 
@@ -27,11 +30,12 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 	private int int_temp = 0;
 	// =new ArrayList<Map<String, String>>()
 	List<Map<String, String>> list;
-
+	ShowUploadWayClass showUploadWay;
 	public MaterialAdd_girdViewAdapter(Context context,
-			List<Map<String, String>> list, int temp) {
+			List<Map<String, String>> list, int temp,ShowUploadWayClass showUploadWay) {
 		this.context = context;
 		this.temp = temp;
+		this.showUploadWay = showUploadWay;
 		if (list != null)
 			this.list = list;
 		else
@@ -81,9 +85,12 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					Intent _Intent = new Intent(context,
-							ImgFileListActivity.class);
-					context.startActivity(_Intent);
+				
+				//MaterialAddActivity.showUploadWayDialog();
+				showUploadWay.showUploadWayDialog();
+//					Intent _Intent = new Intent(context,
+//							ImgFileListActivity.class);
+//					context.startActivity(_Intent);
 				}
 			});
 		}
@@ -92,7 +99,9 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-
+	public interface ShowUploadWayClass{
+		public void showUploadWayDialog();
+	}
 	private class ViewHolder {
 		private ImageView iv_material;
 

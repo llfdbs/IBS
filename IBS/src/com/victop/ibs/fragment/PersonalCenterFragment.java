@@ -109,6 +109,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 			((MainActivity) getActivity()).rightToCenter(0);
 			break;
 		case R.id.tv_mytask:
+			((MainActivity) getActivity()).rightToCenter(5);
 			break;
 		case R.id.btn_exit://退出按钮
 			((MainActivity) getActivity()).rightToCenter(8);

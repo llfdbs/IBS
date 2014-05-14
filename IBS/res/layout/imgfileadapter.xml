@@ -8,8 +8,9 @@
         android:id="@+id/filephoto_imgview"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/task_material_head" 
+        android:background="@drawable/task_material_head" 
         android:layout_marginLeft="10dp"
+        android:scaleType="fitXY"
         />
     
     <LinearLayout

@@ -17,6 +17,7 @@ package com.victop.ibs.util;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.victop.ibs.activity.R;
 
@@ -30,7 +31,7 @@ public final class Constants {
 	public static DisplayImageOptions image_display_options = new DisplayImageOptions.Builder()
 			.showImageOnLoading(R.drawable.task_material_head)
 			.showImageForEmptyUri(R.drawable.task_material_head)
-			.showImageOnFail(R.drawable.task_material_head)
+			.showImageOnFail(R.drawable.task_material_head).imageScaleType(ImageScaleType.EXACTLY)
 			.displayer(new RoundedBitmapDisplayer(0)).cacheInMemory(true)
 			.cacheOnDisc(true).build();
 

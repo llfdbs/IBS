@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/usercenter_title_bg"
                 android:gravity="center"
-                android:text="我的素材"
+                android:text="@string/mymaterial"
                 android:textColor="#cccccc"
                 android:textSize="@dimen/text_medial" />
 
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="未完成的素材"
+                    android:text="@string/unfinishedmaterial"
                     android:textColor="#959595"
                     android:textSize="@dimen/text_medial" />
 
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="已审核的素材"
+                    android:text="@string/checkedmaterial"
                     android:textColor="#959595"
                     android:textSize="@dimen/text_medial" />
 
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="未审核的素材"
+                    android:text="@string/uncheckedmaterial"
                     android:textColor="#959595"
                     android:textSize="@dimen/text_medial" />
 
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/usercenter_title_bg"
                 android:gravity="center"
-                android:text="我的任务"
+                android:text="@string/mytask"
                 android:textColor="#cccccc"
                 android:textSize="@dimen/text_medial" />
 
@@ -170,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="接受的任务"
+                    android:text="@string/receivetask"
                     android:textColor="#959595"
                     android:textSize="@dimen/text_medial" />
 
@@ -198,7 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="发布的任务"
+                    android:text="@string/sendtask"
                     android:textColor="#959595"
                     android:textSize="@dimen/text_medial" />
 

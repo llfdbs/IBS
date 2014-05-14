@@ -85,7 +85,9 @@ public class AddTaskActivity extends ActivityBase {
 
 	@Override
 	public void initListeners() {
+		tv_allocationname.setOnClickListener(mOnClick);
 		imgbtn_addperson.setOnClickListener(mOnClick);
+		tv_date.setOnClickListener(mOnClick);
 		imgbtn_choosedate.setOnClickListener(mOnClick);
 		btn_tasksave.setOnClickListener(mOnClick);
 		radiogroup_type.setOnCheckedChangeListener(mOnChecked);
@@ -149,9 +151,16 @@ public class AddTaskActivity extends ActivityBase {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			
+			case R.id.tv_allocationname:
+				openActivityForResult(TaskAllocationActivity.class, null, 100);
+				break;
 			case R.id.imgbtn_addperson:
 				openActivityForResult(TaskAllocationActivity.class, null, 100);
+				break;
+			case R.id.tv_date:
+				new DatePickerDialog(AddTaskActivity.this, listener,
+						cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+						cal.get(Calendar.DAY_OF_MONTH)).show();
 				break;
 			case R.id.imgbtn_choosedate:
 				new DatePickerDialog(AddTaskActivity.this, listener,
@@ -285,6 +294,7 @@ public class AddTaskActivity extends ActivityBase {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				dialog.dismiss();
+				finish();
 			}
 		});
 		btn_tasksave.setOnClickListener(new OnClickListener() {

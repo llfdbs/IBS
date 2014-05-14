@@ -48,6 +48,10 @@ public class TaskAllocationActivity extends ActivityBase {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
+		if(employeeAdapter.isSelectedName!=null || employeeAdapter.isSelectedCount!=null){
+		employeeAdapter.isSelectedName.clear();
+		employeeAdapter.isSelectedCount.clear();
+		}
 		setData();
 		employeeAdapter = new TaskAllocationAdapter(
 				TaskAllocationActivity.this, list, "visiable");
@@ -186,10 +190,12 @@ public class TaskAllocationActivity extends ActivityBase {
 			break;
 	
 		case R.id.save:
+			
 			TranslateData();
 			break;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
+	
 }

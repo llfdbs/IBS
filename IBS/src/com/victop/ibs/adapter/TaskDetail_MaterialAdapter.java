@@ -17,11 +17,12 @@ public class TaskDetail_MaterialAdapter extends BaseAdapter {
   private Context context;
   private List<Map<String,String>> list;
   private LayoutInflater layoutInflater;
-	
-    public TaskDetail_MaterialAdapter(Context context,List<Map<String,String>> list){
+  private String tag;
+    public TaskDetail_MaterialAdapter(Context context,List<Map<String,String>> list,String tag){
     	this.context = context;
     	this.list = list;
     	layoutInflater = LayoutInflater.from(context);
+    	this.tag = tag;
     }
 	@Override
 	public int getCount() {
@@ -59,10 +60,17 @@ public class TaskDetail_MaterialAdapter extends BaseAdapter {
 		holder.taskdetail_title.setText(list.get(position).get("title"));
 		holder.taskdetail_object.setText(list.get(position).get("allocationobj"));
 		holder.taskdetail_committime.setText(list.get(position).get("committime"));
+		if(tag.equals("00")){
+			holder.img_checkstatue.setVisibility(View.GONE);
+		}else{
+			holder.img_checkstatue.setVisibility(View.VISIBLE);
 		if(list.get(position).get("checkstatue").equals("00")){
 			holder.img_checkstatue.setImageResource(R.drawable.img_nopass);
+			
 		}else{
+			
 			holder.img_checkstatue.setImageResource(R.drawable.img_pass);
+		}
 		}
 		return convertView;
 	}

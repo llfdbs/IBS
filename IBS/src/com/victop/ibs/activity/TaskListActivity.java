@@ -173,7 +173,9 @@ public class TaskListActivity extends ActivityBase {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			// TODO Auto-generated method stub
-			openActivity(TaskDetailActivity.class, null);
+			Bundle bundle = new Bundle();
+			bundle.putString("statue",listData.get(arg2).get("statue"));
+			openActivity(TaskDetailActivity.class, bundle);
 
 		}
 	};
