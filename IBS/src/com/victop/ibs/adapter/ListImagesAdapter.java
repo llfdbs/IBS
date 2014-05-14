@@ -1,11 +1,12 @@
 package com.victop.ibs.adapter;
 
 import java.util.List;
-import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.victop.ibs.activity.ImgFileListActivity;
 import com.victop.ibs.activity.ImgShowActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.Entity;
@@ -109,7 +111,6 @@ public class ListImagesAdapter extends BaseAdapter {
 			holder.editText.setTag(position);
 			holder.textView.setTag(position);
 		}
-		System.out.println(position + "------------");
 		// Container.et_list.add(position, holder.editText);
 		// Container.tv_list.add(position, holder.textView);
 		Container.et_Map.put(position, holder.editText);
@@ -182,30 +183,25 @@ public class ListImagesAdapter extends BaseAdapter {
 
 			}
 		});
-		// holder.btn_delete.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// // TODO Auto-generated method stub
-		// Toast.makeText(context, position + "", Toast.LENGTH_SHORT)
-		// .show();
-		// Container.mData.remove(position);
-		// list.remove(position);
-		// notifyDataSetChanged();
-		// holder.btn_delete.setVisibility(View.GONE);
-		//
-		// }
-		// });
-		// holder.image.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// // TODO Auto-generated method stub
-		//
-		// showDialog(position);
-		//
-		// }
-		// });
+		holder.mBackEdit.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				mSwipeListView.closeAnimate(position);
+				Bundle pBundle = new Bundle();
+				pBundle.putString("edit", position + "");
+				Intent _Intent = new Intent(context, ImgFileListActivity.class);
+				if (pBundle != null) {
+					_Intent.putExtras(pBundle);
+				}
+				context.startActivity(_Intent);
+				// overridePendingTransition(R.anim.new_in_from_right,
+				// R.anim.new_out_to_left);
+			}
+		});
+
 		return convertView;
 	}
 

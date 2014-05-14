@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,6 +67,8 @@ public class ImgShowActivity extends ActivityBase {
 	private final int API_4 = 14;
 	public List<Entity> img_list = null;// 传递数据
 	private String edit_icon = "";
+	private int img_postion = -1;
+	private String img_url = "";
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -86,6 +89,7 @@ public class ImgShowActivity extends ActivityBase {
 			if (bundle.get("edit_icon") != null) {
 				edit_icon = (String) bundle.getString("edit_icon");
 			}
+
 		}
 		if (Build.VERSION.SDK_INT > API_4 || Build.VERSION.SDK_INT == API_4) {
 			isAPI = true;
@@ -146,6 +150,22 @@ public class ImgShowActivity extends ActivityBase {
 	protected void initListeners() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+		Bundle b = intent.getExtras();
+		if (b.get("url") != null) {
+
+			img_url = (String) b.get("url");
+		}
+		if (b.get("position") != null) {
+			img_postion = Integer.valueOf(b.get("position").toString());
+		}
+		img_list.get(img_postion).setURL(img_url);
+		adddata(img_list);
 	}
 
 	// public void addData(ArrayList<String> listfiles, ArrayList<String>
@@ -291,6 +311,7 @@ public class ImgShowActivity extends ActivityBase {
 
 		@Override
 		public void onStartOpen(int position, int action, boolean right) {
+			System.out.println("onStartOpen");
 			// TODO Auto-generated method stub
 			// int start = listView.getFirstVisiblePosition();
 			// int end = listView.getLastVisiblePosition();
@@ -320,6 +341,7 @@ public class ImgShowActivity extends ActivityBase {
 		@Override
 		public int onChangeSwipeMode(int position) {
 			// TODO Auto-generated method stub
+
 			return super.onChangeSwipeMode(position);
 		}
 

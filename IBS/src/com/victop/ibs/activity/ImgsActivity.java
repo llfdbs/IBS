@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -35,7 +34,6 @@ import com.victop.ibs.adapter.ImgsAdapter.OnItemClickClass;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.Entity;
-import com.victop.ibs.util.Container;
 import com.victop.ibs.util.FileTraversal;
 import com.victop.ibs.util.ImgCallBack;
 import com.victop.ibs.util.Util;
@@ -60,6 +58,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	ArrayList<String> filelist;
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private String img_position = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,13 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		IBSApplication.getInstance().addActivity(this);
 
 		bundle = getIntent().getExtras();
-		fileTraversal = bundle.getParcelable("data");
+		if (null != bundle) {
+			fileTraversal = bundle.getParcelable("data");
+			img_position = bundle.getString("position");
+			if (null == img_position) {
+				img_position = "";
+			}
+		}
 		initData();
 		initViews();
 	}
@@ -87,8 +92,36 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		actionBar.setIcon(R.drawable.btn_back);
 		imgGridView = (GridView) findViewById(R.id.gridView1);
 		imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent,
-				onItemClickClass);
+				onItemClickClass, img_position);
 		imgGridView.setAdapter(imgsAdapter);
+		// imgGridView.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> arg0, View arg1,
+		// int Position, long arg3) {
+		// // TODO Auto-generated method stub
+		// if (!"".equals(img_position)) {
+		// imgsAdapter.changeState(Position);
+		//
+		// Log.i("img", "img choise position->" + Position);
+		// String filapath = fileTraversal.filecontent.get(Position);
+		//
+		// filelist.clear();
+		//
+		// filelist.add(filapath);
+		//
+		// if (filelist.size() == 0) {
+		// actionBar.setTitle("请选择图片");
+		// } else {
+		//
+		// actionBar.setTitle("已选择图片");
+		//
+		// }
+		//
+		// }
+		// }
+		//
+		// });
 		select_layout = (LinearLayout) findViewById(R.id.selected_image_layout);
 		relativeLayout2 = (RelativeLayout) findViewById(R.id.relativeLayout2);
 		choise_button = (Button) findViewById(R.id.button3);
@@ -125,8 +158,7 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		float alpha = 100;
 		// imageView.setAlpha(alpha);
 		util.imgExcute(imageView, imgCallBack, filepath);
-		
-		
+
 		imageView.setOnClickListener(new ImgOnclick(filepath, checkBox));
 		return imageView;
 	}
@@ -175,66 +207,81 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 		@Override
 		public void OnItemClick(View v, int Position, CheckBox checkBox) {
 			String filapath = fileTraversal.filecontent.get(Position);
-			if (checkBox.isChecked()) {
-				checkBox.setChecked(false);
-				select_layout.removeView(hashImage.get(Position));
-				filelist.remove(filapath);
-				if (select_layout.getChildCount() == 0) {
-					actionBar.setTitle("请选择图片");
-				} else {
+			Log.i("img", "img choise position->>>" + Position);
+			if ("".equals(img_position)) {
+				if (checkBox.isChecked()) {
+					checkBox.setChecked(false);
+					select_layout.removeView(hashImage.get(Position));
+					filelist.remove(filapath);
+					if (select_layout.getChildCount() == 0) {
+						actionBar.setTitle("请选择图片");
+					} else {
 
-					SpannableString sp = new SpannableString("已选择"
-							+ select_layout.getChildCount() + "张");
+						SpannableString sp = new SpannableString("已选择"
+								+ select_layout.getChildCount() + "张");
 
-					if (select_layout.getChildCount() < 10) {
-						sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
-								Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-					} else if (select_layout.getChildCount() < 100) {
-						sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
-								Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+						if (select_layout.getChildCount() < 10) {
+							sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3,
+									4, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+						} else if (select_layout.getChildCount() < 100) {
+							sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3,
+									5, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+						}
+
+						actionBar.setTitle(sp);
 					}
+				} else {
+					try {
+						checkBox.setChecked(true);
 
-					actionBar.setTitle(sp);
+						ImageView imageView = iconImage(filapath, Position,
+								checkBox);
+						if (imageView != null) {
+							hashImage.put(Position, imageView);
+							filelist.add(filapath);
+							select_layout.addView(imageView);
+
+							if (select_layout.getChildCount() == 0) {
+								actionBar.setTitle("请选择图片");
+							} else {
+								SpannableString sp = new SpannableString("已选择"
+										+ select_layout.getChildCount() + "张");
+
+								if (select_layout.getChildCount() < 10) {
+									sp.setSpan(new ForegroundColorSpan(
+											0xff0079fa), 3, 4,
+											Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+								} else if (select_layout.getChildCount() < 100) {
+									sp.setSpan(new ForegroundColorSpan(
+											0xff0079fa), 3, 5,
+											Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+								}
+								actionBar.setTitle(sp);
+							}
+						}
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
 				}
 			} else {
-				try {
-					checkBox.setChecked(true);
-					Log.i("img", "img choise position->" + Position);
-					ImageView imageView = iconImage(filapath, Position,
-							checkBox);
-					if (imageView != null) {
-						hashImage.put(Position, imageView);
-						filelist.add(filapath);
-						select_layout.addView(imageView);
 
-						if (select_layout.getChildCount() == 0) {
-							actionBar.setTitle("请选择图片");
-						} else {
-							SpannableString sp = new SpannableString("已选择"
-									+ select_layout.getChildCount() + "张");
+				filelist.clear();
+				filelist.add(filapath);
+				if (filelist.size() == 0) {
+					actionBar.setTitle("请选择图片");
+				} else {
+					actionBar.setTitle("已选择图片");
 
-							if (select_layout.getChildCount() < 10) {
-								sp.setSpan(new ForegroundColorSpan(0xff0079fa),
-										3, 4,
-										Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-							} else if (select_layout.getChildCount() < 100) {
-								sp.setSpan(new ForegroundColorSpan(0xff0079fa),
-										3, 5,
-										Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-							}
-							actionBar.setTitle(sp);
-						}
-					}
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
 				}
+				Bundle b = new Bundle();
+				b.putString("url", filelist.get(0).toString());
+				b.putString("position", img_position);
+
+				openActivity(ImgShowActivity.class, b);
+				finish();
 			}
 		}
 	};
-
-	public void tobreak(View view) {
-		finish();
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -251,20 +298,26 @@ public class ImgsActivity extends ActivityBase implements OnClickListener {
 	 */
 	public void sendfiles() {
 		if (filelist.size() > 0) {
-			List<Entity> ee = new ArrayList<Entity>();
-			for (String tt : filelist) {
-				// Map<String, String> rr = new HashMap<String, String>();
-				// rr.put(tt, "");
-				// Container.newData.add(rr);
-				e = new Entity();
-				e.setText("");
-				e.setURL(tt);
-				ee.add(e);
-			}
 			Bundle b = new Bundle();
-			b.putSerializable("data", (Serializable) ee);
+			if ("".equals(img_position)) {
+				List<Entity> ee = new ArrayList<Entity>();
+				for (String tt : filelist) {
+					e = new Entity();
+					e.setText("");
+					e.setURL(tt);
+					ee.add(e);
+				}
+
+				b.putSerializable("data", (Serializable) ee);
+
+			} else {
+
+				// b.putString("url", filelist.get(0).toString());
+				// b.putString("position", img_position);
+			}
 
 			openActivity(ImgShowActivity.class, b);
+			finish();
 		} else {
 			Toast.makeText(getApplicationContext(), "请选择图片", 500).show();
 		}
