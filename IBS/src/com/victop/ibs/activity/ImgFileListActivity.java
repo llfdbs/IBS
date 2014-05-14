@@ -38,17 +38,29 @@ public class ImgFileListActivity extends ActivityBase implements
 	Util util;
 	ImgFileListAdapter listAdapter;
 	List<FileTraversal> locallist;
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private String position = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.imgfilelist);
 		IBSApplication.getInstance().addActivity(this);
-		listView = (ListView) findViewById(R.id.listView1);
+		Bundle bundle = getIntent().getExtras();
+		if (null != bundle)
+			position = bundle.getString("edit");
+		if (null == position) {
+			position = "";
+		}
 		initViews();
 		initData();
+
+	}
+
+	@Override
+	protected void initData() {
+		// TODO Auto-generated method stub
 		util = new Util(this);
 		locallist = util.LocalImgFileList();
 		List<HashMap<String, String>> listdata = new ArrayList<HashMap<String, String>>();
@@ -68,30 +80,33 @@ public class ImgFileListActivity extends ActivityBase implements
 		listAdapter = new ImgFileListAdapter(this, listdata);
 		listView.setAdapter(listAdapter);
 		listView.setOnItemClickListener(this);
-
-	}
-
-	protected void initData() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Bundle bundle = new Bundle();
-		bundle.putParcelable("data", locallist.get(arg2));
-		openActivity(ImgsActivity.class, bundle);
+		if ("".equals(position)) {
+			Bundle bundle = new Bundle();
+			bundle.putParcelable("data", locallist.get(arg2));
+			openActivity(ImgsActivity.class, bundle);
+		} else {
+			Bundle bundle = new Bundle();
+			bundle.putParcelable("data", locallist.get(arg2));
+			bundle.putString("position", position);
+			openActivity(ImgsActivity.class, bundle);
+		}
+
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		listView = (ListView) findViewById(R.id.listView1);
 		actionBar = getSupportActionBar();
 		actionBar.setTitle("");
 		actionBar.setHomeButtonEnabled(true);
@@ -103,6 +118,7 @@ public class ImgFileListActivity extends ActivityBase implements
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -115,7 +131,6 @@ public class ImgFileListActivity extends ActivityBase implements
 		search.setVisible(false);
 		add.setVisible(false);
 		save.setVisible(false);
-		
 
 		return true;
 	}
@@ -127,11 +142,11 @@ public class ImgFileListActivity extends ActivityBase implements
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			
+
 			finish();
-			
+
 			break;
-		
+
 		}
 
 		return super.onOptionsItemSelected(item);

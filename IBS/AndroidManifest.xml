@@ -137,6 +137,7 @@
         </activity>
         <activity
             android:name=".ImgShowActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" >

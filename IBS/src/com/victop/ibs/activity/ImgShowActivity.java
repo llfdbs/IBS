@@ -1,11 +1,13 @@
 package com.victop.ibs.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 import com.victop.ibs.adapter.ListImagesAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.Entity;
 import com.victop.ibs.util.Constants;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.util.ImgCallBack;
@@ -48,14 +51,12 @@ import com.victop.ibs.view.SwipeListView;
  * @author Administrator
  * 
  */
-public class ImgShowActivity extends ActivityBase implements OnClickListener {
+public class ImgShowActivity extends ActivityBase {
 	private SwipeListView listView;
-	private ArrayList<String> listfile = new ArrayList<String>();
+	// private ArrayList<String> listfile = new ArrayList<String>();
 	ListImagesAdapter adapter;
-	private List<Map<String, String>> mData = new ArrayList<Map<String, String>>();
 	public static int deviceWidth;
 	public static final String EDIT = "edit";
-	private String edit_mat = "";
 	EditText et;
 	TextView text;
 
@@ -64,6 +65,10 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 	boolean isAPI = false;
 	private final int API_4 = 14;
+	public List<Entity> img_list = null;// 传递数据
+	private String edit_icon = "";
+	private int img_postion = -1;
+	private String img_url = "";
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -74,13 +79,17 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		IBSApplication.getInstance().addActivity(this);
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
-			if (bundle.getStringArrayList("files") != null) {
-				listfile = bundle.getStringArrayList("files");
+			if (bundle.getSerializable("data") != null) {
+				img_list = (List<Entity>) bundle.getSerializable("data");
 			}
 
 			if (bundle.get(EDIT) != null) {
-				edit_mat = bundle.get(EDIT).toString();
+				img_list = (List<Entity>) bundle.getSerializable("edit");
 			}
+			if (bundle.get("edit_icon") != null) {
+				edit_icon = (String) bundle.getString("edit_icon");
+			}
+
 		}
 		if (Build.VERSION.SDK_INT > API_4 || Build.VERSION.SDK_INT == API_4) {
 			isAPI = true;
@@ -92,45 +101,13 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 	}
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		// switch (v.getId()) {
-		// case R.id.back:
-		// if (EDIT.equals(edit_mat)) {
-		// Container.add_mData.addAll(Container.newData);
-		// }
-		// Container.newData.clear();
-		// Container.et_Map.clear();
-		// Container.tv_Map.clear();
-		// finish();
-		// break;
-		// case R.id.add:
-		// Container.add_mData.clear();
-		// Container.add_mData.addAll(Container.newData);
-		// Container.newData.clear();
-		// // Container.mData.clear();
-		// Container.et_Map.clear();
-		// Container.tv_Map.clear();
-		// openActivity(MaterialAddActivity.class, null);
-		// finish();
-		// break;
-		//
-		// }
-	}
-
-	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-
-		if (EDIT.equals(edit_mat)) {
-			Container.add_mData.clear();
-			Container.add_mData.addAll(Container.newData);
-		}
-		Container.newData.clear();
 		Container.et_Map.clear();
 		Container.tv_Map.clear();
+		finish();
+
 	}
 
 	@Override
@@ -151,15 +128,15 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		deviceWidth = getDeviceWidth();
 
 		// listView.setVisibility(View.VISIBLE);
-		if (listfile != null) {
+		if (img_list != null) {
 			// addData(Container.listfiles, listfile);
-			adddata(Container.newData);
-			SpannableString sp = new SpannableString("已选择"
-					+ Container.newData.size() + "张");
-			if (Container.newData.size() < 10) {
+			adddata(img_list);
+			SpannableString sp = new SpannableString("已选择" + img_list.size()
+					+ "张");
+			if (img_list.size() < 10) {
 				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			} else if (Container.newData.size() < 100) {
+			} else if (img_list.size() < 100) {
 				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
@@ -173,6 +150,22 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	protected void initListeners() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+		Bundle b = intent.getExtras();
+		if (b.get("url") != null) {
+
+			img_url = (String) b.get("url");
+		}
+		if (b.get("position") != null) {
+			img_postion = Integer.valueOf(b.get("position").toString());
+		}
+		img_list.get(img_postion).setURL(img_url);
+		adddata(img_list);
 	}
 
 	// public void addData(ArrayList<String> listfiles, ArrayList<String>
@@ -217,7 +210,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 	//
 	// }
 
-	private void adddata(List<Map<String, String>> data) {
+	private void adddata(List<Entity> data) {
 		adapter = new ListImagesAdapter(ImgShowActivity.this, data, listView);
 
 		if (adapter != null) {
@@ -257,20 +250,18 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 		@Override
 		public void onDismiss(int[] reverseSortedPositions) {
-			System.out.println("onDismiss");
-			int position_ = 0;
+
 			for (int position : reverseSortedPositions) {
-				position_ = position;
-				Container.newData.remove(position);
 				Container.et_Map.remove(position);
 				Container.tv_Map.remove(position);
+				img_list.remove(position);
 			}
-			SpannableString sp = new SpannableString("已选择"
-					+ Container.newData.size() + "张");
-			if (Container.newData.size() < 10) {
+			SpannableString sp = new SpannableString("已选择" + img_list.size()
+					+ "张");
+			if (img_list.size() < 10) {
 				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 4,
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			} else if (Container.newData.size() < 100) {
+			} else if (img_list.size() < 100) {
 				sp.setSpan(new ForegroundColorSpan(0xff0079fa), 3, 5,
 						Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 			}
@@ -320,6 +311,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 
 		@Override
 		public void onStartOpen(int position, int action, boolean right) {
+			System.out.println("onStartOpen");
 			// TODO Auto-generated method stub
 			// int start = listView.getFirstVisiblePosition();
 			// int end = listView.getLastVisiblePosition();
@@ -349,6 +341,7 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		@Override
 		public int onChangeSwipeMode(int position) {
 			// TODO Auto-generated method stub
+
 			return super.onChangeSwipeMode(position);
 		}
 
@@ -400,26 +393,30 @@ public class ImgShowActivity extends ActivityBase implements OnClickListener {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			if (EDIT.equals(edit_mat)) {
-				Container.add_mData.clear();
-				Container.add_mData.addAll(Container.newData);
-			}
-			Container.newData.clear();
 			Container.et_Map.clear();
 			Container.tv_Map.clear();
+
 			finish();
 			break;
 
 		case R.id.save:
-			if (EDIT.equals(edit_mat))
 
-				Container.add_mData.clear();
-			Container.add_mData.addAll(Container.newData);
-			Container.newData.clear();
+			// Container.add_mData.addAll(Container.newData);
+			// Container.newData.clear();
 			// Container.mData.clear();
-			Container.et_Map.clear();
-			Container.tv_Map.clear();
-			openActivity(MaterialAddActivity.class, null);
+			if (edit_icon != null)
+				if ("".equals(edit_icon)) {
+					Bundle b = new Bundle();
+					b.putSerializable("imgshow_data", (Serializable) img_list);
+					openActivity(MaterialAddActivity.class, b);
+				} else {// 编辑
+					Bundle b = new Bundle();
+					b.putSerializable("edit_imgshow_data",
+							(Serializable) img_list);
+					openActivity(MaterialAddActivity.class, b);
+
+				}
+
 			finish();
 			break;
 		}
