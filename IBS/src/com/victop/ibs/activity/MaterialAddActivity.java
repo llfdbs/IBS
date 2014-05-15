@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -42,6 +43,7 @@ import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.Entity;
 import com.victop.ibs.bean.SortModel;
 import com.victop.ibs.util.Container;
+import com.victop.ibs.util.Tools;
 import com.victop.ibs.view.MyGridView;
 
 /**
@@ -59,7 +61,6 @@ public class MaterialAddActivity extends ActivityBase implements
 	MaterialAdd_girdViewAdapter mAdapter;
 	private TextView tv_position, tv_detail;
 	private ImageView iv_addimg;
-
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	private AlertDialog dialog;
@@ -67,6 +68,8 @@ public class MaterialAddActivity extends ActivityBase implements
 	public File picture;
 	ArrayList<String> filelist;
 	public List<Entity> img_list = null;// 传递数据
+	Entity e;
+	UUID uuid;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -187,21 +190,6 @@ public class MaterialAddActivity extends ActivityBase implements
 				}
 			}
 
-			// } else {
-			// mgv_material.setVisibility(View.VISIBLE);
-			// iv_addimg.setVisibility(View.GONE);
-			// ibtn_edit.setVisibility(View.VISIBLE);
-			// mAdapter = new MaterialAdd_girdViewAdapter(this,
-			// Container.add_mData, 0,new ShowUploadWayClass() {
-			//
-			// @Override
-			// public void showUploadWayDialog() {
-			// // TODO Auto-generated method stub
-			// showUploadWayDialogs();
-			// }
-			// });
-			// mgv_material.setAdapter(mAdapter);
-			//
 		}
 
 	}
@@ -242,12 +230,19 @@ public class MaterialAddActivity extends ActivityBase implements
 			// 拍照
 
 			// 设置文件保存路径这里放在跟目录下
-			picture = new File(Environment.getExternalStorageDirectory()
-					+ "/temp.jpg");
+			picture = new File(Environment.getExternalStorageDirectory() + "/"
+					+ uuid + ".jpg");
+			String url = picture.getPath().toString();
 			// startPhotoZoom(Uri.fromFile(picture));
 			// Bitmap map = getBitmapByPath(picture.getPath().toString());
-
-			openActivity(ImgShowActivity.class, null);
+			Bundle b = new Bundle();
+			List<Entity> ee = new ArrayList<Entity>();
+			e = new Entity();
+			e.setText("");
+			e.setURL(url);
+			ee.add(e);
+			b.putSerializable("data", (Serializable) ee);
+			openActivity(ImgShowActivity.class, b);
 
 		}
 	}
@@ -396,11 +391,13 @@ public class MaterialAddActivity extends ActivityBase implements
 	OnClickListener btn_uploadByCream = new OnClickListener() {
 
 		public void onClick(View v) {
-			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(
-					Environment.getExternalStorageDirectory(), "temp.jpg")));
-			startActivityForResult(intent, PHOTOHRAPH);
-
+			uuid = Tools.generateUUid();
+			Bundle bundle = new Bundle();
+			bundle.putParcelable(MediaStore.EXTRA_OUTPUT, Uri
+					.fromFile(new File(Environment
+							.getExternalStorageDirectory(), uuid + ".jpg")));
+			openCameraActivityForResult(bundle, PHOTOHRAPH,
+					MediaStore.ACTION_IMAGE_CAPTURE);
 			dialog.dismiss();
 
 		}

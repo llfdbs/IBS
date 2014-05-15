@@ -107,7 +107,7 @@ public class TaskDetailActivity extends ActivityBase {
 			map.put("title", "IBS素材搜集" + i);
 			map.put("allocationobj", "策划部" + i);
 			map.put("committime", "2015-10-10" + i);
-			map.put("checkstatue", "0" + i);
+			map.put("checkstatue", "00" + i);
 			listData.add(map);
 		}
 

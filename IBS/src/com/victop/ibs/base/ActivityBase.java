@@ -127,7 +127,28 @@ public abstract class ActivityBase extends ActionBarActivity {
 		 overridePendingTransition(android.R.anim.fade_in,
 				 android.R.anim.fade_out); // 淡进淡出
 	}
-
+	/**
+	 * 运行其他Activity，并期待返回结果�?
+	 * 
+	 * @param pClass
+	 *            目标Activity的类对象
+	 * @param pBundle
+	 *            存放数据的Bundle对象，若不需要传递数据，传入null�?
+	 * @param pRequestCode
+	 *            请求Code
+	 */
+	protected void openCameraActivityForResult(Bundle pBundle,
+			int pRequestCode,String action) {
+		Intent _Intent = new Intent(action);
+		_Intent.setAction(action);
+		if (pBundle != null) {
+			_Intent.putExtras(pBundle);
+		}
+		startActivityForResult(_Intent, pRequestCode);
+//		overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
+		 overridePendingTransition(android.R.anim.fade_in,
+				 android.R.anim.fade_out); // 淡进淡出
+	}
 	/**
 	 * 加载Layout文件，生成View组件�?
 	 * 

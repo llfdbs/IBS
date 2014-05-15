@@ -1,5 +1,7 @@
 package com.victop.ibs.util;
 
+import java.util.UUID;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,6 +19,7 @@ public class Tools {
 	 * @param context
 	 * @return
 	 */
+	static UUID uuid;
 	public static boolean isConnection(Context context) {
 		ConnectivityManager connectivity = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -53,5 +56,12 @@ public class Tools {
 		lastClickTime = time;
 		return false;
 
+	}
+	/****
+	 * 随机产生UUID
+	 * ***/
+	public static UUID generateUUid(){
+		uuid = UUID.randomUUID();
+		return uuid;
 	}
 }
