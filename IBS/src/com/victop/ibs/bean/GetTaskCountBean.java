@@ -2,14 +2,14 @@ package com.victop.ibs.bean;
 
 import com.victop.ibs.db.base.BaseBean;
 /**
- *接受的任务个数
+ *接收的任务个数
  * 
  * @author vv
  * 
  */
 public class GetTaskCountBean extends BaseBean {
-	private String modelId_send = "IBS10211";//接受的任务个数数数据模型编号
-	private String datasetId = "3";// 数据集编号
+	private String modelId_send = "IBS10211";//接收的任务个数数数据模型编号
+	private String datasetId = "5";// 数据集编号
 	private String sumtask;//任务个数
 	private String id;//员工id
 	public String getModelId_send() {

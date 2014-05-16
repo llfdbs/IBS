@@ -9,7 +9,7 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class LoginLogBean extends BaseBean {
 	private String modelId_send = "IBS10232";// 登陆日志数据模型编号
-	private String datasetId = "";// 数据集编号
+	private String datasetId = "2";// 数据集编号
 	private String loginid;//登陆id
 	private String loginpassword;//登陆密码
 	private String logindate;//登陆账号

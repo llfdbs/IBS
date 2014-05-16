@@ -10,7 +10,7 @@ public class AddTaskEmployesBean extends BaseBean {
 	 * 
 	 * 
 	 */
-	private String modelId_send = "IBS11117";// 发布的任务数据模型编号
+	private String modelId_send = "IBS11117";// 数据模型编号
 	private String datasetId = "4";// 数据集编号
     private String hrid;//员工id
     private String hrname;//员工姓名

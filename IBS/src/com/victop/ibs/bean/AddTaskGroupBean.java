@@ -10,7 +10,7 @@ public class AddTaskGroupBean extends BaseBean {
 	 * 
 	 * 
 	 */
-	private String modelId = "IBS10222";// 新增任务数据模型编号
+	private String modelId = "IBS10222";// 数据模型编号
 	private String datasetId = "1";// 小组查询数据集编号
 	private String groupname;//小组名称
 	private String groupimage;//小组头像

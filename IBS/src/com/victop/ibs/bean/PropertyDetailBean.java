@@ -9,7 +9,7 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class PropertyDetailBean extends BaseBean {
 	private String modelId = "IBS11112";//属性明细数据模型编号
-	private String datasetId = "7";//数据集编号
+	private String datasetId = "6";//数据集编号
 	private String natureid;//属性id
 	private String naturedetailname;//明细名称
 	public String getModelId() {

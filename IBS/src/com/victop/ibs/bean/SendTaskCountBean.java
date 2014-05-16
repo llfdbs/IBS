@@ -9,7 +9,7 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class SendTaskCountBean extends BaseBean {
 	private String modelId_send = "IBS10211";//发布的任务个数数数据模型编号
-	private String datasetId = "2";// 数据集编号
+	private String datasetId = "4";// 数据集编号
 	private String sumtask;//任务总个数
 	private String responsibleid;//负责人id
 	public String getModelId_send() {

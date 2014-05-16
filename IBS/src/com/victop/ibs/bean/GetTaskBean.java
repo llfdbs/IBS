@@ -2,13 +2,13 @@ package com.victop.ibs.bean;
 
 import com.victop.ibs.db.base.BaseBean;
 /**
- * 接受的任务列表实体类
+ * 接收的任务列表实体类
  * 
  * @author vv
  * 
  */
 public class GetTaskBean extends BaseBean {
-private String modelId = "IBS10224";//接受的任务数据模型编号
+private String modelId = "IBS10224";//数据模型编号
 private String datasetId = "1";//数据集编号
 private String taskname;//任务名称
 private String taskstatus;//任务状态

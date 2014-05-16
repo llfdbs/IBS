@@ -9,7 +9,7 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class MaterialCountBean extends BaseBean {
 	private String modelId_send = "IBS10211";//手机个人素材个数数数据模型编号
-	private String datasetId = "1";// 数据集编号
+	private String datasetId = "3";// 数据集编号
     private String summaterial;//素材个数
     public String getModelId_send() {
 		return modelId_send;

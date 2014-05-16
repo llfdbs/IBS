@@ -9,7 +9,7 @@ public class AddTaskGroupEmployesBean extends BaseBean {
 	 * @author vv
 	 * 
 	 */
-	private String modelId = "IBS10222";// 新增任务数据模型编号
+	private String modelId = "IBS10222";// 数据模型编号
 	private String datasetId = "2";// 小组人员数据集编号
 	private String hrid;// 员工id
 	private String hrname;// 员工姓名
