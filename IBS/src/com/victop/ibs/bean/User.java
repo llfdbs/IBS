@@ -1,7 +1,6 @@
 package com.victop.ibs.bean;
 
 import java.util.Date;
-
 public class User {
 
 	private int id;
@@ -9,7 +8,11 @@ public class User {
 	private String email;
 	private Date registerDate;
 	private Double money;
-
+	
+	
+	
+    
+    
 	// ///////////getter and setter 不能省略哦///////////////
 	public int getId() {
 		return id;
@@ -56,4 +59,13 @@ public class User {
 		return "User [id=" + id + ", name=" + name + ", email=" + email
 				+ ", registerDate=" + registerDate + "]";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
