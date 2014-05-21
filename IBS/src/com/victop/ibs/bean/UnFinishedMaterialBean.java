@@ -9,18 +9,18 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class UnFinishedMaterialBean extends BaseBean {
 	
-	private String modelId_send = "IBS102324";//手机未完成素材数据模型编号
+	private String modelId = "IBS102324";//手机未完成素材数据模型编号
 	private String datasetId = "1";// 数据集编号
 	private String addman;//提交人
 	private String adddate;//添加日期
 	private String materialid;//素材id
 	private String materialmemo;//素材内容
 	private String materialstatus;//素材状态
-	public String getModelId_send() {
-		return modelId_send;
+	public String getModelId() {
+		return modelId;
 	}
-	public void setModelId_send(String modelId_send) {
-		this.modelId_send = modelId_send;
+	public void setModelId(String modelId) {
+		this.modelId = modelId;
 	}
 	public String getAdddate() {
 		return adddate;

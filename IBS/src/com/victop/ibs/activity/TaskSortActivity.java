@@ -81,7 +81,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 		// ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sper.setAdapter(ad);
 		listView = (ListView) findViewById(R.id.tasksort_listView);
-		adapter = new TaskListAdapter(TaskSortActivity.this, listData);
+//		adapter = new TaskListAdapter(TaskSortActivity.this, listData);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 

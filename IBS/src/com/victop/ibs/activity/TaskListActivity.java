@@ -7,6 +7,8 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +24,10 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.GetTaskBean;
+import com.victop.ibs.handler.GetTaskHandler;
+import com.victop.ibs.handler.HomeHandler;
+import com.victop.ibs.presenter.GetTaskPresenter;
 
 /**
  * 接受的任务类 接受的任务业务逻辑
@@ -34,8 +40,62 @@ public class TaskListActivity extends ActivityBase {
 	private ListView mListView;
 	private TaskListAdapter adapter;
 	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private GetTaskHandler taskHandler;//网络请求获取数据handler
+	List<GetTaskBean> task_list;
+	List<GetTaskBean> task_unlist;
+	List<GetTaskBean> task_filist;
+	private String status="0";
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				task_list = (List<GetTaskBean>) msg.obj;
+				adapter = new TaskListAdapter(TaskListActivity.this, task_list);
+				mListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+
+	};
+	Handler handler_unfinish = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				task_unlist = (List<GetTaskBean>) msg.obj;
+				adapter = new TaskListAdapter(TaskListActivity.this, task_unlist);
+				mListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+	};
+	Handler handler_finish = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				task_filist = (List<GetTaskBean>) msg.obj;
+				 
+						adapter = new TaskListAdapter(TaskListActivity.this, task_filist);
+				mListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -45,6 +105,7 @@ public class TaskListActivity extends ActivityBase {
 		IBSApplication.getInstance().addActivity(this);
 
 		initViews();
+		initHandler(handler);
 		initData();
 		initListeners();
 
@@ -53,58 +114,28 @@ public class TaskListActivity extends ActivityBase {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		setData();
-		adapter = new TaskListAdapter(TaskListActivity.this, listData);
-		mListView.setAdapter(adapter);
+		GetTaskPresenter gettask = new GetTaskPresenter();
+		gettask.getInitData(taskHandler, null);
+		// task_list = taskHandler.getmGetTaskBean();
+		task_filist = new ArrayList<GetTaskBean>();
+		task_unlist = new ArrayList<GetTaskBean>();
+
+//		adapter = new TaskListAdapter(TaskListActivity.this, task_list);
+//		mListView.setAdapter(adapter);
 	}
 
-	public void setData() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("title", "IBS素材搜集流程及完成流程下发任务流程" + i);
-			map.put("tasknumber", "121215663");
-			map.put("statue", "0" + i);
-			map.put("deadline", "2015-10-10");
-			map.put("type", "紧急");
-			listData.add(map);
-		}
-
+	private void initHandler(Handler handler) {
+		taskHandler = new GetTaskHandler(TaskListActivity.this, handler);
 	}
 
-	public void setData1() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("title", "IT素材搜集流发任务流程" + i);
-			map.put("tasknumber", "121215663");
-			map.put("statue", "0" + 0);
-			map.put("deadline", "2015-10-10");
-			map.put("type", "紧急");
-			listData.add(map);
-		}
-
-	}
-
-	public void setData2() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("title", "WEb素材搜集流程及发任务流程" + i);
-			map.put("tasknumber", "121215663");
-			map.put("statue", "0" + 1);
-			map.put("deadline", "2015-10-10");
-			map.put("type", "紧急");
-			listData.add(map);
-		}
-
-	}
+ 
 
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
 		actionBar = getSupportActionBar();
-		actionBar.setTitle(getResources().getString(R.string.receivedtask)+"("+10+")");
+		actionBar.setTitle(getResources().getString(R.string.receivedtask)
+				+ "(" + 10 + ")");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);
@@ -115,10 +146,10 @@ public class TaskListActivity extends ActivityBase {
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
-		
+
 		radiogroup_task.setOnCheckedChangeListener(mOnChecked);
 		mListView.setOnItemClickListener(mOnItemClick);
-		
+
 	}
 
 	// 控件点击事件
@@ -127,7 +158,7 @@ public class TaskListActivity extends ActivityBase {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-		
+
 		}
 	};
 	OnCheckedChangeListener mOnChecked = new OnCheckedChangeListener() {
@@ -138,27 +169,31 @@ public class TaskListActivity extends ActivityBase {
 			switch (checkedId) {
 			case R.id.rbn_taskall:
 
-				listData.clear();
-				setData();
-				adapter = new TaskListAdapter(TaskListActivity.this, listData);
-				mListView.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
+				status="0";
+				initHandler(handler);
+				GetTaskPresenter gettasks = new GetTaskPresenter();
+				gettasks.getInitData(taskHandler, null);
+			
 
 				break;
 			case R.id.rbn_taskunfinish:
-				listData.clear();
-				setData1();
-				adapter = new TaskListAdapter(TaskListActivity.this, listData);
-				mListView.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
+				status="1";
+				initHandler(handler_unfinish);
+				GetTaskPresenter gettask1 = new GetTaskPresenter();
+				gettask1.getInitData(taskHandler, "1");
+//				adapter = new TaskListAdapter(TaskListActivity.this, listData);
+//				mListView.setAdapter(adapter);
+//				adapter.notifyDataSetChanged();
 
 				break;
 			case R.id.rbn_taskfinished:
-				listData.clear();
-				setData2();
-				adapter = new TaskListAdapter(TaskListActivity.this, listData);
-				mListView.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
+				status="2";
+				initHandler(handler_finish);
+				GetTaskPresenter gettask2 = new GetTaskPresenter();
+				gettask2.getInitData(taskHandler, "2");
+//				adapter = new TaskListAdapter(TaskListActivity.this, listData);
+//				mListView.setAdapter(adapter);
+//				adapter.notifyDataSetChanged();
 
 				break;
 			default:
@@ -174,11 +209,19 @@ public class TaskListActivity extends ActivityBase {
 				long arg3) {
 			// TODO Auto-generated method stub
 			Bundle bundle = new Bundle();
-			bundle.putString("statue",listData.get(arg2).get("statue"));
+			if(status.equals("0")){
+				bundle.putString("statue", task_list.get(arg2).getTaskstatus());
+			}else if(status.equals("1")){
+				bundle.putString("statue", task_unlist.get(arg2).getTaskstatus());
+			}else{
+				bundle.putString("statue", task_filist.get(arg2).getTaskstatus());
+			}
+			
 			openActivity(TaskDetailActivity.class, bundle);
 
 		}
 	};
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -191,7 +234,6 @@ public class TaskListActivity extends ActivityBase {
 		search.setVisible(true);
 		add.setVisible(true);
 		save.setVisible(false);
-		
 
 		return true;
 	}
@@ -203,9 +245,9 @@ public class TaskListActivity extends ActivityBase {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			
+
 			finish();
-			
+
 			break;
 		case R.id.search:
 			openActivity(MaterialSearchActivity.class, null);
@@ -213,7 +255,7 @@ public class TaskListActivity extends ActivityBase {
 		case R.id.add:
 			openActivity(AddTaskActivity.class, null);
 			break;
-		
+
 		}
 
 		return super.onOptionsItemSelected(item);

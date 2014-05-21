@@ -1,7 +1,12 @@
 package com.victop.ibs.fragment;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,11 +18,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.victop.ibs.activity.LoginActivity;
+import com.android.uploadfiles.UploadFiles;
+import com.victop.android.datachannel.DataChannelManager;
+import com.victop.android.datachannel.GetDataParam;
 import com.victop.ibs.activity.MainActivity;
 import com.victop.ibs.activity.R;
-import com.victop.ibs.activity.SendedTaskListActivity;
-import com.victop.ibs.activity.TaskListActivity;
+import com.victop.ibs.bean.CheckedMaterailCountBean;
+import com.victop.ibs.bean.GetTaskCountBean;
+import com.victop.ibs.bean.MaterialCountBean;
+import com.victop.ibs.bean.SendTaskCountBean;
+import com.victop.ibs.bean.UnCheckedMaterialCountBean;
+import com.victop.ibs.bean.UnfinishedMaterialCountBean;
+import com.victop.ibs.bean.UserMessageBean;
+import com.victop.ibs.handler.HomeHandler;
+import com.victop.ibs.presenter.PersonCenterPresenter;
 
 /**
  * 个人中心模块 功能描述：列表Fragment，用来显示滑动菜单打开后的个人中心内容
@@ -34,7 +48,10 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	private Button btn_exit;
 	private Button num_uncomplete, num_audit, num_unaudit, num_gettask,
 			num_settask;
-
+	private HomeHandler homeHandler;
+	public List<File> fileList;// 存放图片地址
+	private String actionUrl = "http://192.168.40.149:8080/fsweb/upload";
+	private String newName;
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -47,6 +64,8 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.personalcenter, null);
 		initView(view);
+		initHandler();
+		initData();
 		return view;
 	}
 
@@ -68,7 +87,14 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		num_gettask = (Button) view.findViewById(R.id.btn_gettask);
 		num_settask = (Button) view.findViewById(R.id.btn_settask);
 	}
-
+	private void initHandler() {
+		homeHandler = new HomeHandler((MainActivity)getActivity());
+	}
+	public void initData() {
+		// TODO Auto-generated method stub
+		PersonCenterPresenter pcp =new PersonCenterPresenter();
+		pcp.getInitData(homeHandler);
+	}
 	private void initListener() {
 		lly_uncomplete.setOnClickListener(this);
 		lly_audit.setOnClickListener(this);
@@ -78,8 +104,24 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		tv_mymaterial.setOnClickListener(this);
 		tv_mytask.setOnClickListener(this);
 		btn_exit.setOnClickListener(this);
+		
+		
+		UploadFiles.uploadFile(actionUrl, newName, fileList, "1");
 	}
-
+	public List<File> setData() {
+		fileList = new ArrayList<File>();
+		File file = new File("/sdcard/temp1.jpg");
+		fileList.add(file);
+		File file1 = new File("/sdcard/temp1.jpg");
+		fileList.add(file1);
+		File file2 = new File("/sdcard/temp2.jpg");
+		fileList.add(file2);
+		File file3 = new File("/sdcard/temp3.jpg");
+		fileList.add(file3);
+		File file4 = new File("/sdcard/temp4.jpg");
+		fileList.add(file4);
+		return fileList;
+	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);

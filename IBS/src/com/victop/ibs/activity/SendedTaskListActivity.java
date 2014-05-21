@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +20,15 @@ import android.widget.RadioGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.victop.ibs.adapter.SendTaskListAdapter;
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.GetTaskBean;
+import com.victop.ibs.bean.SendTaskBean;
+import com.victop.ibs.handler.GetTaskHandler;
+import com.victop.ibs.handler.SendTaskHandler;
+import com.victop.ibs.presenter.SendTaskPresenter;
 
 /**
  * 发送的任务类 发送的任务业务逻辑
@@ -32,10 +40,85 @@ public class SendedTaskListActivity extends ActivityBase {
 	
 	private RadioGroup radiogroup_tasksended;
 	private ListView mListView;
-	private TaskListAdapter adapter;
-	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
+	private SendTaskListAdapter adapter;
+	//private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
 	private ActionBar actionBar;//导航栏
 	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private List<SendTaskBean> task_list = new ArrayList<SendTaskBean>();//全部
+	private List<SendTaskBean> task_unfinishList = new ArrayList<SendTaskBean>();//未完成
+	private List<SendTaskBean> task_finishList = new ArrayList<SendTaskBean>();//已完成
+	private List<SendTaskBean> task_unsendList = new ArrayList<SendTaskBean>();//未发放
+	private String status="0";
+	private SendTaskHandler sendTaskHandler;
+	Handler handler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch(msg.what){
+			case 0:
+				task_list = (List<SendTaskBean>)msg.obj;
+				adapter = new SendTaskListAdapter(SendedTaskListActivity.this, task_list);
+				mListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+				
+				break;
+			}
+			super.handleMessage(msg);
+		}
+		
+	};
+	Handler handler_unfinish = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch(msg.what){
+			case 0:
+				task_unfinishList = (List<SendTaskBean>)msg.obj;
+				adapter = new SendTaskListAdapter(SendedTaskListActivity.this, task_unfinishList);
+				mListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+		
+	};
+	Handler handler_finish = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch(msg.what){
+			case 0:
+				task_finishList = (List<SendTaskBean>)msg.obj;
+				adapter = new SendTaskListAdapter(SendedTaskListActivity.this, task_finishList);
+				mListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+		
+	};
+	Handler handler_unsend = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch(msg.what){
+			case 0:
+				task_unsendList = (List<SendTaskBean>)msg.obj;
+				adapter = new SendTaskListAdapter(SendedTaskListActivity.this, task_unsendList);
+				mListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+		
+	};
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -45,17 +128,18 @@ public class SendedTaskListActivity extends ActivityBase {
 		IBSApplication.getInstance().addActivity(this);
 
 		initViews();
+		initHandler(handler);
 		initData();
 		initListeners();
 
 	}
-
+    
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		setData();
-		adapter = new TaskListAdapter(SendedTaskListActivity.this, listData);
-		mListView.setAdapter(adapter);
+	   SendTaskPresenter sendTaskPresenter =  new SendTaskPresenter();
+	   sendTaskPresenter.getInitData(sendTaskHandler,null);
+
 	}
 
 	@Override
@@ -68,7 +152,9 @@ public class SendedTaskListActivity extends ActivityBase {
 		radiogroup_tasksended = (RadioGroup) findViewById(R.id.radiogroup_tasksended);
 		mListView = (ListView) findViewById(R.id.sendedtaskList);
 	}
-
+	private void initHandler(Handler handler) {
+		sendTaskHandler = new SendTaskHandler(SendedTaskListActivity.this, handler);
+	}
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
@@ -77,48 +163,7 @@ public class SendedTaskListActivity extends ActivityBase {
 		mListView.setOnItemClickListener(mOnItemClick);
 	}
 
-	public void setData() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("title", "IBS素材搜集流程及完成流程下发任务流程" + i);
-			map.put("tasknumber", "121215663");
-			map.put("statue", "0" + i);
-			map.put("deadline", "2015-10-10");
-			map.put("type", "紧急");
-			listData.add(map);
-		}
-
-	}
-
-	public void setData1() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("title", "IT素材搜集流程" + i);
-			map.put("tasknumber", "121215663");
-			map.put("statue", "0" + 0);
-			map.put("deadline", "2015-10-10");
-			map.put("type", "紧急");
-			listData.add(map);
-		}
-
-	}
-
-	public void setData2() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("title", "WEB素材搜集流程发任务流程" + i);
-			map.put("tasknumber", "121215663");
-			map.put("statue", "0" + 1);
-			map.put("deadline", "2015-10-10");
-			map.put("type", "紧急");
-			listData.add(map);
-		}
-
-	}
-
+	
 	// 控件点击事件
 	OnClickListener mOnClick = new OnClickListener() {
 
@@ -135,41 +180,31 @@ public class SendedTaskListActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (checkedId) {
 			case R.id.rbn_sendedtask_all:
-
-				listData.clear();
-				setData();
-				adapter = new TaskListAdapter(SendedTaskListActivity.this,
-						listData);
-				mListView.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
+				 status="0";
+				initHandler(handler);
+				SendTaskPresenter sendTaskPresenter =  new SendTaskPresenter();
+				sendTaskPresenter.getInitData(sendTaskHandler,null);
 
 				break;
 			case R.id.rbn_sendedtask_unfinish:
-				listData.clear();
-				setData1();
-				adapter = new TaskListAdapter(SendedTaskListActivity.this,
-						listData);
-				mListView.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
+				 status="1";
+				initHandler(handler);
+				SendTaskPresenter sendTaskPresenter1 =  new SendTaskPresenter();
+				sendTaskPresenter1.getInitData(sendTaskHandler,"1");
 
 				break;
 			case R.id.rbn_sendedtask_finished:
-				listData.clear();
-				setData2();
-				adapter = new TaskListAdapter(SendedTaskListActivity.this,
-						listData);
-				mListView.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
+				 status="2";
+				initHandler(handler);
+				SendTaskPresenter sendTaskPresenter2 =  new SendTaskPresenter();
+				sendTaskPresenter2.getInitData(sendTaskHandler,"2");
 
 				break;
 			case R.id.rbn_sendedtask_unsend:
-				listData.clear();
-				setData1();
-				adapter = new TaskListAdapter(SendedTaskListActivity.this,
-						listData);
-				mListView.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
-
+				status="3";
+				initHandler(handler);
+				SendTaskPresenter sendTaskPresenter3 =  new SendTaskPresenter();
+				sendTaskPresenter3.getInitData(sendTaskHandler,"0");
 				break;
 			default:
 				break;

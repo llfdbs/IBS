@@ -10,21 +10,19 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
-import com.victop.ibs.bean.GetTaskBean;
-
+import com.victop.ibs.bean.SendTaskBean;
 /**
- * 任务列表界面
- * 
- * @author vv
- * 
+ * 发布任务
+ * @author Administrator
+ *
  */
-public class TaskListAdapter extends BaseAdapter {
+public class SendTaskListAdapter  extends BaseAdapter {
 	private Context context;
 	private LayoutInflater layoutInflater;
 	// private List<Map<String,String>> list;
-	private List<GetTaskBean> list;
+	private List<SendTaskBean> list;
 
-	public TaskListAdapter(Context context, List<GetTaskBean> list) {
+	public SendTaskListAdapter(Context context, List<SendTaskBean> list) {
 		this.context = context;
 		this.layoutInflater = LayoutInflater.from(context);
 		this.list = list;
