@@ -64,8 +64,8 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.personalcenter, null);
 		initView(view);
-		initHandler();
-		initData();
+		//initHandler();
+		//initData();
 		return view;
 	}
 
@@ -87,14 +87,14 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		num_gettask = (Button) view.findViewById(R.id.btn_gettask);
 		num_settask = (Button) view.findViewById(R.id.btn_settask);
 	}
-	private void initHandler() {
-		homeHandler = new HomeHandler((MainActivity)getActivity());
-	}
-	public void initData() {
-		// TODO Auto-generated method stub
-		PersonCenterPresenter pcp =new PersonCenterPresenter();
-		pcp.getInitData(homeHandler);
-	}
+//	private void initHandler() {
+//		homeHandler = new HomeHandler((MainActivity)getActivity());
+//	}
+//	public void initData() {
+//		// TODO Auto-generated method stub
+//		PersonCenterPresenter pcp =new PersonCenterPresenter();
+//		pcp.getInitData(homeHandler);
+//	}
 	private void initListener() {
 		lly_uncomplete.setOnClickListener(this);
 		lly_audit.setOnClickListener(this);

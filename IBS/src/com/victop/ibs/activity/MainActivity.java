@@ -114,10 +114,10 @@ public class MainActivity extends ActivityBase {
 			openActivity(MaterialSearchActivity.class, null);
 			break;
 		case 5://接受的任务
-			openActivity(TaskListActivity.class, null);
+			openActivity(TaskListFragmentAvtivity.class, null);
 			break;
 		case 6://发布的任务
-			openActivity(SendedTaskListActivity.class, null);
+			openActivity(SendedTaskListFragmentActivity.class, null);
 			break;
 		case 7://新增的任务
 			openActivity(AddTaskActivity.class, null);

@@ -20,8 +20,10 @@ import android.util.Log;
 public class HomeHandler extends Handler{
 	public static final String TAG = HomeHandler.class.getSimpleName(); 
 	private Context mContext;
-	public HomeHandler(Context context){
+	private Handler handler;
+	public HomeHandler(Context context,Handler handler){
 		this.mContext = mContext;
+		this.handler = handler;
 	}
 	public void handleMessage(Message msg) {
 		ReturnDataEnum type = ReturnDataEnum.getReturnType(msg.what);
@@ -36,22 +38,38 @@ public class HomeHandler extends Handler{
 			
 			
 			List<UserMessageBean> userMessage = dataMap.get("10");
+		    Message message = new Message();
+		    message.what = 0;
+		    message.obj = userMessage;
+		    handler.sendMessage(message);
 			for(UserMessageBean ub : userMessage){
 				System.out.println(ub.getHrname()+ub.getHeadimage()+"姓名===========");
 				
 			}
 			
 			List<MaterialCountBean> materialCount = dataMap.get("3");
+			 Message msg_material = new Message();
+			 msg_material.what = 1;
+			 msg_material.obj = materialCount.size();
+			 handler.sendMessage(msg_material);
 			for(MaterialCountBean mb:materialCount){
 				System.out.println(mb.getSummaterialid()+"素材个数=================");
 			}
 			
 			List<UnfinishedMaterialCountBean> unfinishedMaterialCount = dataMap.get("13");
+			 Message msg_material_unfinish = new Message();
+			 msg_material_unfinish.what = 2;
+			 msg_material_unfinish.obj = unfinishedMaterialCount.size();
+			 handler.sendMessage(msg_material_unfinish);
 			for(UnfinishedMaterialCountBean ub :unfinishedMaterialCount){
 				System.out.println(ub.getSummaterialid()+"未完成核素材个数");
 			}
 			
 			List<CheckedMaterailCountBean> checkedMaterialCount = dataMap.get("11");
+			Message msg_material_checked = new Message();
+			msg_material_checked.what = 3;
+			msg_material_checked.obj = checkedMaterialCount.size();
+			 handler.sendMessage(msg_material_checked);
 			for(CheckedMaterailCountBean cb:checkedMaterialCount){
 				System.out.println(cb.getSummaterialid()+"已审核素材个数");
 			}

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,12 @@ import android.widget.TextView;
 import com.victop.ibs.adapter.TaskDetail_MaterialAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.TaskDetailBean;
+import com.victop.ibs.bean.TaskMaterialsBean;
+import com.victop.ibs.handler.SendTaskHandler;
+import com.victop.ibs.handler.TaskDetailHandler;
+import com.victop.ibs.presenter.SendTaskPresenter;
+import com.victop.ibs.presenter.TaskDetailPresenter;
 import com.victop.ibs.view.MyListView;
 
 /**
@@ -43,10 +51,57 @@ public class TaskDetailActivity extends ActivityBase {
 			str_taskdetail_tasknumber, str_taskdetail_deadline,
 			str_taskdetail_tasktype, str_taskdetail_taskobj,
 			str_taskdetail_taskstatue, str_materialcount;
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	Bundle bundle;
 	String status;
+	String taskid;
+	private TaskDetailHandler taskDetailHandler;
+	private List<TaskDetailBean> taskDetailList = new ArrayList<TaskDetailBean>();
+	TaskDetailBean mTaskDetailBean;// 任务详情
+	List<TaskMaterialsBean> mTaskMaterialsBean = new ArrayList<TaskMaterialsBean>();// 任务素材相关
+	Map<String, List> dataMap;
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				dataMap = (Map<String, List>) msg.obj;
+				taskDetailList = dataMap.get("1");
+				mTaskDetailBean = taskDetailList.get(0);
+				mTaskMaterialsBean = dataMap.get("2");
+				if (null == taskDetailList) {
+					taskDetailList = new ArrayList<TaskDetailBean>();
+				}
+				if (null == mTaskMaterialsBean) {
+					mTaskMaterialsBean = new ArrayList<TaskMaterialsBean>();
+				}
+
+				tv_taskdetail_title.setText(mTaskDetailBean.getTaskname());
+				tv_taskdetail_detail.setText(mTaskDetailBean.getTaskmemo());
+				tv_taskdetail_tasknumber.setText(mTaskDetailBean.getTaskcode());
+				tv_taskdetail_deadline.setText(mTaskDetailBean.getDuedate());
+				tv_taskdetail_tasktype.setText(mTaskDetailBean.getTasklevel());
+				tv_taskdetail_taskobj.setText(mTaskDetailBean.getReceptname());
+				tv_taskdetail_taskstatue.setText(mTaskDetailBean
+						.getTaskstatus());
+				tv_materialcount.setText("("+mTaskMaterialsBean.size()+")");// 素材的数量
+
+				adapter = new TaskDetail_MaterialAdapter(
+						TaskDetailActivity.this, mTaskMaterialsBean,
+						mTaskDetailBean.getTaskstatus());
+				mListView.setAdapter(adapter);
+				break;
+			
+			}
+
+			super.handleMessage(msg);
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -56,18 +111,27 @@ public class TaskDetailActivity extends ActivityBase {
 		IBSApplication.getInstance().addActivity(this);
 
 		initViews();
+		initHandler(handler);
 		initData();
 		initListeners();
 
 	}
 
+	private void initHandler(Handler handler) {
+		taskDetailHandler = new TaskDetailHandler(TaskDetailActivity.this,
+				handler);
+	}
+
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		setData();
-		adapter = new TaskDetail_MaterialAdapter(TaskDetailActivity.this,
-				listData,status);
-		mListView.setAdapter(adapter);
+		TaskDetailPresenter taskDetailPresenter = new TaskDetailPresenter();
+		taskDetailPresenter.getInitData(taskDetailHandler, taskid);
+
+		// setData();
+		// adapter = new TaskDetail_MaterialAdapter(TaskDetailActivity.this,
+		// listData,status);
+		// mListView.setAdapter(adapter);
 	}
 
 	@Override
@@ -89,7 +153,7 @@ public class TaskDetailActivity extends ActivityBase {
 		tv_materialcount = (TextView) findViewById(R.id.tv_materialcount);
 		bundle = getIntent().getExtras();
 		status = bundle.getString("statue");
-		
+		taskid = bundle.getString("taskid");
 
 	}
 
@@ -137,9 +201,10 @@ public class TaskDetailActivity extends ActivityBase {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			// TODO Auto-generated method stub
-			openActivity(MaterialDetailActivity.class,null);
+			openActivity(MaterialDetailActivity.class, null);
 		}
 	};
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -154,14 +219,14 @@ public class TaskDetailActivity extends ActivityBase {
 		save.setVisible(true);
 		save.setTitle("完工");
 		save.setIcon(null);
-		//未完成
-				if(status.equals("00")){
-					imgbtn_addmaterial.setVisibility(View.VISIBLE);
-					save.setVisible(true);
-				}else{
-					imgbtn_addmaterial.setVisibility(View.GONE);
-					save.setVisible(false);
-				}
+		// 未完成
+		if (status.equals("00")) {
+			imgbtn_addmaterial.setVisibility(View.VISIBLE);
+			save.setVisible(true);
+		} else {
+			imgbtn_addmaterial.setVisibility(View.GONE);
+			save.setVisible(false);
+		}
 
 		return true;
 	}
@@ -173,11 +238,11 @@ public class TaskDetailActivity extends ActivityBase {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			
+
 			finish();
-			
+
 			break;
-		
+
 		case R.id.save:
 			finish();
 			break;

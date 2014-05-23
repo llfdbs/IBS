@@ -12,42 +12,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
+import com.victop.ibs.bean.MaterialDetailHistoryBean;
 import com.victop.ibs.bean.SortModel;
 
 public class HistoryerAdapter extends BaseAdapter {
 	private Context context;
-	private List<SortModel> list;
 	private ViewHolder viewHolder;
-	private int tag;
-	final String[] data = { "erp", "互联网", "互联网", "erp", "互联网", "互联网", "erp",
-			"互联网", "互联网", "erp", "互联网", "互联网", "erp", "互联网", "互联网" };
-
-	public HistoryerAdapter(Context context, List<SortModel> list) {
+	private List<MaterialDetailHistoryBean> mMaterialHistoryList;
+	
+	public HistoryerAdapter(Context context,List<MaterialDetailHistoryBean> mMaterialHistoryList) {
 		this.context = context;
-		this.list = list;
-		this.tag = tag;
+	    this.mMaterialHistoryList = mMaterialHistoryList;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return data.length;
+		return mMaterialHistoryList.size();
 	}
 
 	@Override
-	public Object getItem(int arg0) {
+	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return arg0;
+		return mMaterialHistoryList.get(position);
 	}
 
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		return arg0;
+		return position;
 	}
 
 	@Override
-	public View getView(int arg0, View convertView, ViewGroup arg2) {
+	public View getView(int position, View convertView, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 
 		if (convertView == null) {
@@ -68,9 +65,9 @@ public class HistoryerAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		// viewHolder.cb.setVisibility(View.GONE);
-		// viewHolder.tv_title.setText(data[arg0]);
-
+        viewHolder.tv_name.setText(mMaterialHistoryList.get(position).getModifyman());
+        viewHolder.tv_ver.setText(mMaterialHistoryList.get(position).getVersioncode());
+        viewHolder.tv_time.setText(mMaterialHistoryList.get(position).getModifydate());
 		return convertView;
 	}
 

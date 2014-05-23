@@ -39,6 +39,11 @@ public class Container {
 	public static final int TAG = 0;
 	public static final int SORT = 1;
 	public static final int TASK = 2;
+	public static final int MODEL_ALL = 3;
+	public static final int MODEL_UNFINISH = 4;
+	public static final int MODEL_FINISH = 5;
+	public static final int MODEL_UNSEND = 6;
+	public static final int PAGESIZE = 2;
 	/**
 	 * 用来存放一些键值对
 	 */

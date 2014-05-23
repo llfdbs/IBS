@@ -1,6 +1,9 @@
 package com.victop.ibs.activity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,17 +24,23 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
-import com.victop.ibs.adapter.ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.MaterialDetailHistoryBean;
+import com.victop.ibs.bean.MaterialDetailMessageBean;
+import com.victop.ibs.bean.MaterialDetailPictureBean;
+import com.victop.ibs.bean.MaterialDetailSortBean;
+import com.victop.ibs.bean.MaterialDetailTagBean;
+import com.victop.ibs.handler.MaterialDetailHandler;
+import com.victop.ibs.presenter.MaterialDetailPresenter;
 import com.victop.ibs.view.MyGallery;
 
 /**
@@ -51,13 +60,90 @@ public class MaterialDetailActivity extends ActivityBase {
 	private boolean isExit = false;
 	public ImageTimerTask timeTaks = null;
 	private ImageButton imgbtn_historyversion, imgbtn_edit, imgbtn_detail;// 历史版本,编辑,详情按钮
-	private TextView tv_materialdetail_tag, tv_versioncode, tv_taskcode,
+	private TextView tv_materialdetail_sort, tv_versioncode, tv_taskcode,
 			tv_picname, tv_picdetail;// 分类,版本号,详情,图片名称,描述
 	private Button btn_materialdetail_check;
 	private LinearLayout pointLinear;
-	private String str_tag,str_versioncode,str_taskcode;
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private String str_tag, str_versioncode, str_taskcode;
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private Map<String, List> dataMap;
+	List<MaterialDetailMessageBean> mMaterialList = new ArrayList<MaterialDetailMessageBean>();// 任务详情
+	List<MaterialDetailTagBean> mMaterialTagList;
+	List<MaterialDetailSortBean> mMaterialSortList;
+	List<MaterialDetailPictureBean> mMaterialPicList;
+	List<MaterialDetailHistoryBean> mMaterialHistoryList;
+	private MaterialDetailHandler materialDetailHandler;
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				dataMap = (Map<String, List>) msg.obj;
+				mMaterialList = dataMap.get("1");
+				mMaterialTagList = dataMap.get("2");
+				mMaterialSortList = dataMap.get("3");
+				mMaterialPicList = dataMap.get("4");
+				mMaterialHistoryList = dataMap.get("5");
+				if (mMaterialList == null) {
+					mMaterialList = new ArrayList<MaterialDetailMessageBean>();
+				}
+				if (mMaterialTagList == null) {
+					mMaterialTagList = new ArrayList<MaterialDetailTagBean>();
+				}
+				if (mMaterialSortList == null) {
+					mMaterialSortList = new ArrayList<MaterialDetailSortBean>();
+				}
+				if (mMaterialPicList == null) {
+					mMaterialPicList = new ArrayList<MaterialDetailPictureBean>();
+				}
+				if (mMaterialHistoryList == null) {
+					mMaterialHistoryList = new ArrayList<MaterialDetailHistoryBean>();
+				}
+
+				// 数据填充
+				// tv_materialdetail_tag.setText(materialDetailMessageBean.getTaskcode());
+				tv_versioncode.setText(mMaterialList.get(0).getVersioncode());
+				tv_taskcode.setText(mMaterialList.get(0).getTaskcode());
+				tv_picdetail.setText(mMaterialList.get(0).getMaterialmemo());
+				if (mMaterialHistoryList.size()>0){
+				tv_materialdetail_sort.setText(mMaterialSortList.get(0).getClassname());
+				}else{
+					tv_materialdetail_sort.setText("");	
+				}
+				if(mMaterialPicList.size()>0){
+					tv_picname.setText(mMaterialPicList.get(0).getImgname());
+				}else{
+					tv_picname.setText("");
+				}
+				images_ga.setSelection(mMaterialPicList.size());
+				// 轮播图片
+				images_ga.setImageActivity(MaterialDetailActivity.this);
+				if (mMaterialPicList.size() > 0) {
+					MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(
+							MaterialDetailActivity.this, mMaterialPicList);
+					images_ga.setAdapter(imageAdapter);
+					for (int i = 0; i < mMaterialPicList.size(); i++) {
+						ImageView pointView = new ImageView(
+								MaterialDetailActivity.this);
+						if (i == 0) {
+							pointView
+									.setBackgroundResource(R.drawable.feature_point_cur);
+						} else
+							pointView
+									.setBackgroundResource(R.drawable.feature_point);
+						pointLinear.addView(pointView);
+					}
+				}
+
+			}
+			super.handleMessage(msg);
+		}
+
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,7 +153,6 @@ public class MaterialDetailActivity extends ActivityBase {
 		initListeners();
 		IBSApplication.getInstance().addActivity(this);
 		timeTaks = new ImageTimerTask();
-		
 
 		autoGallery.scheduleAtFixedRate(timeTaks, 5000, 5000);
 		timeThread = new Thread() {
@@ -105,20 +190,24 @@ public class MaterialDetailActivity extends ActivityBase {
 
 	@Override
 	protected void initData() {
+		materialDetailHandler = new MaterialDetailHandler(MaterialDetailActivity.this,
+				handler);
+		MaterialDetailPresenter materialDetailPresenter = new MaterialDetailPresenter();
+		materialDetailPresenter.getInitData(materialDetailHandler);
 		// TODO Auto-generated method stub
-		images_ga.setImageActivity(this);
-
-		MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(
-				this);
-		images_ga.setAdapter(imageAdapter);
-		for (int i = 0; i < 3; i++) {
-			ImageView pointView = new ImageView(this);
-			if (i == 0) {
-				pointView.setBackgroundResource(R.drawable.feature_point_cur);
-			} else
-				pointView.setBackgroundResource(R.drawable.feature_point);
-			pointLinear.addView(pointView);
-		}
+//		images_ga.setImageActivity(this);
+//
+//		MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(
+//				this);
+//		images_ga.setAdapter(imageAdapter);
+//		for (int i = 0; i < 3; i++) {
+//			ImageView pointView = new ImageView(this);
+//			if (i == 0) {
+//				pointView.setBackgroundResource(R.drawable.feature_point_cur);
+//			} else
+//				pointView.setBackgroundResource(R.drawable.feature_point);
+//			pointLinear.addView(pointView);
+//		}
 	}
 
 	@Override
@@ -133,13 +222,13 @@ public class MaterialDetailActivity extends ActivityBase {
 		imgbtn_historyversion = (ImageButton) findViewById(R.id.imgbtn_historyversion);
 		imgbtn_edit = (ImageButton) findViewById(R.id.imgbtn_edit);
 		imgbtn_detail = (ImageButton) findViewById(R.id.imgbtn_detail);
-		tv_materialdetail_tag = (TextView)findViewById(R.id.tv_materialdetail_tag);
-		tv_versioncode = (TextView)findViewById(R.id.tv_versioncode);
-		tv_taskcode = (TextView)findViewById(R.id.tv_taskcode);
-		tv_picname = (TextView)findViewById(R.id.tv_picname);
-		tv_picdetail = (TextView)findViewById(R.id.tv_picdetail);
-		btn_materialdetail_check = (Button)findViewById(R.id.btn_materialdetail_check);
-		str_tag = tv_materialdetail_tag.getText().toString();
+		tv_materialdetail_sort = (TextView) findViewById(R.id.tv_materialdetail_tag);
+		tv_versioncode = (TextView) findViewById(R.id.tv_versioncode);
+		tv_taskcode = (TextView) findViewById(R.id.tv_taskcode);
+		tv_picname = (TextView) findViewById(R.id.tv_picname);
+		tv_picdetail = (TextView) findViewById(R.id.tv_picdetail);
+		btn_materialdetail_check = (Button) findViewById(R.id.btn_materialdetail_check);
+		str_tag = tv_materialdetail_sort.getText().toString();
 		str_versioncode = tv_taskcode.getText().toString();
 		str_taskcode = tv_taskcode.getText().toString();
 	}
@@ -147,27 +236,34 @@ public class MaterialDetailActivity extends ActivityBase {
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
-		//images_ga.setOnItemClickListener(mOnItemClick);
+		// images_ga.setOnItemClickListener(mOnItemClick);
 		imgbtn_historyversion.setOnClickListener(mOnClick);
 		imgbtn_edit.setOnClickListener(mOnClick);
 		imgbtn_detail.setOnClickListener(mOnClick);
 		btn_materialdetail_check.setOnClickListener(mOnClick);
 	}
-    OnClickListener mOnClick = new OnClickListener() {
-		
+
+	OnClickListener mOnClick = new OnClickListener() {
+
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			switch(v.getId()){
+			switch (v.getId()) {
 			case R.id.imgbtn_historyversion:
-				openActivityForResult(HistoryVerActivity.class, null, 100);
-				//openActivity(HistoryVerActivity.class, null);
+				Bundle bundle_his = new Bundle();
+				bundle_his.putSerializable("history",(Serializable)mMaterialHistoryList);
+				openActivityForResult(HistoryVerActivity.class, bundle_his, 100);
+				// openActivity(HistoryVerActivity.class, null);
 				break;
 			case R.id.imgbtn_edit:
 				Bundle bundle = new Bundle();
-				bundle.putString("info", str_tag);
-				bundle.putString("tasknumber",str_versioncode);
-				openActivity(MaterialAddActivity.class, bundle);
+				bundle.putSerializable("sort",(Serializable)mMaterialSortList);//分类
+				bundle.putSerializable("tag", (Serializable)mMaterialTagList);//标签
+				//bundle.putSerializable("property","");//属性
+				bundle.putSerializable("picture",(Serializable)mMaterialPicList);//图片
+				bundle.putString("tasknumber", str_taskcode);
+				//openActivity(MaterialAddActivity.class, bundle);
+				openActivityForResult(HistoryVerActivity.class, bundle, 200);
 				break;
 			case R.id.imgbtn_detail:
 				openActivity(PropertyActivity.class);
@@ -178,6 +274,7 @@ public class MaterialDetailActivity extends ActivityBase {
 			}
 		}
 	};
+
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case 100:
@@ -190,7 +287,8 @@ public class MaterialDetailActivity extends ActivityBase {
 			break;
 		}
 	}
-    OnItemClickListener mOnItemClick = new OnItemClickListener() {
+
+	OnItemClickListener mOnItemClick = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -199,39 +297,41 @@ public class MaterialDetailActivity extends ActivityBase {
 			showDialogs(arg2);
 		}
 	};
+
 	// 审核弹出框
-		public void showCheckDialog() {
-			final Dialog dialog = new Dialog(MaterialDetailActivity.this,
-					R.style.taskdialog);
-			View view = LayoutInflater.from(MaterialDetailActivity.this).inflate(
-					R.layout.checkdialog, null);
-			dialog.setContentView(view);
-			Button btn_pass = (Button) view.findViewById(R.id.btn_check_pass);
-			Button btn_nopass = (Button) view.findViewById(R.id.btn_check_nopass);
-			Button btn_taskpositive = (Button) view
-					.findViewById(R.id.btn_taskpositive);
-			dialog.show();
-			btn_pass.setOnClickListener(new OnClickListener() {
+	public void showCheckDialog() {
+		final Dialog dialog = new Dialog(MaterialDetailActivity.this,
+				R.style.taskdialog);
+		View view = LayoutInflater.from(MaterialDetailActivity.this).inflate(
+				R.layout.checkdialog, null);
+		dialog.setContentView(view);
+		Button btn_pass = (Button) view.findViewById(R.id.btn_check_pass);
+		Button btn_nopass = (Button) view.findViewById(R.id.btn_check_nopass);
+		Button btn_taskpositive = (Button) view
+				.findViewById(R.id.btn_taskpositive);
+		dialog.show();
+		btn_pass.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-					finish();
-				}
-			});
-			btn_nopass.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				finish();
+			}
+		});
+		btn_nopass.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-					finish();
-					
-				}
-			});
-			
-		}
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				finish();
+
+			}
+		});
+
+	}
+
 	// 弹出大图浏览
 	public void showDialogs(int pagerPosition) {
 		Dialog dialog = new Dialog(MaterialDetailActivity.this,
@@ -241,8 +341,8 @@ public class MaterialDetailActivity extends ActivityBase {
 		dialog.setContentView(view);
 		ViewPager pager;
 		pager = (ViewPager) view.findViewById(R.id.pager);
-		pager.setAdapter(new ImagePagerAdapter(MaterialDetailActivity.this,
-				MaterialDetail_ImageAdapter.imgs));
+//		pager.setAdapter(new ImagePagerAdapter(MaterialDetailActivity.this,
+//				MaterialDetail_ImageAdapter.imgs));
 		pager.setCurrentItem(pagerPosition);
 		LayoutParams lay = dialog.getWindow().getAttributes();
 		setParams(lay);
@@ -306,6 +406,7 @@ public class MaterialDetailActivity extends ActivityBase {
 	}
 
 	Timer autoGallery = new Timer();
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -318,7 +419,6 @@ public class MaterialDetailActivity extends ActivityBase {
 		search.setVisible(false);
 		add.setVisible(false);
 		save.setVisible(false);
-		
 
 		return true;
 	}
@@ -330,11 +430,11 @@ public class MaterialDetailActivity extends ActivityBase {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			
+
 			finish();
-			
+
 			break;
-		
+
 		}
 
 		return super.onOptionsItemSelected(item);

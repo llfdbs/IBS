@@ -1,5 +1,6 @@
 package com.victop.ibs.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,15 +40,18 @@ public class GetTaskHandler extends Handler {
 			dataMap = extracted(msg);
 			List<GetTaskBean> task = dataMap.get("1");
 
+			if(null==task){
+				task= new ArrayList<GetTaskBean>();
+			}
 			Message message = new Message();
 			message.what = 0;
 			message.obj = task;
 			handler.sendMessage(message);
-			System.out.println(task.size() + "任务个数为：");
-			for (GetTaskBean gb : task) {
-				System.out.println(gb.getTaskname() + gb.getTaskstatus()
-						+ "任务名称加任务状态");
-			}
+//			System.out.println(task.size() + "任务个数为：");
+//			for (GetTaskBean gb : task) {
+//				System.out.println(gb.getTaskname() + gb.getTaskstatus()
+//						+ "任务名称加任务状态");
+//			}
 
 			break;
 		case SAVE_DATA_FAIL:

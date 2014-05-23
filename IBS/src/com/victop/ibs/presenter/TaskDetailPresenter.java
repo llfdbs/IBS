@@ -7,43 +7,38 @@ import android.os.Handler;
 
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
-import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.bean.SendTaskBean;
+import com.victop.ibs.bean.TaskDetailBean;
+import com.victop.ibs.bean.TaskMaterialsBean;
+
 /**
- * 发布的任务列表装配
+ * 任务详情装配
  * 
  * @author vv
  * 
  */
-public class SendTaskPresenter {
-	
-	public void getInitData(Handler handler,String taskstatus){
+public class TaskDetailPresenter {
+	public void getInitData(Handler handler, String taskid) {
 		GetDataParam getDataParam = new GetDataParam();
 		String systemId = "100";
 		String formId = "10211";
-		String modelId = "IBS10223";
-		String datasetId = "1";
+		String modelId = "IBS11118";
+		String datasetId = "1,2";
 		getDataParam.setSystemId(systemId);
 		getDataParam.setFormId(formId);
 		getDataParam.setModelId(modelId);
 		getDataParam.setDatasetId(datasetId);
+
 		HashMap<String, String> map =new HashMap<String, String>();
-		map.put("hrid","1");
+		map.put("taskid","1");
 		getDataParam.setDataparamMap(map);
 		
-		HashMap<String,String> whereMap = new HashMap<String, String>();
-		if(null!=taskstatus){
-			whereMap.put("1","taskstatus="+taskstatus);
-		}else {
-			whereMap.put("1","taskstatus= '1' or taskstatus ='2' or taskstatus= '0'");
-		}
-		getDataParam.setWhereMap(whereMap);
-		
-		Map<String,Class> clsMap = new HashMap<String, Class>();
-		clsMap.put("1",SendTaskBean.class);
+
+		Map<String, Class> clsMap = new HashMap<String, Class>();
+		clsMap.put("1",TaskDetailBean.class);
+		clsMap.put("2",TaskMaterialsBean.class);
 		getDataParam.setClassMap(clsMap);
-		
-		
+
 		DataChannelManager.getInstance().getData(getDataParam, handler);
 	}
 }

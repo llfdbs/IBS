@@ -13,6 +13,15 @@ import android.widget.Gallery;
 public class MyGallery extends Gallery {
 
 	private MaterialDetailActivity materialActivity;
+	int selection;
+	public int getSelection() {
+		return selection;
+	}
+
+	public void setSelection(int selection) {
+		this.selection = selection;
+	}
+
 	public MyGallery(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -47,7 +56,7 @@ public class MyGallery extends Gallery {
         }
         onKeyDown(kEvent, null); 
         if(this.getSelectedItemPosition()==0)
-        	this.setSelection(MaterialDetail_ImageAdapter.imgs.length);
+        	this.setSelection(getSelection());
         System.out.println("DDD"+this.getSelectedItemPosition());
 		new java.util.Timer().schedule(new TimerTask(){
 		       public void run() {

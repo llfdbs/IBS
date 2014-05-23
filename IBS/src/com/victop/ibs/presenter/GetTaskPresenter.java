@@ -9,6 +9,7 @@ import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
 import com.victop.ibs.activity.TaskListActivity;
 import com.victop.ibs.bean.GetTaskBean;
+import com.victop.ibs.bean.Page;
 /**
  * 接收的任务列表装配
  * 
@@ -17,7 +18,7 @@ import com.victop.ibs.bean.GetTaskBean;
  */
 
 public class GetTaskPresenter {
-	public void getInitData(Handler handler,String taskstatus){
+	public void getInitData(Handler handler,String taskstatus,Page page){
 		GetDataParam getDataParam = new GetDataParam();
 		String systemId = "100";
 		String formId = "10211";
@@ -29,13 +30,18 @@ public class GetTaskPresenter {
 		getDataParam.setDatasetId(datasetId);
 		HashMap<String, String> map =new HashMap<String, String>();
 		map.put("hrid","1");
+		map.put("ispage", page.getIspage()+"");
+		map.put("pageno", page.getPageno()+"");
+		map.put("pagesize",page.getPagesize()+"");
 		getDataParam.setDataparamMap(map);
 		
+		HashMap<String,String> whereMap = new HashMap<String, String>();
 		if(null!=taskstatus){
-			HashMap<String,String> whereMap = new HashMap<String, String>();
 			whereMap.put("1","taskstatus="+taskstatus);
-			getDataParam.setWhereMap(whereMap);
+		}else {
+			whereMap.put("1", "taskstatus=1 or taskstatus=2");
 		}
+		getDataParam.setWhereMap(whereMap);
 		
 		Map<String,Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("1",GetTaskBean.class);

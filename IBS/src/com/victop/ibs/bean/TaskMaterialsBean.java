@@ -14,7 +14,49 @@ public class TaskMaterialsBean extends BaseBean {
 	private String adddate;//添加时间
 	private String materialid;//素材ID
 	private String materialmemo;//素材内容
-	private String summaterial;//素材总数
+	private String summaterialid;//素材总数
+	private String imgname;// 图片名称
+	private String imgmemo;// 图片描述
+	private String imgwidth;// 缩略图宽度
+	private String imgrule;// 缩略图规则
+	private String imghigh;// 缩略图高度
+	private String materialstatus;//素材状态
+	public String getMaterialstatus() {
+		return materialstatus;
+	}
+	public void setMaterialstatus(String materialstatus) {
+		this.materialstatus = materialstatus;
+	}
+	public String getImgname() {
+		return imgname;
+	}
+	public void setImgname(String imgname) {
+		this.imgname = imgname;
+	}
+	public String getImgmemo() {
+		return imgmemo;
+	}
+	public void setImgmemo(String imgmemo) {
+		this.imgmemo = imgmemo;
+	}
+	public String getImgwidth() {
+		return imgwidth;
+	}
+	public void setImgwidth(String imgwidth) {
+		this.imgwidth = imgwidth;
+	}
+	public String getImgrule() {
+		return imgrule;
+	}
+	public void setImgrule(String imgrule) {
+		this.imgrule = imgrule;
+	}
+	public String getImghigh() {
+		return imghigh;
+	}
+	public void setImghigh(String imghigh) {
+		this.imghigh = imghigh;
+	}
 	public String getModelId() {
 		return modelId;
 	}
@@ -51,11 +93,11 @@ public class TaskMaterialsBean extends BaseBean {
 	public void setMaterialmemo(String materialmemo) {
 		this.materialmemo = materialmemo;
 	}
-	public String getSummaterial() {
-		return summaterial;
+	public String getSummaterialid() {
+		return summaterialid;
 	}
-	public void setSummaterial(String summaterial) {
-		this.summaterial = summaterial;
+	public void setSummaterialid(String summaterialid) {
+		this.summaterialid = summaterialid;
 	}
 	
 	

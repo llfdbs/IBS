@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.maxwin.view.XListView;
+import me.maxwin.view.XListView.IXListViewListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +28,10 @@ import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.handler.GetTaskHandler;
-import com.victop.ibs.handler.HomeHandler;
 import com.victop.ibs.presenter.GetTaskPresenter;
+import com.victop.pulltorefreshui.PullToRefreshBase;
+import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
+import com.victop.pulltorefreshui.PullToRefreshListView;
 
 /**
  * 接受的任务类 接受的任务业务逻辑
@@ -42,11 +46,12 @@ public class TaskListActivity extends ActivityBase {
 	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
-	private GetTaskHandler taskHandler;//网络请求获取数据handler
+	private GetTaskHandler taskHandler;// 网络请求获取数据handler
 	List<GetTaskBean> task_list;
 	List<GetTaskBean> task_unlist;
 	List<GetTaskBean> task_filist;
-	private String status="0";
+	private String status = "0";
+	private PullToRefreshListView mPullListView;
 	Handler handler = new Handler() {
 
 		@Override
@@ -71,7 +76,8 @@ public class TaskListActivity extends ActivityBase {
 			switch (msg.what) {
 			case 0:
 				task_unlist = (List<GetTaskBean>) msg.obj;
-				adapter = new TaskListAdapter(TaskListActivity.this, task_unlist);
+				adapter = new TaskListAdapter(TaskListActivity.this,
+						task_unlist);
 				mListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
 				break;
@@ -86,8 +92,9 @@ public class TaskListActivity extends ActivityBase {
 			switch (msg.what) {
 			case 0:
 				task_filist = (List<GetTaskBean>) msg.obj;
-				 
-						adapter = new TaskListAdapter(TaskListActivity.this, task_filist);
+
+				adapter = new TaskListAdapter(TaskListActivity.this,
+						task_filist);
 				mListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
 				break;
@@ -115,20 +122,17 @@ public class TaskListActivity extends ActivityBase {
 	protected void initData() {
 		// TODO Auto-generated method stub
 		GetTaskPresenter gettask = new GetTaskPresenter();
-		gettask.getInitData(taskHandler, null);
-		// task_list = taskHandler.getmGetTaskBean();
+	//	gettask.getInitData(taskHandler, null);
+		
 		task_filist = new ArrayList<GetTaskBean>();
 		task_unlist = new ArrayList<GetTaskBean>();
 
-//		adapter = new TaskListAdapter(TaskListActivity.this, task_list);
-//		mListView.setAdapter(adapter);
+		
 	}
 
 	private void initHandler(Handler handler) {
 		taskHandler = new GetTaskHandler(TaskListActivity.this, handler);
 	}
-
- 
 
 	@Override
 	protected void initViews() {
@@ -139,8 +143,14 @@ public class TaskListActivity extends ActivityBase {
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);
-		mListView = (ListView) findViewById(R.id.taskList);
-
+		mPullListView = (PullToRefreshListView) findViewById(R.id.taskList);
+		
+//		  mPullListView.setPullLoadEnabled(true);
+	    mPullListView.setScrollLoadEnabled(true);
+		mListView = mPullListView.getRefreshableView();
+		mListView.setDivider(null);
+		mListView.setDividerHeight(5);
+		mListView.setCacheColorHint(R.drawable.translates);
 	}
 
 	@Override
@@ -149,7 +159,37 @@ public class TaskListActivity extends ActivityBase {
 
 		radiogroup_task.setOnCheckedChangeListener(mOnChecked);
 		mListView.setOnItemClickListener(mOnItemClick);
+		mListView.setOnItemClickListener(mOnItemClick);
+		
+		mPullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			// 下拉刷新
+			@Override
+			public void onPullDownToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+				// TODO Auto-generated method stub
+				
+				GetTaskPresenter gettask = new GetTaskPresenter();
+			//	gettask.getInitData(taskHandler, null);
 
+			}
+
+			// 上拉加载更多数据
+			@Override
+			public void onPullUpToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+				// TODO Auto-generated method stub
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						mPullListView.onPullUpRefreshComplete();
+						mPullListView.setHasMoreData(false);
+					}
+				}, 2000);
+
+			}
+		});
 	}
 
 	// 控件点击事件
@@ -169,31 +209,26 @@ public class TaskListActivity extends ActivityBase {
 			switch (checkedId) {
 			case R.id.rbn_taskall:
 
-				status="0";
+				status = "0";
 				initHandler(handler);
 				GetTaskPresenter gettasks = new GetTaskPresenter();
-				gettasks.getInitData(taskHandler, null);
-			
+			//	gettasks.getInitData(taskHandler, null);
 
 				break;
 			case R.id.rbn_taskunfinish:
-				status="1";
+				status = "1";
 				initHandler(handler_unfinish);
 				GetTaskPresenter gettask1 = new GetTaskPresenter();
-				gettask1.getInitData(taskHandler, "1");
-//				adapter = new TaskListAdapter(TaskListActivity.this, listData);
-//				mListView.setAdapter(adapter);
-//				adapter.notifyDataSetChanged();
+				//gettask1.getInitData(taskHandler, "1");
+				
 
 				break;
 			case R.id.rbn_taskfinished:
-				status="2";
+				status = "2";
 				initHandler(handler_finish);
 				GetTaskPresenter gettask2 = new GetTaskPresenter();
-				gettask2.getInitData(taskHandler, "2");
-//				adapter = new TaskListAdapter(TaskListActivity.this, listData);
-//				mListView.setAdapter(adapter);
-//				adapter.notifyDataSetChanged();
+				//gettask2.getInitData(taskHandler, "2");
+			
 
 				break;
 			default:
@@ -209,14 +244,20 @@ public class TaskListActivity extends ActivityBase {
 				long arg3) {
 			// TODO Auto-generated method stub
 			Bundle bundle = new Bundle();
-			if(status.equals("0")){
+			if (status.equals("0")) {
 				bundle.putString("statue", task_list.get(arg2).getTaskstatus());
-			}else if(status.equals("1")){
-				bundle.putString("statue", task_unlist.get(arg2).getTaskstatus());
-			}else{
-				bundle.putString("statue", task_filist.get(arg2).getTaskstatus());
+				bundle.putString("taskid", task_list.get(arg2).getTaskid());
+
+			} else if (status.equals("1")) {
+				bundle.putString("statue", task_unlist.get(arg2)
+						.getTaskstatus());
+				bundle.putString("taskid", task_unlist.get(arg2).getTaskid());
+			} else {
+				bundle.putString("statue", task_filist.get(arg2)
+						.getTaskstatus());
+				bundle.putString("taskid", task_filist.get(arg2).getTaskid());
 			}
-			
+
 			openActivity(TaskDetailActivity.class, bundle);
 
 		}
@@ -260,4 +301,5 @@ public class TaskListActivity extends ActivityBase {
 
 		return super.onOptionsItemSelected(item);
 	}
+
 }

@@ -109,10 +109,12 @@ public class SendedTaskListActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch(msg.what){
 			case 0:
+				if(null!=msg.obj){
 				task_unsendList = (List<SendTaskBean>)msg.obj;
 				adapter = new SendTaskListAdapter(SendedTaskListActivity.this, task_unsendList);
 				mListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
+				}
 				break;
 			}
 			super.handleMessage(msg);
@@ -188,27 +190,26 @@ public class SendedTaskListActivity extends ActivityBase {
 				break;
 			case R.id.rbn_sendedtask_unfinish:
 				 status="1";
-				initHandler(handler);
+				initHandler(handler_unfinish);
 				SendTaskPresenter sendTaskPresenter1 =  new SendTaskPresenter();
 				sendTaskPresenter1.getInitData(sendTaskHandler,"1");
 
 				break;
 			case R.id.rbn_sendedtask_finished:
 				 status="2";
-				initHandler(handler);
+				initHandler(handler_finish);
 				SendTaskPresenter sendTaskPresenter2 =  new SendTaskPresenter();
 				sendTaskPresenter2.getInitData(sendTaskHandler,"2");
 
 				break;
 			case R.id.rbn_sendedtask_unsend:
 				status="3";
-				initHandler(handler);
+				initHandler(handler_unsend);
 				SendTaskPresenter sendTaskPresenter3 =  new SendTaskPresenter();
 				sendTaskPresenter3.getInitData(sendTaskHandler,"0");
 				break;
 			default:
 				break;
-
 			}
 		}
 	};
@@ -218,7 +219,23 @@ public class SendedTaskListActivity extends ActivityBase {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			// TODO Auto-generated method stub
-			openActivity(TaskDetailActivity.class, null);
+			Bundle bundle = new Bundle();
+			if(status.equals("0")){
+				bundle.putString("statue", task_list.get(arg2).getTaskstatus());
+				bundle.putString("taskid", task_list.get(arg2).getTaskid());
+			}else if(status.equals("1")){
+				bundle.putString("statue", task_unfinishList.get(arg2).getTaskstatus());
+				bundle.putString("taskid", task_list.get(arg2).getTaskid());
+			}else if(status.equals("2")){
+				bundle.putString("statue", task_finishList.get(arg2).getTaskstatus());
+				bundle.putString("taskid", task_list.get(arg2).getTaskid());
+			}else{
+				
+				bundle.putString("statue", task_unsendList.get(arg2).getTaskstatus());
+				bundle.putString("taskid", task_list.get(arg2).getTaskid());
+				
+			}
+			openActivity(TaskDetailActivity.class, bundle);
 		}
 	};
 	@Override

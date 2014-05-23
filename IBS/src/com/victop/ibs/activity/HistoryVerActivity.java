@@ -1,5 +1,7 @@
 package com.victop.ibs.activity;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.victop.ibs.adapter.HistoryerAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.MaterialDetailHistoryBean;
 
 /**
  * 历史版本
@@ -27,6 +30,7 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 	private ListView listView;
 	private ActionBar actionBar;//导航栏
 	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private List<MaterialDetailHistoryBean> mMaterialHistoryList;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -49,7 +53,9 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-	
+	Bundle bundle = getIntent().getExtras();
+	mMaterialHistoryList = (List<MaterialDetailHistoryBean>)bundle.getSerializable("history");
+	//System.out.println(mMaterialHistoryList.size()+"((((((((((((((((((((((((((((((((((()))))))))))))))))))))))");
 
 	}
 
@@ -61,7 +67,7 @@ public class HistoryVerActivity extends ActivityBase implements OnClickListener 
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		listView = (ListView) findViewById(R.id.lv_history);
-		HistoryerAdapter adapter=new   HistoryerAdapter(this,null);
+		HistoryerAdapter adapter=new   HistoryerAdapter(this,mMaterialHistoryList);
 		listView.setAdapter(adapter);
 	}
 

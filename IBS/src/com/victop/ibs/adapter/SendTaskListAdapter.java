@@ -70,12 +70,15 @@ public class SendTaskListAdapter  extends BaseAdapter {
 		holder.tv_receivedtask_title.setText(list.get(position).getTaskname());
 		holder.tv_tasknumber.setText(list.get(position).getTaskcode());
 		holder.tv_taskstatue.setText(list.get(position).getTaskstatus());
-		if (list.get(position).getTaskstatus().equals("未完成")) {
+		if (list.get(position).getTaskstatus().equals("1")) {
 			holder.tv_taskstatue.setTextColor(0xff53CCC5);
 			holder.tv_taskstatue.setText("未完成");
-		} else if (list.get(position).getTaskstatus().equals("已完成")) {
+		} else if (list.get(position).getTaskstatus().equals("2")) {
 			holder.tv_taskstatue.setTextColor(0xffF8524B);
 			holder.tv_taskstatue.setText("已完成");
+		}else{
+			holder.tv_taskstatue.setTextColor(0xff53CCC5);
+			holder.tv_taskstatue.setText("未发放");
 		}
 		holder.tv_deadline.setText(list.get(position).getDuedate());
 		holder.tv_tasktype.setText(list.get(position).getTasklevel());

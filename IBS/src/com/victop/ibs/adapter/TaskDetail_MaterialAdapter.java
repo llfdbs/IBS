@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.victop.ibs.activity.R;
+import com.victop.ibs.bean.TaskMaterialsBean;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,10 +16,10 @@ import android.widget.TextView;
 
 public class TaskDetail_MaterialAdapter extends BaseAdapter {
   private Context context;
-  private List<Map<String,String>> list;
+  private List<TaskMaterialsBean> list;
   private LayoutInflater layoutInflater;
   private String tag;
-    public TaskDetail_MaterialAdapter(Context context,List<Map<String,String>> list,String tag){
+    public TaskDetail_MaterialAdapter(Context context,List<TaskMaterialsBean> list,String tag){
     	this.context = context;
     	this.list = list;
     	layoutInflater = LayoutInflater.from(context);
@@ -57,17 +58,16 @@ public class TaskDetail_MaterialAdapter extends BaseAdapter {
 		}else{
 			holder = (Holder) convertView.getTag();
 		}
-		holder.taskdetail_title.setText(list.get(position).get("title"));
-		holder.taskdetail_object.setText(list.get(position).get("allocationobj"));
-		holder.taskdetail_committime.setText(list.get(position).get("committime"));
-		if(tag.equals("00")){
+		holder.taskdetail_title.setText(list.get(position).getMaterialmemo());
+		holder.taskdetail_object.setText(list.get(position).getAddman());
+		holder.taskdetail_committime.setText(list.get(position).getAdddate());
+		if(tag.equals("1") || tag.equals("0")){//未完成任务,未发放任务
 			holder.img_checkstatue.setVisibility(View.GONE);
-		}else{
+		}else{ 
 			holder.img_checkstatue.setVisibility(View.VISIBLE);
-		if(list.get(position).get("checkstatue").equals("00")){
-			holder.img_checkstatue.setImageResource(R.drawable.img_nopass);
-			
-		}else{
+		if( list.get(position).getMaterialstatus().equals("1")){//素材未审核
+			holder.img_checkstatue.setImageResource(R.drawable.img_nopass);	
+		}else if( tag.equals("2")){//素材已审核
 			
 			holder.img_checkstatue.setImageResource(R.drawable.img_pass);
 		}

@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.victop.android.session.ReturnDataEnum;
+import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.bean.SendTaskBean;
+import com.victop.ibs.bean.TaskDetailBean;
+import com.victop.ibs.bean.TaskMaterialsBean;
 
 import android.content.Context;
 import android.os.Handler;
@@ -13,24 +16,24 @@ import android.os.Message;
 import android.util.Log;
 
 /**
- * 获取发布的任务列表handler
+ * 任务详情handler
  * 
  * @author vv
  * 
  */
-public class SendTaskHandler extends Handler {
-	public static final String TAG = SendTaskHandler.class.getSimpleName();
+public class TaskDetailHandler extends Handler {
+	public static final String TAG = TaskDetailHandler.class.getSimpleName();
 	private Context mContext;
 	Map<String, List> dataMap;
 	Handler handler;
-
-	public SendTaskHandler(Context context, Handler handler) {
+	public TaskDetailHandler(Context context,Handler handler){
 		this.mContext = context;
 		this.handler = handler;
 	}
-
 	@Override
 	public void handleMessage(Message msg) {
+		// TODO Auto-generated method stub
+
 		// TODO Auto-generated method stub
 		ReturnDataEnum type = ReturnDataEnum.getReturnType(msg.what);
 		switch (type) {
@@ -40,14 +43,26 @@ public class SendTaskHandler extends Handler {
 		case GET_DATA_SUCCESS:
 
 			dataMap = extracted(msg);
-			List<SendTaskBean> task = dataMap.get("1");
-            if(null==task){
-            	task = new ArrayList<SendTaskBean>();
-            }
+			
+            
 			Message message = new Message();
 			message.what = 0;
-			message.obj = task;
+			message.obj = dataMap;
 			handler.sendMessage(message);
+		 
+			
+			
+//            for(TaskDetailBean task:taskDetailList){
+//            	System.out.println(task.getTaskid()+task.getTaskname()+task.getTaskstatus()+"+++++++++++++++++++");
+//            }
+//            
+//            for(TaskMaterialsBean tmb:taskMaterialList){
+//            	System.out.println(tmb.getMaterialmemo()+tmb.getMaterialid()+"--------------------");
+//            }
+//			Message message = new Message();
+//			message.what = 0;
+//			message.obj = task;
+//			handler.sendMessage(message);
 //			if(null!=task){
 //			System.out.println(task.size() + "任务个数为：");
 //			for (SendTaskBean sb : task) {
@@ -69,10 +84,10 @@ public class SendTaskHandler extends Handler {
 			break;
 		}
 
+	
 	}
-
 	private Map<String, List> extracted(Message msg) {
 		return (Map<String, List>) msg.obj;
 	}
-
+	
 }
