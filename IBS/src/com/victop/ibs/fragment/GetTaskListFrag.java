@@ -247,8 +247,8 @@ public class GetTaskListFrag extends Fragment implements
 	// 设置分页参数
 	public void setPage(Page page, int ispage, int pageno, int pagesize) {
 		page.setIspage(ispage);// 是否分页（1分页，0不分页）
-		task_allPage.setPageno(pageno);// 页码
-		task_allPage.setPagesize(pagesize);// 页面显示条目
+		page.setPageno(pageno);// 页码
+		page.setPagesize(pagesize);// 页面显示条目
 	}
 
 	// 请求网络数据装配方法

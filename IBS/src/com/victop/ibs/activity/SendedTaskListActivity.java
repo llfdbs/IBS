@@ -140,7 +140,7 @@ public class SendedTaskListActivity extends ActivityBase {
 	protected void initData() {
 		// TODO Auto-generated method stub
 	   SendTaskPresenter sendTaskPresenter =  new SendTaskPresenter();
-	   sendTaskPresenter.getInitData(sendTaskHandler,null);
+	  // sendTaskPresenter.getInitData(sendTaskHandler,null);
 
 	}
 
@@ -185,28 +185,28 @@ public class SendedTaskListActivity extends ActivityBase {
 				 status="0";
 				initHandler(handler);
 				SendTaskPresenter sendTaskPresenter =  new SendTaskPresenter();
-				sendTaskPresenter.getInitData(sendTaskHandler,null);
+				//sendTaskPresenter.getInitData(sendTaskHandler,null);
 
 				break;
 			case R.id.rbn_sendedtask_unfinish:
 				 status="1";
 				initHandler(handler_unfinish);
 				SendTaskPresenter sendTaskPresenter1 =  new SendTaskPresenter();
-				sendTaskPresenter1.getInitData(sendTaskHandler,"1");
+			//	sendTaskPresenter1.getInitData(sendTaskHandler,"1");
 
 				break;
 			case R.id.rbn_sendedtask_finished:
 				 status="2";
 				initHandler(handler_finish);
 				SendTaskPresenter sendTaskPresenter2 =  new SendTaskPresenter();
-				sendTaskPresenter2.getInitData(sendTaskHandler,"2");
+				//sendTaskPresenter2.getInitData(sendTaskHandler,"2");
 
 				break;
 			case R.id.rbn_sendedtask_unsend:
 				status="3";
 				initHandler(handler_unsend);
 				SendTaskPresenter sendTaskPresenter3 =  new SendTaskPresenter();
-				sendTaskPresenter3.getInitData(sendTaskHandler,"0");
+			//	sendTaskPresenter3.getInitData(sendTaskHandler,"0");
 				break;
 			default:
 				break;

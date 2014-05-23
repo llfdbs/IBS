@@ -8,6 +8,7 @@ import android.os.Handler;
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
 import com.victop.ibs.bean.GetTaskBean;
+import com.victop.ibs.bean.Page;
 import com.victop.ibs.bean.SendTaskBean;
 /**
  * 发布的任务列表装配
@@ -17,7 +18,7 @@ import com.victop.ibs.bean.SendTaskBean;
  */
 public class SendTaskPresenter {
 	
-	public void getInitData(Handler handler,String taskstatus){
+	public void getInitData(Handler handler,String taskstatus,Page page){
 		GetDataParam getDataParam = new GetDataParam();
 		String systemId = "100";
 		String formId = "10211";
@@ -29,6 +30,9 @@ public class SendTaskPresenter {
 		getDataParam.setDatasetId(datasetId);
 		HashMap<String, String> map =new HashMap<String, String>();
 		map.put("hrid","1");
+		map.put("ispage", page.getIspage()+"");
+		map.put("pageno", page.getPageno()+"");
+		map.put("pagesize",page.getPagesize()+"");
 		getDataParam.setDataparamMap(map);
 		
 		HashMap<String,String> whereMap = new HashMap<String, String>();
