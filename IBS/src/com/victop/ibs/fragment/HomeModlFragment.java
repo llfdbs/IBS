@@ -1,7 +1,13 @@
 package com.victop.ibs.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +24,13 @@ import com.victop.ibs.activity.MaterialSearchActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.activity.SendedTaskListActivity;
 import com.victop.ibs.activity.TaskListActivity;
+import com.victop.ibs.bean.GetTaskCountBean;
+import com.victop.ibs.bean.MaterialCountBean;
+import com.victop.ibs.bean.SendTaskCountBean;
+import com.victop.ibs.bean.UserMessageBean;
+import com.victop.ibs.handler.HomeHandler;
+import com.victop.ibs.presenter.HomePresenter;
+import com.victop.ibs.presenter.PersonCenterPresenter;
 
 /**
  * 首页模块 展示 首页的功能项
@@ -33,17 +46,63 @@ public class HomeModlFragment extends Fragment {
 	private View view;
 	private ImageView img_userhead, img_manager_tag;// 用户头像,管理员标示
 	private TextView tv_role;// 登陆人员身份
+	private Map<String, List> dataMap;
+	private List<UserMessageBean> userMessage = new ArrayList<UserMessageBean>();
+	private List<MaterialCountBean> materialCount = new ArrayList<MaterialCountBean>();
+	private List<GetTaskCountBean> getTaskCount = new ArrayList<GetTaskCountBean>();
+	private List<SendTaskCountBean> sendTaskCount = new ArrayList<SendTaskCountBean>();
+	private HomeHandler homeHandler;
+	private HomePresenter hp;
+	private String str_userName,str_headUrl,str_materialCout,str_getTaskCount,str_sendTaskCount;
+	Handler handler = new Handler() {
 
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				dataMap = (Map<String, List>) msg.obj;
+				userMessage = dataMap.get("1");
+				materialCount = dataMap.get("3");
+				sendTaskCount = dataMap.get("4");
+				getTaskCount = dataMap.get("5");
+				initData() ;
+				
+
+			}
+
+			super.handleMessage(msg);
+		}
+
+	};
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.homemodl, null);
 		initViews();
+		initHandler(handler);
 		initListeners();
 		return view;
 	}
+	/**
+	 * 请求网络数据装配方法
+	 * */
+	private void initHandler(Handler handler) {
+		homeHandler = new HomeHandler((MainActivity) getActivity(), handler);
+		hp = new HomePresenter();
+		hp.getInitData(homeHandler);
+	}
 
 	public void initData() {
-
+		str_userName = userMessage.get(0).getHrname();
+		str_headUrl = userMessage.get(0).getHeadimage();
+		str_materialCout = materialCount.get(0).getSummaterialid();
+		str_getTaskCount = getTaskCount.get(0).getSumtaskid();
+		str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
+		tv_role.setText(str_userName);
+		btn_manager_receivedtask.setText("接受的任务("+str_getTaskCount+")");
+		btn_manager_material.setText("素材("+str_materialCout+")");
+		btn_manager_sendedtask.setText("发布的任务("+str_sendTaskCount+")");
+		
 	}
 
 	protected void initViews() {
@@ -102,15 +161,15 @@ public class HomeModlFragment extends Fragment {
 				((MainActivity) getActivity()).rightToCenter(3,"");
 				break;
 			case R.id.btn_manager_receivedtask://接受的任务
-				((MainActivity) getActivity()).rightToCenter(5,"");
+				((MainActivity) getActivity()).rightToCenter(5,str_getTaskCount);
 				break;
 
 			case R.id.btn_manager_material://素材
 
-				((MainActivity) getActivity()).rightToCenter(1,"");
+				((MainActivity) getActivity()).rightToCenter(1,str_materialCout);
 				break;
 			case R.id.btn_manager_sendedtask://发布的任务
-				((MainActivity) getActivity()).rightToCenter(6,"");
+				((MainActivity) getActivity()).rightToCenter(6,str_sendTaskCount);
 				break;
 			case R.id.btn_employee_material:
 				break;

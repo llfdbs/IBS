@@ -2,7 +2,6 @@ package com.victop.ibs.presenter;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
 import com.victop.ibs.bean.CheckedMaterailCountBean;
