@@ -104,6 +104,8 @@ public class AddTaskActivity extends ActivityBase {
 
 	@Override
 	public void initListeners() {
+		tv_allocationname.setOnClickListener(mOnClick);
+		tv_date.setOnClickListener(mOnClick);
 		imgbtn_addperson.setOnClickListener(mOnClick);
 		imgbtn_choosedate.setOnClickListener(mOnClick);
 		btn_tasksave.setOnClickListener(mOnClick);
@@ -228,9 +230,16 @@ public class AddTaskActivity extends ActivityBase {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-
+			case R.id.tv_allocationname:
+				openActivityForResult(TaskAllocationActivity.class, null, 100);
+				break;
 			case R.id.imgbtn_addperson:
 				openActivityForResult(TaskAllocationActivity.class, null, 100);
+				break;
+			case R.id.tv_date:
+				new DatePickerDialog(AddTaskActivity.this, listener,
+						cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+						cal.get(Calendar.DAY_OF_MONTH)).show();
 				break;
 			case R.id.imgbtn_choosedate:
 				new DatePickerDialog(AddTaskActivity.this, listener,
@@ -304,20 +313,29 @@ public class AddTaskActivity extends ActivityBase {
 
 	private void updateDate() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		tv_date.setText(simpleDateFormat.format(cal.getTime()));
+		
 		date = simpleDateFormat.format(cal.getTime());
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");// 设置日期格式
-
 		currentdate = df.format(new Date());
 		try {
 			d1 = df.parse(currentdate);
 			d2 = df.parse(date);
+			if (d2.getTime()<d1.getTime()) {
+				Calendar cals = Calendar.getInstance();
+				cal.setTime(d1);
+				Toast.makeText(AddTaskActivity.this, "截止日期要大于当前时间,当前日期为:"+currentdate,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}else{
 			days = daysBetween(d1, d2);
+			tv_date.setText(simpleDateFormat.format(cal.getTime()));
+			tv_datecount.setText(days + "天");
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		tv_datecount.setText(days + "天");
+		
 
 	}
 
