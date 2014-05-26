@@ -7,8 +7,10 @@
 <ImageView
         android:id="@+id/gallery_image"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" 
+        android:layout_height="300dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:adjustViewBounds="true"
+        android:src="@drawable/empty_photo"
+
         />
 </LinearLayout>

@@ -1,47 +1,36 @@
 package com.victop.ibs.activity;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.maxwin.view.XListView;
 import me.maxwin.view.XListView.IXListViewListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.AsyncTask.Status;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dodola.model.DuitangInfo;
-import com.dodowaterfall.Helper;
-import com.dodowaterfall.widget.ScaleImageView;
-import com.example.android.bitmapfun.util.ImageFetcher;
+import com.victop.ibs.adapter.MUnCheckAdapter;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.Page;
+import com.victop.ibs.bean.UnCheckedMaterialBean;
+import com.victop.ibs.db.model.AddMaterialModel;
+import com.victop.ibs.handler.MaterialunCheckHandler;
+import com.victop.ibs.presenter.Materialpresenter;
+
+//import com.dodola.model.DuitangInfo;
 
 /**
  * 全部素材，未审核素材 搜素素材 未完成素材
@@ -51,273 +40,183 @@ import com.victop.ibs.base.ActivityBase;
  */
 public class MaterialAllActivity extends ActivityBase implements
 		IXListViewListener, OnClickListener, OnItemSelectedListener {
-	private ImageFetcher mImageFetcher;// 图片加载类
 	private XListView mAdapterView = null; // 自定义控件类
-	private StaggeredAdapter mAdapter = null;
+	private MUnCheckAdapter muAdapter = null;
 	private int currentPage = 0;
-	ContentTask task = new ContentTask(this, 2);
-
 	private Button btn_search = null;
 	private Spinner sp_newtime;
 	private final String MATERIAL = "material_style";
 	private final String AUDIT = "audit";
 	private final String UNADIT = "unaudit";
+	private final String CHECKED = "check";
 	private final String NOTCOMPLETE = "notcomplete";
-	private static final String[] mCountries = { "最新时间", "按首字母排序" };
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
-	private class ContentTask extends
-			AsyncTask<String, Integer, List<DuitangInfo>> {
-
-		private Context mContext;
-		private int mType = 1;
-
-		public ContentTask(Context context, int type) {
-			super();
-			mContext = context;
-			mType = type;
-		}
-
-		@Override
-		protected List<DuitangInfo> doInBackground(String... params) {
-			try {
-				return parseNewsJSON(params[0]);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(List<DuitangInfo> result) {
-			if (mType == 1) {
-
-				mAdapter.addItemTop(result);
-				mAdapter.notifyDataSetChanged();
-				mAdapterView.stopRefresh();
-
-			} else if (mType == 2) {
-				mAdapterView.stopLoadMore();
-				mAdapter.addItemLast(result);
-				mAdapter.notifyDataSetChanged();
-			}
-
-		}
-
-		@Override
-		protected void onPreExecute() {
-		}
-
-		public List<DuitangInfo> parseNewsJSON(String url) throws IOException {
-			List<DuitangInfo> duitangs = new ArrayList<DuitangInfo>();
-			String json = "";
-			if (Helper.checkConnection(mContext)) {
-				try {
-					json = Helper.getStringFromUrl(url);
-
-				} catch (IOException e) {
-					Log.e("IOException is : ", e.toString());
-					e.printStackTrace();
-					return duitangs;
-				}
-			}
-			Log.d("MainActiivty", "json:" + json);
-
-			try {
-				if (null != json) {
-					JSONObject newsObject = new JSONObject(json);
-					JSONObject jsonObject = newsObject.getJSONObject("data");
-					JSONArray blogsJson = jsonObject.getJSONArray("blogs");
-
-					for (int i = 0; i < blogsJson.length(); i++) {
-						JSONObject newsInfoLeftObject = blogsJson
-								.getJSONObject(i);
-						DuitangInfo newsInfo1 = new DuitangInfo();
-						newsInfo1
-								.setAlbid(newsInfoLeftObject.isNull("albid") ? ""
-										: newsInfoLeftObject.getString("albid"));
-						newsInfo1
-								.setIsrc(newsInfoLeftObject.isNull("isrc") ? ""
-										: newsInfoLeftObject.getString("isrc"));
-						newsInfo1.setMsg(newsInfoLeftObject.isNull("msg") ? ""
-								: newsInfoLeftObject.getString("msg"));
-						newsInfo1.setHeight(newsInfoLeftObject.getInt("iht"));
-						duitangs.add(newsInfo1);
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return duitangs;
-		}
-	}
-
-	/**
-	 * 添加内容
-	 * 
-	 * @param pageindex
-	 * @param type
-	 *            1为下拉刷新 2为加载更多
-	 */
-	private void AddItemToContainer(int pageindex, int type) {
-		if (task.getStatus() != Status.RUNNING) {
-			String url = "http://www.duitang.com/album/1733789/masn/p/"
-					+ pageindex + "/24/";
-			Log.d("MainActivity", "current url:" + url);
-			ContentTask task = new ContentTask(this, type);
-			task.execute(url);
-
-		}
-	}
-
-	public class StaggeredAdapter extends BaseAdapter {
-		private Context mContext;
-		private LinkedList<DuitangInfo> mInfos;
-		private XListView mListView;
-
-		public StaggeredAdapter(Context context, XListView xListView) {
-			mContext = context;
-			mInfos = new LinkedList<DuitangInfo>();
-			mListView = xListView;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-
-			ViewHolder holder;
-			DuitangInfo duitangInfo = mInfos.get(position);
-
-			if (convertView == null) {
-				LayoutInflater layoutInflator = LayoutInflater.from(parent
-						.getContext());
-				convertView = layoutInflator.inflate(R.layout.infos_list, null);
-				holder = new ViewHolder();
-				holder.imageView = (ScaleImageView) convertView
-						.findViewById(R.id.news_pic);
-				holder.contentView = (TextView) convertView
-						.findViewById(R.id.news_title);
-				holder.linear_box = (LinearLayout) convertView
-						.findViewById(R.id.news_list);
-				convertView.setTag(holder);
-			}
-
-			holder = (ViewHolder) convertView.getTag();
-			holder.imageView.setImageWidth(duitangInfo.getWidth());
-			holder.imageView.setImageHeight(duitangInfo.getHeight());
-			holder.contentView.setText(duitangInfo.getMsg());
-			mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
-			holder.linear_box.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Intent intent = new Intent(MaterialAllActivity.this,
-							MaterialDetailActivity.class);
-					startActivity(intent);
-				}
-			});
-			return convertView;
-		}
-
-		class ViewHolder {
-			ScaleImageView imageView;
-			TextView contentView;
-			TextView timeView;
-			LinearLayout linear_box;
-		}
-
-		@Override
-		public int getCount() {
-			return mInfos.size();
-		}
-
-		@Override
-		public Object getItem(int arg0) {
-			return mInfos.get(arg0);
-		}
-
-		@Override
-		public long getItemId(int arg0) {
-			return 0;
-		}
-
-		public void addItemLast(List<DuitangInfo> datas) {
-			mInfos.addAll(datas);
-		}
-
-		public void addItemTop(List<DuitangInfo> datas) {
-			for (DuitangInfo info : datas) {
-				mInfos.addFirst(info);
-			}
-		}
-	}
-
+	private final String[] mCountries = { "最新时间", "按首字母排序" };
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private int state = 0;
+	private final int UNCOMPLETE = 1;// 未完成
+	private final int UNCHECK = 2;// 未审核
+	private final int CHECK = 3;// yi审核（）
+	private final int ALLMATL = 4;// 全部（）
+	List<AddMaterialModel> mAddmaterialmodel = new ArrayList<AddMaterialModel>();
+	private int temp = 0;
+	Materialpresenter mGetpresenter;
+	MaterialunCheckHandler unCheckHandler;
+	List<UnCheckedMaterialBean> mUnCheckedMaterialBean = new ArrayList<UnCheckedMaterialBean>();
+	private final int PAGESIAE = 6;
+	private final int ISPAGE = 1;
+	private int pageno = 1;
+	HashMap<String, String> map = new HashMap<String, String>();
+	Map<String, Class> clsMap = new HashMap<String, Class>();
+    String count ="" ;
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.materitalall);
-		initViews();
-		btn_search = (Button) findViewById(R.id.btn_search);
-		sp_newtime = (Spinner) findViewById(R.id.sp_newtime);
-		btn_search.setOnClickListener(this);
-		ArrayAdapter<String> ad = new ArrayAdapter<String>(this,
-				R.layout.simple_spinner, mCountries);
-		// ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sp_newtime.setAdapter(ad);
+
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			String rr = b.getString(MATERIAL);
+			count = b.getString("count");
 			if (rr.equals(AUDIT)) {
-				actionBar.setTitle("全部素材");
+				state = ALLMATL;
+
 			} else if (rr.equals(UNADIT)) {
-				actionBar.setTitle("素材(未审核20)");
+				state = UNCHECK;
+
 			} else if (rr.equals(NOTCOMPLETE)) {
-				actionBar.setTitle("素材(未完成20)");
+				state = UNCOMPLETE;
+
+			} else if (rr.equals(CHECKED)) {
+				state = CHECK;
+
+			}
+		}
+		initViews();
+	}
+
+	 
+
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			List<UnCheckedMaterialBean> unCheckedMaterialBean;
+			switch (msg.what) {
+
+			case 0:// 获取到数据
+				switch (state) {
+				case UNCOMPLETE:
+					unCheckedMaterialBean = (List<UnCheckedMaterialBean>) msg.obj;
+					muAdapter = new MUnCheckAdapter(MaterialAllActivity.this,
+							mAdapterView, state);
+					if (null != unCheckedMaterialBean)
+						mUnCheckedMaterialBean.addAll(unCheckedMaterialBean);
+					else
+						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
+								.show();
+					muAdapter.addItemLast(mUnCheckedMaterialBean);
+					actionBar.setTitle("素材(未完成" +count
+							+ ")");
+					mAdapterView.setAdapter(muAdapter);
+					break;
+				case UNCHECK:
+					unCheckedMaterialBean = (List<UnCheckedMaterialBean>) msg.obj;
+					muAdapter = new MUnCheckAdapter(MaterialAllActivity.this,
+							mAdapterView, state);
+					if (null != unCheckedMaterialBean)
+						mUnCheckedMaterialBean.addAll(unCheckedMaterialBean);
+					else
+						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
+								.show();
+					muAdapter.addItemLast(mUnCheckedMaterialBean);
+					actionBar.setTitle("素材(未审核" +count
+							+ ")");
+					mAdapterView.setAdapter(muAdapter);
+					break;
+				case CHECK:
+					unCheckedMaterialBean = (List<UnCheckedMaterialBean>) msg.obj;
+					muAdapter = new MUnCheckAdapter(MaterialAllActivity.this,
+							mAdapterView, state);
+					if (null != unCheckedMaterialBean)
+						mUnCheckedMaterialBean.addAll(unCheckedMaterialBean);
+					else
+						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
+								.show();
+					muAdapter.addItemLast(mUnCheckedMaterialBean);
+					actionBar.setTitle("素材(审核" +count
+							+ ")");
+					mAdapterView.setAdapter(muAdapter);
+					break;
+				case ALLMATL:
+
+					unCheckedMaterialBean = (List<UnCheckedMaterialBean>) msg.obj;
+					muAdapter = new MUnCheckAdapter(MaterialAllActivity.this,
+							mAdapterView, state);
+					if (null != unCheckedMaterialBean)
+						mUnCheckedMaterialBean.addAll(unCheckedMaterialBean);
+					else
+						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
+								.show();
+					muAdapter.addItemLast(mUnCheckedMaterialBean);
+					actionBar.setTitle("全部素材(" + count
+							+ ")");
+					mAdapterView.setAdapter(muAdapter);
+
+					for (UnCheckedMaterialBean m : mUnCheckedMaterialBean) {
+						System.out.println(m.getMaterialstatus());
+					}
+					break;
+
+				}
+
+				break;
+			case 1:// 获取失败
+
+				break;
 			}
 		}
 
-		// tv_title.setText("全部素材");
-
-		mAdapterView = (XListView) findViewById(R.id.list);
-		mAdapterView.setPullLoadEnable(true);
-		mAdapterView.setXListViewListener(this);
-
-		mAdapter = new StaggeredAdapter(this, mAdapterView);
-
-		mImageFetcher = new ImageFetcher(this, 240);
-		mImageFetcher.setLoadingImage(R.drawable.empty_photo);
-		
-		
-		mImageFetcher.setExitTasksEarly(false);
-		mAdapterView.setAdapter(mAdapter);
-		AddItemToContainer(currentPage, 2);
-		
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-//		mImageFetcher.setExitTasksEarly(false);
-//		mAdapterView.setAdapter(mAdapter);
-//		AddItemToContainer(currentPage, 2);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-	}
+	};
 
 	@Override
 	public void onRefresh() {
 		// AddItemToContainer(++currentPage, 1);
+		System.out.println("1222211");
 		mAdapterView.stopRefresh();
 	}
 
 	@Override
 	public void onLoadMore() {
 		// AddItemToContainer(++currentPage, 2);
+		System.out.println("111111111");
+		Page page;
+		switch (state) {
+		case UNCOMPLETE:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
+			page = setPage(ISPAGE, ++pageno, PAGESIAE);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page);
+			break;
+		case UNCHECK:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
+			page = setPage(ISPAGE, ++pageno, PAGESIAE);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page);
+			break;
+		case CHECK:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
+			page = setPage(ISPAGE, ++pageno, PAGESIAE);
+			mGetpresenter.GetCMaterial(unCheckHandler, page);
+			break;
+		case ALLMATL:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
+			page = setPage(ISPAGE, ++pageno, PAGESIAE);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page);
+			break;
+
+		}
 		mAdapterView.stopLoadMore();
 	}
 
@@ -328,7 +227,7 @@ public class MaterialAllActivity extends ActivityBase implements
 		case R.id.btn_search:
 
 			openActivity(MaterialSearchActivity.class, null);
-			//finish();
+			// finish();
 
 			break;
 		case R.id.sp_newtime:
@@ -359,10 +258,50 @@ public class MaterialAllActivity extends ActivityBase implements
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+
+		btn_search = (Button) findViewById(R.id.btn_search);
+		sp_newtime = (Spinner) findViewById(R.id.sp_newtime);
+		btn_search.setOnClickListener(this);
+		ArrayAdapter<String> ad = new ArrayAdapter<String>(this,
+				R.layout.simple_spinner, mCountries);
+		sp_newtime.setAdapter(ad);
+
 		actionBar = getSupportActionBar();
 		actionBar.setTitle("");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
+
+		mAdapterView = (XListView) findViewById(R.id.list);
+		mAdapterView.setPullLoadEnable(true);
+		mAdapterView.setXListViewListener(this);
+
+		// AddItemToContainer(currentPage, 2);
+		mGetpresenter = new Materialpresenter();
+		Page page;
+		switch (state) {
+		case UNCOMPLETE:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
+			page = setPage(ISPAGE, pageno, PAGESIAE);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page);
+			break;
+		case UNCHECK:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
+			page = setPage(ISPAGE, pageno, PAGESIAE);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page);
+			break;
+		case CHECK:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
+			page = setPage(ISPAGE, pageno, PAGESIAE);
+			mGetpresenter.GetCMaterial(unCheckHandler, page);
+			break;
+		case ALLMATL:
+			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
+			page = setPage(ISPAGE, pageno, PAGESIAE);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page);
+			break;
+
+		}
+
 	}
 
 	@Override
@@ -370,6 +309,7 @@ public class MaterialAllActivity extends ActivityBase implements
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -388,43 +328,31 @@ public class MaterialAllActivity extends ActivityBase implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			finish();
 			break;
-		case R.id.search:
-			break;
+		// case R.id.search:
+		// break;
 		case R.id.add:
 			openActivity(MaterialAddActivity.class, null);
 			break;
-		case R.id.save:
-			break;
+		// case R.id.save:
+		// break;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 
-	// @Override
-	// public boolean onOptionsItemSelected(MenuItem item) {
-	// // if(MENU_PREFERENCES == item.getItemId()){
-	// // mActionModeHandler.startActionMode();
-	// // }
-	// if (R.id.action_settings == item.getItemId()) {
-	// Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_LONG)
-	// .show();
-	// }
-	// return super.onOptionsItemSelected(item);
-	// }
-	//
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// // TODO Auto-generated method stub
-	// getMenuInflater().inflate(R.menu.main, menu);
-	//
-	// return true;
-	// }
+	// 设置分页参数
+	public Page setPage(int ispage, int pageno, int pagesize) {
+		Page page = new Page();
+		page.setIspage(ispage);// 是否分页（1分页，0不分页）
+		page.setPageno(pageno);// 页码
+		page.setPagesize(pagesize);// 页面显示条目
+		return page;
+	}
 
 }// end of class
+

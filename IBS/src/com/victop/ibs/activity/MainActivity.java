@@ -91,18 +91,21 @@ public class MainActivity extends ActivityBase {
 	 * 
 	 * @param i
 	 */
-	public void rightToCenter(int i) {
+	public void rightToCenter(int i,String count) {
 		Bundle b = new Bundle();
 		switch (i) {
 		case 0://未完成
+			b.putString("count", count);
 			b.putString("material_style", "notcomplete");
 			openActivity(MaterialAllActivity.class, b);
 			break;
 		case 1://已审核
-			b.putString("material_style", "audit");
+			b.putString("count", count);
+			b.putString("material_style", "check");
 			openActivity(MaterialAllActivity.class, b);
 			break;
 		case 2://未审核
+			b.putString("count", count);
 			b.putString("material_style", "unaudit");
 			openActivity(MaterialAllActivity.class, b);
 			break;
@@ -114,10 +117,12 @@ public class MainActivity extends ActivityBase {
 			openActivity(MaterialSearchActivity.class, null);
 			break;
 		case 5://接受的任务
-			openActivity(TaskListFragmentAvtivity.class, null);
+			b.putString("count", count);
+			openActivity(TaskListFragmentAvtivity.class, b);
 			break;
 		case 6://发布的任务
-			openActivity(SendedTaskListFragmentActivity.class, null);
+			b.putString("count", count);
+			openActivity(SendedTaskListFragmentActivity.class, b);
 			break;
 		case 7://新增的任务
 			openActivity(AddTaskActivity.class, null);
@@ -125,6 +130,12 @@ public class MainActivity extends ActivityBase {
 		case 8://退出
 			openActivity(LoginActivity.class, null);
 			break;
+		case 9://全部素材
+			b.putString("count", count);
+			b.putString("material_style", "audit");
+			openActivity(MaterialAllActivity.class, b);
+			break;
+
 		default:
 			break;
 		}

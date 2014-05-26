@@ -9,21 +9,9 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class GetTaskCountBean extends BaseBean {
 	private String modelId = "IBS10232";//接收的任务个数数数据模型编号
-	private String datasetId = "8";// 数据集编号
+	public static final String datasetId = "8";// 数据集编号
 	private String sumtaskid;//任务个数
 	private String hrid;//员工id
-	public String getModelId() {
-		return modelId;
-	}
-	public void setModelId(String modelId_send) {
-		this.modelId = modelId_send;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
-	}
 	public String getSumtaskid() {
 		return sumtaskid;
 	}

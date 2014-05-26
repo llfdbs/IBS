@@ -9,7 +9,17 @@ public class Entity implements Serializable {
 	String URL;//
 
 	String Text;
+	String hieght;
 
+	public String getHieght() {
+		return hieght;
+	}
+
+	public void setHieght(String hieght) {
+		this.hieght = hieght;
+	}
+
+	
 	public String getURL() {
 		return URL;
 	}

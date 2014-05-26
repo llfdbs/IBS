@@ -16,16 +16,17 @@ import android.widget.TextView;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.activity.TagActivity;
 import com.victop.ibs.bean.SortModel;
+import com.victop.ibs.bean.TagBean;
 import com.victop.ibs.util.Container;
 
 public class Tag_GirdViewAdapter extends BaseAdapter {
 	private Context context;
-	private List<SortModel> list;
+	private List<TagBean> list;
 	private ViewHolder viewHolder;
 	private int temp;
 	private int int_temp = 0;
 
-	public Tag_GirdViewAdapter(Context context, List<SortModel> list, int temp) {
+	public Tag_GirdViewAdapter(Context context, List<TagBean> list, int temp) {
 		this.context = context;
 		this.list = list;
 		this.temp = temp;
@@ -49,14 +50,14 @@ public class Tag_GirdViewAdapter extends BaseAdapter {
 	@Override
 	public boolean isEnabled(int position) {
 		// TODO Auto-generated method stub
-		if (list.get(position).getName().length() == 1)// 如果是字母索�?
+		if (list.get(position).getLablename().length() == 1)// 如果是字母索�?
 			return false;// 表示不能点击
 		return super.isEnabled(position);
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		String item = list.get(position).getName();
+		String item = list.get(position).getLablename();
 
 		if (convertView == null) {
 			convertView = LayoutInflater.from(context).inflate(
@@ -69,7 +70,7 @@ public class Tag_GirdViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		String rr = list.get(position).getName();
+		String rr = list.get(position).getLablename();
 		byte[] b = rr.getBytes();
 		if (b.length > 12) {
 			rr = rr.substring(0, 4) + "..";

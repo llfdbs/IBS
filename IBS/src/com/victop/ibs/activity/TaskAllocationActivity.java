@@ -2,39 +2,48 @@ package com.victop.ibs.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.victop.ibs.adapter.TaskAllocationAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.AddTaskEmployesBean;
+import com.victop.ibs.handler.BaseHandler;
+import com.victop.ibs.presenter.Getpresenter;
+import com.victop.ibs.util.CharacterParser;
+import com.victop.ibs.util.PinyinComparator;
 import com.victop.ibs.view.ClearEditText;
 
+/**
+ * 员工
+ * 
+ * @author Administrator
+ * 
+ */
 public class TaskAllocationActivity extends ActivityBase {
-	
-	
+
 	private ClearEditText filter_edit;
 	private ListView employeelistview;
 	private RadioGroup radioGroup;
 	private TaskAllocationAdapter employeeAdapter;
 	private List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 	private List<Map<String, String>> employ_list = new ArrayList<Map<String, String>>();
-	private static ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private static ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private CharacterParser characterParser;
+	private PinyinComparator pinyinComparator;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,15 +57,50 @@ public class TaskAllocationActivity extends ActivityBase {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		if(employeeAdapter.isSelectedName!=null || employeeAdapter.isSelectedCount!=null){
-		employeeAdapter.isSelectedName.clear();
-		employeeAdapter.isSelectedCount.clear();
-		}
-		setData();
-		employeeAdapter = new TaskAllocationAdapter(
-				TaskAllocationActivity.this, list, "visiable");
-		employeelistview.setAdapter(employeeAdapter);
+		// 实例化汉字转拼音类
+		characterParser = CharacterParser.getInstance();
+		pinyinComparator = new PinyinComparator();
+		
+		
+		BaseHandler bHandler = new BaseHandler(this, mHandler);
+		Map<String, Class> clsMap = new HashMap<String, Class>();
+		clsMap.put(AddTaskEmployesBean.datasetId, AddTaskEmployesBean.class);
+		Getpresenter.getInstance().getInitbData(bHandler, clsMap, null,
+				AddTaskEmployesBean.modelId, AddTaskEmployesBean.datasetId, null,AddTaskEmployesBean.fromId);
+
 	}
+
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+
+			switch (msg.what) {
+
+			case 0:// 获取到数据
+				Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				List<AddTaskEmployesBean> mUnCheckedMaterialBean = dataMap
+						.get(AddTaskEmployesBean.datasetId);
+				employeeAdapter = new TaskAllocationAdapter(
+						TaskAllocationActivity.this, mUnCheckedMaterialBean,
+						"visiable");
+				employeelistview.setAdapter(employeeAdapter);
+				break;
+			case 1:
+				String rr = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), rr, 1000).show();
+				finish();
+				break;
+			case 2:
+			case 3:
+				String r2r = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), r2r, 1000).show();
+				break;
+			}
+		}
+	};
 
 	@Override
 	protected void initViews() {
@@ -73,91 +117,13 @@ public class TaskAllocationActivity extends ActivityBase {
 	@Override
 	protected void initListeners() {
 		// TODO Auto-generated method stub
-		
-		radioGroup.setOnCheckedChangeListener(onCheckedChangeListener);
+		// radioGroup.setOnCheckedChangeListener(onCheckedChangeListener);
 	}
 
 	public static void setTitle(String name) {
 		actionBar.setTitle(name);
 	}
 
-	public void setData() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("name", "张晓婉" + i);
-			list.add(map);
-			// employ_list.add(map);
-		}
-		// list.addAll(employ_list);
-	}
-
-	public void setDataCache() {
-		list.addAll(employ_list);
-	}
-
-	public void setData1() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("name", "安卓小组" + i);
-			list.add(map);
-		}
-	}
-
-	
-	public void TranslateData(){
-		String nametext = "";
-		HashMap<Integer, String> hashMap = TaskAllocationAdapter.isSelectedName;
-		Iterator iter = hashMap.keySet().iterator();
-		while (iter.hasNext()) {
-			Object key = iter.next();
-			Object val = hashMap.get(key);
-			nametext = nametext + ((String) val) + " ";
-		}
-
-		Intent intent = new Intent(TaskAllocationActivity.this,
-				AddTaskActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("name", nametext);
-		intent.putExtras(bundle);
-		setResult(RESULT_OK, intent);
-		finish();
-	}
-	OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
-
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			// TODO Auto-generated method stub
-			switch (checkedId) {
-			case R.id.rbtn_employee:
-				employeeAdapter.isSelectedName.clear();
-				employeeAdapter.isSelectedCount.clear();
-				setTitle("已选" + employeeAdapter.isSelectedCount.size() + "人");
-				list.clear();
-				setData();
-				employeeAdapter = new TaskAllocationAdapter(
-						TaskAllocationActivity.this, list, "visiable");
-				employeelistview.setAdapter(employeeAdapter);
-				employeeAdapter.notifyDataSetChanged();
-				break;
-			case R.id.rbtn_group:
-				employeeAdapter.isSelectedName.clear();
-				employeeAdapter.isSelectedCount.clear();
-				setTitle("已选" + employeeAdapter.isSelectedCount.size() + "个小组");
-				list.clear();
-				setData1();
-				employeeAdapter = new TaskAllocationAdapter(
-						TaskAllocationActivity.this, list, "gone");
-				employeelistview.setAdapter(employeeAdapter);
-				employeeAdapter.notifyDataSetChanged();
-				break;
-			default:
-				break;
-			}
-		}
-	};
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -172,7 +138,6 @@ public class TaskAllocationActivity extends ActivityBase {
 		save.setVisible(true);
 		save.setTitle("确定");
 		save.setIcon(null);
-		
 
 		return true;
 	}
@@ -184,18 +149,28 @@ public class TaskAllocationActivity extends ActivityBase {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			
+
 			finish();
-			
+
 			break;
-	
+
 		case R.id.save:
-			
 			TranslateData();
 			break;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+	public void TranslateData() {
+		AddTaskEmployesBean mUserMessageBean = TaskAllocationAdapter.isSelectedName
+				.get("user");
+		Intent intent = new Intent(TaskAllocationActivity.this,
+				AddTaskActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("user", mUserMessageBean.getHrname());
+		intent.putExtras(bundle);
+		setResult(RESULT_OK, intent);
+		finish();
+	}
 }

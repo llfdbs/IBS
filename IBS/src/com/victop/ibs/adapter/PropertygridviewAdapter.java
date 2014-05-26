@@ -1,5 +1,7 @@
 package com.victop.ibs.adapter;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +12,14 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
+import com.victop.ibs.bean.PropertyBean;
 
 public class PropertygridviewAdapter extends BaseAdapter {
 	private Context mContext;
 	private int clickTemp = -1;
-	private String[] data;
 	private ViewHolder viewHolder;
-
-	public PropertygridviewAdapter(Context c, String[] data) {
+	List<PropertyBean> data;
+	public PropertygridviewAdapter(Context c,List<PropertyBean> data) {
 		mContext = c;
 		this.data = data;
 	}
@@ -25,7 +27,7 @@ public class PropertygridviewAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return data.length;
+		return data.size();
 	}
 
 	public void setSeclection(int position) {
@@ -45,7 +47,7 @@ public class PropertygridviewAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.btn_name.setText(data[position]);
+		viewHolder.btn_name.setText(data.get(position).getNaturedetailname());
 
 		return convertView;
 	}

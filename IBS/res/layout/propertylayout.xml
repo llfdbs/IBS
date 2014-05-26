@@ -12,6 +12,7 @@
         android:layout_marginTop="30dip" >
 
         <TextView
+            android:id="@+id/text_proper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="作者 :"
@@ -51,7 +52,9 @@
             android:layout_height="wrap_content"
             android:text="标签 :"
             android:textColor="#B2B2B2"
-            android:textSize="20sp" />
+            android:textSize="20sp" 
+            android:id="@+id/tag_porper"
+            />
 
         <TextView
             android:id="@+id/tagname"
@@ -81,7 +84,9 @@
                 android:layout_height="wrap_content"
                 android:text="来源 :"
                 android:textColor="#B2B2B2"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:id="@+id/get_proper"
+                />
 
             <TextView
                 android:id="@+id/getname"
@@ -108,6 +113,7 @@
                 android:drawableLeft="@drawable/radiobutton_selector"
                 android:paddingLeft="5dip"
                 android:text="  是"
+                android:checked="true"
                 android:textColor="#44536A"
                 android:textSize="15sp" />
 
@@ -136,7 +142,9 @@
             android:layout_gravity="center_vertical"
             android:text="行业 :"
             android:textColor="#303030"
-            android:textSize="20sp" />
+            android:textSize="20sp" 
+            android:id="@+id/hangye"
+            />
 
         <Button
             android:id="@+id/btn_choose"

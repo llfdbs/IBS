@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.victop.ibs.bean.Entity;
-import com.victop.ibs.bean.SortModel;
+import com.victop.ibs.bean.TagBean;
 
 /**
  * android 的一个全局容器 用来存放全局数据
@@ -28,9 +28,9 @@ public class Container {
 //	public static List<Map<String, String>> newData = new ArrayList<Map<String, String>>(); // x选择图片添加地址，描述为空
 //	public static List<Map<String, String>> add_mData = new ArrayList<Map<String, String>>();// 素材新增
 	private static Container container;
-	private List<SortModel> mobileUrls = new ArrayList<SortModel>(); // html插件的url（标题，地址，图标，简介）
+	private List<TagBean> mobileUrls = new ArrayList<TagBean>(); // html插件的url（标题，地址，图标，简介）
 	List<Entity> mat_list = new ArrayList<Entity>(); // （标题，地址，图标，简介）
-	HashMap<Integer, SortModel> hashMap = new HashMap<Integer, SortModel>();
+	HashMap<Integer, TagBean> hashMap = new HashMap<Integer, TagBean>();
 	public static List<EditText> et_list = new ArrayList<EditText>();
 	public static Map<Integer, EditText> et_Map = new HashMap<Integer, EditText>();
 	public static Map<Integer, TextView> tv_Map = new HashMap<Integer, TextView>();
@@ -68,11 +68,11 @@ public class Container {
 	 * 
 	 * @return
 	 */
-	public List<SortModel> getTagSortModel() {
+	public List<TagBean> getTagSortModel() {
 		return mobileUrls;
 	}
 
-	public void setTagSortModle(SortModel s) {
+	public void setTagSortModle(TagBean s) {
 		mobileUrls.add(s);
 	}
 
@@ -81,11 +81,11 @@ public class Container {
 	 * 
 	 * @return
 	 */
-	public HashMap<Integer, SortModel> getTaghashSortModel() {
+	public HashMap<Integer, TagBean> getTaghashSortModel() {
 		return hashMap;
 	}
 
-	public void setTaghashSortModle(int id, SortModel s) {
+	public void setTaghashSortModle(int id, TagBean s) {
 		hashMap.put(id, s);
 	}
 

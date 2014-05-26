@@ -10,7 +10,7 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class MaterialCountBean extends BaseBean {
 	private String modelId = "IBS10232";// 手机个人素材个数数数据模型编号
-	private String datasetId = "3";// 数据集编号
+	public static final String datasetId = "3";// 数据集编号
 	private String summaterialid;// 素材个数
 
 	public String getSummaterialid() {
@@ -19,22 +19,6 @@ public class MaterialCountBean extends BaseBean {
 
 	public void setSummaterialid(String summaterialid) {
 		this.summaterialid = summaterialid;
-	}
-
-	public String getModelId() {
-		return modelId;
-	}
-
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
-	}
-
-	public String getDatasetId() {
-		return datasetId;
-	}
-
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
 	}
 
 }

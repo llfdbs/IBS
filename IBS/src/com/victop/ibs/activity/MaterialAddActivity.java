@@ -1,21 +1,18 @@
 package com.victop.ibs.activity;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
@@ -25,26 +22,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
-import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter.ShowUploadWayClass;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.AddMaterialBean;
 import com.victop.ibs.bean.Entity;
-import com.victop.ibs.bean.SortModel;
+import com.victop.ibs.bean.MaterialPictureBean;
+import com.victop.ibs.bean.MaterialPropertyBean;
+import com.victop.ibs.bean.MaterialTagBean;
+import com.victop.ibs.bean.TagBean;
+import com.victop.ibs.bean.TasksaveBean;
+ 
+import com.victop.ibs.handler.BaseHandler;
+import com.victop.ibs.presenter.SavePresenter;
 import com.victop.ibs.util.Container;
-import com.victop.ibs.util.Tools;
 import com.victop.ibs.view.MyGridView;
+ 
 
 /**
  * 新增素材类
@@ -53,7 +56,7 @@ import com.victop.ibs.view.MyGridView;
  * 
  */
 public class MaterialAddActivity extends ActivityBase implements
-		OnClickListener, ShowUploadWayClass {
+		OnClickListener {
 	private LinearLayout llt_sort, llt_property, llt_task, llt_tag;
 	private TextView tv_sort, tv_task, tv_tag;
 	private MyGridView mgv_material;
@@ -61,15 +64,21 @@ public class MaterialAddActivity extends ActivityBase implements
 	MaterialAdd_girdViewAdapter mAdapter;
 	private TextView tv_position, tv_detail;
 	private ImageView iv_addimg;
+
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
-	private AlertDialog dialog;
-	public static final int PHOTOHRAPH = 3;// 拍照
-	public File picture;
-	ArrayList<String> filelist;
 	public List<Entity> img_list = null;// 传递数据
-	Entity e;
-	UUID uuid;
+	// Dataaddmaterial mDataaddmaterial;
+	// List<MaterialPictureBean> mMaterialPictureBean;
+	// AddMaterialBean mAddMaterialBean;
+	private EditText et_memo;
+
+	// 保存的数据容器
+
+	List<AddMaterialBean> tAddMaterialBean;
+	List<MaterialPropertyBean> mMaterialPropertyBean;
+	List<MaterialPictureBean> mMaterialPictureBean;
+	List<MaterialTagBean> mMaterialTagBean;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -78,21 +87,40 @@ public class MaterialAddActivity extends ActivityBase implements
 		final View view = View.inflate(this, R.layout.materialadd, null);
 		setContentView(view);
 		IBSApplication.getInstance().addActivity(this);
-		Bundle bundle = getIntent().getExtras();
-		// if (bundle != null) {
-		// if (bundle.getSerializable("imgshow_data") != null) {
-		// img_list = extracted(bundle);
-		// }
-		// }
+
 		initData();
 		initViews();
 		initListeners();
 
 	}
 
-	private List<Entity> extracted(Bundle bundle) {
-		return (List<Entity>) bundle.getSerializable("data");
-	}
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+
+			switch (msg.what) {
+
+			case 0:// 获取到数据
+				Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				break;
+
+			case 1:
+				String rr = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), rr, 1000).show();
+				finish();
+
+				break;
+			case 2:
+			case 3:
+				String r2r = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), r2r, 1000).show();
+				break;
+			}
+		}
+	};
 
 	@Override
 	public void onClick(View v) {
@@ -104,14 +132,23 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case R.id.llt_property:
+			// if (!"".equals(tv_sort.getText()) && tv_sort.getText() != null) {
 			openActivity(PropertyActivity.class, null);
+			// } else {
+			// Toast.makeText(this, "请先填写分类", 500).show();
+			// }
 			break;
 		case R.id.llt_task:
+
 			openActivityForResult(TaskSortActivity.class, null, Container.TASK);
 			break;
 		case R.id.llt_tag:
-			Container.getInstance().getTaghashSortModel().clear();
+			// if (!"".equals(tv_sort.getText()) && tv_sort.getText() != null) {
+			// Container.getInstance().getTaghashSortModel().clear();
 			openActivityForResult(TagActivity.class, null, Container.TAG);
+			// } else {
+			// Toast.makeText(this, "请先填写分类", 500).show();
+			// }
 
 			break;
 		case R.id.ibtn_edit:// 素材编辑按钮
@@ -123,7 +160,7 @@ public class MaterialAddActivity extends ActivityBase implements
 			openActivity(ImgShowActivity.class, b);
 			break;
 		case R.id.img:
-			showUploadWayDialogs();
+			openActivity(ImgFileListActivity.class, null);
 			break;
 		}
 	}
@@ -159,7 +196,7 @@ public class MaterialAddActivity extends ActivityBase implements
 						iv_addimg.setVisibility(View.GONE);
 						ibtn_edit.setVisibility(View.VISIBLE);
 						mAdapter = new MaterialAdd_girdViewAdapter(this,
-								img_list, 0, this);
+								img_list, 0); 
 						mgv_material.setAdapter(mAdapter);
 					}
 				} else {
@@ -168,7 +205,7 @@ public class MaterialAddActivity extends ActivityBase implements
 					iv_addimg.setVisibility(View.GONE);
 					ibtn_edit.setVisibility(View.VISIBLE);
 					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
-							0, this);
+							0);
 					mgv_material.setAdapter(mAdapter);
 
 				}
@@ -185,9 +222,23 @@ public class MaterialAddActivity extends ActivityBase implements
 					iv_addimg.setVisibility(View.GONE);
 					ibtn_edit.setVisibility(View.VISIBLE);
 					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
-							0, this);
+							0);
 					mgv_material.setAdapter(mAdapter);
 				}
+			}
+
+			for (Entity e : img_list) {
+				MaterialPictureBean materialPictureBean = new MaterialPictureBean();
+				materialPictureBean.setImgabbrurl("");
+				materialPictureBean.setImgheight(e.getHieght());
+				materialPictureBean.setImgmemo(e.getText());
+				materialPictureBean.setImgname(e.getURL().substring(
+						e.getURL().length() - 15, e.getURL().length()));
+				materialPictureBean.setImgurl(e.getURL());
+				materialPictureBean.setMaterialid("111221");
+				materialPictureBean.setMatimgid("22332");
+				mMaterialPictureBean.add(materialPictureBean);
+
 			}
 
 		}
@@ -199,13 +250,13 @@ public class MaterialAddActivity extends ActivityBase implements
 		case Container.TAG:
 			if (resultCode == RESULT_OK) {
 				String nametext = "";
-				HashMap<Integer, SortModel> hashMap = Container.getInstance()
+				HashMap<Integer, TagBean> hashMap = Container.getInstance()
 						.getTaghashSortModel();
 				Iterator iter = hashMap.keySet().iterator();
 				while (iter.hasNext()) {
 					Object key = iter.next();
 					Object val = hashMap.get(key);
-					nametext = nametext + ((SortModel) val).getName() + " ";
+					nametext = nametext + ((TagBean) val).getLablename() + " ";
 				}
 				tv_tag.setText(nametext);
 			}
@@ -225,24 +276,6 @@ public class MaterialAddActivity extends ActivityBase implements
 				String tasknumber = b.getString("tasknumber");
 				tv_task.setText(tasknumber);
 			}
-			break;
-		case PHOTOHRAPH:
-			// 拍照
-
-			// 设置文件保存路径这里放在跟目录下
-			picture = new File(Environment.getExternalStorageDirectory() + "/"
-					+ uuid + ".jpg");
-			String url = picture.getPath().toString();
-			// startPhotoZoom(Uri.fromFile(picture));
-			// Bitmap map = getBitmapByPath(picture.getPath().toString());
-			Bundle b = new Bundle();
-			List<Entity> ee = new ArrayList<Entity>();
-			e = new Entity();
-			e.setText("");
-			e.setURL(url);
-			ee.add(e);
-			b.putSerializable("data", (Serializable) ee);
-			openActivity(ImgShowActivity.class, b);
 
 		}
 	}
@@ -250,7 +283,31 @@ public class MaterialAddActivity extends ActivityBase implements
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
+		// mDataaddmaterial = new Dataaddmaterial();
+		 mMaterialPictureBean = new ArrayList<MaterialPictureBean>();
+		// Datajson obj = null;
+		// try {
+		// obj = (Datajson) getXmlFileStream("mattext.xml", null,
+		// Datajson.class);
+		// } catch (Exception e) {
+		//
+		// }
+		// if (null != obj) {
+		// String name = obj.getName();
+		// Gson gson = new Gson();
+		//
+		// Dataaddmaterial mDataaddmaterial = gson.fromJson(name,
+		// Dataaddmaterial.class);
+		// if (null != mDataaddmaterial)
+		// addMaterialModel = mDataaddmaterial.getAddMaterialModel();
+		// }
 
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 	}
 
 	@Override
@@ -268,6 +325,8 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_sort = (TextView) findViewById(R.id.tv_sort1);
 		tv_task = (TextView) findViewById(R.id.tv_task1);
 		tv_tag = (TextView) findViewById(R.id.tv_tag1);
+
+		et_memo = (EditText) findViewById(R.id.et_memo);
 
 		iv_addimg = (ImageView) findViewById(R.id.img);
 		iv_addimg.setOnClickListener(this);
@@ -294,8 +353,7 @@ public class MaterialAddActivity extends ActivityBase implements
 				showDialogs(arg2);
 			}
 		});
-		mAdapter = new MaterialAdd_girdViewAdapter(this, img_list, 0, this);
-
+		mAdapter = new MaterialAdd_girdViewAdapter(this, img_list, 0);
 		mgv_material.setAdapter(mAdapter);
 		llt_sort.setOnClickListener(this);
 		llt_property.setOnClickListener(this);
@@ -368,60 +426,6 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_detail.setText(dd);
 	}
 
-	// 弹出上传图片方式对话框
-	public void showUploadWayDialogs() {
-		dialog = new AlertDialog.Builder(MaterialAddActivity.this).create();
-		dialog.show();
-		Window window = dialog.getWindow();
-		WindowManager.LayoutParams lp = window.getAttributes();
-		lp.x = 0;
-		lp.y = 330;
-		dialog.onWindowAttributesChanged(lp);
-		window.setContentView(R.layout.uploadimageways);
-		Button uploadbycream = (Button) window.findViewById(R.id.uploadbycream);
-		Button uploadbyphotos = (Button) window
-				.findViewById(R.id.uploadbyphotos);
-		Button uploadcancle = (Button) window.findViewById(R.id.uploadcancle);
-		uploadbycream.setOnClickListener(btn_uploadByCream);
-		uploadbyphotos.setOnClickListener(btn_uploadByPhotos);
-		uploadcancle.setOnClickListener(btn_uploadcancle);
-	}
-
-	// 拍照上传图片
-	OnClickListener btn_uploadByCream = new OnClickListener() {
-
-		public void onClick(View v) {
-			uuid = Tools.generateUUid();
-			Bundle bundle = new Bundle();
-			bundle.putParcelable(MediaStore.EXTRA_OUTPUT, Uri
-					.fromFile(new File(Environment
-							.getExternalStorageDirectory(), uuid + ".jpg")));
-			openCameraActivityForResult(bundle, PHOTOHRAPH,
-					MediaStore.ACTION_IMAGE_CAPTURE);
-			dialog.dismiss();
-
-		}
-	};
-	// 从图片库中选择图片
-	OnClickListener btn_uploadByPhotos = new OnClickListener() {
-
-		public void onClick(View v) {
-
-			dialog.dismiss();
-			openActivity(ImgFileListActivity.class, null);
-
-		}
-	};
-	// 取消上传图片
-	OnClickListener btn_uploadcancle = new OnClickListener() {
-
-		public void onClick(View v) {
-
-			dialog.dismiss();
-
-		}
-	};
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -457,18 +461,97 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case R.id.save:
-			// Container.add_mData.clear();
-			finish();
+			if ("".equals(et_memo.getText().toString())
+					|| et_memo.getText().toString() == null) {
+				Toast.makeText(this, "请添加描述", 500).show();
+			} else {
+
+				BaseHandler bHandler = new BaseHandler(this, mHandler);
+				tAddMaterialBean = new ArrayList<AddMaterialBean>();
+				mMaterialPropertyBean = new ArrayList<MaterialPropertyBean>();
+				MaterialPropertyBean property = new MaterialPropertyBean();
+				property.setClassid("233");
+				property.setNatureid("233");
+				property.setNaturevalue("233");
+				property.setMaterialid("233");
+				property.setMaterialid("233");
+				mMaterialPropertyBean.add(property);
+
+				// mMaterialPictureBean = new ArrayList<MaterialPictureBean>();
+				mMaterialTagBean = new ArrayList<MaterialTagBean>();
+				MaterialTagBean m = new MaterialTagBean();
+
+				m.setLableid("223");
+				m.setMaterialid("223");
+				m.setMatlableid("223");
+				mMaterialTagBean.add(m);
+
+				String time = getDate();
+				AddMaterialBean mAddMaterialBean = new AddMaterialBean();
+				mAddMaterialBean.setFtpguid("11");
+				mAddMaterialBean.setTaskid(tv_task.getText().toString());
+				mAddMaterialBean.setTaskcode("88");
+				mAddMaterialBean.setIsdelete("0");
+				mAddMaterialBean.setAddman("路人甲");
+				mAddMaterialBean.setAdddate(time);
+				mAddMaterialBean.setVersioncode("989");
+				mAddMaterialBean.setMaterialid("0099");
+				mAddMaterialBean.setMaterialmemo(et_memo.getText().toString());
+				mAddMaterialBean.setMaterialstatus("0");
+				mAddMaterialBean.setMaterialcode("201405150001");
+				tAddMaterialBean.add(mAddMaterialBean);
+				Map<String, List> dataMap = new HashMap<String, List>();
+				dataMap.put("11", tAddMaterialBean);
+				dataMap.put("13", mMaterialPropertyBean);
+				dataMap.put("16", mMaterialPictureBean);
+				dataMap.put("18", mMaterialTagBean);
+
+				SavePresenter.getInstance().SaveInitData(bHandler, "11112",
+						"IBS11112", "11,13,16,18", dataMap, null);
+
+				//
+				// if (null != mMaterialPictureBean) {
+				// if (null == addMaterialModel)
+				// addMaterialModel = new ArrayList<AddMaterialModel>();
+				// AddMaterialModel m = new AddMaterialModel();
+				//
+				// m.setMaterialpicturebean(mMaterialPictureBean);
+				// m.setAddmaterialbean(mAddMaterialBean);
+				// addMaterialModel.add(m);
+				// mDataaddmaterial.setAddMaterialModel(addMaterialModel);
+				//
+				// // 保存数据xml到本地
+				// Datajson obj = new Datajson();
+				// Gson gson = new Gson();
+				// String name = gson.toJson(mDataaddmaterial);
+				// System.out.println(name);
+				// obj.setName(name);
+				// saveXmlStream("/sdcard", "mattext.xml", obj, Datajson.class);
+				//
+				// // saveXmlStream("/sdcard", "test1.xml", mDataaddmaterial,
+				// // Dataaddmaterial.class);
+				//
+				// System.out.println(getSaveXml(obj, Datajson.class));
+				// finish();
+				// }
+
+			}
+
 			break;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
-
-	@Override
-	public void showUploadWayDialog() {
-		// TODO Auto-generated method stub
-		showUploadWayDialogs();
-	}
-
+	// private String ftpguid;// ftp批次号
+	// private String taskid;// 任务id
+	// private String taskcode;// 任务单号
+	// private String isdelete;// 删除标识
+	// private String addman;// 提交人
+	// private String addid;// 提交人id
+	// private String adddate;// 添加日期
+	// private String versioncode;// 版本号
+	// private String materialid;// 素材id
+	// private String materialmemo;// 素材内容
+	// private String materialstatus;// 素材状态
+	// private String materialcode;// 素材编号
 }

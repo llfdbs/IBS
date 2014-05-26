@@ -22,6 +22,10 @@ public class AddMaterialBean extends BaseBean {
 	private String materialmemo;//素材内容
 	private String materialstatus;//素材状态
 	private String materialcode;//素材编号
+	public AddMaterialBean(){
+		setRowState("4");
+	}
+
 	public String getModelId() {
 		return modelId;
 	}

@@ -1,10 +1,16 @@
 package com.victop.ibs.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -16,12 +22,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.victop.ibs.adapter.Sort_ListViewAdapter;
+import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.SortBean;
+import com.victop.ibs.handler.BaseHandler;
+import com.victop.ibs.presenter.Getpresenter;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.view.CustomViewPager;
 
@@ -43,25 +54,111 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	private MyPageAdapter myAdapter;
 	View view;
 	private String info = "";
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private List<SortBean> mSortBean = new ArrayList<SortBean>();
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		final View view = View.inflate(this, R.layout.sortlayout, null);
 		setContentView(view);
-		// ibsApplication.getInstance().addActivity(this);
+		IBSApplication.getInstance().addActivity(this);
 		initData();
 		initViews();
 		initListeners();
 
 	}
 
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 0:// 获取到数据
+				Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				mSortBean = (List<SortBean>) dataMap.get("1");
+
+				// Datajson obj = null;
+				// obj = (Datajson) getXmlStream("sort.xml", SortBean.class,
+				// Datajson.class);
+				// mSortBean = obj.getmSortBean();
+
+				final String parentid = "0";
+				List<SortBean> firstList_ = new ArrayList<SortBean>();
+				for (SortBean s : mSortBean) {
+					if (s.getParentid().equals(parentid)) {
+						firstList_.add(s);
+					}
+				}
+				HashMap<String, String> text = new HashMap<String, String>();
+				HashMap<String, List<SortBean>> twoList = new HashMap<String, List<SortBean>>();
+				String yy = "";
+				for (SortBean ss : firstList_) {
+					List<SortBean> sort = new ArrayList<SortBean>();
+					for (SortBean s : mSortBean) {
+
+						if (s.getParentid().equals(ss.getClassid())) {
+							sort.add(s);
+							if (!"".equals(yy))
+								yy = yy + "/" + s.getClassname();
+							else {
+								yy = s.getClassname();
+							}
+						}
+						text.put(ss.getClassid(), yy);
+						twoList.put(ss.getClassid(), sort);
+					}
+				}
+
+				HashMap<String, HashMap<String, List<SortBean>>> threeList = new HashMap<String, HashMap<String, List<SortBean>>>();
+				Set<String> keys = twoList.keySet();
+				Iterator<String> iterator = keys.iterator();
+				while (iterator.hasNext()) {
+					String key = iterator.next();
+					HashMap<String, List<SortBean>> map = new HashMap<String, List<SortBean>>();
+					for (SortBean s : twoList.get(key)) {
+						List<SortBean> sort = new ArrayList<SortBean>();
+						for (SortBean ss : mSortBean) {
+							if (ss.getParentid().equals(s.getClassid())) {
+								sort.add(ss);
+							}
+						}
+						map.put(s.getClassid(), sort);
+					}
+					threeList.put(key, map);
+				}
+
+				initListViews(firstList_, twoList, threeList, text);
+				myAdapter = new MyPageAdapter(mViews);// 构造adapter
+				pager.setAdapter(myAdapter);// 设置适配器
+				break;
+			case 1:
+				String rr = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), rr, 1000).show();
+				finish();
+				break;
+			case 2:
+			case 3:
+				String r2r = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), r2r, 1000).show();
+				break;
+			}
+		}
+	};
+
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		
+
+		BaseHandler bHandler = new BaseHandler(this, mHandler);
+		Map<String, Class> clsMap = new HashMap<String, Class>();
+		clsMap.put(SortBean.datasetId, SortBean.class);
+		Getpresenter.getInstance().getInitbData(bHandler, clsMap, null,
+				SortBean.modelId, SortBean.datasetId, null,SortBean.formId);
 	}
 
 	@Override
@@ -73,12 +170,18 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 		actionBar.setIcon(R.drawable.btn_back);
 		pager = (CustomViewPager) findViewById(R.id.viewpager);
 		// pager.setOnPageChangeListener(pageChangeListener);// 设置页面滑动监听
-		initListViews(0);
-		myAdapter = new MyPageAdapter(mViews);// 构造adapter
-		pager.setAdapter(myAdapter);// 设置适配器
+
 	}
 
-	private void initView(int tag, List list) {
+	private void initView(final List<SortBean> list,
+			final HashMap<String, List<SortBean>> tlist) {
+		int tag;
+		if (null != tlist && tlist.size() > 0) {
+			tag = 0;
+		} else {
+			tag = 1;
+		}
+
 		if (tag == 1) {// 只有两级
 			if (mViews == null)
 				mViews = new ArrayList<View>();
@@ -86,7 +189,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 					false);
 			ListView listView = (ListView) view.findViewById(R.id.lv_sorttype);
 
-			adapter = new Sort_ListViewAdapter(this, null, 1);
+			adapter = new Sort_ListViewAdapter(this, list, null);
 			listView.setAdapter(adapter);
 			listView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -117,7 +220,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 					false);
 			ListView listView = (ListView) view.findViewById(R.id.lv_sorttype);
 
-			adapter = new Sort_ListViewAdapter(this, null, 0);
+			adapter = new Sort_ListViewAdapter(this, list, null);
 			listView.setAdapter(adapter);
 			listView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -127,9 +230,23 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 					TextView title = (TextView) arg1
 							.findViewById(R.id.tv_title);
 					info = info + ">" + title.getText();
+					List<SortBean> slist = tlist.get(list.get(arg2)
+							.getClassid());
 
-					initView(1, null);
-					pager.setCurrentItem(2);
+					if (slist.size() > 0) {
+						initView(slist, null);
+						pager.setCurrentItem(2);
+					} else {
+
+						Intent i = new Intent(SortActivity.this,
+								MaterialAddActivity.class);
+						Bundle b = new Bundle();
+						b.putString("info", info);
+						i.putExtras(b);
+						setResult(Container.SORT, i);
+						finish();
+
+					}
 
 				}
 
@@ -150,7 +267,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -158,13 +275,16 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	 * 
 	 * @param count
 	 */
-	private void initListViews(int tag) {
+	private void initListViews(final List<SortBean> list,
+			final HashMap<String, List<SortBean>> list1,
+			final HashMap<String, HashMap<String, List<SortBean>>> threeList,
+			HashMap<String, String> tag) {
 		if (mViews == null)
 			mViews = new ArrayList<View>();
 		view = getLayoutInflater().inflate(R.layout.sort_listview, null, false);
 		ListView listView = (ListView) view.findViewById(R.id.lv_sorttype);
 
-		adapter = new Sort_ListViewAdapter(this, null, tag);
+		adapter = new Sort_ListViewAdapter(this, list, tag);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -172,30 +292,13 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				TextView title = (TextView) arg1.findViewById(R.id.tv_title);
-				switch (arg2) {
-				case 0:
-					info = ">" + title.getText();
-					// btn_add.setVisibility(View.VISIBLE);
-					// btn_add.setText("保存");
-					initView(0, null);
-					pager.setCurrentItem(1);
-					break;
-				case 1:
-					info = ">" + title.getText();
-					// btn_add.setVisibility(View.VISIBLE);
-					// btn_add.setText("保存");
-					initView(1, null);
-					pager.setCurrentItem(1);
-					break;
-				default:
-					info = ">" + title.getText();
-					// btn_add.setVisibility(View.VISIBLE);
-					// btn_add.setText("保存");
-					initView(1, null);
-					pager.setCurrentItem(1);
+				List<SortBean> mlist = list1.get(list.get(arg2).getClassid());// 二级列表
+				HashMap<String, List<SortBean>> tlist = threeList.get(list.get(
+						arg2).getClassid());
 
-					break;
-				}
+				info = ">" + title.getText();
+				initView(mlist, tlist);
+				pager.setCurrentItem(1);
 
 			}
 
@@ -284,7 +387,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 		}
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -297,7 +400,6 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 		search.setVisible(false);
 		add.setVisible(false);
 		save.setVisible(false);
-		
 
 		return true;
 	}
@@ -309,17 +411,17 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			
+
 			finish();
-			
+
 			break;
 		case R.id.search:
 			break;
 		case R.id.add:
-	
+
 			break;
 		case R.id.save:
-		
+
 			break;
 		}
 

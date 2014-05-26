@@ -16,6 +16,17 @@ public class MaterialPictureBean extends BaseBean {
 	private String imgabbrurl;//图片缩略图url
 	private String materialid;//素材id
 	private String matimgid;//素材图片id
+	private String imgheight;//图片高度
+	public String getImgheight() {
+		return imgheight;
+	}
+	public void setImgheight(String imgheight) {
+		this.imgheight = imgheight;
+	}
+	
+	public MaterialPictureBean(){
+		setRowState("4");
+	}
 	public String getModelId() {
 		return modelId;
 	}

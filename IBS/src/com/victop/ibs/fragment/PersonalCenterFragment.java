@@ -173,28 +173,28 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.lly_uncomplete:// 未完成的素材
-			((MainActivity) getActivity()).rightToCenter(0);
+			((MainActivity) getActivity()).rightToCenter(0,str_unfinishedMaterialCount);
 			break;
 		case R.id.lly_audit:// 已审核的素材
-			((MainActivity) getActivity()).rightToCenter(1);
+			((MainActivity) getActivity()).rightToCenter(1,str_checkedMaterialCount);
 			break;
 		case R.id.lly_unaudit:// 未审核的素材
-			((MainActivity) getActivity()).rightToCenter(2);
+			((MainActivity) getActivity()).rightToCenter(2,str_uncheckedMaterialCount);
 			break;
 		case R.id.lly_gettask:// 接受的任务
-			((MainActivity) getActivity()).rightToCenter(5);
+			((MainActivity) getActivity()).rightToCenter(5,str_getTaskCount);
 			break;
 		case R.id.lly_settask:// 发布的任务
-			((MainActivity) getActivity()).rightToCenter(6);
+			((MainActivity) getActivity()).rightToCenter(6,str_sendTaskCount);
 			break;
 		case R.id.tv_mymaterial:
-			((MainActivity) getActivity()).rightToCenter(0);
+			((MainActivity) getActivity()).rightToCenter(0,str_unfinishedMaterialCount);
 			break;
 		case R.id.tv_mytask:
-			((MainActivity) getActivity()).rightToCenter(5);
+			((MainActivity) getActivity()).rightToCenter(5,str_getTaskCount);
 			break;
 		case R.id.btn_exit:// 退出按钮
-			((MainActivity) getActivity()).rightToCenter(8);
+			((MainActivity) getActivity()).rightToCenter(8,"");
 			getActivity().finish();
 			break;
 

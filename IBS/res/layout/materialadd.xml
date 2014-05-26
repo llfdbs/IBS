@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text=">销售合同"
+                    android:text=""
                     android:textColor="#303030"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -81,7 +81,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="首页 列表"
+                    android:text=""
                     android:textColor="#303030"
                     android:textSize="14sp"
                     android:textStyle="normal" />
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="1111221"
+                    android:text=""
                     android:textColor="#303030"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -213,6 +213,7 @@
                 android:background="#cacaca" />
 
             <EditText
+                android:id="@+id/et_memo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg1"

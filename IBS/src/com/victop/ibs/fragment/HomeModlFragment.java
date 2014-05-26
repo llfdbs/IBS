@@ -96,28 +96,28 @@ public class HomeModlFragment extends Fragment {
 				((MainActivity) getActivity()).showMenuRight();
 				break;
 			case R.id.btn_manager_search://素材搜索
-				((MainActivity) getActivity()).rightToCenter(4);
+				((MainActivity) getActivity()).rightToCenter(4,"");
 				break;
 			case R.id.btn_manager_addmaterial:// 新增素材
-				((MainActivity) getActivity()).rightToCenter(3);
+				((MainActivity) getActivity()).rightToCenter(3,"");
 				break;
 			case R.id.btn_manager_receivedtask://接受的任务
-				((MainActivity) getActivity()).rightToCenter(5);
+				((MainActivity) getActivity()).rightToCenter(5,"");
 				break;
 
 			case R.id.btn_manager_material://素材
 
-				((MainActivity) getActivity()).rightToCenter(1);
+				((MainActivity) getActivity()).rightToCenter(1,"");
 				break;
 			case R.id.btn_manager_sendedtask://发布的任务
-				((MainActivity) getActivity()).rightToCenter(6);
+				((MainActivity) getActivity()).rightToCenter(6,"");
 				break;
 			case R.id.btn_employee_material:
 				break;
 			case R.id.btn_employee_task:
 				break;
 			case R.id.btn_addtask://新增任务
-				((MainActivity) getActivity()).rightToCenter(7);
+				((MainActivity) getActivity()).rightToCenter(7,"");
 
 				break;
 			case R.id.btn_employee_addmateria:

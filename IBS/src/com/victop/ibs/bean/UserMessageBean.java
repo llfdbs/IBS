@@ -9,22 +9,10 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class UserMessageBean extends BaseBean {
 	private String modelId = "IBS10232";//数据模型编号
-	private String datasetId = "10";// 数据集编号
+	public static final String datasetId = "10";// 数据集编号
 	private String hrid;//员工id
 	private String hrname;//员工姓名
 	private String headimage;//头像
-	public String getModelId() {
-		return modelId;
-	}
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
-	}
 	public String getHrid() {
 		return hrid;
 	}

@@ -8,28 +8,18 @@ import com.victop.ibs.db.base.BaseBean;
  * 
  */
 public class SortBean extends BaseBean {
-	private String modelId_send = "IBS10212";// 分类查询数据模型编号
-	private String datasetId = "1";// 数据集编号
-	private String id;//分类id
+	public static final String modelId = "IBS10212";// 分类查询数据模型编号
+	public static final String formId = "10212";
+	public static final String datasetId = "1";// 数据集编号
+	private String classid;//分类id
 	private String classname;//分类名称
 	private String parentid;//父类id
-	public String getModelId_send() {
-		return modelId_send;
+	
+	public String getClassid() {
+		return classid;
 	}
-	public void setModelId_send(String modelId_send) {
-		this.modelId_send = modelId_send;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
+	public void setClassid(String classid) {
+		this.classid = classid;
 	}
 	public String getClassname() {
 		return classname;

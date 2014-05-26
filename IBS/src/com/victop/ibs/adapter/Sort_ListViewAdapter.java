@@ -1,5 +1,6 @@
 package com.victop.ibs.adapter;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -11,17 +12,20 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
-import com.victop.ibs.bean.SortModel;
+import com.victop.ibs.bean.SortBean;
 
 public class Sort_ListViewAdapter extends BaseAdapter {
 	private Context context;
-	private List<SortModel> list;
+	private List<SortBean> list;
+	// private HashMap<String, List<SortBean>> list1;
+	// private HashMap<String, HashMap<String, List<SortBean>>> list2;
 	private ViewHolder viewHolder;
-	private int tag;
-	final String[] data = { "erp", "互联网", "互联网", "erp", "互联网", "互联网" 
-			 };
+	private HashMap<String, String> tag;// 二级分类内容
 
-	public Sort_ListViewAdapter(Context context, List<SortModel> list, int tag) {
+	// final String[] data = { "erp", "互联网", "互联网", "erp", "互联网", "互联网" };
+
+	public Sort_ListViewAdapter(Context context, List<SortBean> list,
+			HashMap<String, String> tag) {
 		this.context = context;
 		this.list = list;
 		this.tag = tag;
@@ -30,7 +34,9 @@ public class Sort_ListViewAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return data.length;
+		// System.out.println(list.size());
+		return list.size();
+
 	}
 
 	@Override
@@ -48,49 +54,32 @@ public class Sort_ListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int arg0, View convertView, ViewGroup arg2) {
 		// TODO Auto-generated method stub
-		if (tag == 0) {
-			if (convertView == null) {
-				convertView = LayoutInflater.from(context).inflate(
-						R.layout.sortlistview_item, null);
-				viewHolder = new ViewHolder();
-				viewHolder.tv_title = (TextView) convertView
-						.findViewById(R.id.tv_title);
-				viewHolder.tv_type = (TextView) convertView
-						.findViewById(R.id.tv_type);
-				viewHolder.cb = (CheckBox) convertView
-						.findViewById(R.id.checkBox1);
 
-				convertView.setTag(viewHolder);
-			} else {
-				viewHolder = (ViewHolder) convertView.getTag();
-			}
-			viewHolder.cb.setVisibility(View.GONE);
-			viewHolder.tv_title.setText(data[arg0]);
-		} else if (tag == 1) {
-			if (convertView == null) {
-				convertView = LayoutInflater.from(context).inflate(
-						R.layout.sortlistview_item, null);
-				viewHolder = new ViewHolder();
-				viewHolder.tv_title = (TextView) convertView
-						.findViewById(R.id.tv_title);
-				viewHolder.tv_type = (TextView) convertView
-						.findViewById(R.id.tv_type);
-				viewHolder.cb = (CheckBox) convertView
-						.findViewById(R.id.checkBox1);
+		if (convertView == null) {
+			convertView = LayoutInflater.from(context).inflate(
+					R.layout.sortlistview_item, null);
+			viewHolder = new ViewHolder();
+			viewHolder.tv_title = (TextView) convertView
+					.findViewById(R.id.tv_title);
+			viewHolder.tv_type = (TextView) convertView
+					.findViewById(R.id.tv_type);
 
-				convertView.setTag(viewHolder);
-			} else {
-				viewHolder = (ViewHolder) convertView.getTag();
-			}
-			viewHolder.tv_type.setText("");
-			viewHolder.cb.setVisibility(View.GONE);
-			viewHolder.tv_title.setText(data[arg0]);
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
+		if (null != tag) {
+			viewHolder.tv_type.setText(tag.get(list.get(arg0).getClassid()));
+		}
+
+		if (null != list)
+			viewHolder.tv_title.setText(list.get(arg0).getClassname());
+
 		return convertView;
 	}
 
 	class ViewHolder {
-		CheckBox cb;
+		// CheckBox cb;
 		TextView tv_title, tv_type;
 	}
 

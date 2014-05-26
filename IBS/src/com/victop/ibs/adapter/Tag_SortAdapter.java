@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,19 +20,19 @@ import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
 import com.victop.ibs.activity.TagActivity;
-import com.victop.ibs.bean.SortModel;
+import com.victop.ibs.bean.TagBean;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.view.MyGridView;
 
 public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
-	private List<SortModel> list = null;
+	private List<TagBean> list = null;
 	private Context mContext;
 	private boolean ischeck = false;
 	int int_temp = 0;
 	HashMap<Integer, Integer> Mark_hashmap = new HashMap<Integer, Integer>();
 	Tag_SortAdapter adapter;
 
-	public Tag_SortAdapter(Context mContext, List<SortModel> list) {
+	public Tag_SortAdapter(Context mContext, List<TagBean> list) {
 		this.mContext = mContext;
 		this.list = list;
 
@@ -48,13 +47,13 @@ public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
 	 * 
 	 * @param list
 	 */
-	public void updateListView(List<SortModel> list) {
+	public void updateListView(List<TagBean> list) {
 		this.list = list;
 		notifyDataSetChanged();
 	}
 
 	public int getCount() {
-		return this.list.size();
+		return list.size();
 	}
 
 	public Object getItem(int position) {
@@ -67,7 +66,7 @@ public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
 
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
-		final SortModel mContent = list.get(position);
+		final TagBean mContent = list.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.tag_listitem,
@@ -128,10 +127,10 @@ public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
 							.getDrawable(R.drawable.tag_et));
 					bn.setTextColor(0Xff000000);
 				}
-//				bn.setPadding(1, 1, 1, 1);
-//				bn.setGravity(Gravity.CENTER);
+				// bn.setPadding(1, 1, 1, 1);
+				// bn.setGravity(Gravity.CENTER);
 				System.out.println(int_temp + "-------------");
-				HashMap<Integer, SortModel> hashMap = Container.getInstance()
+				HashMap<Integer, TagBean> hashMap = Container.getInstance()
 						.getTaghashSortModel();
 				if (int_temp == 1) {
 					Container.getInstance().setTaghashSortModle(temp,
@@ -150,7 +149,7 @@ public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
 					while (iter.hasNext()) {
 						Object key = iter.next();
 						Object val = hashMap.get(key);
-						System.out.println(key + ((SortModel) val).getName());
+						 
 					}
 				} else {
 					((TagActivity) mContext).settitleName("标签");
@@ -196,7 +195,7 @@ public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
 	@SuppressLint("DefaultLocale")
 	public int getPositionForString(String section) {
 		for (int i = 0; i < getCount(); i++) {
-			String sortStr = list.get(i).getName();
+			String sortStr = list.get(i).getLablename();
 			// char firstChar = sortStr.toUpperCase().charAt(0);
 			if (sortStr == section) {
 				return i;

@@ -45,6 +45,7 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
+		
 		CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
 
 	}
@@ -55,9 +56,11 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		Bundle bundle = getIntent().getExtras();
+		String count = bundle.getString("count");
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(getResources().getString(R.string.receivedtask)
-				+ "(" + 10 + ")");
+				+ "(" + count + ")");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);

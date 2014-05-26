@@ -7,6 +7,8 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,13 +17,15 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.victop.ibs.adapter.TaskListAdapter;
+import com.victop.ibs.adapter.TaskSortAdapter;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.TaskBean;
+import com.victop.ibs.handler.BaseHandler;
+import com.victop.ibs.presenter.Getpresenter;
 import com.victop.ibs.util.Container;
 
 /**
@@ -32,13 +36,15 @@ import com.victop.ibs.util.Container;
  */
 public class TaskSortActivity extends ActivityBase implements OnClickListener {
 	// public static final int STYP_NUM = 3;
-	TaskListAdapter adapter;
+	TaskSortAdapter adapter;
 	private Spinner sper;
 	private ListView listView;
 	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
 	private static final String[] mCountries = { "最新时间", "按首字母排序" };
-	private ActionBar actionBar;//导航栏
-	private MenuItem search, add, save;//搜索,添加，保存按钮
+	private ActionBar actionBar;// 导航栏
+	private MenuItem search, add, save;// 搜索,添加，保存按钮
+	private List<TaskBean> mTaskBean = new ArrayList<TaskBean>();
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -55,25 +61,60 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 
 	}
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
-	}
+	Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 0:// 获取到数据
+				Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				mTaskBean = (List<TaskBean>) dataMap.get("1");
+
+				adapter = new TaskSortAdapter(TaskSortActivity.this, mTaskBean);
+				listView.setAdapter(adapter);
+
+				break;
+			case 1:
+				String rr = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), rr, 1000).show();
+				finish();
+				break;
+			case 2:
+			case 3:
+				String r2r = (String) msg.obj;
+				Toast.makeText(getApplicationContext(), r2r, 1000).show();
+				break;
+			}
+		}
+	};
 
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		actionBar = getSupportActionBar();
-		actionBar.setTitle("任务");
-		actionBar.setHomeButtonEnabled(true);
-		actionBar.setIcon(R.drawable.btn_back);
-		
-		
+		BaseHandler bHandler = new BaseHandler(this, mHandler);
+
+		HashMap<String, String> Datamap = new HashMap<String, String>();
+		Datamap.put("hrid", "1");
+		Map<String, Class> clsMap = new HashMap<String, Class>();
+		clsMap.put(TaskBean.datasetId, TaskBean.class);
+		Getpresenter.getInstance().getInitbData(bHandler, clsMap, Datamap,
+				TaskBean.modelId, TaskBean.datasetId, null, TaskBean.formId);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	protected void initViews() {
+		actionBar = getSupportActionBar();
+		actionBar.setTitle("任务");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
 		// TODO Auto-generated method stub
 		sper = (Spinner) findViewById(R.id.sp_time);
 		ArrayAdapter<String> ad = new ArrayAdapter<String>(this,
@@ -81,8 +122,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 		// ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sper.setAdapter(ad);
 		listView = (ListView) findViewById(R.id.tasksort_listView);
-//		adapter = new TaskListAdapter(TaskSortActivity.this, listData);
-		listView.setAdapter(adapter);
+
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -147,6 +187,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 		// }
 
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -177,7 +218,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 		case R.id.search:
 			break;
 		case R.id.add:
-			
+
 			break;
 		case R.id.save:
 			finish();

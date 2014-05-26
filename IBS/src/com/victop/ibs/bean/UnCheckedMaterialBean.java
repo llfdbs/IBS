@@ -15,6 +15,43 @@ public class UnCheckedMaterialBean extends BaseBean{
 	private String materialid;//素材id
 	private String materialmemo;//素材内容
 	private String materialstatus;//素材状态
+	private String imgname;// 图片名称
+	private String imgmemo;// 图片描述
+	private String imgwidth;// 缩略图宽度
+	private String imgrule;// 缩略图规则
+	private String imghigh;// 缩略图高度
+
+	public String getImgname() {
+		return imgname;
+	}
+	public void setImgname(String imgname) {
+		this.imgname = imgname;
+	}
+	public String getImgmemo() {
+		return imgmemo;
+	}
+	public void setImgmemo(String imgmemo) {
+		this.imgmemo = imgmemo;
+	}
+	public String getImgwidth() {
+		return imgwidth;
+	}
+	public void setImgwidth(String imgwidth) {
+		this.imgwidth = imgwidth;
+	}
+	public String getImgrule() {
+		return imgrule;
+	}
+	public void setImgrule(String imgrule) {
+		this.imgrule = imgrule;
+	}
+	public String getImghigh() {
+		return imghigh;
+	}
+	public void setImghigh(String imghigh) {
+		this.imghigh = imghigh;
+	}
+	
 	
 	public String getModelId() {
 		return modelId;

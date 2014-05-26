@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.fragment.SendedTaskListFrag;
@@ -56,9 +57,11 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		Bundle bundle = getIntent().getExtras();
+		String count = bundle.getString("count");
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(getResources().getString(R.string.receivedtask)
-				+ "(" + 10 + ")");
+				+ "(" + count + ")");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_tasksended = (RadioGroup) findViewById(R.id.radiogroup_tasksended);

@@ -8,26 +8,16 @@ import com.victop.ibs.db.base.BaseBean;
  * 
  */
 public class TaskBean extends BaseBean {
-	private String modelId = "IBS10215";//任务查询数据模型编号
-	private String datasetId = "1";// 数据集编号
+	public static final String modelId = "IBS10215";//任务查询数据模型编号
+	public static final  String datasetId = "1";// 数据集编号
+	public static final String formId = "10215";
 	private String taskid;//任务id
 	private String taskname;//任务名称
 	private String taskstatus;//任务状态名
 	private String tasklevel;//任务级别名
 	private String taskcode;//任务编号
 	private String duedate;//截止时间
-	public String getModelId() {
-		return modelId;
-	}
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
-	}
+	
 	public String getTaskid() {
 		return taskid;
 	}

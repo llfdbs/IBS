@@ -14,6 +14,9 @@ public class MaterialTagBean extends BaseBean {
 	private String lableid;//标签库id
 	private String materialid;//素材id
 	private String matlableid;//素材标签关系id
+	public MaterialTagBean(){
+		setRowState("4");
+	}
 	public String getModelId() {
 		return modelId;
 	}

@@ -1,32 +1,33 @@
 package com.victop.ibs.base;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.app.IBSApplication;
+import com.victop.ibs.util.CreateBeanFactory;
 import com.victop.ibs.util.ToastTools;
+import com.victop.ibs.xml.DConverter;
+import com.victop.ibs.xml.Datajson;
 
 /**
  * Activity的基类，全站公用菜单、统计等代码编写
@@ -97,11 +98,11 @@ public abstract class ActivityBase extends ActionBarActivity {
 		}
 
 		startActivity(_Intent);
-		 overridePendingTransition(R.anim.new_in_from_right,
-		 R.anim.new_out_to_left);//苹果的效果
-//		overridePendingTransition(R.anim.left_in, R.anim.left_out);
-//		 overridePendingTransition(android.R.anim.fade_in,
-//		 android.R.anim.fade_out); // 淡进淡出
+		overridePendingTransition(R.anim.new_in_from_right,
+				R.anim.new_out_to_left);// 苹果的效果
+		// overridePendingTransition(R.anim.left_in, R.anim.left_out);
+		// overridePendingTransition(android.R.anim.fade_in,
+		// android.R.anim.fade_out); // 淡进淡出
 		// overridePendingTransition(android.R.anim.slide_out_right,
 		// android.R.anim.slide_in_left); // 有劲做出
 	}
@@ -123,10 +124,11 @@ public abstract class ActivityBase extends ActionBarActivity {
 			_Intent.putExtras(pBundle);
 		}
 		startActivityForResult(_Intent, pRequestCode);
-//		overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
-		 overridePendingTransition(android.R.anim.fade_in,
-				 android.R.anim.fade_out); // 淡进淡出
+		// overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
+		overridePendingTransition(android.R.anim.fade_in,
+				android.R.anim.fade_out); // 淡进淡出
 	}
+
 	/**
 	 * 运行其他Activity，并期待返回结果�?
 	 * 
@@ -138,17 +140,18 @@ public abstract class ActivityBase extends ActionBarActivity {
 	 *            请求Code
 	 */
 	protected void openCameraActivityForResult(Bundle pBundle,
-			int pRequestCode,String action) {
+			int pRequestCode, String action) {
 		Intent _Intent = new Intent(action);
 		_Intent.setAction(action);
 		if (pBundle != null) {
 			_Intent.putExtras(pBundle);
 		}
 		startActivityForResult(_Intent, pRequestCode);
-//		overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
-		 overridePendingTransition(android.R.anim.fade_in,
-				 android.R.anim.fade_out); // 淡进淡出
+		// overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
+		overridePendingTransition(android.R.anim.fade_in,
+				android.R.anim.fade_out); // 淡进淡出
 	}
+
 	/**
 	 * 加载Layout文件，生成View组件�?
 	 * 
@@ -248,6 +251,187 @@ public abstract class ActivityBase extends ActionBarActivity {
 	}
 
 	/**
+	 * 解析XMl
+	 * 
+	 * @param xmlname
+	 * @param c
+	 *            转化器
+	 * @param cl
+	 *            xml定义标签类
+	 * @return
+	 */
+	public Object getXmlStream(String xmlname, Class c, Class cl) {
+		Object obj;
+		XStream _XStream = new XStream();
+		_XStream.processAnnotations(cl);
+		if (null != c) {
+			DConverter dConverter = new DConverter(c);
+			try {
+				dConverter.setBean(CreateBeanFactory.getInstance(c
+						.newInstance()));
+			} catch (InstantiationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (null != dConverter) {
+				_XStream.registerConverter(dConverter);
+			}
+		}
+
+		try {
+			InputStream _InputStream = IBSApplication.getInstance().getAssets()
+					.open(xmlname);
+
+			obj = (Object) _XStream.fromXML(_InputStream);
+			_InputStream.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		return obj;
+	}
+
+	/**
+	 * 先xml 解析， 然后Gson转对象，前提保存的是Gson格式
+	 * 
+	 * @param xmlname
+	 * @param cl
+	 * @return
+	 */
+	public Object getXMlGson(String xmlname, Class cl) {
+		Datajson obj;
+		obj = (Datajson) getXmlStream(xmlname, null, Datajson.class);
+		String name = obj.getName();
+		Gson gson = new Gson();
+		return (Object) gson.fromJson(name, cl);
+	}
+
+	/**
+	 * 解析XMl
+	 * 
+	 * @param xmlname
+	 * @param c
+	 *            转化器
+	 * @param cl
+	 *            xml定义标签类
+	 * @return
+	 */
+	public Object getXmlFileStream(String xmlname, Class c, Class cl) {
+		Object obj = null;
+		XStream _XStream = new XStream();
+		_XStream.processAnnotations(cl);
+		if (null != c) {
+			DConverter dConverter = new DConverter(c);
+			try {
+				dConverter.setBean(CreateBeanFactory.getInstance(c
+						.newInstance()));
+			} catch (InstantiationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (null != dConverter) {
+				_XStream.registerConverter(dConverter);
+			}
+		}
+		try {
+
+			File file = new File(Environment.getExternalStorageDirectory(),
+					xmlname);
+			if (Environment.getExternalStorageState().equals(
+					Environment.MEDIA_MOUNTED)) {
+				// InputStream inputStream = new
+				// FileInputStream("/sdcard/text1.xml");
+				FileInputStream inputStream = new FileInputStream(file);// 读取本地
+
+				obj = (Object) _XStream.fromXML(inputStream);
+				inputStream.close();
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		return obj;
+	}
+
+	/**
+	 * 保存xml文件
+	 * 
+	 * @param url
+	 * @param xmlname
+	 *            //保存路径
+	 * @param b
+	 *            //生成对象
+	 * @param cl
+	 *            //标签类
+	 */
+	public void saveXmlStream(String url, String xmlname, Object b, Class cl) {
+		XStream xstream = new XStream(new DomDriver());
+		xstream.processAnnotations(cl);
+
+		try {
+
+			File file = new File(url + "/" + xmlname);
+			if (!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			FileOutputStream file_out = new FileOutputStream(file);
+			xstream.toXML(b, file_out);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 获取保存的xml
+	 * 
+	 * @param b
+	 * @param cl
+	 * @return
+	 */
+	public String getSaveXml(Object b, Class cl) {
+		XStream xstream = new XStream(new DomDriver());
+		xstream.processAnnotations(cl);
+		return xstream.toXML(b);
+	}
+
+	/**
+	 * 获取时间
+	 * 
+	 * @return
+	 */
+	public String getTime() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		return formatter.format(curDate);
+	}
+
+	/**
+	 * 获取时间
+	 * 
+	 * @return
+	 */
+	public String getDate() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		return formatter.format(curDate);
+	}
+
+	/**
+	 * 
+	 * 
 	 * 初始化成员变量 本方法应该在子类的onCreate方法中，绑定Layout文件后被调用
 	 * 
 	 */

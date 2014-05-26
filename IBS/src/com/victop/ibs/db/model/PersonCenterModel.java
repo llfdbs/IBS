@@ -14,6 +14,8 @@ import com.victop.ibs.bean.UserMessageBean;
  * 
  */
 public class PersonCenterModel {
+public final static String modelId="IBS10232";
+public final static String formId="10232";
 private UserMessageBean usermessagebean;//员工登陆显示数据
 private MaterialCountBean materialcountbean;//手机素材个数
 private UnfinishedMaterialCountBean unfinishedmaterialcountbean;//未完成素材个数
