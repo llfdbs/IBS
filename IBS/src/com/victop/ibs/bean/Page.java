@@ -1,10 +1,15 @@
 package com.victop.ibs.bean;
-
+/**
+ * 分页实体类
+ * 
+ * @author vv
+ * 
+ */
 public class Page {
 
-	public int ispage;
-	public int pageno;   
-	public int pagesize;
+	public int ispage;//是否分页（1分页  0不分页）
+	public int pageno;//页码   
+	public int pagesize;//每页显示的条目
 	
 	public int getIspage() {
 		return ispage;

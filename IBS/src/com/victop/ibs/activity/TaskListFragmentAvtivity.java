@@ -4,18 +4,27 @@ import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.fragment.GetTaskListFrag;
 import com.victop.ibs.util.Container;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+/**
+ * 接受的任务列表fragmentActivity
+ * 
+ * @author vv
+ * 
+ */
 public class TaskListFragmentAvtivity extends ActivityBase {
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	private ActionBar actionBar;// 导航栏
-	private RadioGroup radiogroup_task;
+	private RadioGroup radiogroup_task;// 全部,未完成,已完成切换组
+	private GetTaskListFrag allFrag, unfinishFrag, finishFrag;// 全部任务,未完成任务,已完成任务fragment
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -23,13 +32,87 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 		super.onCreate(arg0);
 		setContentView(R.layout.tasklistfragment);
 		IBSApplication.getInstance().addActivity(this);
-
+		initFrag();
 		initViews();
 		initData();
 		initListeners();
 
 	}
 
+	/**
+	 * 初始化数据
+	 */
+	@Override
+	protected void initData() {
+		// TODO Auto-generated method stub
+		CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
+
+	}
+
+	/**
+	 * 初始化控件
+	 */
+	@Override
+	protected void initViews() {
+		// TODO Auto-generated method stub
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(getResources().getString(R.string.receivedtask)
+				+ "(" + 10 + ")");
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.btn_back);
+		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);
+
+	}
+
+	/**
+	 * 绑定控件的监听事件
+	 */
+	@Override
+	protected void initListeners() {
+		// TODO Auto-generated method stub
+		radiogroup_task.setOnCheckedChangeListener(mOnChecked);
+	}
+
+	/**
+	 * 初始化fragment
+	 */
+	private void initFrag() {
+		allFrag = new GetTaskListFrag(Container.MODEL_ALL,
+				TaskListFragmentAvtivity.this, Container.STATUS_ALL);
+		unfinishFrag = new GetTaskListFrag(Container.MODEL_UNFINISH,
+				TaskListFragmentAvtivity.this, Container.STATUS_UNFINISH);
+		finishFrag = new GetTaskListFrag(Container.MODEL_FINISH,
+				TaskListFragmentAvtivity.this, Container.STATUS_FINISH);
+
+	}
+
+	/**
+	 * 控制fragment的显示与隐藏
+	 * 
+	 * @param fragment对象
+	 * @param fragment标示
+	 */
+	private void CheckChange(Fragment frg, String tag) {
+		FragmentManager manager = getSupportFragmentManager();
+		FragmentTransaction trans = manager.beginTransaction();
+		Fragment frt = manager.findFragmentByTag(tag);
+		if (null != manager.getFragments()) {
+			for (Fragment f : manager.getFragments()) {
+				trans.hide(f);
+			}
+		}
+		if (null == frt) {
+			trans.add(R.id.frame_content, frg, tag);
+			trans.show(frg);
+		} else {
+			trans.show(frt);
+		}
+		trans.commit();
+	}
+
+	/**
+	 * 切换卡的点击事件
+	 */
 	OnCheckedChangeListener mOnChecked = new OnCheckedChangeListener() {
 
 		@Override
@@ -37,38 +120,26 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (checkedId) {
 			case R.id.rbn_taskall:
-				getSupportFragmentManager()
-						.beginTransaction()
-						.replace(
-								R.id.frame_content,
-								new GetTaskListFrag(Container.MODEL_ALL,
-										TaskListFragmentAvtivity.this))
-						.commit();
+
+				CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
+
 				break;
 			case R.id.rbn_taskunfinish:
-				getSupportFragmentManager()
-						.beginTransaction()
-						.replace(
-								R.id.frame_content,
-								new GetTaskListFrag(Container.MODEL_UNFINISH,
-										TaskListFragmentAvtivity.this))
-						.commit();
+				CheckChange(unfinishFrag,
+						String.valueOf(Container.MODEL_UNFINISH));
 				break;
 			case R.id.rbn_taskfinished:
-				getSupportFragmentManager()
-						.beginTransaction()
-						.replace(
-								R.id.frame_content,
-								new GetTaskListFrag(Container.MODEL_FINISH,
-										TaskListFragmentAvtivity.this))
-						.commit();
 
+				CheckChange(finishFrag, String.valueOf(Container.MODEL_FINISH));
 				break;
 
 			}
 		}
 	};
 
+	/**
+	 * actionbar样式控制
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -85,6 +156,9 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 		return true;
 	}
 
+	/**
+	 * actionbar控件的点击事件
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -95,14 +169,14 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 
 			break;
 		case R.id.search:
-			
+
 			openActivity(MaterialSearchActivity.class, null);
 
 			break;
 		case R.id.add:
-			
+
 			openActivity(AddTaskActivity.class, null);
-			
+
 			break;
 
 		}
@@ -110,33 +184,4 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	protected void initData() {
-		// TODO Auto-generated method stub
-
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(
-						R.id.frame_content,
-						new GetTaskListFrag(Container.MODEL_ALL,
-								TaskListFragmentAvtivity.this)).commit();
-	}
-
-	@Override
-	protected void initViews() {
-		// TODO Auto-generated method stub
-		actionBar = getSupportActionBar();
-		actionBar.setTitle(getResources().getString(R.string.receivedtask)
-				+ "(" + 10 + ")");
-		actionBar.setHomeButtonEnabled(true);
-		actionBar.setIcon(R.drawable.btn_back);
-		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);
-
-	}
-
-	@Override
-	protected void initListeners() {
-		// TODO Auto-generated method stub
-		radiogroup_task.setOnCheckedChangeListener(mOnChecked);
-	}
 }

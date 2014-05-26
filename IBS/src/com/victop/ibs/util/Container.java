@@ -39,11 +39,18 @@ public class Container {
 	public static final int TAG = 0;
 	public static final int SORT = 1;
 	public static final int TASK = 2;
-	public static final int MODEL_ALL = 3;
-	public static final int MODEL_UNFINISH = 4;
-	public static final int MODEL_FINISH = 5;
-	public static final int MODEL_UNSEND = 6;
+	public static final String STATUS_ALL = "0";//全部按钮选中标示
+	public static final String STATUS_UNFINISH = "1";//未完成按钮选中标示
+	public static final String STATUS_FINISH = "2";//已完成按钮选中标示
+	public static final String STATUS_UNSEND = "3";//未发放按钮选中标示
+	
+	public static final int MODEL_ALL = 3;//任务全部标示
+	public static final int MODEL_UNFINISH = 4;//任务未完成标示
+	public static final int MODEL_FINISH = 5;//任务已完成标示
+	public static final int MODEL_UNSEND = 6;//任务未发放标示
 	public static final int PAGESIZE = 2;
+	
+	
 	/**
 	 * 用来存放一些键值对
 	 */
