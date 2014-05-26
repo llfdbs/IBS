@@ -8,6 +8,8 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +28,14 @@ import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.CheckedMaterailCountBean;
 import com.victop.ibs.bean.GetTaskCountBean;
 import com.victop.ibs.bean.MaterialCountBean;
+import com.victop.ibs.bean.Page;
 import com.victop.ibs.bean.SendTaskCountBean;
 import com.victop.ibs.bean.UnCheckedMaterialCountBean;
 import com.victop.ibs.bean.UnfinishedMaterialCountBean;
 import com.victop.ibs.bean.UserMessageBean;
+import com.victop.ibs.handler.GetTaskHandler;
 import com.victop.ibs.handler.HomeHandler;
+import com.victop.ibs.presenter.GetTaskPresenter;
 import com.victop.ibs.presenter.PersonCenterPresenter;
 
 /**
@@ -45,13 +50,45 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	private LinearLayout lly_uncomplete, lly_audit, lly_unaudit, lly_gettask,
 			lly_settask;
 	private TextView tv_mymaterial, tv_username, tv_mytask;
-	private Button btn_exit;
+	private Button btn_exit;// 退出按钮
 	private Button num_uncomplete, num_audit, num_unaudit, num_gettask,
 			num_settask;
+	private String str_userName,str_headUrl,str_unfinishedMaterialCount,str_checkedMaterialCount,str_uncheckedMaterialCount,str_getTaskCount,str_sendTaskCount;
 	private HomeHandler homeHandler;
-	public List<File> fileList;// 存放图片地址
-	private String actionUrl = "http://192.168.40.149:8080/fsweb/upload";
-	private String newName;
+	private PersonCenterPresenter pcp;
+	private List<UserMessageBean> userMessage = new ArrayList<UserMessageBean>();
+	private List<MaterialCountBean> materialCount = new ArrayList<MaterialCountBean>();
+	private List<UnfinishedMaterialCountBean> unfinishedMaterialCount = new ArrayList<UnfinishedMaterialCountBean>();
+	private List<CheckedMaterailCountBean> checkedMaterialCount = new ArrayList<CheckedMaterailCountBean>();
+	private List<UnCheckedMaterialCountBean> uncheckedMaterialCount = new ArrayList<UnCheckedMaterialCountBean>();
+	private List<GetTaskCountBean> getTaskCount = new ArrayList<GetTaskCountBean>();
+	private List<SendTaskCountBean> sendTaskCount = new ArrayList<SendTaskCountBean>();
+	private Map<String, List> dataMap;
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				dataMap = (Map<String, List>) msg.obj;
+				userMessage = dataMap.get("10");
+				materialCount = dataMap.get("3");
+				unfinishedMaterialCount = dataMap.get("13");
+				checkedMaterialCount = dataMap.get("11");
+				uncheckedMaterialCount = dataMap.get("12");
+				getTaskCount = dataMap.get("8");
+				sendTaskCount = dataMap.get("9");
+				initData() ;
+				
+
+			}
+
+			super.handleMessage(msg);
+		}
+
+	};
+
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -64,8 +101,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.personalcenter, null);
 		initView(view);
-		//initHandler();
-		//initData();
+		initHandler(handler);
 		return view;
 	}
 
@@ -87,14 +123,33 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		num_gettask = (Button) view.findViewById(R.id.btn_gettask);
 		num_settask = (Button) view.findViewById(R.id.btn_settask);
 	}
-//	private void initHandler() {
-//		homeHandler = new HomeHandler((MainActivity)getActivity());
-//	}
-//	public void initData() {
-//		// TODO Auto-generated method stub
-//		PersonCenterPresenter pcp =new PersonCenterPresenter();
-//		pcp.getInitData(homeHandler);
-//	}
+
+	/**
+	 * 请求网络数据装配方法
+	 * */
+	private void initHandler(Handler handler) {
+		homeHandler = new HomeHandler((MainActivity) getActivity(), handler);
+		pcp = new PersonCenterPresenter();
+		pcp.getInitData(homeHandler);
+	}
+
+	 public void initData() {
+	 // TODO Auto-generated method stub
+			str_userName = userMessage.get(0).getHrname();
+			str_headUrl = userMessage.get(0).getHeadimage();
+			str_unfinishedMaterialCount = unfinishedMaterialCount.get(0).getSummaterialid();
+			str_checkedMaterialCount = checkedMaterialCount.get(0).getSummaterialid();
+			str_uncheckedMaterialCount = uncheckedMaterialCount.get(0).getSummaterialid();
+			str_getTaskCount = getTaskCount.get(0).getSumtaskid();
+			str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
+			num_uncomplete.setText(str_unfinishedMaterialCount); 
+			num_audit.setText(str_checkedMaterialCount);
+			num_unaudit.setText(str_uncheckedMaterialCount);
+			num_gettask.setText(str_getTaskCount);
+			num_settask.setText(str_sendTaskCount);
+			tv_username.setText(str_userName);
+			
+	 }
 	private void initListener() {
 		lly_uncomplete.setOnClickListener(this);
 		lly_audit.setOnClickListener(this);
@@ -104,24 +159,9 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		tv_mymaterial.setOnClickListener(this);
 		tv_mytask.setOnClickListener(this);
 		btn_exit.setOnClickListener(this);
-		
-		
-		UploadFiles.uploadFile(actionUrl, newName, fileList, "1");
+
 	}
-	public List<File> setData() {
-		fileList = new ArrayList<File>();
-		File file = new File("/sdcard/temp1.jpg");
-		fileList.add(file);
-		File file1 = new File("/sdcard/temp1.jpg");
-		fileList.add(file1);
-		File file2 = new File("/sdcard/temp2.jpg");
-		fileList.add(file2);
-		File file3 = new File("/sdcard/temp3.jpg");
-		fileList.add(file3);
-		File file4 = new File("/sdcard/temp4.jpg");
-		fileList.add(file4);
-		return fileList;
-	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -132,19 +172,19 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.lly_uncomplete://未完成的素材
+		case R.id.lly_uncomplete:// 未完成的素材
 			((MainActivity) getActivity()).rightToCenter(0);
 			break;
-		case R.id.lly_audit://已审核的素材
+		case R.id.lly_audit:// 已审核的素材
 			((MainActivity) getActivity()).rightToCenter(1);
 			break;
-		case R.id.lly_unaudit://未审核的素材
+		case R.id.lly_unaudit:// 未审核的素材
 			((MainActivity) getActivity()).rightToCenter(2);
 			break;
-		case R.id.lly_gettask://接受的任务
+		case R.id.lly_gettask:// 接受的任务
 			((MainActivity) getActivity()).rightToCenter(5);
 			break;
-		case R.id.lly_settask://发布的任务
+		case R.id.lly_settask:// 发布的任务
 			((MainActivity) getActivity()).rightToCenter(6);
 			break;
 		case R.id.tv_mymaterial:
@@ -153,7 +193,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		case R.id.tv_mytask:
 			((MainActivity) getActivity()).rightToCenter(5);
 			break;
-		case R.id.btn_exit://退出按钮
+		case R.id.btn_exit:// 退出按钮
 			((MainActivity) getActivity()).rightToCenter(8);
 			getActivity().finish();
 			break;
