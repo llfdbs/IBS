@@ -10,6 +10,7 @@ import com.victop.android.datachannel.GetDataParam;
 import com.victop.ibs.bean.SendTaskBean;
 import com.victop.ibs.bean.TaskDetailBean;
 import com.victop.ibs.bean.TaskMaterialsBean;
+import com.victop.ibs.db.model.TaskDetailModel;
 
 /**
  * 任务详情装配
@@ -21,9 +22,9 @@ public class TaskDetailPresenter {
 	public void getInitData(Handler handler, String taskid) {
 		GetDataParam getDataParam = new GetDataParam();
 		String systemId = "100";
-		String formId = "10211";
-		String modelId = "IBS11118";
-		String datasetId = "1,2";
+		String formId = TaskDetailModel.formId;
+		String modelId = TaskDetailModel.modelId;
+		String datasetId = TaskDetailBean.datasetId+","+TaskMaterialsBean.datasetId;
 		getDataParam.setSystemId(systemId);
 		getDataParam.setFormId(formId);
 		getDataParam.setModelId(modelId);

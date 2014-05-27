@@ -87,6 +87,10 @@ public class GetTaskListFrag extends Fragment implements
 				}
 
 				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
+				break;
 			}
 			super.handleMessage(msg);
 		}
@@ -118,6 +122,10 @@ public class GetTaskListFrag extends Fragment implements
 					mPullListView.setHasMoreData(false);
 				}
 				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
+				break;
 			}
 			super.handleMessage(msg);
 		}
@@ -147,6 +155,10 @@ public class GetTaskListFrag extends Fragment implements
 					mPullListView.setHasMoreData(false);
 				}
 
+				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
 				break;
 			}
 			super.handleMessage(msg);

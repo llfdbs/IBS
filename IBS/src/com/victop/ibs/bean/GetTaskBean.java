@@ -10,6 +10,7 @@ import com.victop.ibs.db.base.BaseBean;
 public class GetTaskBean extends BaseBean {
 public static final String modelId = "IBS10224";//数据模型编号
 public static final String datasetId = "1";//数据集编号
+public static final String formId = "10224";
 private String taskid;//任务id
 private String taskname;//任务名称
 private String taskstatus;//任务状态
@@ -23,12 +24,7 @@ public String getTaskid() {
 public void setTaskid(String taskid) {
 	this.taskid = taskid;
 }
-public String getModelId() {
-	return modelId;
-}
-public void setModelId(String modelId) {
-	this.modelId = modelId;
-}
+
 public String getTaskname() {
 	return taskname;
 }

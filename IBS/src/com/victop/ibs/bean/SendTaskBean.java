@@ -8,27 +8,16 @@ import com.victop.ibs.db.base.BaseBean;
  * 
  */
 public class SendTaskBean extends BaseBean {
-	private String modelId_send = "IBS10223";// 发布的任务数据模型编号
-	private String datasetId = "1";// 数据集编号
+	public static final String modelId = "IBS10223";// 发布的任务数据模型编号
+	public static final String datasetId = "1";// 数据集编号
+	public static final String formId = "10223";
 	private String taskid;// 任务id
 	private String taskcode;// 任务单号
 	private String taskname;// 任务名称
 	private String taskstatus;// 任务状态
 	private String tasklevel;// 任务级别名
 	private String duedate;// 截止时间
-	
-	public String getModelId_send() {
-		return modelId_send;
-	}
-	public void setModelId_send(String modelId_send) {
-		this.modelId_send = modelId_send;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
-	}
+
 	public String getTaskid() {
 		return taskid;
 	}

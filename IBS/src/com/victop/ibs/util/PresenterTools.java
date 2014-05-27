@@ -8,14 +8,13 @@ import android.os.Handler;
 
 public class PresenterTools {
 	final static String SYSTEMID = "100";
-	final static String FORMID = "10211";
 
-	public static void getInitData(Handler handler, String modelId, String datasetId,
-			HashMap<String, String> Datamap, HashMap<String, String> WhereMap,
-			Map<String, Class> clsMap) {
+	public static void getInitData(Handler handler, String modelId,
+			String formid, String datasetId, HashMap<String, String> Datamap,
+			HashMap<String, String> WhereMap, Map<String, Class> clsMap) {
 		GetDataParam getDataParam = new GetDataParam();
 		getDataParam.setSystemId(SYSTEMID);
-		getDataParam.setFormId(FORMID);
+		getDataParam.setFormId(formid);
 		getDataParam.setModelId(modelId);
 		getDataParam.setDatasetId(datasetId);
 		if (null != Datamap)

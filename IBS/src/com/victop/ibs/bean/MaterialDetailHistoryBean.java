@@ -11,24 +11,12 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class MaterialDetailHistoryBean extends BaseBean implements Serializable{
 	private static final long serialVersionUID = -7060210544600464481L;
-	private String modelId_send = "IBS10217";// 素材详情历史版本查询数据模型编号
-	private String datasetId = "5";// 数据集编号
+	public static final String modelId = "IBS10217";// 素材详情历史版本查询数据模型编号
+	public static final String datasetId = "5";// 数据集编号
 	private String modifyman;//修改人
 	private String modifydate;//修改时间
 	private String versioncode;//版本号
 	private String materialid;//素材id
-	public String getModelId_send() {
-		return modelId_send;
-	}
-	public void setModelId_send(String modelId_send) {
-		this.modelId_send = modelId_send;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
-	}
 	public String getModifyman() {
 		return modifyman;
 	}

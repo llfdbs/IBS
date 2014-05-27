@@ -9,7 +9,7 @@ import com.victop.ibs.db.base.BaseBean;
  */
 public class TaskMaterialsBean extends BaseBean {
 	private String modelId = "IBS11118";// 任务素材查询数据模型编号
-	private String datasetId = "2";// 任务素材查询数据集编号
+	public static final String datasetId = "2";// 任务素材查询数据集编号
 	private String addman;//提交人
 	private String adddate;//添加时间
 	private String materialid;//素材ID
@@ -57,18 +57,7 @@ public class TaskMaterialsBean extends BaseBean {
 	public void setImghigh(String imghigh) {
 		this.imghigh = imghigh;
 	}
-	public String getModelId() {
-		return modelId;
-	}
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
-	}
+	
 	public String getAddman() {
 		return addman;
 	}

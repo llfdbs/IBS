@@ -2,12 +2,15 @@ package com.victop.ibs.presenter;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.victop.ibs.bean.MaterialDetailHistoryBean;
 import com.victop.ibs.bean.MaterialDetailMessageBean;
 import com.victop.ibs.bean.MaterialDetailPictureBean;
 import com.victop.ibs.bean.MaterialDetailSortBean;
 import com.victop.ibs.bean.MaterialDetailTagBean;
+import com.victop.ibs.db.model.MaterialDetailModel;
 import com.victop.ibs.util.PresenterTools;
+
 import android.os.Handler;
 
 /**
@@ -18,9 +21,11 @@ import android.os.Handler;
  */
 public class MaterialDetailPresenter {
 
-	String modelId = "IBS10217";
-	String datasetId = "1,2,3,4,5";// 素材详情,素材标签,素材分类,素材图片,素材历史版本
-
+	String modelId = MaterialDetailModel.modelId;
+	String formId = MaterialDetailModel.formId;
+	// 素材详情,素材标签,素材分类,素材图片,素材历史版本
+	String datasetId = MaterialDetailMessageBean.datasetId+","+MaterialDetailTagBean.datasetId+","+MaterialDetailSortBean.datasetId+","+
+			MaterialDetailPictureBean.datasetId+","+MaterialDetailHistoryBean.datasetId;
 	public void getInitData(Handler handler) {
 
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -32,7 +37,7 @@ public class MaterialDetailPresenter {
 		clsMap.put("3", MaterialDetailSortBean.class);
 		clsMap.put("4", MaterialDetailPictureBean.class);
 		clsMap.put("5", MaterialDetailHistoryBean.class);
-		PresenterTools.getInitData(handler, modelId, datasetId, map, null,
+		PresenterTools.getInitData(handler, modelId, formId,datasetId, map, null,
 				clsMap);
 	}
 

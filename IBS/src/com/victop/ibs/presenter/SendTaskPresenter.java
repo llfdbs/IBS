@@ -21,9 +21,9 @@ public class SendTaskPresenter {
 	public void getInitData(Handler handler,String taskstatus,Page page){
 		GetDataParam getDataParam = new GetDataParam();
 		String systemId = "100";
-		String formId = "10211";
-		String modelId = "IBS10223";
-		String datasetId = "1";
+		String formId = SendTaskBean.formId;
+		String modelId = SendTaskBean.modelId;
+		String datasetId = SendTaskBean.datasetId;
 		getDataParam.setSystemId(systemId);
 		getDataParam.setFormId(formId);
 		getDataParam.setModelId(modelId);

@@ -102,6 +102,10 @@ public class SendedTaskListFrag extends Fragment implements
 					mPullListView.setHasMoreData(false);
 				}
 				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
+				break;
 			}
 			super.handleMessage(msg);
 		}
@@ -134,6 +138,10 @@ public class SendedTaskListFrag extends Fragment implements
 					mPullListView.setHasMoreData(false);
 				}
 				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
+				break;
 			}
 			super.handleMessage(msg);
 		}
@@ -164,6 +172,10 @@ public class SendedTaskListFrag extends Fragment implements
 					mPullListView.setHasMoreData(false);
 				}
 
+				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
 				break;
 			}
 			super.handleMessage(msg);
@@ -203,6 +215,10 @@ public class SendedTaskListFrag extends Fragment implements
 
 					}
 				}
+				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
 				break;
 			}
 			super.handleMessage(msg);
@@ -310,7 +326,8 @@ public class SendedTaskListFrag extends Fragment implements
 			// 设置页码数为1
 			pageno_unfinish = 1;
 			setPage(task_unfinishPage, 1, pageno_unfinish, pageSize);
-			initHandler(handler_unfinish, Container.STATUS_UNFINISH, task_unfinishPage);
+			initHandler(handler_unfinish, Container.STATUS_UNFINISH,
+					task_unfinishPage);
 			break;
 		case Container.MODEL_FINISH:
 			// 清空原有数据
@@ -320,7 +337,8 @@ public class SendedTaskListFrag extends Fragment implements
 			// 设置页码数为1
 			pageno_finish = 1;
 			setPage(task_finishPage, 1, 1, pageSize);
-			initHandler(handler_finish,Container.STATUS_FINISH, task_finishPage);
+			initHandler(handler_finish, Container.STATUS_FINISH,
+					task_finishPage);
 			break;
 		case Container.MODEL_UNSEND:
 			// 清空原有数据
@@ -330,7 +348,7 @@ public class SendedTaskListFrag extends Fragment implements
 			// 设置页码数为1
 			pageno_finish = 1;
 			setPage(task_unsendPage, 1, 1, pageSize);
-			initHandler(handler_unsend,Container.STATUS_ALL, task_unsendPage);
+			initHandler(handler_unsend, Container.STATUS_ALL, task_unsendPage);
 			break;
 		}
 	}

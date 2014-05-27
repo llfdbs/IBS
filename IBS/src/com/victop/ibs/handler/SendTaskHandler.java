@@ -36,6 +36,9 @@ public class SendTaskHandler extends Handler {
 		switch (type) {
 		case GET_DATA_FAIL:
 			Log.e(TAG, "获取业务数据失败");
+			Message message_error = new Message();
+			message_error.what = 1;
+			handler.sendMessage(message_error);
 			break;
 		case GET_DATA_SUCCESS:
 
