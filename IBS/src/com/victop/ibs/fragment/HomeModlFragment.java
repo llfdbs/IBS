@@ -31,6 +31,7 @@ import com.victop.ibs.bean.UserMessageBean;
 import com.victop.ibs.handler.HomeHandler;
 import com.victop.ibs.presenter.HomePresenter;
 import com.victop.ibs.presenter.PersonCenterPresenter;
+import com.victop.ibs.util.Container;
 
 /**
  * 首页模块 展示 首页的功能项
@@ -155,7 +156,14 @@ public class HomeModlFragment extends Fragment {
 				((MainActivity) getActivity()).showMenuRight();
 				break;
 			case R.id.btn_manager_search://素材搜索
-				((MainActivity) getActivity()).rightToCenter(4,"");
+				//((MainActivity) getActivity()).rightToCenter(4,"");
+				Intent intent = new Intent((MainActivity) getActivity(),MaterialSearchActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("modeobj", "material");
+				bundle.putInt("tag",Container.MODEL_ALL);
+				bundle.putString("title","全部素材搜索结果");
+				intent.putExtras(bundle);
+				startActivity(intent);
 				break;
 			case R.id.btn_manager_addmaterial:// 新增素材
 				((MainActivity) getActivity()).rightToCenter(3,"");

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import me.maxwin.view.XListView;
 import me.maxwin.view.XListView.IXListViewListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +30,7 @@ import com.victop.ibs.bean.UnCheckedMaterialBean;
 import com.victop.ibs.db.model.AddMaterialModel;
 import com.victop.ibs.handler.MaterialunCheckHandler;
 import com.victop.ibs.presenter.Materialpresenter;
+import com.victop.ibs.util.Container;
 
 //import com.dodola.model.DuitangInfo;
 
@@ -225,8 +227,14 @@ public class MaterialAllActivity extends ActivityBase implements
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_search:
-
-			openActivity(MaterialSearchActivity.class, null);
+			Intent intent = new Intent(MaterialAllActivity.this,MaterialSearchActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("modeobj", "material");
+			bundle.putInt("tag",Container.MODEL_ALL);
+			bundle.putString("title","全部素材搜索结果");
+			intent.putExtras(bundle);
+			startActivity(intent);
+			//openActivity(MaterialSearchActivity.class, null);
 			// finish();
 
 			break;

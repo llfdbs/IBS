@@ -25,7 +25,7 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 	private ActionBar actionBar;// 导航栏
 	private RadioGroup radiogroup_task;// 全部,未完成,已完成切换组
 	private GetTaskListFrag allFrag, unfinishFrag, finishFrag;// 全部任务,未完成任务,已完成任务fragment
-
+    private String status ="0";
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -45,7 +45,7 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		
+
 		CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
 
 	}
@@ -123,16 +123,17 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (checkedId) {
 			case R.id.rbn_taskall:
-
+				status = Container.STATUS_ALL;
 				CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
 
 				break;
 			case R.id.rbn_taskunfinish:
+				status = Container.STATUS_UNFINISH;
 				CheckChange(unfinishFrag,
 						String.valueOf(Container.MODEL_UNFINISH));
 				break;
 			case R.id.rbn_taskfinished:
-
+				status = Container.STATUS_FINISH;
 				CheckChange(finishFrag, String.valueOf(Container.MODEL_FINISH));
 				break;
 
@@ -172,8 +173,22 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 
 			break;
 		case R.id.search:
-
-			openActivity(MaterialSearchActivity.class, null);
+			Bundle bundle = new Bundle();
+			if(status.equals(Container.STATUS_ALL)){
+				bundle.putString("modeobj", "task");
+				bundle.putInt("tag",Container.MODEL_ALL);
+				bundle.putString("title","全部任务搜索结果");
+			}else if(status.equals(Container.STATUS_UNFINISH)){
+				bundle.putString("modeobj", "task");
+				bundle.putInt("tag",Container.MODEL_UNFINISH);
+				bundle.putString("title","未完成任务搜索结果");
+			}else{
+				bundle.putString("modeobj", "task");
+				bundle.putInt("tag",Container.MODEL_FINISH);
+				bundle.putString("title","已完成任务搜索结果");
+			}
+			
+			openActivity(MaterialSearchActivity.class, bundle);
 
 			break;
 		case R.id.add:

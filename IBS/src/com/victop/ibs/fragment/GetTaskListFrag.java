@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.victop.ibs.activity.R;
+import com.victop.ibs.activity.Search_GetTaskListResultActivity;
 import com.victop.ibs.activity.TaskDetailActivity;
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.bean.GetTaskBean;
@@ -78,12 +82,18 @@ public class GetTaskListFrag extends Fragment implements
 				mPullListView.onPullDownRefreshComplete();
 				mPullListView.onPullUpRefreshComplete();
 				setLastUpdateTime();
+				if (task_list_data.size() <= 0) {
+					Toast.makeText(context, "暂无相关数据", Toast.LENGTH_SHORT)
+							.show();
+			    return;
+				}
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_list.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
 					pageno_all++;
 				} else {
 					mPullListView.setHasMoreData(false);
+					
 				}
 
 				break;
@@ -114,6 +124,11 @@ public class GetTaskListFrag extends Fragment implements
 				mPullListView.onPullDownRefreshComplete();
 				mPullListView.onPullUpRefreshComplete();
 				setLastUpdateTime();
+				if (task_unlist_data.size() <= 0) {
+					Toast.makeText(context, "暂无相关数据", Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_unlist.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
@@ -148,6 +163,11 @@ public class GetTaskListFrag extends Fragment implements
 				mPullListView.onPullDownRefreshComplete();
 				mPullListView.onPullUpRefreshComplete();
 				setLastUpdateTime();
+				if (task_filist_data.size() <= 0) {
+					Toast.makeText(context, "暂无相关数据", Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}
 				if (task_filist.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
 					pageno_finish++;

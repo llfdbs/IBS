@@ -94,6 +94,11 @@ public class SendedTaskListFrag extends Fragment implements
 				mPullListView.onPullDownRefreshComplete();
 				mPullListView.onPullUpRefreshComplete();
 				setLastUpdateTime();
+				if (task_list_data.size() <= 0) {
+					Toast.makeText(context, "暂无相关数据", Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_list.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
@@ -130,6 +135,11 @@ public class SendedTaskListFrag extends Fragment implements
 				mPullListView.onPullDownRefreshComplete();
 				mPullListView.onPullUpRefreshComplete();
 				setLastUpdateTime();
+				if (task_unfinishList_data.size() <= 0) {
+					Toast.makeText(context, "暂无相关数据", Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_unfinishList.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
@@ -165,6 +175,11 @@ public class SendedTaskListFrag extends Fragment implements
 				mPullListView.onPullDownRefreshComplete();
 				mPullListView.onPullUpRefreshComplete();
 				setLastUpdateTime();
+				if (task_finishList_data.size() <= 0) {
+					Toast.makeText(context, "暂无相关数据", Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}
 				if (task_finishList.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
 					pageno_finish++;
@@ -202,7 +217,7 @@ public class SendedTaskListFrag extends Fragment implements
 					mPullListView.onPullDownRefreshComplete();
 					mPullListView.onPullUpRefreshComplete();
 					setLastUpdateTime();
-					if (task_unsendList.size() <= 0) {
+					if (task_unsendList_data.size() <= 0) {
 						Toast.makeText(context, "暂无相关数据", Toast.LENGTH_SHORT)
 								.show();
 						return;

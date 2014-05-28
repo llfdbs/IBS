@@ -7,9 +7,9 @@ package com.victop.ibs.bean;
  */
 public class Page {
 
-	public int ispage;//是否分页（1分页  0不分页）
-	public int pageno;//页码   
-	public int pagesize;//每页显示的条目
+	public int ispage=1;//是否分页（1分页  0不分页）
+	public int pageno=1;//页码   
+	public int pagesize=10;//每页显示的条目
 	
 	public int getIspage() {
 		return ispage;

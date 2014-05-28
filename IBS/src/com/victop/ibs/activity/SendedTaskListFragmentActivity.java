@@ -27,7 +27,7 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 	private ActionBar actionBar;// 导航栏
 	private RadioGroup radiogroup_tasksended;
 	private SendedTaskListFrag allFrag, unfinishFrag, finishFrag, unsendFrag;// 全部任务,未完成任务,已完成任务,未发放fragment
-
+	private String status ="0";
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -125,19 +125,21 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (checkedId) {
 			case R.id.rbn_sendedtask_all:
-
+				status = Container.STATUS_ALL;
 				CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
 
 				break;
 			case R.id.rbn_sendedtask_unfinish:
-
+				status = Container.STATUS_UNFINISH;
 				CheckChange(unfinishFrag,
 						String.valueOf(Container.MODEL_UNFINISH));
 				break;
 			case R.id.rbn_sendedtask_finished:
+				status = Container.STATUS_FINISH;
 				CheckChange(finishFrag, String.valueOf(Container.MODEL_FINISH));
 				break;
 			case R.id.rbn_sendedtask_unsend:
+				status = Container.STATUS_UNSEND;
 				CheckChange(unsendFrag, String.valueOf(Container.MODEL_UNSEND));
 				break;
 			default:
@@ -180,7 +182,26 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 
 			break;
 		case R.id.search:
-			openActivity(MaterialSearchActivity.class, null);
+			Bundle bundle = new Bundle();
+			if(status.equals(Container.STATUS_ALL)){
+				bundle.putString("modeobj", "task");
+				bundle.putInt("tag",Container.MODEL_ALL);
+				bundle.putString("title","全部任务搜索结果");
+			}else if(status.equals(Container.STATUS_UNFINISH)){
+				bundle.putString("modeobj", "task");
+				bundle.putInt("tag",Container.MODEL_UNFINISH);
+				bundle.putString("title","未完成任务搜索结果");
+			}else if(status.equals(Container.STATUS_FINISH)){
+				bundle.putString("modeobj", "task");
+				bundle.putInt("tag",Container.MODEL_FINISH);
+				bundle.putString("title","已完成任务搜索结果");
+			}else{
+				bundle.putString("modeobj", "task");
+				bundle.putInt("tag",Container.MODEL_FINISH);
+				bundle.putString("title","未发放任务搜索结果");
+			}
+			
+			openActivity(MaterialSearchActivity.class,bundle);
 			break;
 		case R.id.add:
 			openActivity(AddTaskActivity.class, null);
