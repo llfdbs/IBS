@@ -39,7 +39,8 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 	TaskSortAdapter adapter;
 	private Spinner sper;
 	private ListView listView;
-	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
+	// private List<Map<String, String>> listData = new ArrayList<Map<String,
+	// String>>();
 	private static final String[] mCountries = { "最新时间", "按首字母排序" };
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
@@ -53,9 +54,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 		setContentView(view);
 		// ibsApplication.getInstance().addActivity(this);
 		initData();
-		setData();
-		setData1();
-		setData2();
+
 		initViews();
 		initListeners();
 
@@ -71,10 +70,12 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 			case 0:// 获取到数据
 				Map<String, List> dataMap = (Map<String, List>) msg.obj;
 				mTaskBean = (List<TaskBean>) dataMap.get("1");
-
-				adapter = new TaskSortAdapter(TaskSortActivity.this, mTaskBean);
-				listView.setAdapter(adapter);
-
+				if (null != mTaskBean) {
+					adapter = new TaskSortAdapter(TaskSortActivity.this,
+							mTaskBean);
+					listView.setAdapter(adapter);
+				}
+ 
 				break;
 			case 1:
 				String rr = (String) msg.obj;
@@ -132,7 +133,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 				Intent i = new Intent(TaskSortActivity.this,
 						MaterialAddActivity.class);
 				Bundle b = new Bundle();
-				b.putString("tasknumber", listData.get(arg2).get("tasknumber"));
+				b.putString("tasknumber", mTaskBean.get(arg2).getTaskcode());
 				i.putExtras(b);
 				setResult(Container.TASK, i);
 				finish();
@@ -146,48 +147,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 
 	}
 
-	public void setData() {
-		Map<String, String> map;
-		// for (int i = 0; i < 10; i++) {
-		map = new HashMap<String, String>();
-		map.put("title", "IBS素材搜集流程及完成流程下发任务流程");
-		map.put("tasknumber", "121215663");
-		map.put("statue", "0");
-		map.put("deadline", "2015-10-10");
-		map.put("type", "紧急");
-		listData.add(map);
-		// }
-
-	}
-
-	public void setData1() {
-		Map<String, String> map;
-		// for (int i = 0; i < 10; i++) {
-		map = new HashMap<String, String>();
-		map.put("title", "IT素材搜集流发任务流程");
-		map.put("tasknumber", "121215663");
-		map.put("statue", "0" + 0);
-		map.put("deadline", "2015-10-10");
-		map.put("type", "紧急");
-		listData.add(map);
-		// }
-
-	}
-
-	public void setData2() {
-		Map<String, String> map;
-		// for (int i = 0; i < 10; i++) {
-		map = new HashMap<String, String>();
-		map.put("title", "WEb素材搜集流程及发任务流程");
-		map.put("tasknumber", "121215663");
-		map.put("statue", "0" + 1);
-		map.put("deadline", "2015-10-10");
-		map.put("type", "紧急");
-		listData.add(map);
-		// }
-
-	}
-
+ 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 

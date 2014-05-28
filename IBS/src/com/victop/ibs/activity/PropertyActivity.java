@@ -1,11 +1,12 @@
 package com.victop.ibs.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,14 +21,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.victop.ibs.adapter.PropertygridviewAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.bean.MaterialPropertyBean;
 import com.victop.ibs.bean.PropertyBean;
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.Getpresenter;
@@ -49,9 +51,7 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	private Dialog dialog;
 	private Button btn_choose;
 	private View popView;
-	private int temp;
-	private String[] data = { "服饰", "旅游", "美食", "分享", "服饰", "旅游", "美食", "分享",
-			"服饰", "旅游", "美食", "分享", "服饰", "旅游", "美食", "分享" };
+
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	private final int TEXT_STATE = 0;// 文本
@@ -59,11 +59,17 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	private final int TWO_STATE = 2;// 2选1单选
 	private final int MORE_STATE = 3;// 多选1 同1
 	private final int MOREM_STATE = 4;// 多选多
-	private TextView tv_text, tv_user, tv_tag, tv_get, tv_hangye;
+	private TextView tv_tag, tv_get, tv_hangye, tv_chosem;
+
 	List<PropertyBean> pro_text = new ArrayList<PropertyBean>();
 	List<PropertyBean> pro_spin = new ArrayList<PropertyBean>();
 	List<PropertyBean> pro_two = new ArrayList<PropertyBean>();
 	List<PropertyBean> pro_morem = new ArrayList<PropertyBean>();
+	private TextView tv_choosem;
+	private ListView areaCheckListView;
+	private Boolean[] areaState;
+	private String classid = "";
+	List<PropertyBean> pro_all = new ArrayList<PropertyBean>();
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -80,9 +86,15 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
+
+		Bundle b = getIntent().getExtras();
+		if (null != b) {
+			classid = b.getString("classid");
+		}
 		BaseHandler bHandler = new BaseHandler(this, mHandler);
 		HashMap<String, String> Datamap = new HashMap<String, String>();
-		Datamap.put("classid", "1");
+		Datamap.put("classid", classid);
+
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put(PropertyBean.datasetId, PropertyBean.class);
 		Getpresenter.getInstance().getInitbData(bHandler, clsMap, Datamap,
@@ -97,9 +109,9 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0:// 获取到数据
-					// Map<String, List> dataMap = (Map<String, List>) msg.obj;
-					// List<PropertyBean> mUnCheckedMaterialBean = dataMap
-					// .get(PropertyBean.datasetId);
+				// Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				// List<PropertyBean> mUnCheckedMaterialBean = dataMap
+				// .get(PropertyBean.datasetId);
 
 				Datajson obj = null;
 				obj = (Datajson) getXmlStream("property.xml",
@@ -129,15 +141,13 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 						tv_tagcontent.setText(pro_text.get(1)
 								.getNaturedetailname());
 					}
-					tv_text.setText(pro_text.get(0).getNaturename() + ":");
-					tv_user.setText(pro_text.get(0).getNaturedetailname());
 
 				} else {
-					tv_text.setVisibility(View.GONE);
-					tv_user.setVisibility(View.GONE);
+
 				}
 				if (pro_two.size() > 0) {
 					tv_get.setText(pro_two.get(0).getNaturename() + ":");
+
 					tv_comecontent
 							.setText(pro_two.get(0).getNaturedetailname());
 				} else {
@@ -145,11 +155,21 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 					tv_comecontent.setVisibility(View.GONE);
 				}
 				if (pro_spin.size() > 0) {
-					tv_hangye.setText(pro_spin.get(0).getNaturename() + ":");
+					tv_hangye.setText(pro_spin.get(0).getNaturename());
+					tv_hangye.setVisibility(View.VISIBLE);
+					btn_choose.setVisibility(View.VISIBLE);
 
 				} else {
 					tv_hangye.setVisibility(View.GONE);
 					btn_choose.setVisibility(View.GONE);
+				}
+				if (pro_morem.size() > 0) {
+					tv_chosem.setText(pro_morem.get(0).getNaturename());
+					tv_chosem.setVisibility(View.VISIBLE);
+					tv_choosem.setVisibility(View.VISIBLE);
+				} else {
+					tv_chosem.setVisibility(View.GONE);
+					tv_choosem.setVisibility(View.GONE);
 				}
 
 				break;
@@ -178,11 +198,14 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 		rb_on = (RadioButton) findViewById(R.id.rbtn_no);
 		rb_off = (RadioButton) findViewById(R.id.rbtn_off);
 		rg_come = (RadioGroup) findViewById(R.id.radiogroup_type);
-		tv_text = (TextView) findViewById(R.id.text_proper);
+		tv_chosem = (TextView) findViewById(R.id.hangye_more);
 		tv_tag = (TextView) findViewById(R.id.tag_porper);
 		tv_get = (TextView) findViewById(R.id.get_proper);
 		tv_hangye = (TextView) findViewById(R.id.hangye);
-		tv_user = (TextView) findViewById(R.id.username);
+		tv_choosem = (TextView) findViewById(R.id.tv_choosemore);
+		tv_choosem.setOnClickListener(this);
+		tv_chosem.setOnClickListener(this);
+
 		tv_tagcontent = (TextView) findViewById(R.id.tagname);
 		tv_comecontent = (TextView) findViewById(R.id.getname);
 		if (tag == 0) {
@@ -192,6 +215,14 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 			et_product.setEnabled(false);
 			et_product.setBackgroundResource(R.drawable.login_bg);
 		}
+		et_product.setVisibility(View.GONE);
+		tv_get.setVisibility(View.GONE);
+		tv_comecontent.setVisibility(View.GONE);
+		tv_hangye.setVisibility(View.GONE);
+		btn_choose.setVisibility(View.GONE);
+		tv_chosem.setVisibility(View.GONE);
+		tv_choosem.setVisibility(View.GONE);
+		rg_come.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -207,6 +238,33 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 
 		case R.id.btn_choose:
 			showDielog();
+			break;
+		case R.id.tv_choosemore:
+		case R.id.hangye_more:
+			Bundle b = new Bundle();
+			b.putSerializable("morem", (Serializable) pro_morem);
+			openActivityForResult(PropertylistActivity.class, b, 100);
+			break;
+		}
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case 100:
+			if (data != null) {
+				Bundle b = data.getExtras();
+				List<PropertyBean> mPropertyBean = (List<PropertyBean>) b
+						.getSerializable("morem");
+				String rr = "";
+				for (PropertyBean p : mPropertyBean) {
+					if ("".equals(rr)) {
+						rr = p.getNaturedetailname();
+					} else {
+						rr = rr + "/" + p.getNaturedetailname();
+					}
+				}
+				tv_choosem.setText(rr);
+			}
 			break;
 		}
 	}
@@ -227,8 +285,7 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
-				temp = arg2;
+
 				btn_choose.setText(pro_spin.get(arg2).getNaturedetailname());
 				// adapter.setSeclection(arg2);
 				// adapter.notifyDataSetChanged();
@@ -288,6 +345,33 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 
 			break;
 		case R.id.save:
+			// classid
+			RadioButton rb_on,
+			rb_off;
+			List<MaterialPropertyBean> mMaterialPropertyBean = new ArrayList<MaterialPropertyBean>();
+			if (pro_text.size() > 0) {
+				MaterialPropertyBean m = new MaterialPropertyBean();
+				m.setClassid(classid);
+				m.setNatureid(pro_text.get(0).getNatureid());
+				m.setNaturedetailid(pro_text.get(0).getNaturedetailid());
+				m.setMaterialguid(getMyUUID());
+				m.setNaturevalue(pro_text.get(0).getNaturename());
+				// m.setMatnatureid(pro_text.get(0).);
+			}
+			if (pro_two.size() > 0) {
+				MaterialPropertyBean m = new MaterialPropertyBean();
+				m.setClassid(classid);
+				m.setNatureid(pro_text.get(0).getNatureid());
+				m.setNaturedetailid(pro_text.get(0).getNaturedetailid());
+				m.setMaterialguid(getMyUUID());
+				m.setNaturevalue(pro_text.get(0).getNaturename());
+				// m.setMatnatureid(pro_text.get(0).);
+			}
+
+			List<PropertyBean> pro_spin = new ArrayList<PropertyBean>();
+			List<PropertyBean> pro_two = new ArrayList<PropertyBean>();
+			List<PropertyBean> pro_morem = new ArrayList<PropertyBean>();
+
 			finish();
 			break;
 		}

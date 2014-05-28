@@ -42,12 +42,11 @@ import com.victop.ibs.bean.MaterialPropertyBean;
 import com.victop.ibs.bean.MaterialTagBean;
 import com.victop.ibs.bean.TagBean;
 import com.victop.ibs.bean.TasksaveBean;
- 
+
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.SavePresenter;
 import com.victop.ibs.util.Container;
 import com.victop.ibs.view.MyGridView;
- 
 
 /**
  * 新增素材类
@@ -72,6 +71,8 @@ public class MaterialAddActivity extends ActivityBase implements
 	// List<MaterialPictureBean> mMaterialPictureBean;
 	// AddMaterialBean mAddMaterialBean;
 	private EditText et_memo;
+
+	private String classid = "";
 
 	// 保存的数据容器
 
@@ -132,23 +133,31 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			break;
 		case R.id.llt_property:
-			// if (!"".equals(tv_sort.getText()) && tv_sort.getText() != null) {
-			openActivity(PropertyActivity.class, null);
-			// } else {
-			// Toast.makeText(this, "请先填写分类", 500).show();
-			// }
+
+			if (!"".equals(tv_sort.getText()) && tv_sort.getText() != null) {
+				Bundle b = new Bundle();
+				b.putString("classid", classid);
+				openActivity(PropertyActivity.class, b);
+			} else {
+				Toast.makeText(this, "请先填写分类", 500).show();
+			}
+
 			break;
 		case R.id.llt_task:
 
 			openActivityForResult(TaskSortActivity.class, null, Container.TASK);
 			break;
 		case R.id.llt_tag:
-			// if (!"".equals(tv_sort.getText()) && tv_sort.getText() != null) {
-			// Container.getInstance().getTaghashSortModel().clear();
-			openActivityForResult(TagActivity.class, null, Container.TAG);
-			// } else {
-			// Toast.makeText(this, "请先填写分类", 500).show();
-			// }
+
+			if (!"".equals(tv_sort.getText()) && tv_sort.getText() != null) {
+
+				Bundle b = new Bundle();
+				b.putString("classid", classid);
+				// Container.getInstance().getTaghashSortModel().clear();
+				openActivityForResult(TagActivity.class, b, Container.TAG);
+			} else {
+				Toast.makeText(this, "请先填写分类", 500).show();
+			}
 
 			break;
 		case R.id.ibtn_edit:// 素材编辑按钮
@@ -196,7 +205,7 @@ public class MaterialAddActivity extends ActivityBase implements
 						iv_addimg.setVisibility(View.GONE);
 						ibtn_edit.setVisibility(View.VISIBLE);
 						mAdapter = new MaterialAdd_girdViewAdapter(this,
-								img_list, 0); 
+								img_list, 0);
 						mgv_material.setAdapter(mAdapter);
 					}
 				} else {
@@ -256,7 +265,16 @@ public class MaterialAddActivity extends ActivityBase implements
 				while (iter.hasNext()) {
 					Object key = iter.next();
 					Object val = hashMap.get(key);
-					nametext = nametext + ((TagBean) val).getLablename() + " ";
+
+					MaterialTagBean m = new MaterialTagBean();
+					TagBean t = (TagBean) val;
+					// m.setLableid(t.getLableid());
+					// m.setMaterialid(t.get);
+					// m.setMatlableid("223");
+					mMaterialTagBean.add(m);
+					mMaterialTagBean.add(m);
+					nametext = nametext + t.getLablename() + " ";
+
 				}
 				tv_tag.setText(nametext);
 			}
@@ -266,7 +284,10 @@ public class MaterialAddActivity extends ActivityBase implements
 			if (data != null) {
 				Bundle b = data.getExtras();
 				String tasknumber = b.getString("info");
+				classid = b.getString("classid");
 				tv_sort.setText(tasknumber);
+				tv_tag.setText("");
+				Container.getInstance().getTaghashSortModel().clear();
 			}
 
 			break;
@@ -283,26 +304,11 @@ public class MaterialAddActivity extends ActivityBase implements
 	@Override
 	protected void initData() {
 		// TODO Auto-generated method stub
-		// mDataaddmaterial = new Dataaddmaterial();
-		 mMaterialPictureBean = new ArrayList<MaterialPictureBean>();
-		// Datajson obj = null;
-		// try {
-		// obj = (Datajson) getXmlFileStream("mattext.xml", null,
-		// Datajson.class);
-		// } catch (Exception e) {
-		//
-		// }
-		// if (null != obj) {
-		// String name = obj.getName();
-		// Gson gson = new Gson();
-		//
-		// Dataaddmaterial mDataaddmaterial = gson.fromJson(name,
-		// Dataaddmaterial.class);
-		// if (null != mDataaddmaterial)
-		// addMaterialModel = mDataaddmaterial.getAddMaterialModel();
-		// }
 
+		mMaterialPictureBean = new ArrayList<MaterialPictureBean>();
+		mMaterialTagBean = new ArrayList<MaterialTagBean>();
 	}
+
 
 	@Override
 	protected void onResume() {
@@ -473,18 +479,19 @@ public class MaterialAddActivity extends ActivityBase implements
 				property.setClassid("233");
 				property.setNatureid("233");
 				property.setNaturevalue("233");
-				property.setMaterialid("233");
-				property.setMaterialid("233");
+
+				property.setMaterialguid(getMyUUID());
+				property.setMatnatureid("233");
+				property.setNaturedetailid("788");
 				mMaterialPropertyBean.add(property);
 
-				// mMaterialPictureBean = new ArrayList<MaterialPictureBean>();
-				mMaterialTagBean = new ArrayList<MaterialTagBean>();
-				MaterialTagBean m = new MaterialTagBean();
-
-				m.setLableid("223");
-				m.setMaterialid("223");
-				m.setMatlableid("223");
-				mMaterialTagBean.add(m);
+				// mMaterialTagBean = new ArrayList<MaterialTagBean>();
+				// MaterialTagBean m = new MaterialTagBean();
+				//
+				// m.setLableid("223");
+				// m.setMaterialid("223");
+				// m.setMatlableid("223");
+				// mMaterialTagBean.add(m);
 
 				String time = getDate();
 				AddMaterialBean mAddMaterialBean = new AddMaterialBean();
@@ -499,6 +506,7 @@ public class MaterialAddActivity extends ActivityBase implements
 				mAddMaterialBean.setMaterialmemo(et_memo.getText().toString());
 				mAddMaterialBean.setMaterialstatus("0");
 				mAddMaterialBean.setMaterialcode("201405150001");
+				mAddMaterialBean.setMaterialguid(getMyUUID());
 				tAddMaterialBean.add(mAddMaterialBean);
 				Map<String, List> dataMap = new HashMap<String, List>();
 				dataMap.put("11", tAddMaterialBean);
@@ -509,7 +517,6 @@ public class MaterialAddActivity extends ActivityBase implements
 				SavePresenter.getInstance().SaveInitData(bHandler, "11112",
 						"IBS11112", "11,13,16,18", dataMap, null);
 
-				//
 				// if (null != mMaterialPictureBean) {
 				// if (null == addMaterialModel)
 				// addMaterialModel = new ArrayList<AddMaterialModel>();

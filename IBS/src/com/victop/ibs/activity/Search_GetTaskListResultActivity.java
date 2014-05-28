@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
@@ -19,6 +21,7 @@ import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.bean.Page;
 import com.victop.ibs.handler.GetTaskHandler;
 import com.victop.ibs.presenter.GetTaskListSearchResultPresenter;
+import com.victop.ibs.presenter.SendTaskSearchResultPresenter;
 import com.victop.ibs.util.Container;
 import com.victop.pulltorefreshui.PullToRefreshBase;
 import com.victop.pulltorefreshui.PullToRefreshListView;
@@ -42,13 +45,14 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 	private GetTaskHandler taskHandler;// 网络请求获取数据handler
 	private TaskListAdapter adapter;
 	private GetTaskListSearchResultPresenter taskResult;// 网络数据装配对象
+	private SendTaskSearchResultPresenter send_taskResult;//发布的任务数据封装对象
 	private SimpleDateFormat mDateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 	private String keyword = "";
 	private int model = 0;
 	private String title = "";
 	/**
-	 * 全部任务handler 
+	 * 全部任务handler
 	 * */
 	Handler handler = new Handler() {
 
@@ -74,9 +78,9 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_list.size() >= task_allPage.getPagesize()) {
 					mPullListView.setHasMoreData(true);
-					
+
 					task_allPage.setPageno(task_allPage.getPageno() + 1);
-					
+
 				} else {
 					mPullListView.setHasMoreData(false);
 				}
@@ -207,32 +211,25 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 	@Override
 	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO Auto-generated method stub
+		// 清空原有数据
+		if (task_list_data.size() > 0) {
+			task_list_data.clear();
+		}
+
+		// 设置页码数为1
 		task_allPage.setPageno(1);
 		switch (model) {
 		case Container.MODEL_ALL:
-			// 清空原有数据
-			if (task_list_data.size() > 0) {
-				task_list_data.clear();
-			}
-			// 设置页码数为1
+
 			initHandler(handler, null, task_allPage);
 			break;
 		case Container.MODEL_UNFINISH:
-			// 清空原有数据
-			if (task_list_data.size() > 0) {
-				task_list_data.clear();
-			}
-			// 设置页码数为1
 			initHandler(handler, "1", task_allPage);
 			break;
 		case Container.MODEL_FINISH:
-			// 清空原有数据
-			if (task_list_data.size() > 0) {
-				task_list_data.clear();
-			}
-			// 设置页码数为1
 			initHandler(handler, "2", task_allPage);
 		case Container.S_MODEL_ALL:
+			
 			break;
 		case Container.S_MODEL_UNFINISH:
 			break;
@@ -240,7 +237,7 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 			break;
 		case Container.MODEL_UNSEND:
 			break;
-			
+
 		}
 	}
 
@@ -258,7 +255,7 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		case Container.MODEL_FINISH:
 			initHandler(handler, "2", task_allPage);
 			break;
-		
+
 		}
 	}
 }

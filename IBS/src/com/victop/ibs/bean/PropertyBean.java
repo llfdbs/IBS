@@ -1,5 +1,8 @@
 package com.victop.ibs.bean;
 
+ 
+import java.io.Serializable;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.victop.ibs.db.base.BaseBean;
 
@@ -10,7 +13,11 @@ import com.victop.ibs.db.base.BaseBean;
  * 
  */
 @XStreamAlias("PropertyBean")
-public class PropertyBean extends BaseBean {
+ 
+public class PropertyBean extends BaseBean implements Serializable{
+	 
+	private static final long serialVersionUID = 1L;
+ 
 	public static final String modelId = "IBS10217";// 属性数据模型编号
 	public static final String formId = "10217";
 	public static final String datasetId = "6";// 数据集编号

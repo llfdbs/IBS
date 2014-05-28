@@ -1,5 +1,10 @@
 package com.victop.ibs.bean;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.victop.ibs.db.base.BaseBean;
+import com.victop.ibs.xml.DConverter;
+
 import com.victop.ibs.db.base.BaseBean;
 /**
  * 素材
@@ -7,36 +12,36 @@ import com.victop.ibs.db.base.BaseBean;
  * @author vv
  * 
  */
+@XStreamAlias("AddMaterialBean")
+@XStreamConverter(DConverter.class)
 public class AddMaterialBean extends BaseBean {
-	private String modelId = "IBS11112";// 数据模型编号
-	private String datasetId = "11";// 数据集编号
-	private String ftpguid;//ftp批次号
-	private String taskid;//任务id
-	private String taskcode;//任务单号
-	private String isdelete;//删除标识
-	private String addman;//提交人
-	private String addid;//提交人id
-	private String adddate;//添加日期
-	private String versioncode;//版本号
-	private String materialid;//素材id
-	private String materialmemo;//素材内容
-	private String materialstatus;//素材状态
-	private String materialcode;//素材编号
-	public AddMaterialBean(){
-		setRowState("4");
+//	private String modelId = "IBS11112";// 数据模型编号
+//	private String datasetId = "11";// 数据集编号
+	private String ftpguid;// ftp批次号
+	private String taskid;// 任务id
+	private String taskcode;// 任务单号
+	private String isdelete;// 删除标识
+	private String addman;// 提交人
+	private String addid;// 提交人id
+	private String adddate;// 添加日期
+	private String versioncode;// 版本号   初次1.0，每次审核通过加0.1
+	private String materialid;// 素材id
+	private String materialmemo;// 素材内容
+	private String materialstatus;// 素材状态
+	private String materialcode;// 素材编号
+	private String materialguid;// GUId
+
+	public String getMaterialguid() {
+		return materialguid;
 	}
 
-	public String getModelId() {
-		return modelId;
+	public void setMaterialguid(String materialguid) {
+		this.materialguid = materialguid;
 	}
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
-	}
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
+
+	public AddMaterialBean() {
+ 
+		setRowState("4");
 	}
 	public String getFtpguid() {
 		return ftpguid;

@@ -185,19 +185,19 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 			Bundle bundle = new Bundle();
 			if(status.equals(Container.STATUS_ALL)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_ALL);
+				bundle.putInt("tag",Container.S_MODEL_ALL);
 				bundle.putString("title","全部任务搜索结果");
 			}else if(status.equals(Container.STATUS_UNFINISH)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_UNFINISH);
+				bundle.putInt("tag",Container.S_MODEL_UNFINISH);
 				bundle.putString("title","未完成任务搜索结果");
 			}else if(status.equals(Container.STATUS_FINISH)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_FINISH);
+				bundle.putInt("tag",Container.S_MODEL_FINISH);
 				bundle.putString("title","已完成任务搜索结果");
 			}else{
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_FINISH);
+				bundle.putInt("tag",Container.MODEL_UNSEND);
 				bundle.putString("title","未发放任务搜索结果");
 			}
 			

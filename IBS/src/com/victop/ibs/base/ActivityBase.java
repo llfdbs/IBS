@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -98,9 +99,9 @@ public abstract class ActivityBase extends ActionBarActivity {
 		}
 
 		startActivity(_Intent);
-//		overridePendingTransition(R.anim.new_in_from_right,
-//				R.anim.new_out_to_left);// 苹果的效果
-		 overridePendingTransition(R.anim.left_in, R.anim.left_out);
+		// overridePendingTransition(R.anim.new_in_from_right,
+		// R.anim.new_out_to_left);// 苹果的效果
+		overridePendingTransition(R.anim.left_in, R.anim.left_out);
 		// overridePendingTransition(android.R.anim.fade_in,
 		// android.R.anim.fade_out); // 淡进淡出
 		// overridePendingTransition(android.R.anim.slide_out_right,
@@ -124,9 +125,9 @@ public abstract class ActivityBase extends ActionBarActivity {
 			_Intent.putExtras(pBundle);
 		}
 		startActivityForResult(_Intent, pRequestCode);
-		 overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
-//		overridePendingTransition(android.R.anim.fade_in,
-//				android.R.anim.fade_out); // 淡进淡出
+		overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
+		// overridePendingTransition(android.R.anim.fade_in,
+		// android.R.anim.fade_out); // 淡进淡出
 	}
 
 	/**
@@ -147,9 +148,9 @@ public abstract class ActivityBase extends ActionBarActivity {
 			_Intent.putExtras(pBundle);
 		}
 		startActivityForResult(_Intent, pRequestCode);
-		 overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
-//		overridePendingTransition(android.R.anim.fade_in,
-//				android.R.anim.fade_out); // 淡进淡出
+		overridePendingTransition(R.anim.left_in, R.anim.left_out);// 左进右出
+		// overridePendingTransition(android.R.anim.fade_in,
+		// android.R.anim.fade_out); // 淡进淡出
 	}
 
 	/**
@@ -416,6 +417,19 @@ public abstract class ActivityBase extends ActionBarActivity {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 		return formatter.format(curDate);
+	}
+
+	/**
+	 * UUId
+	 */
+	public String getMyUUID() {
+
+		UUID uuid = UUID.randomUUID();
+
+		String uniqueId = uuid.toString();
+
+		return uniqueId;
+
 	}
 
 	/**

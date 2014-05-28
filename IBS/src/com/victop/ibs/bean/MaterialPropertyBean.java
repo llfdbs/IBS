@@ -15,6 +15,22 @@ public class MaterialPropertyBean extends BaseBean {
 	private String naturevalue;//属性值
 	private String materialid;//素材id
 	private String matnatureid;//素材属性id
+	
+	private String materialguid;// 素材id
+	private String naturedetailid;// 属性明细ID
+	
+	public String getMaterialguid() {
+		return materialguid;
+	}
+	public void setMaterialguid(String materialguid) {
+		this.materialguid = materialguid;
+	}
+	public String getNaturedetailid() {
+		return naturedetailid;
+	}
+	public void setNaturedetailid(String naturedetailid) {
+		this.naturedetailid = naturedetailid;
+	}
 	public String getModelId() {
 		return modelId;
 	}
