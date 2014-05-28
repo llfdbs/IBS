@@ -48,6 +48,9 @@ public class Container {
 	public static final int MODEL_UNFINISH = 4;//任务未完成标示
 	public static final int MODEL_FINISH = 5;//任务已完成标示
 	public static final int MODEL_UNSEND = 6;//任务未发放标示
+	public static final int S_MODEL_ALL = 7;
+	public static final int S_MODEL_UNFINISH = 8;
+	public static final int S_MODEL_FINISH = 9;
 	public static final int PAGESIZE = 10;
 	
 	

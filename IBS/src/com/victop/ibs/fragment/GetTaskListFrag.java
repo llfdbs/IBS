@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,9 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.victop.ibs.activity.R;
-import com.victop.ibs.activity.Search_GetTaskListResultActivity;
 import com.victop.ibs.activity.TaskDetailActivity;
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.bean.GetTaskBean;
@@ -45,9 +42,9 @@ public class GetTaskListFrag extends Fragment implements
 	private Page task_allPage = new Page();// 全部任务分页对象
 	private Page task_unfinishPage = new Page();// 未完成分页对象
 	private Page task_finishPage = new Page();// 已完成分页对象
-	private int pageno_all = 1;// 全部任务页码
-	private int pageno_unfinish = 1;// 未完成任务页码
-	private int pageno_finish = 1;// 已完成任务页码
+	//private int pageno_all = 1;// 全部任务页码
+	//private int pageno_unfinish = 1;// 未完成任务页码
+	//private int pageno_finish = 1;// 已完成任务页码
 	private List<GetTaskBean> task_list = new ArrayList<GetTaskBean>();// 全部任务数据集合
 	private List<GetTaskBean> task_unlist = new ArrayList<GetTaskBean>();// 未完成任务数据集合
 	private List<GetTaskBean> task_filist = new ArrayList<GetTaskBean>();// 已完成任务数据集合
@@ -90,7 +87,7 @@ public class GetTaskListFrag extends Fragment implements
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_list.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
-					pageno_all++;
+					task_allPage.setPageno(task_allPage.getPageno()+1);
 				} else {
 					mPullListView.setHasMoreData(false);
 					
@@ -132,7 +129,8 @@ public class GetTaskListFrag extends Fragment implements
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_unlist.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
-					pageno_unfinish++;
+					task_unfinishPage.setPageno(task_unfinishPage.getPageno()+1);
+					
 				} else {
 					mPullListView.setHasMoreData(false);
 				}
@@ -170,7 +168,8 @@ public class GetTaskListFrag extends Fragment implements
 				}
 				if (task_filist.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
-					pageno_finish++;
+					task_finishPage.setPageno(task_finishPage.getPageno()+1);
+				
 				} else {
 					mPullListView.setHasMoreData(false);
 				}
@@ -268,17 +267,17 @@ public class GetTaskListFrag extends Fragment implements
 		switch (Model) {
 		case Container.MODEL_ALL:
 
-			task_allPage = setPage(1, pageno_all, pageSize);
+			
 			initHandler(handler, null, task_allPage);
 			break;
 		case Container.MODEL_UNFINISH:
 
-			task_unfinishPage = setPage(1, pageno_unfinish, pageSize);
+			
 			initHandler(handler_unfinish, Container.STATUS_UNFINISH, task_unfinishPage);
 			break;
 		case Container.MODEL_FINISH:
 
-			task_finishPage = setPage(1, pageno_finish, pageSize);
+			
 			initHandler(handler_finish,Container.STATUS_FINISH, task_finishPage);
 			break;
 		}
@@ -290,16 +289,17 @@ public class GetTaskListFrag extends Fragment implements
 	@Override
 	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO Auto-generated method stub
-
+		// 设置页码数为1
+		task_allPage.setPageno(1);
+		task_unfinishPage.setPageno(1);
+		task_finishPage.setPageno(1);
 		switch (Model) {
 		case Container.MODEL_ALL:
 			// 清空原有数据
 			if (task_list_data.size() > 0) {
 				task_list_data.clear();
 			}
-			// 设置页码数为1
-			pageno_all = 1;
-			task_allPage = setPage(1, pageno_all, pageSize);
+			
 			initHandler(handler, null, task_allPage);
 			break;
 		case Container.MODEL_UNFINISH:
@@ -307,9 +307,7 @@ public class GetTaskListFrag extends Fragment implements
 			if (task_unlist_data.size() > 0) {
 				task_unlist_data.clear();
 			}
-			// 设置页码数为1
-			pageno_unfinish = 1;
-			task_unfinishPage = setPage(1, pageno_unfinish, pageSize);
+
 			initHandler(handler_unfinish, "1", task_unfinishPage);
 			break;
 		case Container.MODEL_FINISH:
@@ -317,32 +315,13 @@ public class GetTaskListFrag extends Fragment implements
 			if (task_filist_data.size() > 0) {
 				task_filist_data.clear();
 			}
-			// 设置页码数为1
-			pageno_finish = 1;
-			task_finishPage = setPage(1, 1, pageSize);
 			initHandler(handler_finish, "2", task_finishPage);
 			break;
 		}
 
 	}
 
-	/**
-	 * 设置分页参数
-	 * 
-	 * @ispage 是否分页（0不分页,1分页）
-	 * @param pageno
-	 *            页码
-	 * @param pagesize
-	 *            页面显示的条数
-	 * */
-	public Page setPage(int ispage, int pageno, int pagesize) {
-		Page page = new Page();
-		page.setIspage(ispage);// 是否分页（1分页，0不分页）
-		page.setPageno(pageno);// 页码
-		page.setPagesize(pagesize);// 页面显示条目
-		return page;
-	}
-
+	
 	/**
 	 * 请求网络数据装配方法
 	 * */

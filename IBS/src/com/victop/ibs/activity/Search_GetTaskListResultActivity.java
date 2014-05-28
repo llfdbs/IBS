@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
@@ -38,8 +36,6 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	private PullToRefreshListView mPullListView;// 上拉下拉控件
 	private ListView mListView;
-	// private int pageSize;//页面显示的条目数量
-	// private int pageno_all = 1;// 全部任务页码
 	private Page task_allPage = new Page();// 全部任务分页对象
 	private List<GetTaskBean> task_list = new ArrayList<GetTaskBean>();// 全部任务数据集合
 	private List<GetTaskBean> task_list_data = new ArrayList<GetTaskBean>();// 加载完毕的全部任务数据集合
@@ -76,7 +72,7 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 					return;
 				}
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
-				if (task_list.size() >= task_allPage.getPageno()) {
+				if (task_list.size() >= task_allPage.getPagesize()) {
 					mPullListView.setHasMoreData(true);
 					
 					task_allPage.setPageno(task_allPage.getPageno() + 1);
@@ -134,8 +130,6 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		mListView.setDividerHeight(5);
 		mListView.setCacheColorHint(R.drawable.translates);
 
-		task_allPage.setPagesize(Container.PAGESIZE);// 设置页面显示的条目数量
-
 	}
 
 	@Override
@@ -181,23 +175,6 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * 设置分页参数
-	 * 
-	 * @ispage 是否分页（0不分页,1分页）
-	 * @param pageno
-	 *            页码
-	 * @param pagesize
-	 *            页面显示的条数
-	 * */
-	public Page setPage(int ispage, int pageno, int pagesize) {
-		Page page = new Page();
-		page.setIspage(ispage);// 是否分页（1分页，0不分页）
-		page.setPageno(pageno);// 页码
-		page.setPagesize(pagesize);// 页面显示条目
-		return page;
 	}
 
 	/**
@@ -255,7 +232,15 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 			}
 			// 设置页码数为1
 			initHandler(handler, "2", task_allPage);
+		case Container.S_MODEL_ALL:
 			break;
+		case Container.S_MODEL_UNFINISH:
+			break;
+		case Container.S_MODEL_FINISH:
+			break;
+		case Container.MODEL_UNSEND:
+			break;
+			
 		}
 	}
 
@@ -273,6 +258,7 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		case Container.MODEL_FINISH:
 			initHandler(handler, "2", task_allPage);
 			break;
+		
 		}
 	}
 }
