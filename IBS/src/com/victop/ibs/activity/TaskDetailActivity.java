@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,7 +37,6 @@ import com.victop.ibs.view.MyListView;
 public class TaskDetailActivity extends ActivityBase {
 	private MyListView mListView;// 素材列表
 	private TaskDetail_MaterialAdapter adapter;
-	private List<Map<String, String>> listData = new ArrayList<Map<String, String>>();
 	private ImageButton imgbtn_addmaterial;// 新增素材
 	// 任务标题,任务详情,任务单号,截止时间,任务类型,分配对象,完成状态,素材数量
 	private TextView tv_taskdetail_title, tv_taskdetail_detail,
@@ -56,7 +56,11 @@ public class TaskDetailActivity extends ActivityBase {
 	private List<TaskDetailBean> taskDetailList = new ArrayList<TaskDetailBean>();
 	TaskDetailBean mTaskDetailBean;// 任务详情
 	List<TaskMaterialsBean> mTaskMaterialsBean = new ArrayList<TaskMaterialsBean>();// 任务素材相关
-	Map<String, List> dataMap;
+
+	private String taskcode = "";
+	private String taskstatus = "";
+
+	private String task_mat = "";
 	Handler handler = new Handler() {
 
 		@Override
@@ -64,33 +68,41 @@ public class TaskDetailActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (msg.what) {
 			case 0:
-				dataMap = (Map<String, List>) msg.obj;
-				taskDetailList = dataMap.get("1");
-				mTaskDetailBean = taskDetailList.get(0);
-				mTaskMaterialsBean = dataMap.get("2");
-				if (null == taskDetailList) {
-					taskDetailList = new ArrayList<TaskDetailBean>();
+				Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				if (null != task_mat && !"0".equals(task_mat)) {
+					taskDetailList = dataMap.get("1");
+					mTaskDetailBean = taskDetailList.get(0);
+					if (null == taskDetailList) {
+						taskDetailList = new ArrayList<TaskDetailBean>();
+					}
+					taskcode = mTaskDetailBean.getTaskcode();
+					taskstatus = mTaskDetailBean.getTaskstatus();
+					tv_taskdetail_title.setText(mTaskDetailBean.getTaskname());
+					tv_taskdetail_detail.setText(mTaskDetailBean.getTaskmemo());
+					tv_taskdetail_tasknumber.setText(mTaskDetailBean
+							.getTaskcode());
+					tv_taskdetail_deadline
+							.setText(mTaskDetailBean.getDuedate());
+					tv_taskdetail_tasktype.setText(mTaskDetailBean
+							.getTasklevel());
+					tv_taskdetail_taskobj.setText(mTaskDetailBean
+							.getReceptname());
+					tv_taskdetail_taskstatue.setText(mTaskDetailBean
+							.getTaskstatus());
+
 				}
+				mTaskMaterialsBean = dataMap.get("2");
 				if (null == mTaskMaterialsBean) {
 					mTaskMaterialsBean = new ArrayList<TaskMaterialsBean>();
 				}
-
-				tv_taskdetail_title.setText(mTaskDetailBean.getTaskname());
-				tv_taskdetail_detail.setText(mTaskDetailBean.getTaskmemo());
-				tv_taskdetail_tasknumber.setText(mTaskDetailBean.getTaskcode());
-				tv_taskdetail_deadline.setText(mTaskDetailBean.getDuedate());
-				tv_taskdetail_tasktype.setText(mTaskDetailBean.getTasklevel());
-				tv_taskdetail_taskobj.setText(mTaskDetailBean.getReceptname());
-				tv_taskdetail_taskstatue.setText(mTaskDetailBean
-						.getTaskstatus());
-				tv_materialcount.setText("("+mTaskMaterialsBean.size()+")");// 素材的数量
+				tv_materialcount.setText("(" + mTaskMaterialsBean.size() + ")");// 素材的数量
 
 				adapter = new TaskDetail_MaterialAdapter(
 						TaskDetailActivity.this, mTaskMaterialsBean,
 						mTaskDetailBean.getTaskstatus());
 				mListView.setAdapter(adapter);
 				break;
-			
+
 			}
 
 			super.handleMessage(msg);
@@ -110,6 +122,26 @@ public class TaskDetailActivity extends ActivityBase {
 		initHandler(handler);
 		initData();
 		initListeners();
+
+	}
+
+	// 添加素材完成后
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+
+		Bundle b = intent.getExtras();
+		if (null != b) {
+			task_mat = b.getString("taskcode");
+			if ("0".equals(task_mat)) {
+				taskDetailHandler = new TaskDetailHandler(
+						TaskDetailActivity.this, handler);
+				TaskDetailPresenter taskDetailPresenter = new TaskDetailPresenter();
+				taskDetailPresenter.getInitData(taskDetailHandler, taskid);
+
+			}
+		}
 
 	}
 
@@ -160,23 +192,6 @@ public class TaskDetailActivity extends ActivityBase {
 		imgbtn_addmaterial.setOnClickListener(mOnClick);
 	}
 
-	public void setData() {
-		Map<String, String> map;
-		for (int i = 0; i < 10; i++) {
-			map = new HashMap<String, String>();
-			map.put("title", "IBS素材搜集" + i);
-			map.put("allocationobj", "策划部" + i);
-			map.put("committime", "2015-10-10" + i);
-			map.put("checkstatue", "00" + i);
-			listData.add(map);
-		}
-
-	}
-
-	public void setText() {
-
-	}
-
 	// 按钮点击事件
 	OnClickListener mOnClick = new OnClickListener() {
 
@@ -185,7 +200,12 @@ public class TaskDetailActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.imgbtn_addmaterial:
-				openActivity(MaterialAddActivity.class, null);
+				Bundle b = new Bundle();
+				if ("1".equals(taskstatus)) {
+					b.putString("taskcode", taskcode);
+					b.putString("taskid", taskid);
+					openActivity(MaterialAddActivity.class, b);
+				}
 				break;
 			}
 		}
@@ -198,7 +218,8 @@ public class TaskDetailActivity extends ActivityBase {
 				long arg3) {
 			// TODO Auto-generated method stub
 			Bundle bundle = new Bundle();
-			bundle.putString("materialid", mTaskMaterialsBean.get(arg2).getMaterialid());
+			bundle.putString("materialid", mTaskMaterialsBean.get(arg2)
+					.getMaterialid());
 			openActivity(MaterialDetailActivity.class, bundle);
 		}
 	};

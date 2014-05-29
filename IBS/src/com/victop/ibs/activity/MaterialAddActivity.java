@@ -79,6 +79,8 @@ public class MaterialAddActivity extends ActivityBase implements
 	List<MaterialTagBean> mMaterialTagBean;
 	private String taskcode = "";
 	private String taskid = "";
+	private String taskcode_status = "";// 从未完成任务详情过来，添加
+	private String taskid_status = "";
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -110,6 +112,12 @@ public class MaterialAddActivity extends ActivityBase implements
 			case 1:
 				String rr = (String) msg.obj;
 				Toast.makeText(getApplicationContext(), rr, 1000).show();
+				if (null != taskcode_status && !"".equals(taskcode_status)) {
+					Bundle b = new Bundle();
+					b.putString("taskcode", "0");
+					openActivity(TaskDetailActivity.class, b);
+				}
+
 				finish();
 
 				break;
@@ -315,6 +323,14 @@ public class MaterialAddActivity extends ActivityBase implements
 
 		mMaterialPictureBean = new ArrayList<MaterialPictureBean>();
 		mMaterialTagBean = new ArrayList<MaterialTagBean>();
+		tAddMaterialBean = new ArrayList<AddMaterialBean>();
+		mMaterialPropertyBean = new ArrayList<MaterialPropertyBean>();
+
+		Bundle b = getIntent().getExtras();
+		if (null != b) {
+			taskcode_status = b.getString("taskcode");
+			taskid_status = b.getString("taskid");
+		}
 	}
 
 	@Override
@@ -332,8 +348,8 @@ public class MaterialAddActivity extends ActivityBase implements
 		actionBar.setIcon(R.drawable.btn_back);
 		llt_sort = (LinearLayout) findViewById(R.id.llt_sort);
 		llt_property = (LinearLayout) findViewById(R.id.llt_property);
-		llt_tag = (LinearLayout) findViewById(R.id.llt_task);
-		llt_task = (LinearLayout) findViewById(R.id.llt_tag);
+		llt_task = (LinearLayout) findViewById(R.id.llt_task);
+		llt_tag = (LinearLayout) findViewById(R.id.llt_tag);
 
 		tv_sort = (TextView) findViewById(R.id.tv_sort1);
 		tv_task = (TextView) findViewById(R.id.tv_task1);
@@ -371,7 +387,14 @@ public class MaterialAddActivity extends ActivityBase implements
 		llt_sort.setOnClickListener(this);
 		llt_property.setOnClickListener(this);
 		llt_tag.setOnClickListener(this);
-		llt_task.setOnClickListener(this);
+
+		if (null != taskcode_status && !"".equals(taskcode_status)) {
+			tv_task.setText(taskcode_status);
+
+		} else {
+			llt_task.setOnClickListener(this);
+		}
+
 	}
 
 	@Override
@@ -504,24 +527,32 @@ public class MaterialAddActivity extends ActivityBase implements
 				String time = getDate();
 				AddMaterialBean mAddMaterialBean = new AddMaterialBean();
 				// mAddMaterialBean.setFtpguid("11");
+
+				if (null != taskid_status && !"".equals(taskid_status))
+					taskid = taskid_status;
 				mAddMaterialBean.setTaskid(taskid);
-				mAddMaterialBean.setTaskcode(taskcode);
+				if (null != taskcode_status && !"".equals(taskcode_status)) {
+					mAddMaterialBean.setTaskcode(taskcode_status);
+				} else {
+					mAddMaterialBean.setTaskcode(taskcode);
+				}
 				mAddMaterialBean.setIsdelete("0");
-				mAddMaterialBean.setAddman("建鹏");
+				mAddMaterialBean.setAddman(com.victop.android.session.Container
+						.getInstance().getUser().getUserName());
 				mAddMaterialBean.setAddmanid("1");
 				mAddMaterialBean.setAdddate(time);
-				mAddMaterialBean.setVersioncode("1");
-				mAddMaterialBean.setMaterialid("");
+				// mAddMaterialBean.setVersioncode("1");
+				// mAddMaterialBean.setMaterialid("");
 				mAddMaterialBean.setMaterialmemo(et_memo.getText().toString());
 				mAddMaterialBean.setMaterialstatus("0");
-				mAddMaterialBean.setMaterialcode("");
+				// mAddMaterialBean.setMaterialcode("");
 				mAddMaterialBean.setMaterialguid(getMyUUID());
 				tAddMaterialBean.add(mAddMaterialBean);
 				Map<String, List> dataMap = new HashMap<String, List>();
-				dataMap.put("11", tAddMaterialBean);
+
 				dataMap.put("13", mMaterialPropertyBean);
 				dataMap.put("16", mMaterialPictureBean);
-			
+				dataMap.put("11", tAddMaterialBean);
 				dataMap.put("18", mMaterialTagBean);
 				SavePresenter.getInstance().SaveInitData(bHandler, "11112",
 						"IBS11112", "11,13,16,18", dataMap, null);
