@@ -227,6 +227,7 @@ public class MaterialSearchActivity extends ActivityBase implements
 				bundle.putString("keyword",autoCompleteTextView.getText().toString().trim());
 				bundle.putString("title",title);
 				if(modeObj.equals("task")){
+				
 					openActivity(Search_GetTaskListResultActivity.class, bundle);//跳转到任务搜索结果页面
 				}else{
 					//openActivity(Search_MaterialResultActivity.class,bundle);//跳转到素材搜素结果页面

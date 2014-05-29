@@ -201,7 +201,9 @@ public class TaskDetailActivity extends ActivityBase {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			// TODO Auto-generated method stub
-			openActivity(MaterialDetailActivity.class, null);
+			Bundle bundle = new Bundle();
+			bundle.putString("materialid", mTaskMaterialsBean.get(arg2).getMaterialid().toString());
+			openActivity(MaterialDetailActivity.class, bundle);
 		}
 	};
 

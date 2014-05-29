@@ -36,6 +36,7 @@ import com.victop.ibs.bean.AddTaskBean;
 import com.victop.ibs.bean.TasksaveBean;
 import com.victop.ibs.handler.TaskAddHandler;
 import com.victop.ibs.presenter.TaskPresenter;
+import com.victop.ibs.util.Container;
  
 
 /**
@@ -116,10 +117,10 @@ public class AddTaskActivity extends ActivityBase {
 						// TODO Auto-generated method stub
 						switch (checkedId) {
 						case R.id.rbtn_urgent:
-							type = "0";
+							type = "紧急任务";
 							break;
 						case R.id.rbtn_normal:
-							type = "1";
+							type = "一般任务";
 							break;
 						default:
 							break;
@@ -406,9 +407,13 @@ public class AddTaskActivity extends ActivityBase {
 								.toString());
 						tasksaveBean.setTaskmemo(edt_taskdetail.getText()
 								.toString());
+						tasksaveBean.setTasklevel(type);
+						tasksaveBean.setTaskcode(getMyUUID());
 						tasksaveBean.setTaskstatus("0");
 						// tasksaveBean.setFinishtime();
 						tasksaveBean.setDuedate(date);
+						tasksaveBean.setResponsibleid(com.victop.android.session.Container.getInstance().getUser().getUserCode());
+						tasksaveBean.setResponsiblename(com.victop.android.session.Container.getInstance().getUser().getUserName());
 						if (null != mUserMessageBean)
 							tasksaveBean.setReceptname(mUserMessageBean);
 						tasksaveBean.setAdddate(getDate());

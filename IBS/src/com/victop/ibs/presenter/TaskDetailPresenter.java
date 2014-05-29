@@ -31,7 +31,7 @@ public class TaskDetailPresenter {
 		getDataParam.setDatasetId(datasetId);
 
 		HashMap<String, String> map =new HashMap<String, String>();
-		map.put("taskid","1");
+		map.put("taskid",taskid);
 		getDataParam.setDataparamMap(map);
 		
 

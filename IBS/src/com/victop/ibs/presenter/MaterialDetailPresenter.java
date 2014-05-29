@@ -26,10 +26,10 @@ public class MaterialDetailPresenter {
 	// 素材详情,素材标签,素材分类,素材图片,素材历史版本
 	String datasetId = MaterialDetailMessageBean.datasetId+","+MaterialDetailTagBean.datasetId+","+MaterialDetailSortBean.datasetId+","+
 			MaterialDetailPictureBean.datasetId+","+MaterialDetailHistoryBean.datasetId;
-	public void getInitData(Handler handler) {
+	public void getInitData(Handler handler,String materialid) {
 
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("materialid", "1");
+		map.put("materialid", materialid);
 
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("1", MaterialDetailMessageBean.class);

@@ -59,8 +59,13 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 		Bundle bundle = getIntent().getExtras();
 		String count = bundle.getString("count");
 		actionBar = getSupportActionBar();
-		actionBar.setTitle(getResources().getString(R.string.receivedtask)
-				+ "(" + count + ")");
+		if(null==count){
+			actionBar.setTitle(getResources().getString(R.string.receivedtask));
+		}else{
+			actionBar.setTitle(getResources().getString(R.string.receivedtask)
+					+ "(" + count + ")");
+		}
+		
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);

@@ -74,6 +74,7 @@ public class MaterialDetailActivity extends ActivityBase {
 	List<MaterialDetailPictureBean> mMaterialPicList;
 	List<MaterialDetailHistoryBean> mMaterialHistoryList;
 	private MaterialDetailHandler materialDetailHandler;
+	private String materialid = "";
 	Handler handler = new Handler() {
 
 		@Override
@@ -190,10 +191,12 @@ public class MaterialDetailActivity extends ActivityBase {
 
 	@Override
 	protected void initData() {
+		Bundle bundle = getIntent().getExtras();
+		materialid = bundle.getString("materialid");
 		materialDetailHandler = new MaterialDetailHandler(MaterialDetailActivity.this,
 				handler);
 		MaterialDetailPresenter materialDetailPresenter = new MaterialDetailPresenter();
-		materialDetailPresenter.getInitData(materialDetailHandler);
+		materialDetailPresenter.getInitData(materialDetailHandler,materialid);
 		// TODO Auto-generated method stub
 //		images_ga.setImageActivity(this);
 //
