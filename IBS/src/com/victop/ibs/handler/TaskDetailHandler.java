@@ -1,19 +1,14 @@
 package com.victop.ibs.handler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.victop.android.session.ReturnDataEnum;
-import com.victop.ibs.bean.GetTaskBean;
-import com.victop.ibs.bean.SendTaskBean;
-import com.victop.ibs.bean.TaskDetailBean;
-import com.victop.ibs.bean.TaskMaterialsBean;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.victop.android.session.ReturnDataEnum;
 
 /**
  * 任务详情handler

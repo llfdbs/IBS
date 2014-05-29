@@ -20,7 +20,6 @@ package com.victop.ibs.view;
 
 import java.util.List;
 
-import com.victop.ibs.activity.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -32,6 +31,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.victop.ibs.activity.R;
 
 /**
  * ListView subclass that provides the swipe functionality

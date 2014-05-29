@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.MaterialDetailHistoryBean;
-import com.victop.ibs.bean.SortModel;
 
 public class HistoryerAdapter extends BaseAdapter {
 	private Context context;

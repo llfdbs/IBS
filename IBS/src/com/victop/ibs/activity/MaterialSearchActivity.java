@@ -9,16 +9,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
-import com.victop.ibs.presenter.GetTaskListSearchResultPresenter;
-import com.victop.ibs.util.Container;
 
 /**
  * 搜索界面
@@ -227,7 +224,6 @@ public class MaterialSearchActivity extends ActivityBase implements
 				bundle.putString("keyword",autoCompleteTextView.getText().toString().trim());
 				bundle.putString("title",title);
 				if(modeObj.equals("task")){
-				
 					openActivity(Search_GetTaskListResultActivity.class, bundle);//跳转到任务搜索结果页面
 				}else{
 					//openActivity(Search_MaterialResultActivity.class,bundle);//跳转到素材搜素结果页面

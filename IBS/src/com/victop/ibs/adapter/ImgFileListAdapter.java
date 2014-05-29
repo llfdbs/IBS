@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
-import com.victop.ibs.util.Constants;
 import com.victop.ibs.util.ImgCallBack;
 import com.victop.ibs.util.Util;
 

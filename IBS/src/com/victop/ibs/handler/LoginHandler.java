@@ -1,14 +1,7 @@
 package com.victop.ibs.handler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import com.victop.android.session.Constant;
-import com.victop.ibs.activity.LoginActivity;
-import com.victop.ibs.activity.MainActivity;
-import com.victop.platform.common.json.JsonHelper;
-import com.victop.platform.core.bean.ReplyMessage;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +9,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.victop.android.session.Constant;
+import com.victop.ibs.activity.LoginActivity;
+import com.victop.ibs.activity.MainActivity;
+import com.victop.platform.common.json.JsonHelper;
+import com.victop.platform.core.bean.ReplyMessage;
 
 public class LoginHandler extends Handler {
 

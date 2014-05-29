@@ -1,9 +1,5 @@
 package com.victop.ibs.activity;
 
-import com.victop.ibs.app.IBSApplication;
-import com.victop.ibs.base.ActivityBase;
-import com.victop.ibs.fragment.GetTaskListFrag;
-import com.victop.ibs.util.Container;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+
+import com.victop.ibs.app.IBSApplication;
+import com.victop.ibs.base.ActivityBase;
+import com.victop.ibs.fragment.GetTaskListFrag;
+import com.victop.ibs.util.Container;
 
 /**
  * 接受的任务列表fragmentActivity
@@ -59,13 +60,8 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 		Bundle bundle = getIntent().getExtras();
 		String count = bundle.getString("count");
 		actionBar = getSupportActionBar();
-		if(null==count){
-			actionBar.setTitle(getResources().getString(R.string.receivedtask));
-		}else{
-			actionBar.setTitle(getResources().getString(R.string.receivedtask)
-					+ "(" + count + ")");
-		}
-		
+		actionBar.setTitle(getResources().getString(R.string.receivedtask)
+				+ "(" + count + ")");
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_task = (RadioGroup) findViewById(R.id.radiogroup_task);

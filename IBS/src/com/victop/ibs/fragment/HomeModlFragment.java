@@ -17,20 +17,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.victop.ibs.activity.AddTaskActivity;
 import com.victop.ibs.activity.MainActivity;
-import com.victop.ibs.activity.MaterialAllActivity;
 import com.victop.ibs.activity.MaterialSearchActivity;
 import com.victop.ibs.activity.R;
-import com.victop.ibs.activity.SendedTaskListActivity;
-import com.victop.ibs.activity.TaskListActivity;
 import com.victop.ibs.bean.GetTaskCountBean;
 import com.victop.ibs.bean.MaterialCountBean;
 import com.victop.ibs.bean.SendTaskCountBean;
 import com.victop.ibs.bean.UserMessageBean;
 import com.victop.ibs.handler.HomeHandler;
 import com.victop.ibs.presenter.HomePresenter;
-import com.victop.ibs.presenter.PersonCenterPresenter;
 import com.victop.ibs.util.Container;
 
 /**
@@ -67,18 +62,6 @@ public class HomeModlFragment extends Fragment {
 				materialCount = dataMap.get("3");
 				sendTaskCount = dataMap.get("4");
 				getTaskCount = dataMap.get("5");
-				if(null == userMessage){
-					userMessage = new ArrayList<UserMessageBean>();
-				}
-				if(null == materialCount){
-					materialCount = new ArrayList<MaterialCountBean>();
-				}
-				if(null == sendTaskCount){
-					sendTaskCount = new ArrayList<SendTaskCountBean>();
-				}
-				if(null == getTaskCount){
-					getTaskCount = new ArrayList<GetTaskCountBean>();
-				}
 				initData() ;
 				
 
@@ -106,35 +89,15 @@ public class HomeModlFragment extends Fragment {
 	}
 
 	public void initData() {
-		if(userMessage.size()>0){
 		str_userName = userMessage.get(0).getHrname();
 		str_headUrl = userMessage.get(0).getHeadimage();
-		tv_role.setText(str_userName);
-		}else{
-			tv_role.setText("");
-		}
-		if(userMessage.size()>0){
 		str_materialCout = materialCount.get(0).getSummaterialid();
-		btn_manager_material.setText("素材("+str_materialCout+")");
-		}else{
-			btn_manager_material.setText("素材");	
-		}
-		if(userMessage.size()>0){
 		str_getTaskCount = getTaskCount.get(0).getSumtaskid();
-		btn_manager_receivedtask.setText("接受的任务("+str_getTaskCount+")");
-		}else{
-		btn_manager_receivedtask.setText("接受的任务");
-		}
-		if(userMessage.size()>0){
 		str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
+		tv_role.setText(str_userName);
+		btn_manager_receivedtask.setText("接受的任务("+str_getTaskCount+")");
+		btn_manager_material.setText("素材("+str_materialCout+")");
 		btn_manager_sendedtask.setText("发布的任务("+str_sendTaskCount+")");
-		}else{
-			btn_manager_sendedtask.setText("发布的任务");
-		}
-		
-		
-		
-		
 		
 	}
 

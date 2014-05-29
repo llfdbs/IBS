@@ -41,8 +41,6 @@ import com.victop.ibs.bean.MaterialPictureBean;
 import com.victop.ibs.bean.MaterialPropertyBean;
 import com.victop.ibs.bean.MaterialTagBean;
 import com.victop.ibs.bean.TagBean;
-import com.victop.ibs.bean.TasksaveBean;
-
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.SavePresenter;
 import com.victop.ibs.util.Container;
@@ -71,7 +69,6 @@ public class MaterialAddActivity extends ActivityBase implements
 	// List<MaterialPictureBean> mMaterialPictureBean;
 	// AddMaterialBean mAddMaterialBean;
 	private EditText et_memo;
-
 	private String classid = "";
 
 	// 保存的数据容器
@@ -80,6 +77,8 @@ public class MaterialAddActivity extends ActivityBase implements
 	List<MaterialPropertyBean> mMaterialPropertyBean;
 	List<MaterialPictureBean> mMaterialPictureBean;
 	List<MaterialTagBean> mMaterialTagBean;
+	private String taskcode = "";
+	private String taskid = "";
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -153,7 +152,7 @@ public class MaterialAddActivity extends ActivityBase implements
 
 				Bundle b = new Bundle();
 				b.putString("classid", classid);
-				// Container.getInstance().getTaghashSortModel().clear();
+				Container.getInstance().getTaghashSortModel().clear();
 				openActivityForResult(TagActivity.class, b, Container.TAG);
 			} else {
 				Toast.makeText(this, "请先填写分类", 500).show();
@@ -188,7 +187,8 @@ public class MaterialAddActivity extends ActivityBase implements
 		super.onNewIntent(intent);
 		Bundle b = intent.getExtras();
 		if (b != null) {
-
+			mMaterialPropertyBean = (List<MaterialPropertyBean>) b
+					.getSerializable("proper");
 			List<Entity> ee = (List<Entity>) b.getSerializable("imgshow_data");// 非编辑状态
 			List<Entity> ee1 = (List<Entity>) b
 					.getSerializable("edit_imgshow_data");// 编辑状态
@@ -235,20 +235,20 @@ public class MaterialAddActivity extends ActivityBase implements
 					mgv_material.setAdapter(mAdapter);
 				}
 			}
+			if (null != img_list)
+				for (Entity e : img_list) {
+					MaterialPictureBean materialPictureBean = new MaterialPictureBean();
+					materialPictureBean.setImgabbrurl("");
+					materialPictureBean.setImgheight(e.getHieght());
+					materialPictureBean.setImgmemo(e.getText());
+					materialPictureBean.setImgname(e.getURL().substring(
+							e.getURL().length() - 15, e.getURL().length()));
+					materialPictureBean.setImgurl(e.getURL());
+					materialPictureBean.setMaterialid("111221");
+					materialPictureBean.setMatimgid("22332");
+					mMaterialPictureBean.add(materialPictureBean);
 
-			for (Entity e : img_list) {
-				MaterialPictureBean materialPictureBean = new MaterialPictureBean();
-				materialPictureBean.setImgabbrurl("");
-				materialPictureBean.setImgheight(e.getHieght());
-				materialPictureBean.setImgmemo(e.getText());
-				materialPictureBean.setImgname(e.getURL().substring(
-						e.getURL().length() - 15, e.getURL().length()));
-				materialPictureBean.setImgurl(e.getURL());
-				materialPictureBean.setMaterialid("111221");
-				materialPictureBean.setMatimgid("22332");
-				mMaterialPictureBean.add(materialPictureBean);
-
-			}
+				}
 
 		}
 
@@ -268,10 +268,9 @@ public class MaterialAddActivity extends ActivityBase implements
 
 					MaterialTagBean m = new MaterialTagBean();
 					TagBean t = (TagBean) val;
-					// m.setLableid(t.getLableid());
-					// m.setMaterialid(t.get);
-					// m.setMatlableid("223");
-					mMaterialTagBean.add(m);
+					m.setLableid(t.getLableid());
+					// m.set
+					m.setMaterialguid(getMyUUID());
 					mMaterialTagBean.add(m);
 					nametext = nametext + t.getLablename() + " ";
 
@@ -294,10 +293,19 @@ public class MaterialAddActivity extends ActivityBase implements
 		case Container.TASK:// 任务编号
 			if (data != null) {
 				Bundle b = data.getExtras();
-				String tasknumber = b.getString("tasknumber");
-				tv_task.setText(tasknumber);
+				taskcode = b.getString("tasknumber");
+				taskid = b.getString("taskid");
+				tv_task.setText(taskcode);
 			}
-
+			break;
+		// case Container.PROPER:// 属性
+		// if (data != null) {
+		// Bundle b = data.getExtras();
+		// mMaterialPropertyBean = (List<MaterialPropertyBean>) b
+		// .getSerializable("proper");
+		//
+		// }
+		// break;
 		}
 	}
 
@@ -308,7 +316,6 @@ public class MaterialAddActivity extends ActivityBase implements
 		mMaterialPictureBean = new ArrayList<MaterialPictureBean>();
 		mMaterialTagBean = new ArrayList<MaterialTagBean>();
 	}
-
 
 	@Override
 	protected void onResume() {
@@ -474,16 +481,17 @@ public class MaterialAddActivity extends ActivityBase implements
 
 				BaseHandler bHandler = new BaseHandler(this, mHandler);
 				tAddMaterialBean = new ArrayList<AddMaterialBean>();
-				mMaterialPropertyBean = new ArrayList<MaterialPropertyBean>();
-				MaterialPropertyBean property = new MaterialPropertyBean();
-				property.setClassid("233");
-				property.setNatureid("233");
-				property.setNaturevalue("233");
-
-				property.setMaterialguid(getMyUUID());
-				property.setMatnatureid("233");
-				property.setNaturedetailid("788");
-				mMaterialPropertyBean.add(property);
+				// mMaterialPropertyBean = new
+				// ArrayList<MaterialPropertyBean>();
+				// MaterialPropertyBean property = new MaterialPropertyBean();
+				// property.setClassid("233");
+				// property.setNatureid("233");
+				// property.setNaturevalue("233");
+				//
+				// property.setMaterialguid(getMyUUID());
+				// property.setMatnatureid("233");
+				// property.setNaturedetailid("788");
+				// mMaterialPropertyBean.add(property);
 
 				// mMaterialTagBean = new ArrayList<MaterialTagBean>();
 				// MaterialTagBean m = new MaterialTagBean();
@@ -495,58 +503,32 @@ public class MaterialAddActivity extends ActivityBase implements
 
 				String time = getDate();
 				AddMaterialBean mAddMaterialBean = new AddMaterialBean();
-				mAddMaterialBean.setFtpguid("11");
-				mAddMaterialBean.setTaskid(tv_task.getText().toString());
-				mAddMaterialBean.setTaskcode("88");
+				// mAddMaterialBean.setFtpguid("11");
+				mAddMaterialBean.setTaskid(taskid);
+				mAddMaterialBean.setTaskcode(taskcode);
 				mAddMaterialBean.setIsdelete("0");
-				mAddMaterialBean.setAddman("路人甲");
+				mAddMaterialBean.setAddman("建鹏");
+				mAddMaterialBean.setAddmanid("1");
 				mAddMaterialBean.setAdddate(time);
-				mAddMaterialBean.setVersioncode("989");
-				mAddMaterialBean.setMaterialid("0099");
+				mAddMaterialBean.setVersioncode("1");
+				mAddMaterialBean.setMaterialid("");
 				mAddMaterialBean.setMaterialmemo(et_memo.getText().toString());
 				mAddMaterialBean.setMaterialstatus("0");
-				mAddMaterialBean.setMaterialcode("201405150001");
+				mAddMaterialBean.setMaterialcode("");
 				mAddMaterialBean.setMaterialguid(getMyUUID());
 				tAddMaterialBean.add(mAddMaterialBean);
 				Map<String, List> dataMap = new HashMap<String, List>();
-				dataMap.put("11", tAddMaterialBean);
+
 				dataMap.put("13", mMaterialPropertyBean);
 				dataMap.put("16", mMaterialPictureBean);
+				dataMap.put("11", tAddMaterialBean);
 				dataMap.put("18", mMaterialTagBean);
-
 				SavePresenter.getInstance().SaveInitData(bHandler, "11112",
 						"IBS11112", "11,13,16,18", dataMap, null);
-
-				// if (null != mMaterialPictureBean) {
-				// if (null == addMaterialModel)
-				// addMaterialModel = new ArrayList<AddMaterialModel>();
-				// AddMaterialModel m = new AddMaterialModel();
-				//
-				// m.setMaterialpicturebean(mMaterialPictureBean);
-				// m.setAddmaterialbean(mAddMaterialBean);
-				// addMaterialModel.add(m);
-				// mDataaddmaterial.setAddMaterialModel(addMaterialModel);
-				//
-				// // 保存数据xml到本地
-				// Datajson obj = new Datajson();
-				// Gson gson = new Gson();
-				// String name = gson.toJson(mDataaddmaterial);
-				// System.out.println(name);
-				// obj.setName(name);
-				// saveXmlStream("/sdcard", "mattext.xml", obj, Datajson.class);
-				//
-				// // saveXmlStream("/sdcard", "test1.xml", mDataaddmaterial,
-				// // Dataaddmaterial.class);
-				//
-				// System.out.println(getSaveXml(obj, Datajson.class));
-				// finish();
-				// }
-
 			}
 
 			break;
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
 	// private String ftpguid;// ftp批次号

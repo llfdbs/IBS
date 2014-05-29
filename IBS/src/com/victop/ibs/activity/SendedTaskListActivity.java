@@ -1,9 +1,7 @@
 package com.victop.ibs.activity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,19 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.victop.ibs.adapter.SendTaskListAdapter;
-import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
-import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.bean.SendTaskBean;
-import com.victop.ibs.handler.GetTaskHandler;
 import com.victop.ibs.handler.SendTaskHandler;
 import com.victop.ibs.presenter.SendTaskPresenter;
 

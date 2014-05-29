@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
 import com.victop.android.session.ReturnDataEnum;
 
 public class BaseHandler extends Handler {

@@ -1,10 +1,8 @@
 package com.victop.ibs.adapter;
 
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -15,8 +13,6 @@ import android.widget.ImageView;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.Entity;
 import com.victop.ibs.util.Constants;
-import com.victop.ibs.util.ImgCallBack;
-import com.victop.ibs.util.PictureUtil;
 import com.victop.ibs.util.Util;
 
 /**

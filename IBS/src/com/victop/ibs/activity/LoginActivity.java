@@ -16,11 +16,11 @@ import android.widget.Toast;
 
 import com.victop.android.bean.User;
 import com.victop.android.datachannel.DataChannelManager;
-import com.victop.android.session.Container;
 import com.victop.android.session.MessageType;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.handler.LoginHandler;
+import com.victop.ibs.util.Container;
 
 
 

@@ -1,15 +1,7 @@
 package com.victop.ibs.adapter;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import com.victop.ibs.activity.R;
-import com.victop.ibs.activity.TaskAllocationActivity;
-import com.victop.ibs.bean.SortModel;
-import com.victop.ibs.bean.AddTaskEmployesBean;
-import com.victop.ibs.bean.UserMessageBean;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,6 +13,9 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.victop.ibs.activity.R;
+import com.victop.ibs.bean.AddTaskEmployesBean;
 
 public class TaskAllocationAdapter extends BaseAdapter {
 	private List<AddTaskEmployesBean> list;
