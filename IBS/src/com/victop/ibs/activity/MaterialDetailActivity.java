@@ -75,6 +75,8 @@ public class MaterialDetailActivity extends ActivityBase {
 	List<MaterialDetailHistoryBean> mMaterialHistoryList;
 	private MaterialDetailHandler materialDetailHandler;
 	private String materialid = "";
+	private String classid= "";
+	private String materialstatus = "";
 	Handler handler = new Handler() {
 
 		@Override
@@ -88,41 +90,29 @@ public class MaterialDetailActivity extends ActivityBase {
 				mMaterialSortList = dataMap.get("3");
 				mMaterialPicList = dataMap.get("4");
 				mMaterialHistoryList = dataMap.get("5");
-				if (mMaterialList == null) {
-					mMaterialList = new ArrayList<MaterialDetailMessageBean>();
-				}
-				if (mMaterialTagList == null) {
-					mMaterialTagList = new ArrayList<MaterialDetailTagBean>();
-				}
-				if (mMaterialSortList == null) {
-					mMaterialSortList = new ArrayList<MaterialDetailSortBean>();
-				}
-				if (mMaterialPicList == null) {
-					mMaterialPicList = new ArrayList<MaterialDetailPictureBean>();
-				}
-				if (mMaterialHistoryList == null) {
-					mMaterialHistoryList = new ArrayList<MaterialDetailHistoryBean>();
-				}
 
 				// 数据填充
 				// tv_materialdetail_tag.setText(materialDetailMessageBean.getTaskcode());
+				if(null != mMaterialList && mMaterialList.size()>0){
 				tv_versioncode.setText(mMaterialList.get(0).getVersioncode());
 				tv_taskcode.setText(mMaterialList.get(0).getTaskcode());
 				tv_picdetail.setText(mMaterialList.get(0).getMaterialmemo());
-				if (mMaterialHistoryList.size()>0){
-				tv_materialdetail_sort.setText(mMaterialSortList.get(0).getClassname());
-				}else{
-					tv_materialdetail_sort.setText("");	
 				}
-				if(mMaterialPicList.size()>0){
+				if (null != mMaterialSortList && mMaterialSortList.size() > 0) {
+					tv_materialdetail_sort.setText(mMaterialSortList.get(0)
+							.getClassname());
+					classid = mMaterialSortList.get(0).getClassid();
+				} else {
+					tv_materialdetail_sort.setText("");
+					classid = "";
+				}
+				if (null != mMaterialPicList && mMaterialPicList.size() > 0) {
 					tv_picname.setText(mMaterialPicList.get(0).getImgname());
-				}else{
-					tv_picname.setText("");
-				}
-				images_ga.setSelection(mMaterialPicList.size());
-				// 轮播图片
-				images_ga.setImageActivity(MaterialDetailActivity.this);
-				if (mMaterialPicList.size() > 0) {
+
+					images_ga.setSelection(mMaterialPicList.size());
+					// 轮播图片
+					images_ga.setImageActivity(MaterialDetailActivity.this);
+
 					MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(
 							MaterialDetailActivity.this, mMaterialPicList);
 					images_ga.setAdapter(imageAdapter);
@@ -137,6 +127,8 @@ public class MaterialDetailActivity extends ActivityBase {
 									.setBackgroundResource(R.drawable.feature_point);
 						pointLinear.addView(pointView);
 					}
+				} else {
+					tv_picname.setText("");
 				}
 
 			}
@@ -193,23 +185,30 @@ public class MaterialDetailActivity extends ActivityBase {
 	protected void initData() {
 		Bundle bundle = getIntent().getExtras();
 		materialid = bundle.getString("materialid");
-		materialDetailHandler = new MaterialDetailHandler(MaterialDetailActivity.this,
-				handler);
+		materialstatus = bundle.getString("materialstatus");
+		if(materialstatus.equals("1")){
+			btn_materialdetail_check.setVisibility(View.VISIBLE);
+		}else{
+			btn_materialdetail_check.setVisibility(View.GONE);
+		}
+		materialDetailHandler = new MaterialDetailHandler(
+				MaterialDetailActivity.this, handler);
 		MaterialDetailPresenter materialDetailPresenter = new MaterialDetailPresenter();
-		materialDetailPresenter.getInitData(materialDetailHandler,materialid);
+		materialDetailPresenter.getInitData(materialDetailHandler, materialid);
 		// TODO Auto-generated method stub
-//
-//		MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(
-//				this);
-//		images_ga.setAdapter(imageAdapter);
-//		for (int i = 0; i < 3; i++) {
-//			ImageView pointView = new ImageView(this);
-//			if (i == 0) {
-//				pointView.setBackgroundResource(R.drawable.feature_point_cur);
-//			} else
-//				pointView.setBackgroundResource(R.drawable.feature_point);
-//			pointLinear.addView(pointView);
-//		}
+		//
+		// MaterialDetail_ImageAdapter imageAdapter = new
+		// MaterialDetail_ImageAdapter(
+		// this);
+		// images_ga.setAdapter(imageAdapter);
+		// for (int i = 0; i < 3; i++) {
+		// ImageView pointView = new ImageView(this);
+		// if (i == 0) {
+		// pointView.setBackgroundResource(R.drawable.feature_point_cur);
+		// } else
+		// pointView.setBackgroundResource(R.drawable.feature_point);
+		// pointLinear.addView(pointView);
+		// }
 	}
 
 	@Override
@@ -253,22 +252,26 @@ public class MaterialDetailActivity extends ActivityBase {
 			switch (v.getId()) {
 			case R.id.imgbtn_historyversion:
 				Bundle bundle_his = new Bundle();
-				bundle_his.putSerializable("history",(Serializable)mMaterialHistoryList);
+				bundle_his.putSerializable("history",
+						(Serializable) mMaterialHistoryList);
 				openActivityForResult(HistoryVerActivity.class, bundle_his, 100);
 				// openActivity(HistoryVerActivity.class, null);
 				break;
 			case R.id.imgbtn_edit:
 				Bundle bundle = new Bundle();
-				bundle.putSerializable("sort",(Serializable)mMaterialSortList);//分类
-				bundle.putSerializable("tag", (Serializable)mMaterialTagList);//标签
-				//bundle.putSerializable("property","");//属性
-				bundle.putSerializable("picture",(Serializable)mMaterialPicList);//图片
+				bundle.putSerializable("sort", (Serializable) mMaterialSortList);// 分类
+				bundle.putSerializable("tag", (Serializable) mMaterialTagList);// 标签
+				// bundle.putSerializable("property","");//属性
+				bundle.putSerializable("picture",
+						(Serializable) mMaterialPicList);// 图片
 				bundle.putString("tasknumber", str_taskcode);
 				//openActivity(MaterialAddActivity.class, bundle);
-				openActivityForResult(HistoryVerActivity.class, bundle, 200);
+				//openActivityForResult(MaterialAddActivity.class, bundle, 200);
 				break;
 			case R.id.imgbtn_detail:
-				openActivity(PropertyActivity.class);
+				Bundle bund = new Bundle();
+				bund.putString("classid", classid);
+				openActivity(PropertyActivity.class,bund);
 				break;
 			case R.id.btn_materialdetail_check:
 				showCheckDialog();
@@ -343,8 +346,8 @@ public class MaterialDetailActivity extends ActivityBase {
 		dialog.setContentView(view);
 		ViewPager pager;
 		pager = (ViewPager) view.findViewById(R.id.pager);
-//		pager.setAdapter(new ImagePagerAdapter(MaterialDetailActivity.this,
-//				MaterialDetail_ImageAdapter.imgs));
+		// pager.setAdapter(new ImagePagerAdapter(MaterialDetailActivity.this,
+		// MaterialDetail_ImageAdapter.imgs));
 		pager.setCurrentItem(pagerPosition);
 		LayoutParams lay = dialog.getWindow().getAttributes();
 		setParams(lay);

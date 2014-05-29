@@ -40,43 +40,25 @@ public class MaterialDetailHandler extends Handler {
 			Log.e(TAG, "获取业务数据失败");
 			break;
 		case GET_DATA_SUCCESS:
-System.out.println("******************************************************************");
 			dataMap = extracted(msg);
-			List<MaterialDetailHistoryBean> mMaterialHistoryList = dataMap
-					.get("5");
-            List<MaterialDetailMessageBean> materialDetailMessageBeans =dataMap.get("1");
-            System.out.println(materialDetailMessageBeans.size()+"....."+mMaterialHistoryList.size()+"--------------------------");
-			if (null == mMaterialHistoryList) {
-				mMaterialHistoryList = new ArrayList<MaterialDetailHistoryBean>();
-			}
-			for (MaterialDetailHistoryBean task : mMaterialHistoryList) {
-				System.out.println(task.getMaterialid() + task.getModifyman()
-						+ task.getModifydate() + "+++++++++++++++++++");
-			}
+//			List<MaterialDetailHistoryBean> mMaterialHistoryList = dataMap
+//					.get("5");
+//			List<MaterialDetailMessageBean> materialDetailMessageBeans = dataMap
+//					.get("1");
+//			System.out.println(materialDetailMessageBeans.size() + "....."
+//					+ mMaterialHistoryList.size()
+//					+ "--------------------------");
+//			if (null == mMaterialHistoryList) {
+//				mMaterialHistoryList = new ArrayList<MaterialDetailHistoryBean>();
+//			}
+//			for (MaterialDetailHistoryBean task : mMaterialHistoryList) {
+//				System.out.println(task.getMaterialid() + task.getModifyman()
+//						+ task.getModifydate() + "+++++++++++++++++++");
+//			}
 			Message message = new Message();
 			message.what = 0;
 			message.obj = dataMap;
 			handler.sendMessage(message);
-
-			
-			// for(TaskDetailBean task:taskDetailList){
-			// System.out.println(task.getTaskid()+task.getTaskname()+task.getTaskstatus()+"+++++++++++++++++++");
-			// }
-			//
-			// for(TaskMaterialsBean tmb:taskMaterialList){
-			// System.out.println(tmb.getMaterialmemo()+tmb.getMaterialid()+"--------------------");
-			// }
-			// Message message = new Message();
-			// message.what = 0;
-			// message.obj = task;
-			// handler.sendMessage(message);
-			// if(null!=task){
-			// System.out.println(task.size() + "任务个数为：");
-			// for (SendTaskBean sb : task) {
-			// System.out.println(sb.getTaskname() + sb.getTaskstatus()
-			// + "任务名称加任务状态");
-			// }
-			// }
 			break;
 		case SAVE_DATA_FAIL:
 			Log.e(TAG, "保存业务数据失败");

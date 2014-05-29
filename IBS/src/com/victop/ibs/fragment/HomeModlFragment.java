@@ -200,7 +200,7 @@ public class HomeModlFragment extends Fragment {
 
 			case R.id.btn_manager_material:// 素材
 
-				((MainActivity) getActivity()).rightToCenter(1,
+				((MainActivity) getActivity()).rightToCenter(9,
 						str_materialCout);
 				break;
 			case R.id.btn_manager_sendedtask:// 发布的任务

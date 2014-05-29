@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.IBSApplication;
@@ -45,7 +49,7 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 	private GetTaskHandler taskHandler;// 网络请求获取数据handler
 	private TaskListAdapter adapter;
 	private GetTaskListSearchResultPresenter taskResult;// 网络数据装配对象
-	private SendTaskSearchResultPresenter send_taskResult;//发布的任务数据封装对象
+	private SendTaskSearchResultPresenter send_taskResult;// 发布的任务数据封装对象
 	private SimpleDateFormat mDateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 	private String keyword = "";
@@ -140,7 +144,33 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 	protected void initListeners() {
 		// TODO Auto-generated method stub
 		mPullListView.setOnRefreshListener(this);
+		mListView.setOnItemClickListener(mOnItemClick);
 	}
+
+	/**
+	 * 列表的点击事件
+	 * */
+	OnItemClickListener mOnItemClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int arg2,
+				long id) {
+			// TODO Auto-generated method stub
+			Bundle bundle = new Bundle();
+
+			bundle.putString("statue", task_list_data.get(arg2)
+					.getTaskstatus());
+			bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
+				if(task_list_data.get(arg2)
+						.getTaskstatus().equals("0")){
+				openActivity(AddTaskActivity.class, bundle);
+				}else{
+			    openActivity(TaskDetailActivity.class, bundle);
+				}
+			
+
+		}
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -229,7 +259,7 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		case Container.MODEL_FINISH:
 			initHandler(handler, "2", task_allPage);
 		case Container.S_MODEL_ALL:
-			
+
 			break;
 		case Container.S_MODEL_UNFINISH:
 			break;
