@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.os.Handler;
 
+import com.victop.android.session.Container;
 import com.victop.ibs.bean.MaterialDetailHistoryBean;
 import com.victop.ibs.bean.MaterialDetailMessageBean;
 import com.victop.ibs.bean.MaterialDetailPictureBean;
@@ -29,7 +30,7 @@ public class MaterialDetailPresenter {
 	public void getInitData(Handler handler) {
 
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("materialid", "1");
+		map.put("materialid","1");
 
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("1", MaterialDetailMessageBean.class);

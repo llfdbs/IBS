@@ -49,7 +49,8 @@ public class HomeModlFragment extends Fragment {
 	private List<SendTaskCountBean> sendTaskCount = new ArrayList<SendTaskCountBean>();
 	private HomeHandler homeHandler;
 	private HomePresenter hp;
-	private String str_userName,str_headUrl,str_materialCout,str_getTaskCount,str_sendTaskCount;
+	private String str_userName, str_headUrl, str_materialCout,
+			str_getTaskCount, str_sendTaskCount;
 	Handler handler = new Handler() {
 
 		@Override
@@ -62,8 +63,19 @@ public class HomeModlFragment extends Fragment {
 				materialCount = dataMap.get("3");
 				sendTaskCount = dataMap.get("4");
 				getTaskCount = dataMap.get("5");
-				initData() ;
-				
+				if (null == userMessage) {
+					userMessage = new ArrayList<UserMessageBean>();
+				}
+				if (null == materialCount) {
+					materialCount = new ArrayList<MaterialCountBean>();
+				}
+				if (null == sendTaskCount) {
+					sendTaskCount = new ArrayList<SendTaskCountBean>();
+				}
+				if (null == getTaskCount) {
+					getTaskCount = new ArrayList<GetTaskCountBean>();
+				}
+				initData();
 
 			}
 
@@ -71,6 +83,7 @@ public class HomeModlFragment extends Fragment {
 		}
 
 	};
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.homemodl, null);
@@ -79,6 +92,7 @@ public class HomeModlFragment extends Fragment {
 		initListeners();
 		return view;
 	}
+
 	/**
 	 * 请求网络数据装配方法
 	 * */
@@ -89,16 +103,31 @@ public class HomeModlFragment extends Fragment {
 	}
 
 	public void initData() {
-		str_userName = userMessage.get(0).getHrname();
-		str_headUrl = userMessage.get(0).getHeadimage();
-		str_materialCout = materialCount.get(0).getSummaterialid();
-		str_getTaskCount = getTaskCount.get(0).getSumtaskid();
-		str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
-		tv_role.setText(str_userName);
-		btn_manager_receivedtask.setText("接受的任务("+str_getTaskCount+")");
-		btn_manager_material.setText("素材("+str_materialCout+")");
-		btn_manager_sendedtask.setText("发布的任务("+str_sendTaskCount+")");
-		
+		if (userMessage.size() > 0) {
+			str_userName = userMessage.get(0).getHrname();
+			str_headUrl = userMessage.get(0).getHeadimage();
+			tv_role.setText(str_userName);
+		} else {
+			tv_role.setText("");
+		}
+		if (userMessage.size() > 0) {
+			str_materialCout = materialCount.get(0).getSummaterialid();
+			btn_manager_material.setText("素材(" + str_materialCout + ")");
+		} else {
+			btn_manager_material.setText("素材");
+		}
+		if (userMessage.size() > 0) {
+			str_getTaskCount = getTaskCount.get(0).getSumtaskid();
+			btn_manager_receivedtask.setText("接受的任务(" + str_getTaskCount + ")");
+		} else {
+			btn_manager_receivedtask.setText("接受的任务");
+		}
+		if (userMessage.size() > 0) {
+			str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
+			btn_manager_sendedtask.setText("发布的任务(" + str_sendTaskCount + ")");
+		} else {
+			btn_manager_sendedtask.setText("发布的任务");
+		}
 	}
 
 	protected void initViews() {
@@ -147,39 +176,43 @@ public class HomeModlFragment extends Fragment {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.img_userhead://用户头头像
+			case R.id.img_userhead:// 用户头头像
 				((MainActivity) getActivity()).showMenuRight();
 				break;
-			case R.id.btn_manager_search://素材搜索
-				//((MainActivity) getActivity()).rightToCenter(4,"");
-				Intent intent = new Intent((MainActivity) getActivity(),MaterialSearchActivity.class);
+			case R.id.btn_manager_search:// 素材搜索
+				// ((MainActivity) getActivity()).rightToCenter(4,"");
+				Intent intent = new Intent((MainActivity) getActivity(),
+						MaterialSearchActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("modeobj", "material");
-				bundle.putInt("tag",Container.MODEL_ALL);
-				bundle.putString("title","全部素材搜索结果");
+				bundle.putInt("tag", Container.MODEL_ALL);
+				bundle.putString("title", "全部素材搜索结果");
 				intent.putExtras(bundle);
 				startActivity(intent);
 				break;
 			case R.id.btn_manager_addmaterial:// 新增素材
-				((MainActivity) getActivity()).rightToCenter(3,"");
+				((MainActivity) getActivity()).rightToCenter(3, "");
 				break;
-			case R.id.btn_manager_receivedtask://接受的任务
-				((MainActivity) getActivity()).rightToCenter(5,str_getTaskCount);
+			case R.id.btn_manager_receivedtask:// 接受的任务
+				((MainActivity) getActivity()).rightToCenter(5,
+						str_getTaskCount);
 				break;
 
-			case R.id.btn_manager_material://素材
+			case R.id.btn_manager_material:// 素材
 
-				((MainActivity) getActivity()).rightToCenter(1,str_materialCout);
+				((MainActivity) getActivity()).rightToCenter(1,
+						str_materialCout);
 				break;
-			case R.id.btn_manager_sendedtask://发布的任务
-				((MainActivity) getActivity()).rightToCenter(6,str_sendTaskCount);
+			case R.id.btn_manager_sendedtask:// 发布的任务
+				((MainActivity) getActivity()).rightToCenter(6,
+						str_sendTaskCount);
 				break;
 			case R.id.btn_employee_material:
 				break;
 			case R.id.btn_employee_task:
 				break;
-			case R.id.btn_addtask://新增任务
-				((MainActivity) getActivity()).rightToCenter(7,"");
+			case R.id.btn_addtask:// 新增任务
+				((MainActivity) getActivity()).rightToCenter(7, "");
 
 				break;
 			case R.id.btn_employee_addmateria:

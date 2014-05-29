@@ -518,10 +518,10 @@ public class MaterialAddActivity extends ActivityBase implements
 				mAddMaterialBean.setMaterialguid(getMyUUID());
 				tAddMaterialBean.add(mAddMaterialBean);
 				Map<String, List> dataMap = new HashMap<String, List>();
-
+				dataMap.put("11", tAddMaterialBean);
 				dataMap.put("13", mMaterialPropertyBean);
 				dataMap.put("16", mMaterialPictureBean);
-				dataMap.put("11", tAddMaterialBean);
+			
 				dataMap.put("18", mMaterialTagBean);
 				SavePresenter.getInstance().SaveInitData(bHandler, "11112",
 						"IBS11112", "11,13,16,18", dataMap, null);

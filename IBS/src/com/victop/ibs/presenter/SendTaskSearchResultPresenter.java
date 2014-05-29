@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
+import com.victop.android.session.Container;
 import com.victop.ibs.bean.Page;
 import com.victop.ibs.bean.SendTaskBean;
 
@@ -22,7 +23,7 @@ public class SendTaskSearchResultPresenter {
 		getDataParam.setModelId(modelId);
 		getDataParam.setDatasetId(datasetId);
 		HashMap<String, String> map =new HashMap<String, String>();
-		map.put("hrid","1");
+		map.put("hrid",Container.getInstance().getUser().getUserCode());
 		map.put("ispage", page.getIspage()+"");
 		map.put("pageno", page.getPageno()+"");
 		map.put("pagesize",page.getPagesize()+"");

@@ -195,7 +195,6 @@ public class MaterialDetailActivity extends ActivityBase {
 		MaterialDetailPresenter materialDetailPresenter = new MaterialDetailPresenter();
 		materialDetailPresenter.getInitData(materialDetailHandler);
 		// TODO Auto-generated method stub
-//		images_ga.setImageActivity(this);
 //
 //		MaterialDetail_ImageAdapter imageAdapter = new MaterialDetail_ImageAdapter(
 //				this);
@@ -391,7 +390,6 @@ public class MaterialDetailActivity extends ActivityBase {
 			}
 			try {
 				gallerypisition = images_ga.getSelectedItemPosition() + 1;
-				System.out.println(gallerypisition + "");
 				Message msg = new Message();
 				Bundle date = new Bundle();// 存放数据
 				date.putInt("pos", gallerypisition);

@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
+import com.victop.android.session.Container;
 import com.victop.ibs.bean.GetTaskCountBean;
 import com.victop.ibs.bean.MaterialCountBean;
 import com.victop.ibs.bean.SendTaskCountBean;
@@ -26,9 +27,9 @@ public class HomePresenter {
 		getDataParam.setModelId(modelId);
 		getDataParam.setDatasetId(datasetId);
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("addmanid", "1");
-		map.put("responsibleid", "1");
-		map.put("hrid", "1");
+		map.put("addmanid", Container.getInstance().getUser().getUserCode());
+		map.put("responsibleid", Container.getInstance().getUser().getUserCode());
+		map.put("hrid", Container.getInstance().getUser().getUserCode());
 		getDataParam.setDataparamMap(map);
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("1", UserMessageBean.class);
