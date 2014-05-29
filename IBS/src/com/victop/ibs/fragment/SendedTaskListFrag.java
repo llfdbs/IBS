@@ -5,18 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.victop.ibs.activity.R;
-import com.victop.ibs.activity.TaskDetailActivity;
-import com.victop.ibs.adapter.SendTaskListAdapter;
-import com.victop.ibs.bean.Page;
-import com.victop.ibs.bean.SendTaskBean;
-import com.victop.ibs.handler.SendTaskHandler;
-import com.victop.ibs.presenter.SendTaskPresenter;
-import com.victop.ibs.util.Container;
-import com.victop.pulltorefreshui.PullToRefreshBase;
-import com.victop.pulltorefreshui.PullToRefreshListView;
-import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,9 +15,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.victop.ibs.activity.R;
+import com.victop.ibs.activity.TaskDetailActivity;
+import com.victop.ibs.adapter.SendTaskListAdapter;
+import com.victop.ibs.bean.Page;
+import com.victop.ibs.bean.SendTaskBean;
+import com.victop.ibs.handler.SendTaskHandler;
+import com.victop.ibs.presenter.SendTaskPresenter;
+import com.victop.ibs.util.Container;
+import com.victop.pulltorefreshui.PullToRefreshBase;
+import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
+import com.victop.pulltorefreshui.PullToRefreshListView;
 
 /**
  * 发布的任务列表fragment

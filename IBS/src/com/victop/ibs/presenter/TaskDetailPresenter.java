@@ -7,7 +7,6 @@ import android.os.Handler;
 
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
-import com.victop.ibs.bean.SendTaskBean;
 import com.victop.ibs.bean.TaskDetailBean;
 import com.victop.ibs.bean.TaskMaterialsBean;
 import com.victop.ibs.db.model.TaskDetailModel;
@@ -31,7 +30,7 @@ public class TaskDetailPresenter {
 		getDataParam.setDatasetId(datasetId);
 
 		HashMap<String, String> map =new HashMap<String, String>();
-		map.put("taskid",taskid);
+		map.put("taskid","1");
 		getDataParam.setDataparamMap(map);
 		
 

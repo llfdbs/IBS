@@ -10,8 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.R;
-import com.victop.ibs.adapter.TaskListAdapter.Holder;
-import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.bean.TaskBean;
 
 /**

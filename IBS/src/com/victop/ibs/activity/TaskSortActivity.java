@@ -134,6 +134,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 						MaterialAddActivity.class);
 				Bundle b = new Bundle();
 				b.putString("tasknumber", mTaskBean.get(arg2).getTaskcode());
+				b.putString("taskid", mTaskBean.get(arg2).getTaskid());
 				i.putExtras(b);
 				setResult(Container.TASK, i);
 				finish();

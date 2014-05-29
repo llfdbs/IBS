@@ -39,6 +39,7 @@ public class Container {
 	public static final int TAG = 0;
 	public static final int SORT = 1;
 	public static final int TASK = 2;
+	public static final int PROPER = 3;
 	public static final String STATUS_ALL = "0";//全部按钮选中标示
 	public static final String STATUS_UNFINISH = "1";//未完成按钮选中标示
 	public static final String STATUS_FINISH = "2";//已完成按钮选中标示

@@ -7,7 +7,6 @@ import android.os.Handler;
 
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
-import com.victop.android.datachannel.SaveDataParam;
 
 public class Getpresenter {
 	private final String SYSTEMID = "100";

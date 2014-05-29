@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.victop.android.session.ReturnDataEnum;
-import com.victop.ibs.bean.GetTaskBean;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.victop.android.session.ReturnDataEnum;
+import com.victop.ibs.bean.GetTaskBean;
 
 /**
  * 获取接受的任务列表handler

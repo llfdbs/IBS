@@ -1,6 +1,4 @@
 package com.victop.pulltorefreshui;
-import com.victop.pulltorefreshui.ILoadingLayout.State;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,6 +13,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import com.victop.pulltorefreshui.ILoadingLayout.State;
 
 /**
  * 这个实现了下拉刷新和上拉加载更多的功能

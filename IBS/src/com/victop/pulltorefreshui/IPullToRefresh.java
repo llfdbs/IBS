@@ -1,10 +1,10 @@
 package com.victop.pulltorefreshui;
 
-import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
 
 /**
  * 定义了拉动刷新的接口

@@ -1,5 +1,7 @@
 package com.victop.ibs.bean;
 
+import java.io.Serializable;
+
 import com.victop.ibs.db.base.BaseBean;
 /**
  * 素材属性关系
@@ -7,7 +9,11 @@ import com.victop.ibs.db.base.BaseBean;
  * @author vv
  * 
  */
-public class MaterialPropertyBean extends BaseBean {
+public class MaterialPropertyBean extends BaseBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String modelId = "IBS11112";// 数据模型编号
 	private String datasetId = "13";// 数据集编号
 	private String classid;//分类id
@@ -15,10 +21,12 @@ public class MaterialPropertyBean extends BaseBean {
 	private String naturevalue;//属性值
 	private String materialid;//素材id
 	private String matnatureid;//素材属性id
-	
 	private String materialguid;// 素材id
 	private String naturedetailid;// 属性明细ID
-	
+	public MaterialPropertyBean() {
+		 
+		setRowState("4");
+	}
 	public String getMaterialguid() {
 		return materialguid;
 	}

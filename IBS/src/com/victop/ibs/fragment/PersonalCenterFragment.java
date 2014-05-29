@@ -1,8 +1,6 @@
 package com.victop.ibs.fragment;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,22 +18,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.uploadfiles.UploadFiles;
-import com.victop.android.datachannel.DataChannelManager;
-import com.victop.android.datachannel.GetDataParam;
 import com.victop.ibs.activity.MainActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.CheckedMaterailCountBean;
 import com.victop.ibs.bean.GetTaskCountBean;
 import com.victop.ibs.bean.MaterialCountBean;
-import com.victop.ibs.bean.Page;
 import com.victop.ibs.bean.SendTaskCountBean;
 import com.victop.ibs.bean.UnCheckedMaterialCountBean;
 import com.victop.ibs.bean.UnfinishedMaterialCountBean;
 import com.victop.ibs.bean.UserMessageBean;
-import com.victop.ibs.handler.GetTaskHandler;
 import com.victop.ibs.handler.HomeHandler;
-import com.victop.ibs.presenter.GetTaskPresenter;
 import com.victop.ibs.presenter.PersonCenterPresenter;
 
 /**
@@ -135,42 +127,13 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 
 	 public void initData() {
 	 // TODO Auto-generated method stub
-		    if(userMessage.size()>0){
 			str_userName = userMessage.get(0).getHrname();
 			str_headUrl = userMessage.get(0).getHeadimage();
-		    }else{
-		    	str_userName = "";
-		    }
-		    if(unfinishedMaterialCount.size()>0){
-		    	str_unfinishedMaterialCount = unfinishedMaterialCount.get(0).getSummaterialid();
-		    }else{
-		    	str_unfinishedMaterialCount = "0";
-		    }
-			
-			if(checkedMaterialCount.size()>0){
-				str_checkedMaterialCount = checkedMaterialCount.get(0).getSummaterialid();
-			}else{
-				str_checkedMaterialCount = "0";
-			}
-			
-			if(uncheckedMaterialCount.size()>0){
-				str_uncheckedMaterialCount = uncheckedMaterialCount.get(0).getSummaterialid();
-			}else{
-				str_uncheckedMaterialCount = "0";
-			}
-			
-			if(getTaskCount.size()>0){
-				str_getTaskCount = getTaskCount.get(0).getSumtaskid();
-			}else{
-				str_getTaskCount = "0";
-			}
-			
-			if(sendTaskCount.size()>0){
-				str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
-			}else{
-				str_sendTaskCount = "0";
-			}
-			
+			str_unfinishedMaterialCount = unfinishedMaterialCount.get(0).getSummaterialid();
+			str_checkedMaterialCount = checkedMaterialCount.get(0).getSummaterialid();
+			str_uncheckedMaterialCount = uncheckedMaterialCount.get(0).getSummaterialid();
+			str_getTaskCount = getTaskCount.get(0).getSumtaskid();
+			str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
 			num_uncomplete.setText(str_unfinishedMaterialCount); 
 			num_audit.setText(str_checkedMaterialCount);
 			num_unaudit.setText(str_uncheckedMaterialCount);

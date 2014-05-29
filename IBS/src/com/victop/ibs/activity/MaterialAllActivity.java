@@ -124,7 +124,6 @@ public class MaterialAllActivity extends ActivityBase implements
 					actionBar.setTitle("素材(未完成" +count
 							+ ")");
 					mAdapterView.setAdapter(muAdapter);
-					
 					break;
 				case UNCHECK:
 					unCheckedMaterialBean = (List<UnCheckedMaterialBean>) msg.obj;
@@ -175,11 +174,10 @@ public class MaterialAllActivity extends ActivityBase implements
 					break;
 
 				}
-				mAdapterView.stopLoadMore();
+
 				break;
 			case 1:// 获取失败
-				mAdapterView.stopLoadMore();
-				mAdapterView.stopRefresh();
+
 				break;
 			}
 		}
@@ -221,7 +219,7 @@ public class MaterialAllActivity extends ActivityBase implements
 			break;
 
 		}
-		
+		mAdapterView.stopLoadMore();
 	}
 
 	@Override

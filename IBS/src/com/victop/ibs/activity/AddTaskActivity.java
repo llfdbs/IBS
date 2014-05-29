@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -36,7 +34,6 @@ import com.victop.ibs.bean.AddTaskBean;
 import com.victop.ibs.bean.TasksaveBean;
 import com.victop.ibs.handler.TaskAddHandler;
 import com.victop.ibs.presenter.TaskPresenter;
-import com.victop.ibs.util.Container;
  
 
 /**
@@ -117,10 +114,10 @@ public class AddTaskActivity extends ActivityBase {
 						// TODO Auto-generated method stub
 						switch (checkedId) {
 						case R.id.rbtn_urgent:
-							type = "紧急任务";
+							type = "0";
 							break;
 						case R.id.rbtn_normal:
-							type = "一般任务";
+							type = "1";
 							break;
 						default:
 							break;
@@ -407,13 +404,9 @@ public class AddTaskActivity extends ActivityBase {
 								.toString());
 						tasksaveBean.setTaskmemo(edt_taskdetail.getText()
 								.toString());
-						tasksaveBean.setTasklevel(type);
-						tasksaveBean.setTaskcode(getMyUUID());
 						tasksaveBean.setTaskstatus("0");
 						// tasksaveBean.setFinishtime();
 						tasksaveBean.setDuedate(date);
-						tasksaveBean.setResponsibleid(com.victop.android.session.Container.getInstance().getUser().getUserCode());
-						tasksaveBean.setResponsiblename(com.victop.android.session.Container.getInstance().getUser().getUserName());
 						if (null != mUserMessageBean)
 							tasksaveBean.setReceptname(mUserMessageBean);
 						tasksaveBean.setAdddate(getDate());

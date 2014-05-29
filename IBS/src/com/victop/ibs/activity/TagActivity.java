@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.victop.ibs.adapter.Tag_SortAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
@@ -31,7 +33,6 @@ import com.victop.ibs.bean.TagBean;
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.Getpresenter;
 import com.victop.ibs.util.CharacterParser;
-import com.victop.ibs.util.PinyinComparator;
 import com.victop.ibs.view.ClearEditText;
 import com.victop.ibs.view.SideBar;
 import com.victop.ibs.view.SideBar.OnTouchingLetterChangedListener;

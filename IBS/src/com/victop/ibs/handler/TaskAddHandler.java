@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.victop.android.session.ReturnDataEnum;
 import com.victop.ibs.bean.TasksaveBean;
-import com.victop.ibs.bean.UnCheckedMaterialBean;
 
 public class TaskAddHandler extends Handler {
 	public static final String TAG = MaterialunCheckHandler.class
