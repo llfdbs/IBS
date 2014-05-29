@@ -48,7 +48,7 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 	protected void initData() {
 		// TODO Auto-generated method stub
 
-		CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
+		CheckChange(allFrag, String.valueOf(Container.S_MODEL_ALL));
 	}
 
 	/**
@@ -131,17 +131,17 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 			switch (checkedId) {
 			case R.id.rbn_sendedtask_all:
 				status = Container.STATUS_ALL;
-				CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
+				CheckChange(allFrag, String.valueOf(Container.S_MODEL_ALL));
 
 				break;
 			case R.id.rbn_sendedtask_unfinish:
 				status = Container.STATUS_UNFINISH;
 				CheckChange(unfinishFrag,
-						String.valueOf(Container.MODEL_UNFINISH));
+						String.valueOf(Container.S_MODEL_UNFINISH));
 				break;
 			case R.id.rbn_sendedtask_finished:
 				status = Container.STATUS_FINISH;
-				CheckChange(finishFrag, String.valueOf(Container.MODEL_FINISH));
+				CheckChange(finishFrag, String.valueOf(Container.S_MODEL_FINISH));
 				break;
 			case R.id.rbn_sendedtask_unsend:
 				status = Container.STATUS_UNSEND;

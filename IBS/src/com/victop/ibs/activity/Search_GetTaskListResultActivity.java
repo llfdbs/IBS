@@ -18,12 +18,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.victop.ibs.adapter.SendTaskListAdapter;
 import com.victop.ibs.adapter.TaskListAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.bean.Page;
+import com.victop.ibs.bean.SendTaskBean;
 import com.victop.ibs.handler.GetTaskHandler;
+import com.victop.ibs.handler.SendTaskHandler;
 import com.victop.ibs.presenter.GetTaskListSearchResultPresenter;
 import com.victop.ibs.presenter.SendTaskSearchResultPresenter;
 import com.victop.ibs.util.Container;
@@ -46,8 +49,12 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 	private Page task_allPage = new Page();// 全部任务分页对象
 	private List<GetTaskBean> task_list = new ArrayList<GetTaskBean>();// 全部任务数据集合
 	private List<GetTaskBean> task_list_data = new ArrayList<GetTaskBean>();// 加载完毕的全部任务数据集合
+	private List<SendTaskBean> task_list_send = new ArrayList<SendTaskBean>();// 全部任务数据集合
+	private List<SendTaskBean> task_list_send_data = new ArrayList<SendTaskBean>();// 加载完毕的全部任务数据集合
 	private GetTaskHandler taskHandler;// 网络请求获取数据handler
+	private SendTaskHandler sendHandler;
 	private TaskListAdapter adapter;
+	private SendTaskListAdapter sendadater;
 	private GetTaskListSearchResultPresenter taskResult;// 网络数据装配对象
 	private SendTaskSearchResultPresenter send_taskResult;// 发布的任务数据封装对象
 	private SimpleDateFormat mDateFormat = new SimpleDateFormat(
@@ -99,6 +106,48 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		}
 
 	};
+	Handler handler_send = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				task_list_send = (List<SendTaskBean>) msg.obj;
+				task_list_send_data.addAll(task_list_send);
+				sendadater = new SendTaskListAdapter(
+						Search_GetTaskListResultActivity.this, task_list_send_data);
+				mListView.setAdapter(sendadater);
+				sendadater.notifyDataSetChanged();
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
+				setLastUpdateTime();
+				if (task_list_send_data.size() <= 0) {
+					Toast.makeText(Search_GetTaskListResultActivity.this,
+							"暂无相关数据", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
+				if (task_list_send.size() >= task_allPage.getPagesize()) {
+					mPullListView.setHasMoreData(true);
+
+					task_allPage.setPageno(task_allPage.getPageno() + 1);
+
+				} else {
+					mPullListView.setHasMoreData(false);
+				}
+
+				break;
+			case 1:
+				mPullListView.onPullDownRefreshComplete();
+				mPullListView.onPullUpRefreshComplete();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+
+	};
+	
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -157,16 +206,27 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 				long id) {
 			// TODO Auto-generated method stub
 			Bundle bundle = new Bundle();
-
-			bundle.putString("statue", task_list_data.get(arg2)
-					.getTaskstatus());
-			bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
-				if(task_list_data.get(arg2)
+            if(String.valueOf(model).equals(String.valueOf(Container.MODEL_ALL))||
+            		String.valueOf(model).equals(String.valueOf(Container.MODEL_UNFINISH)) ||
+            				String.valueOf(model).equals(String.valueOf(Container.MODEL_FINISH))){
+            	bundle.putString("statue", task_list_data.get(arg2)
+    					.getTaskstatus());
+            	bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
+            	openActivity(TaskDetailActivity.class, bundle);
+            }else{
+            	bundle.putString("statue", task_list_send_data.get(arg2)
+    					.getTaskstatus());
+            	bundle.putString("taskid", task_list_send_data.get(arg2).getTaskid());
+            	if(task_list_send_data.get(arg2)
 						.getTaskstatus().equals("0")){
 				openActivity(AddTaskActivity.class, bundle);
 				}else{
 			    openActivity(TaskDetailActivity.class, bundle);
 				}
+            }
+			
+		
+				
 			
 
 		}
@@ -220,6 +280,12 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		taskResult = new GetTaskListSearchResultPresenter();
 		taskResult.getInitData(taskHandler, taskstatus, page, keyword);
 	}
+	private void initSendHandler(Handler handler, String taskstatus, Page page) {
+		sendHandler = new SendTaskHandler(Search_GetTaskListResultActivity.this,
+				handler);
+		send_taskResult = new SendTaskSearchResultPresenter();
+		send_taskResult.getInitData(sendHandler, taskstatus, page, keyword);
+	}
 
 	/**
 	 * 设置更新时间
@@ -245,7 +311,9 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		if (task_list_data.size() > 0) {
 			task_list_data.clear();
 		}
-
+       if(task_list_send_data.size()>0){
+    	   task_list_send_data.clear();
+       }
 		// 设置页码数为1
 		task_allPage.setPageno(1);
 		switch (model) {
@@ -258,14 +326,18 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 			break;
 		case Container.MODEL_FINISH:
 			initHandler(handler, "2", task_allPage);
+			break;
 		case Container.S_MODEL_ALL:
-
+			initSendHandler(handler_send,null, task_allPage);
 			break;
 		case Container.S_MODEL_UNFINISH:
+			initSendHandler(handler_send,"1", task_allPage);
 			break;
 		case Container.S_MODEL_FINISH:
+			initSendHandler(handler_send,"2", task_allPage);
 			break;
 		case Container.MODEL_UNSEND:
+			initSendHandler(handler_send,"0", task_allPage);
 			break;
 
 		}
@@ -285,7 +357,18 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		case Container.MODEL_FINISH:
 			initHandler(handler, "2", task_allPage);
 			break;
-
+		case Container.S_MODEL_ALL:
+			initSendHandler(handler_send,null, task_allPage);
+			break;
+		case Container.S_MODEL_UNFINISH:
+			initSendHandler(handler_send,"1", task_allPage);
+			break;
+		case Container.S_MODEL_FINISH:
+			initSendHandler(handler_send,"2", task_allPage);
+			break;
+		case Container.MODEL_UNSEND:
+			initSendHandler(handler_send,"0", task_allPage);
+			break;
 		}
 	}
 }
