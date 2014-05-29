@@ -5,21 +5,17 @@
     android:background="#ffffff"
     android:orientation="vertical" >
 
-      <ScrollView
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical" 
-        
-        >
+        android:scrollbars="vertical" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" 
-            android:focusable="true"   
+            android:focusable="true"
             android:focusableInTouchMode="true"
-            >
-
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/taskdetail_title"
@@ -34,6 +30,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp" >
+
                 <TextView
                     android:id="@+id/tv_taskdetail_title"
                     android:layout_width="fill_parent"
@@ -228,7 +225,6 @@
             </RelativeLayout>
 
             <com.victop.ibs.view.MyListView
-
                 android:id="@+id/taskdetail_materiallist"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -239,6 +235,6 @@
                 android:dividerHeight="1dp"
                 android:listSelector="#00000000" />
         </LinearLayout>
-   </ScrollView>
+    </ScrollView>
 
 </LinearLayout>

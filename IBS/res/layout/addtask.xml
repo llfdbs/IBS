@@ -208,16 +208,15 @@
                     android:id="@+id/edt_taskdetail"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_edittext"
-                    android:gravity="top|left"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:textColor="#bababb"
-                    android:textSize="@dimen/text_medial"
-                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_edittext"
+                    android:gravity="top|left"
                     android:minLines="8"
                     android:paddingLeft="10dp"
-                     />
+                    android:textColor="#bababb"
+                    android:textSize="@dimen/text_medial" />
             </LinearLayout>
 
             <Button

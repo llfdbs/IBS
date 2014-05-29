@@ -1,11 +1,13 @@
 package com.victop.ibs.activity;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -23,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -32,10 +35,12 @@ import com.victop.android.session.Container;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.AddTaskBean;
+import com.victop.ibs.bean.TaskDetailBean;
 import com.victop.ibs.bean.TasksaveBean;
 import com.victop.ibs.handler.TaskAddHandler;
+import com.victop.ibs.handler.TaskDetailHandler;
+import com.victop.ibs.presenter.TaskDetailPresenter;
 import com.victop.ibs.presenter.TaskPresenter;
- 
 
 /**
  * 新增任务类 新增任务业务逻辑
@@ -60,11 +65,13 @@ public class AddTaskActivity extends ActivityBase {
 	private Date d1, d2;// 当前时间,用户选择的时间
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
- 
+
 	AddTaskBean mAddTaskBean;
 	List<AddTaskBean> Alllist;
 	List<TasksaveBean> tasksavelist;
 	String mUserMessageBean;
+	String taskid = "";
+	String taskstatus = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,10 +84,82 @@ public class AddTaskActivity extends ActivityBase {
 		initListeners();
 	}
 
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {
+			case 0:
+				Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				List<TaskDetailBean> taskDetailList = dataMap.get("1");
+
+				if (null != taskDetailList && taskDetailList.size() > 0) {
+					TaskDetailBean mTaskDetailBean = taskDetailList.get(0);
+
+					edt_taskname.setText(mTaskDetailBean.getTaskname());
+					tv_allocationname.setText(mTaskDetailBean.getReceptname());
+					edt_taskdetail.setText(mTaskDetailBean.getTaskmemo());
+					String rr = mTaskDetailBean.getTasklevel();
+					if ("紧急任务".equals(rr)) {
+						RadioButton rbn_1 = (RadioButton) findViewById(R.id.rbtn_urgent);
+						rbn_1.setChecked(true);
+
+					} else if ("一般任务".equals(rr)) {
+						RadioButton rbn_2 = (RadioButton) findViewById(R.id.rbtn_normal);
+						rbn_2.setChecked(true);
+					}
+					type = rr;
+//					DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+//					String s = "1987-10-10";
+//					Date date = fmt.parse(s);
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+					try {
+						d1 = df.parse(mTaskDetailBean.getDuedate());
+						d2 = new Date(System.currentTimeMillis());
+						if (d2.getTime() < d1.getTime()) {
+							Calendar cals = Calendar.getInstance();
+							cal.setTime(d1);
+							Toast.makeText(AddTaskActivity.this,
+									"截止日期要大于当前时间,当前日期为:" + currentdate,
+									Toast.LENGTH_SHORT).show();
+							return;
+						} else {
+							days = daysBetween(d1, d2);
+							tv_date.setText(mTaskDetailBean.getDuedate());
+							tv_datecount.setText(days + "天");
+						}
+
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}
+
+				break;
+
+			}
+
+			super.handleMessage(msg);
+		}
+
+	};
+
 	@Override
 	public void initData() {
+		Bundle b = getIntent().getExtras();
+		if (null != b) {
+			String taskid = b.getString("taskid");
+			String taskstatus = b.getString("status");
 
-	 
+			TaskDetailHandler taskDetailHandler = new TaskDetailHandler(
+					AddTaskActivity.this, handler);
+			TaskDetailPresenter taskDetailPresenter = new TaskDetailPresenter();
+			taskDetailPresenter.getInitData(taskDetailHandler, taskid);
+
+		}
+
 		mAddTaskBean = new AddTaskBean();
 	}
 
@@ -99,6 +178,7 @@ public class AddTaskActivity extends ActivityBase {
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_datecount = (TextView) findViewById(R.id.tv_datecount);
 		radiogroup_type = (RadioGroup) findViewById(R.id.radiogroup_type);
+
 	}
 
 	@Override
@@ -312,29 +392,29 @@ public class AddTaskActivity extends ActivityBase {
 
 	private void updateDate() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		date = simpleDateFormat.format(cal.getTime());
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");// 设置日期格式
 		currentdate = df.format(new Date());
 		try {
 			d1 = df.parse(currentdate);
 			d2 = df.parse(date);
-			if (d2.getTime()<d1.getTime()) {
+			if (d2.getTime() < d1.getTime()) {
 				Calendar cals = Calendar.getInstance();
 				cal.setTime(d1);
-				Toast.makeText(AddTaskActivity.this, "截止日期要大于当前时间,当前日期为:"+currentdate,
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(AddTaskActivity.this,
+						"截止日期要大于当前时间,当前日期为:" + currentdate, Toast.LENGTH_SHORT)
+						.show();
 				return;
-			}else{
-			days = daysBetween(d1, d2);
-			tv_date.setText(simpleDateFormat.format(cal.getTime()));
-			tv_datecount.setText(days + "天");
+			} else {
+				days = daysBetween(d1, d2);
+				tv_date.setText(simpleDateFormat.format(cal.getTime()));
+				tv_datecount.setText(days + "天");
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -406,8 +486,10 @@ public class AddTaskActivity extends ActivityBase {
 						tasksaveBean.setTaskmemo(edt_taskdetail.getText()
 								.toString());
 						tasksaveBean.setTaskstatus("0");
-						tasksaveBean.setResponsibleid(Container.getInstance().getUser().getUserCode());
-						tasksaveBean.setReceptname(Container.getInstance().getUser().getUserName());
+						tasksaveBean.setResponsibleid(Container.getInstance()
+								.getUser().getUserCode());
+						tasksaveBean.setReceptname(Container.getInstance()
+								.getUser().getUserName());
 						tasksaveBean.setTaskcode(getMyUUID());
 						tasksaveBean.setTasklevel(type);
 						// tasksaveBean.setFinishtime();
@@ -442,8 +524,10 @@ public class AddTaskActivity extends ActivityBase {
 				tasksaveBean.setTaskname(edt_taskname.getText().toString());
 				tasksaveBean.setTaskmemo(edt_taskdetail.getText().toString());
 				tasksaveBean.setTaskstatus("1");
-				tasksaveBean.setResponsibleid(Container.getInstance().getUser().getUserCode());
-				tasksaveBean.setReceptname(Container.getInstance().getUser().getUserName());
+				tasksaveBean.setResponsibleid(Container.getInstance().getUser()
+						.getUserCode());
+				tasksaveBean.setReceptname(Container.getInstance().getUser()
+						.getUserName());
 				tasksaveBean.setTaskcode(getMyUUID());
 				tasksaveBean.setTasklevel(type);
 				// tasksaveBean.setFinishtime();
