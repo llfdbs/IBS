@@ -73,29 +73,31 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 				uncheckedMaterialCount = dataMap.get("12");
 				getTaskCount = dataMap.get("8");
 				sendTaskCount = dataMap.get("9");
-				if (null == userMessage) {
+				//getTaskCount = dataMap.get("8")!=null?dataMap.get(8):new ArrayList<GetTaskCountBean>();
+				if(null == userMessage){
 					userMessage = new ArrayList<UserMessageBean>();
 				}
-				if (null == materialCount) {
+				if(null == materialCount){
 					materialCount = new ArrayList<MaterialCountBean>();
 				}
-				if (null == sendTaskCount) {
+				if(null == sendTaskCount){
 					unfinishedMaterialCount = new ArrayList<UnfinishedMaterialCountBean>();
 				}
-				if (null == getTaskCount) {
+				if(null == getTaskCount){
 					checkedMaterialCount = new ArrayList<CheckedMaterailCountBean>();
 				}
-				if (null == userMessage) {
+				if(null == userMessage){
 					uncheckedMaterialCount = new ArrayList<UnCheckedMaterialCountBean>();
 				}
-				if (null == materialCount) {
+				if(null == materialCount){
 					getTaskCount = new ArrayList<GetTaskCountBean>();
 				}
-				if (null == sendTaskCount) {
+				if(null == sendTaskCount){
 					sendTaskCount = new ArrayList<SendTaskCountBean>();
 				}
-
-				initData();
+				
+				initData() ;
+				
 
 			}
 

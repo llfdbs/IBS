@@ -35,6 +35,9 @@ public class MaterialSearchActivity extends ActivityBase implements
 	private int model =0;
 	private String title="";
 	private String modeObj="";//用来区分是素材模块还是任务模块
+	private final String MATERIAL = "material_style";
+	private Bundle bundle,bundle_send;
+	private String material_tag = "";
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -52,7 +55,7 @@ public class MaterialSearchActivity extends ActivityBase implements
 	protected void initData() {
 		// TODO Auto-generated method stub
 		 initAutoComplete("history", autoCompleteTextView); 
-		 Bundle bundle = getIntent().getExtras();
+		 bundle = getIntent().getExtras();
 		 model = bundle.getInt("tag");
 		 title = bundle.getString("title");
 		 modeObj = bundle.getString("modeobj");
@@ -114,14 +117,15 @@ public class MaterialSearchActivity extends ActivityBase implements
 		case R.id.search:
 			saveHistory("history", autoCompleteTextView);
 			
-			Bundle bundle = new Bundle();
-			bundle.putInt("model",model);
-			bundle.putString("keyword",autoCompleteTextView.getText().toString().trim());
-			bundle.putString("title",title);
+			bundle_send = new Bundle();
+			bundle_send.putInt("model",model);
+			bundle_send.putString("keyword",autoCompleteTextView.getText().toString().trim());
+			bundle_send.putString("title",title);
 			if(modeObj.equals("task")){
-				openActivity(Search_GetTaskListResultActivity.class, bundle);
+				openActivity(Search_GetTaskListResultActivity.class, bundle_send);
 			}else{
-				openActivity(Search_MaterialResultActivity.class,bundle);
+				material_tag = bundle.getString(MATERIAL);
+				//openActivity(Search_MaterialResultActivity.class,bundle_send);
 			}
 			
 			MaterialSearchActivity.this.finish();
@@ -219,14 +223,16 @@ public class MaterialSearchActivity extends ActivityBase implements
 			public void onItemClick(AdapterView<?> arg0, View v, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Bundle bundle = new Bundle();
-				bundle.putInt("model",model);
-				bundle.putString("keyword",autoCompleteTextView.getText().toString().trim());
-				bundle.putString("title",title);
+				bundle_send = new Bundle();
+				bundle_send.putInt("model",model);
+				bundle_send.putString("keyword",autoCompleteTextView.getText().toString().trim());
+				bundle_send.putString("title",title);
 				if(modeObj.equals("task")){
-					openActivity(Search_GetTaskListResultActivity.class, bundle);//跳转到任务搜索结果页面
+					openActivity(Search_GetTaskListResultActivity.class, bundle_send);//跳转到任务搜索结果页面
 				}else{
-					//openActivity(Search_MaterialResultActivity.class,bundle);//跳转到素材搜素结果页面
+					material_tag = bundle.getString(MATERIAL);
+					bundle_send.putString(MATERIAL, material_tag);
+					openActivity(Search_MaterialResultActivity.class,bundle_send);//跳转到素材搜素结果页面
 				}
 				
 				MaterialSearchActivity.this.finish();

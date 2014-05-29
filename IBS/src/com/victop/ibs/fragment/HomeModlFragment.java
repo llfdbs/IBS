@@ -185,8 +185,9 @@ public class HomeModlFragment extends Fragment {
 						MaterialSearchActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("modeobj", "material");
-				bundle.putInt("tag", Container.MODEL_ALL);
-				bundle.putString("title", "全部素材搜索结果");
+				bundle.putInt("tag",Container.MODEL_ALL);
+				bundle.putString("title","全部素材搜索结果");
+				bundle.putString("material_style", "audit");
 				intent.putExtras(bundle);
 				startActivity(intent);
 				break;
