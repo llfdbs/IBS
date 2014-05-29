@@ -69,6 +69,7 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 	HashMap<String, String> map = new HashMap<String, String>();
 	Map<String, Class> clsMap = new HashMap<String, Class>();
     String count ="" ;
+    String keyword = "";
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		if (b != null) {
 			String rr = b.getString(MATERIAL);
 			count = b.getString("count");
+			keyword = b.getString("keyword");
 			if (rr.equals(AUDIT)) {
 				state = ALLMATL;
 

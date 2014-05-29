@@ -56,7 +56,6 @@ public class MaterialSearchActivity extends ActivityBase implements
 		// TODO Auto-generated method stub
 		 initAutoComplete("history", autoCompleteTextView); 
 		 bundle = getIntent().getExtras();
-		 model = bundle.getInt("tag");
 		 title = bundle.getString("title");
 		 modeObj = bundle.getString("modeobj");
 	}
@@ -118,14 +117,17 @@ public class MaterialSearchActivity extends ActivityBase implements
 			saveHistory("history", autoCompleteTextView);
 			
 			bundle_send = new Bundle();
-			bundle_send.putInt("model",model);
+			
 			bundle_send.putString("keyword",autoCompleteTextView.getText().toString().trim());
 			bundle_send.putString("title",title);
 			if(modeObj.equals("task")){
+				model = bundle.getInt("tag");
+				bundle_send.putInt("model",model);
 				openActivity(Search_GetTaskListResultActivity.class, bundle_send);
 			}else{
 				material_tag = bundle.getString(MATERIAL);
-				//openActivity(Search_MaterialResultActivity.class,bundle_send);
+				bundle_send.putString(MATERIAL, material_tag);
+				openActivity(Search_MaterialResultActivity.class,bundle_send);
 			}
 			
 			MaterialSearchActivity.this.finish();
@@ -224,10 +226,11 @@ public class MaterialSearchActivity extends ActivityBase implements
 					long arg3) {
 				// TODO Auto-generated method stub
 				bundle_send = new Bundle();
-				bundle_send.putInt("model",model);
 				bundle_send.putString("keyword",autoCompleteTextView.getText().toString().trim());
 				bundle_send.putString("title",title);
 				if(modeObj.equals("task")){
+					model = bundle.getInt("tag");
+					bundle_send.putInt("model",model);
 					openActivity(Search_GetTaskListResultActivity.class, bundle_send);//跳转到任务搜索结果页面
 				}else{
 					material_tag = bundle.getString(MATERIAL);

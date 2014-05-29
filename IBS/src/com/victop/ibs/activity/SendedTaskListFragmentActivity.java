@@ -60,8 +60,13 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 		Bundle bundle = getIntent().getExtras();
 		String count = bundle.getString("count");
 		actionBar = getSupportActionBar();
-		actionBar.setTitle(getResources().getString(R.string.receivedtask)
-				+ "(" + count + ")");
+		if(null!=count){
+			actionBar.setTitle(getResources().getString(R.string.receivedtask)
+					+ "(" + count + ")");
+		}else{
+			actionBar.setTitle(getResources().getString(R.string.receivedtask));
+		}
+		
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setIcon(R.drawable.btn_back);
 		radiogroup_tasksended = (RadioGroup) findViewById(R.id.radiogroup_tasksended);

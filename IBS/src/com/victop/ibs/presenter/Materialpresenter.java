@@ -58,7 +58,7 @@ public class Materialpresenter {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("addmanid", "1");
+		dataMap.put("addmanid", Container.getInstance().getUser().getUserCode());
 		dataMap.put("ispage", page.getIspage() + "");
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
@@ -90,7 +90,7 @@ public class Materialpresenter {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("addmanid", "1");
+		dataMap.put("addmanid", Container.getInstance().getUser().getUserCode());
 		dataMap.put("ispage", page.getIspage() + "");
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
@@ -122,7 +122,7 @@ public class Materialpresenter {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("addmanid", "1");
+		dataMap.put("addmanid", Container.getInstance().getUser().getUserCode());
 		dataMap.put("ispage", page.getIspage() + "");
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");

@@ -28,6 +28,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.victop.android.session.Container;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.AddTaskBean;
@@ -114,10 +115,10 @@ public class AddTaskActivity extends ActivityBase {
 						// TODO Auto-generated method stub
 						switch (checkedId) {
 						case R.id.rbtn_urgent:
-							type = "0";
+							type = "紧急任务";
 							break;
 						case R.id.rbtn_normal:
-							type = "1";
+							type = "一般任务";
 							break;
 						default:
 							break;
@@ -405,6 +406,10 @@ public class AddTaskActivity extends ActivityBase {
 						tasksaveBean.setTaskmemo(edt_taskdetail.getText()
 								.toString());
 						tasksaveBean.setTaskstatus("0");
+						tasksaveBean.setResponsibleid(Container.getInstance().getUser().getUserCode());
+						tasksaveBean.setReceptname(Container.getInstance().getUser().getUserCode());
+						tasksaveBean.setTaskcode(getMyUUID());
+						tasksaveBean.setTasklevel(type);
 						// tasksaveBean.setFinishtime();
 						tasksaveBean.setDuedate(date);
 						if (null != mUserMessageBean)
