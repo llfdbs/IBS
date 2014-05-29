@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.victop.ibs.activity.AddTaskActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.activity.TaskDetailActivity;
 import com.victop.ibs.adapter.SendTaskListAdapter;
@@ -286,24 +287,32 @@ public class SendedTaskListFrag extends Fragment implements
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			// TODO Auto-generated method stub
-			Intent intent = new Intent(context, TaskDetailActivity.class);
+			Intent intent;
 			Bundle bundle = new Bundle();
 			if (status.equals(Container.STATUS_ALL)) {
+
+				if ("0".equals(task_list_data.get(arg2).getTaskstatus())) {
+					intent = new Intent(context, AddTaskActivity.class);
+				} else {
+					intent = new Intent(context, TaskDetailActivity.class);
+				}
 				bundle.putString("statue", task_list_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
 			} else if (status.equals(Container.STATUS_UNFINISH)) {
+				intent = new Intent(context, TaskDetailActivity.class);
 				bundle.putString("statue", task_unfinishList_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_unfinishList_data.get(arg2)
 						.getTaskid());
 			} else if (status.equals(Container.STATUS_FINISH)) {
+				intent = new Intent(context, TaskDetailActivity.class);
 				bundle.putString("statue", task_finishList_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_finishList_data.get(arg2)
 						.getTaskid());
 			} else {
-
+				intent = new Intent(context, AddTaskActivity.class);
 				bundle.putString("statue", task_unsendList_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_unsendList_data.get(arg2)

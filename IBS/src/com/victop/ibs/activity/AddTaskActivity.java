@@ -407,7 +407,7 @@ public class AddTaskActivity extends ActivityBase {
 								.toString());
 						tasksaveBean.setTaskstatus("0");
 						tasksaveBean.setResponsibleid(Container.getInstance().getUser().getUserCode());
-						tasksaveBean.setReceptname(Container.getInstance().getUser().getUserCode());
+						tasksaveBean.setReceptname(Container.getInstance().getUser().getUserName());
 						tasksaveBean.setTaskcode(getMyUUID());
 						tasksaveBean.setTasklevel(type);
 						// tasksaveBean.setFinishtime();
@@ -441,7 +441,11 @@ public class AddTaskActivity extends ActivityBase {
 				TasksaveBean tasksaveBean = new TasksaveBean();
 				tasksaveBean.setTaskname(edt_taskname.getText().toString());
 				tasksaveBean.setTaskmemo(edt_taskdetail.getText().toString());
-				tasksaveBean.setTaskstatus("0");
+				tasksaveBean.setTaskstatus("1");
+				tasksaveBean.setResponsibleid(Container.getInstance().getUser().getUserCode());
+				tasksaveBean.setReceptname(Container.getInstance().getUser().getUserName());
+				tasksaveBean.setTaskcode(getMyUUID());
+				tasksaveBean.setTasklevel(type);
 				// tasksaveBean.setFinishtime();
 				tasksaveBean.setDuedate(date);
 				if (null != mUserMessageBean)

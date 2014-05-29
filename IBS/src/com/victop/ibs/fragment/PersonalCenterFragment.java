@@ -73,31 +73,10 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 				uncheckedMaterialCount = dataMap.get("12");
 				getTaskCount = dataMap.get("8");
 				sendTaskCount = dataMap.get("9");
-				//getTaskCount = dataMap.get("8")!=null?dataMap.get(8):new ArrayList<GetTaskCountBean>();
-				if(null == userMessage){
-					userMessage = new ArrayList<UserMessageBean>();
-				}
-				if(null == materialCount){
-					materialCount = new ArrayList<MaterialCountBean>();
-				}
-				if(null == sendTaskCount){
-					unfinishedMaterialCount = new ArrayList<UnfinishedMaterialCountBean>();
-				}
-				if(null == getTaskCount){
-					checkedMaterialCount = new ArrayList<CheckedMaterailCountBean>();
-				}
-				if(null == userMessage){
-					uncheckedMaterialCount = new ArrayList<UnCheckedMaterialCountBean>();
-				}
-				if(null == materialCount){
-					getTaskCount = new ArrayList<GetTaskCountBean>();
-				}
-				if(null == sendTaskCount){
-					sendTaskCount = new ArrayList<SendTaskCountBean>();
-				}
-				
-				initData() ;
-				
+				// getTaskCount = dataMap.get("8")!=null?dataMap.get(8):new
+				// ArrayList<GetTaskCountBean>();
+
+				initData();
 
 			}
 
@@ -152,40 +131,40 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 
 	public void initData() {
 		// TODO Auto-generated method stub
-		if (userMessage.size() > 0) {
+		if (null!=userMessage&&userMessage.size() > 0) {
 			str_userName = userMessage.get(0).getHrname();
 			str_headUrl = userMessage.get(0).getHeadimage();
 		} else {
 			str_userName = "";
 		}
-		if (unfinishedMaterialCount.size() > 0) {
+		if (null!=unfinishedMaterialCount&&unfinishedMaterialCount.size() > 0) {
 			str_unfinishedMaterialCount = unfinishedMaterialCount.get(0)
 					.getSummaterialid();
 		} else {
 			str_unfinishedMaterialCount = "0";
 		}
 
-		if (checkedMaterialCount.size() > 0) {
+		if (null!=checkedMaterialCount&&checkedMaterialCount.size() > 0) {
 			str_checkedMaterialCount = checkedMaterialCount.get(0)
 					.getSummaterialid();
 		} else {
 			str_checkedMaterialCount = "0";
 		}
 
-		if (uncheckedMaterialCount.size() > 0) {
+		if (null!=uncheckedMaterialCount&&uncheckedMaterialCount.size() > 0) {
 			str_uncheckedMaterialCount = uncheckedMaterialCount.get(0)
 					.getSummaterialid();
 		} else {
 			str_uncheckedMaterialCount = "0";
 		}
 
-		if (getTaskCount.size() > 0) {
+		if (null!=getTaskCount&&getTaskCount.size() > 0) {
 			str_getTaskCount = getTaskCount.get(0).getSumtaskid();
 		} else {
 			str_getTaskCount = "0";
 		}
 
-		if (sendTaskCount.size() > 0) {
+		if (null!=sendTaskCount&&sendTaskCount.size() > 0) {
 			str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
 		} else {
 			str_sendTaskCount = "0";

@@ -44,6 +44,7 @@ public class TaskAllocationActivity extends ActivityBase {
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	private CharacterParser characterParser;
 	private PinyinComparator pinyinComparator;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,13 +61,13 @@ public class TaskAllocationActivity extends ActivityBase {
 		// 实例化汉字转拼音类
 		characterParser = CharacterParser.getInstance();
 		pinyinComparator = new PinyinComparator();
-		
-		
+
 		BaseHandler bHandler = new BaseHandler(this, mHandler);
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put(AddTaskEmployesBean.datasetId, AddTaskEmployesBean.class);
 		Getpresenter.getInstance().getInitbData(bHandler, clsMap, null,
-				AddTaskEmployesBean.modelId, AddTaskEmployesBean.datasetId, null,AddTaskEmployesBean.fromId);
+				AddTaskEmployesBean.modelId, AddTaskEmployesBean.datasetId,
+				null, AddTaskEmployesBean.fromId);
 
 	}
 
@@ -163,13 +164,16 @@ public class TaskAllocationActivity extends ActivityBase {
 	}
 
 	public void TranslateData() {
+
 		AddTaskEmployesBean mUserMessageBean = TaskAllocationAdapter.isSelectedName
 				.get("user");
 		Intent intent = new Intent(TaskAllocationActivity.this,
 				AddTaskActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("user", mUserMessageBean.getHrname());
-		intent.putExtras(bundle);
+		if (null != mUserMessageBean) {
+			Bundle bundle = new Bundle();
+			bundle.putString("user", mUserMessageBean.getHrname());
+			intent.putExtras(bundle);
+		}
 		setResult(RESULT_OK, intent);
 		finish();
 	}

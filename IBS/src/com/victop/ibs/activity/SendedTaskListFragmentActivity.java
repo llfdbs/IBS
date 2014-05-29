@@ -61,10 +61,10 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 		String count = bundle.getString("count");
 		actionBar = getSupportActionBar();
 		if(null!=count){
-			actionBar.setTitle(getResources().getString(R.string.receivedtask)
+			actionBar.setTitle(getResources().getString(R.string.sendedtask)
 					+ "(" + count + ")");
 		}else{
-			actionBar.setTitle(getResources().getString(R.string.receivedtask));
+			actionBar.setTitle(getResources().getString(R.string.sendedtask));
 		}
 		
 		actionBar.setHomeButtonEnabled(true);
