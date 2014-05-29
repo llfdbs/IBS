@@ -5,28 +5,30 @@
     android:background="@drawable/bg1"
     android:orientation="vertical" >
 
-<!--     <LinearLayout -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_marginLeft="30dip" -->
-<!--         android:layout_marginTop="30dip" > -->
+    <!-- <LinearLayout -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_marginLeft="30dip" -->
+    <!-- android:layout_marginTop="30dip" > -->
 
-<!--         <TextView -->
-<!--             android:id="@+id/text_proper" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:text="作者 :" -->
-<!--             android:textColor="#303030" -->
-<!--             android:textSize="20sp" /> -->
 
-<!--         <TextView -->
-<!--             android:id="@+id/username" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:text="张某某" -->
-<!--             android:textColor="#303030" -->
-<!--             android:textSize="20sp" /> -->
-<!--     </LinearLayout> -->
+    <!-- <TextView -->
+    <!-- android:id="@+id/text_proper" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="作者 :" -->
+    <!-- android:textColor="#303030" -->
+    <!-- android:textSize="20sp" /> -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/username" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="张某某" -->
+    <!-- android:textColor="#303030" -->
+    <!-- android:textSize="20sp" /> -->
+    <!-- </LinearLayout> -->
 
     <EditText
         android:id="@+id/et_product"
@@ -45,30 +47,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dip"
-        android:layout_marginTop="20dip" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="标签 :"
-            android:textColor="#B2B2B2"
-            android:textSize="20sp" 
-            android:id="@+id/tag_porper"
-            />
-
-        <TextView
-            android:id="@+id/tagname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="e服务  首页"
-            android:textColor="#B2B2B2"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dip"
         android:layout_marginTop="20dip"
         android:orientation="horizontal" >
 
@@ -80,13 +58,12 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:id="@+id/get_proper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="来源 :"
                 android:textColor="#B2B2B2"
-                android:textSize="20sp" 
-                android:id="@+id/get_proper"
-                />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/getname"
@@ -110,10 +87,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
+                android:checked="true"
                 android:drawableLeft="@drawable/radiobutton_selector"
                 android:paddingLeft="5dip"
                 android:text="  是"
-                android:checked="true"
                 android:textColor="#44536A"
                 android:textSize="15sp" />
 
@@ -137,14 +114,13 @@
         android:layout_marginTop="30dip" >
 
         <TextView
+            android:id="@+id/hangye"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="行业 :"
             android:textColor="#303030"
-            android:textSize="20sp" 
-            android:id="@+id/hangye"
-            />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btn_choose"
@@ -158,7 +134,8 @@
             android:textColor="#44536A"
             android:textSize="15sp" />
     </LinearLayout>
- <LinearLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dip"
@@ -175,15 +152,15 @@
 
         <TextView
             android:id="@+id/tv_choosemore"
-            android:layout_width="100dip"
+            android:layout_width="wrap_content"
             android:layout_height="30dip"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dip"
-            android:background="@drawable/tag_et"
             android:gravity="center"
+            android:singleLine="true"
             android:text="请选择"
             android:textColor="#44536A"
             android:textSize="15sp" />
     </LinearLayout>
-    
+
 </LinearLayout>
