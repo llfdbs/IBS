@@ -135,12 +135,11 @@ public class MUnCheckAdapter extends BaseAdapter {
 				Intent _Intent = new Intent(mContext,
 						MaterialDetailActivity.class);
 				Bundle pBundle = new Bundle();
-				pBundle.putInt("material", position);
+				pBundle.putString("materialstatus", mInfos.get(position).getMaterialstatus());
+				pBundle.putString("materialid", mInfos.get(position).getMaterialid());
 				_Intent.putExtras(pBundle);
 
 				mContext.startActivity(_Intent);
-				((MaterialAllActivity) mContext).overridePendingTransition(
-						R.anim.new_in_from_right, R.anim.new_out_to_left);// 苹果的效果
 			}
 		});
 		return convertView;
