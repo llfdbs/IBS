@@ -2,63 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
     android:background="#44546A"
     android:gravity="center_horizontal"
-    >
-    <ScrollView 
+    android:orientation="vertical" >
+
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        >
-    <LinearLayout 
-         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        >
-      <ImageView 
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/img_appname"
-    android:layout_marginTop="100dp"
-    />
-<EditText 
-    android:id="@+id/edt_username"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="60dp"
-    android:textSize="@dimen/text_medial"
-    android:hint="@string/login_user_hint"
-    android:textColor="#303030"
-    android:background="@drawable/edt_username"
-    android:paddingLeft="80dp"
-    android:singleLine="true"
-    android:maxLength="15"
-    android:text="yaoyong"
-   />
-<EditText 
-    android:id="@+id/edt_password"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:textSize="@dimen/text_medial"
-    android:hint="@string/login_password_hint"
-    android:textColor="#303030"
-    android:background="@drawable/edt_password"
-    android:paddingLeft="80dp"
-    android:password="true"
-    android:singleLine="true"
-    android:maxLength="15"
-    android:text="111111"
-    />
-<Button 
-    android:id="@+id/btn_login"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/btn_login"
-    android:layout_marginTop="30dp"
-    />
-</LinearLayout>
-</ScrollView>
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/img_appname" />
+
+            <EditText
+                android:id="@+id/edt_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/edt_username"
+                android:hint="@string/login_user_hint"
+                android:maxLength="15"
+                android:paddingLeft="80dp"
+                android:singleLine="true"
+                android:textColor="#303030"
+                android:textSize="@dimen/text_medial" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_password"
+                android:hint="@string/login_password_hint"
+                android:maxLength="15"
+                android:paddingLeft="80dp"
+                android:password="true"
+                android:singleLine="true"
+                android:textColor="#303030"
+                android:textSize="@dimen/text_medial" />
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/btn_login" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
