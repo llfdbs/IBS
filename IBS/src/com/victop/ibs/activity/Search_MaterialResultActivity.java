@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -68,8 +70,9 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 	private int pageno = 1;
 	HashMap<String, String> map = new HashMap<String, String>();
 	Map<String, Class> clsMap = new HashMap<String, Class>();
-    String count ="" ;
+    
     String keyword = "";
+    private LinearLayout toplayout;
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,6 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			String rr = b.getString(MATERIAL);
-			count = b.getString("count");
 			keyword = b.getString("keyword");
 			if (rr.equals(AUDIT)) {
 				state = ALLMATL;
@@ -121,8 +123,7 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("素材(未完成" +count
-							+ ")");
+					actionBar.setTitle("未完成素材搜索结果");
 					mAdapterView.setAdapter(muAdapter);
 					break;
 				case UNCHECK:
@@ -135,8 +136,7 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("素材(未审核" +count
-							+ ")");
+					actionBar.setTitle("未审核素材搜索结果");
 					mAdapterView.setAdapter(muAdapter);
 					break;
 				case CHECK:
@@ -149,8 +149,7 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("素材(审核" +count
-							+ ")");
+					actionBar.setTitle("已审核素材搜索结果");
 					mAdapterView.setAdapter(muAdapter);
 					break;
 				case ALLMATL:
@@ -164,8 +163,7 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("全部素材(" + count
-							+ ")");
+					actionBar.setTitle("全部素材搜索结果");
 					mAdapterView.setAdapter(muAdapter);
 
 					for (UnCheckedMaterialBean m : mUnCheckedMaterialBean) {
@@ -200,22 +198,22 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page,keyword);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page,keyword);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetCMaterial(unCheckHandler, page,keyword);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page,keyword);
 			break;
 
 		}
@@ -263,6 +261,9 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 
 		btn_search = (Button) findViewById(R.id.btn_search);
 		sp_newtime = (Spinner) findViewById(R.id.sp_newtime);
+		toplayout = (LinearLayout)findViewById(R.id.linear_top);
+		toplayout.setVisibility(View.GONE);
+		
 		btn_search.setOnClickListener(this);
 		ArrayAdapter<String> ad = new ArrayAdapter<String>(this,
 				R.layout.simple_spinner, mCountries);
@@ -284,22 +285,22 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page,keyword);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page,keyword);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetCMaterial(unCheckHandler, page,keyword);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page,null);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page,keyword);
 			break;
 
 		}
@@ -322,7 +323,7 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		add = menu.findItem(R.id.add);
 		save = menu.findItem(R.id.save);
 		search.setVisible(false);
-		add.setVisible(true);
+		add.setVisible(false);
 		save.setVisible(false);
 
 		return true;
@@ -335,13 +336,11 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		case android.R.id.home:
 			finish();
 			break;
-		// case R.id.search:
-		// break;
+		
 		case R.id.add:
-			openActivity(MaterialAddActivity.class, null);
+			
 			break;
-		// case R.id.save:
-		// break;
+		
 		}
 
 		return super.onOptionsItemSelected(item);

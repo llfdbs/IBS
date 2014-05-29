@@ -87,6 +87,9 @@ public class SendedTaskListFrag extends Fragment implements
 			switch (msg.what) {
 			case 0:
 				task_list = (List<SendTaskBean>) msg.obj;
+				if(null==task_list){
+					task_list = new ArrayList<SendTaskBean>();
+				}
 				task_list_data.addAll(task_list);
 				adapter = new SendTaskListAdapter(context, task_list_data);
 				mListView.setAdapter(adapter);
@@ -127,6 +130,9 @@ public class SendedTaskListFrag extends Fragment implements
 			switch (msg.what) {
 			case 0:
 				task_unfinishList = (List<SendTaskBean>) msg.obj;
+				if(null==task_unfinishList){
+					task_unfinishList = new ArrayList<SendTaskBean>();
+				}
 				task_unfinishList_data.addAll(task_unfinishList);
 				adapter = new SendTaskListAdapter(context,
 						task_unfinishList_data);
@@ -168,6 +174,9 @@ public class SendedTaskListFrag extends Fragment implements
 			switch (msg.what) {
 			case 0:
 				task_finishList = (List<SendTaskBean>) msg.obj;
+				if(null==task_finishList){
+					task_finishList = new ArrayList<SendTaskBean>();
+				}
 				task_finishList_data.addAll(task_finishList);
 				adapter = new SendTaskListAdapter(context, task_finishList_data);
 				mListView.setAdapter(adapter);
@@ -209,6 +218,9 @@ public class SendedTaskListFrag extends Fragment implements
 			case 0:
 				if (null != msg.obj) {
 					task_unsendList = (List<SendTaskBean>) msg.obj;
+					if(null==task_unsendList){
+						task_unsendList = new ArrayList<SendTaskBean>();
+					}
 					task_unsendList_data.addAll(task_unsendList);
 					adapter = new SendTaskListAdapter(context,
 							task_unsendList_data);

@@ -74,6 +74,9 @@ public class GetTaskListFrag extends Fragment implements
 			switch (msg.what) {
 			case 0:
 				task_list = (List<GetTaskBean>) msg.obj;
+				if(null==task_list){
+					task_list = new ArrayList<GetTaskBean>();
+				}
 				task_list_data.addAll(task_list);
 				adapter = new TaskListAdapter(context, task_list_data);
 				mListView.setAdapter(adapter);
@@ -116,6 +119,9 @@ public class GetTaskListFrag extends Fragment implements
 			switch (msg.what) {
 			case 0:
 				task_unlist = (List<GetTaskBean>) msg.obj;
+				if(null==task_unlist){
+					task_unlist = new ArrayList<GetTaskBean>();
+				}
 				task_unlist_data.addAll(task_unlist);
 				adapter = new TaskListAdapter(context, task_unlist_data);
 				mListView.setAdapter(adapter);
@@ -156,6 +162,9 @@ public class GetTaskListFrag extends Fragment implements
 			switch (msg.what) {
 			case 0:
 				task_filist = (List<GetTaskBean>) msg.obj;
+				if(null==task_filist){
+					task_filist = new ArrayList<GetTaskBean>();
+				}
 				task_filist_data.addAll(task_filist);
 				adapter = new TaskListAdapter(context, task_filist_data);
 				mListView.setAdapter(adapter);
@@ -238,12 +247,15 @@ public class GetTaskListFrag extends Fragment implements
 			// TODO Auto-generated method stub
 			Intent intent = new Intent(context, TaskDetailActivity.class);
 			Bundle bundle = new Bundle();
-			if (status.equals(Container.STATUS_ALL)) {
+			
+				if(null!=task_list_data && task_list_data.size()>0){
 				bundle.putString("statue", task_list_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
+				
 
 			} else if (status.equals(Container.STATUS_UNFINISH)) {
+				
 				bundle.putString("statue", task_unlist_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_unlist_data.get(arg2)

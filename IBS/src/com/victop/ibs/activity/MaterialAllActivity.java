@@ -70,8 +70,9 @@ public class MaterialAllActivity extends ActivityBase implements
 	private int pageno = 1;
 	HashMap<String, String> map = new HashMap<String, String>();
 	Map<String, Class> clsMap = new HashMap<String, Class>();
-    String count ="" ;
-    String keyword = "";
+	String count = "";
+	String rr;
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class MaterialAllActivity extends ActivityBase implements
 
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
-			String rr = b.getString(MATERIAL);
+			rr = b.getString(MATERIAL);
 			count = b.getString("count");
 			if (rr.equals(AUDIT)) {
 				state = ALLMATL;
@@ -98,8 +99,6 @@ public class MaterialAllActivity extends ActivityBase implements
 		}
 		initViews();
 	}
-
-	 
 
 	Handler mHandler = new Handler() {
 
@@ -122,8 +121,11 @@ public class MaterialAllActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("素材(未完成" +count
-							+ ")");
+					if (null == count) {
+						actionBar.setTitle("未完成素材");
+					} else {
+						actionBar.setTitle("未完成素材(" + count + ")");
+					}
 					mAdapterView.setAdapter(muAdapter);
 					break;
 				case UNCHECK:
@@ -136,8 +138,11 @@ public class MaterialAllActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("素材(未审核" +count
-							+ ")");
+					if (null == count) {
+						actionBar.setTitle("未审核素材");
+					} else {
+						actionBar.setTitle("未审核素材(" + count + ")");
+					}
 					mAdapterView.setAdapter(muAdapter);
 					break;
 				case CHECK:
@@ -150,8 +155,11 @@ public class MaterialAllActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("素材(审核" +count
-							+ ")");
+					if (null == count) {
+						actionBar.setTitle("已审核素材");
+					} else {
+						actionBar.setTitle("已审核素材(" + count + ")");
+					}
 					mAdapterView.setAdapter(muAdapter);
 					break;
 				case ALLMATL:
@@ -165,8 +173,11 @@ public class MaterialAllActivity extends ActivityBase implements
 						Toast.makeText(getApplicationContext(), "没有更多数据！", 600)
 								.show();
 					muAdapter.addItemLast(mUnCheckedMaterialBean);
-					actionBar.setTitle("全部素材(" + count
-							+ ")");
+					if (null == count) {
+						actionBar.setTitle("全部素材");
+					} else {
+						actionBar.setTitle("全部素材(" + count + ")");
+					}
 					mAdapterView.setAdapter(muAdapter);
 
 					for (UnCheckedMaterialBean m : mUnCheckedMaterialBean) {
@@ -201,22 +212,22 @@ public class MaterialAllActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page, null);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page, null);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetCMaterial(unCheckHandler, page, null);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page, null);
 			break;
 
 		}
@@ -228,15 +239,28 @@ public class MaterialAllActivity extends ActivityBase implements
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_search:
-			Intent intent = new Intent(MaterialAllActivity.this,MaterialSearchActivity.class);
+			Intent intent = new Intent(MaterialAllActivity.this,
+					MaterialSearchActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putString("modeobj", "material");
-			bundle.putInt("tag",Container.MODEL_ALL);
-			bundle.putString("title","全部素材搜索结果");
+			bundle.putString("title", "全部素材搜索结果");
+
+			if (rr.equals(AUDIT)) {
+				bundle.putString("material_style", "audit");
+
+			} else if (rr.equals(UNADIT)) {
+				bundle.putString("material_style", "unaudit");
+
+			} else if (rr.equals(NOTCOMPLETE)) {
+				bundle.putString("material_style", "notcomplete");
+
+			} else if (rr.equals(CHECKED)) {
+				bundle.putString("material_style", "check");
+
+			}
+
 			intent.putExtras(bundle);
 			startActivity(intent);
-			//openActivity(MaterialSearchActivity.class, null);
-			// finish();
 
 			break;
 		case R.id.sp_newtime:
@@ -291,22 +315,22 @@ public class MaterialAllActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page, null);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page, null);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetCMaterial(unCheckHandler, page, null);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page,keyword);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page, null);
 			break;
 
 		}
