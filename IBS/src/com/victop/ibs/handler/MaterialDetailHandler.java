@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.victop.android.session.ReturnDataEnum;
-import com.victop.ibs.bean.MaterialDetailHistoryBean;
-import com.victop.ibs.bean.MaterialDetailMessageBean;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.victop.android.session.ReturnDataEnum;
+import com.victop.ibs.bean.MaterialDetailHistoryBean;
+import com.victop.ibs.bean.MaterialDetailMessageBean;
 
 /**
  * 素材详情handler

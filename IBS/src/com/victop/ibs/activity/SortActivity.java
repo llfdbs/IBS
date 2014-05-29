@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.victop.ibs.adapter.Sort_ListViewAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
@@ -46,7 +45,6 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 	public static final int STYP_NUM = 3;
 	Sort_ListViewAdapter adapter;
 
-	final String[] data = { "erp", "互联网", "互联网" };
 	private ArrayList<View> mViews = null;
 
 	private CustomViewPager pager;
@@ -158,7 +156,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put(SortBean.datasetId, SortBean.class);
 		Getpresenter.getInstance().getInitbData(bHandler, clsMap, null,
-				SortBean.modelId, SortBean.datasetId, null,SortBean.formId);
+				SortBean.modelId, SortBean.datasetId, null, SortBean.formId);
 	}
 
 	@Override
@@ -198,11 +196,13 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 						int arg2, long arg3) {
 					TextView title = (TextView) arg1
 							.findViewById(R.id.tv_title);
+					String classid = list.get(arg2).getClassid();
 					info = info + ">" + title.getText();
 					Intent i = new Intent(SortActivity.this,
 							MaterialAddActivity.class);
 					Bundle b = new Bundle();
 					b.putString("info", info);
+					b.putString("classid", classid);
 					i.putExtras(b);
 					setResult(Container.SORT, i);
 					finish();
@@ -230,9 +230,9 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 					TextView title = (TextView) arg1
 							.findViewById(R.id.tv_title);
 					info = info + ">" + title.getText();
+					String classid = list.get(arg2).getClassid();
 					List<SortBean> slist = tlist.get(list.get(arg2)
 							.getClassid());
-
 					if (slist.size() > 0) {
 						initView(slist, null);
 						pager.setCurrentItem(2);
@@ -241,6 +241,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 						Intent i = new Intent(SortActivity.this,
 								MaterialAddActivity.class);
 						Bundle b = new Bundle();
+						b.putString("classid", classid);
 						b.putString("info", info);
 						i.putExtras(b);
 						setResult(Container.SORT, i);

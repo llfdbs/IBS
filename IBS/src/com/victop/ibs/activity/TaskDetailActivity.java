@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -25,9 +23,7 @@ import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.TaskDetailBean;
 import com.victop.ibs.bean.TaskMaterialsBean;
-import com.victop.ibs.handler.SendTaskHandler;
 import com.victop.ibs.handler.TaskDetailHandler;
-import com.victop.ibs.presenter.SendTaskPresenter;
 import com.victop.ibs.presenter.TaskDetailPresenter;
 import com.victop.ibs.view.MyListView;
 
@@ -201,9 +197,7 @@ public class TaskDetailActivity extends ActivityBase {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			// TODO Auto-generated method stub
-			Bundle bundle = new Bundle();
-			bundle.putString("materialid", mTaskMaterialsBean.get(arg2).getMaterialid().toString());
-			openActivity(MaterialDetailActivity.class, bundle);
+			openActivity(MaterialDetailActivity.class, null);
 		}
 	};
 

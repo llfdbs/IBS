@@ -1,14 +1,13 @@
 package com.victop.ibs.view;
 import java.util.TimerTask;
 
-import com.victop.ibs.activity.MaterialDetailActivity;
-import com.victop.ibs.adapter.MaterialDetail_ImageAdapter;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Gallery;
+
+import com.victop.ibs.activity.MaterialDetailActivity;
 
 public class MyGallery extends Gallery {
 

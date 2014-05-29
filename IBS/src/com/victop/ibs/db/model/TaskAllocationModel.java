@@ -1,6 +1,5 @@
 package com.victop.ibs.db.model;
 
-import com.victop.ibs.db.base.BaseBean;
 
 /**
  * 任务分配数据集

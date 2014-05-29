@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.victop.ibs.adapter.PropertyAdapter;
 import com.victop.ibs.adapter.PropertygridviewAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
@@ -70,6 +73,8 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 	private Boolean[] areaState;
 	private String classid = "";
 	List<PropertyBean> pro_all = new ArrayList<PropertyBean>();
+	List<MaterialPropertyBean> mMaterialPropertyBean = new ArrayList<MaterialPropertyBean>();
+	List<PropertyBean> pro_morem1 = new ArrayList<PropertyBean>();
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -94,7 +99,6 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 		BaseHandler bHandler = new BaseHandler(this, mHandler);
 		HashMap<String, String> Datamap = new HashMap<String, String>();
 		Datamap.put("classid", classid);
-
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put(PropertyBean.datasetId, PropertyBean.class);
 		Getpresenter.getInstance().getInitbData(bHandler, clsMap, Datamap,
@@ -109,44 +113,43 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0:// 获取到数据
-				// Map<String, List> dataMap = (Map<String, List>) msg.obj;
-				// List<PropertyBean> mUnCheckedMaterialBean = dataMap
-				// .get(PropertyBean.datasetId);
+				Map<String, List> dataMap = (Map<String, List>) msg.obj;
+				List<PropertyBean> mPropertyBean = dataMap
+						.get(PropertyBean.datasetId);
 
-				Datajson obj = null;
-				obj = (Datajson) getXmlStream("property.xml",
-						PropertyBean.class, Datajson.class);
-				List<PropertyBean> mPropertyBean = obj.getmPropertyBean();
-
-				for (PropertyBean p : mPropertyBean) {
-					System.out.println("属性id:" + p.getNatureid() + "   属性名称:"
-							+ p.getNaturename() + "   展示类型:" + p.getViewtype()
-							+ "   属性明细ID:" + p.getNaturedetailid()
-							+ "  属性明细名称:" + p.getNaturedetailname());
-					if (p.getViewtype().equals(TEXT_STATE + "")) {
-						pro_text.add(p);
-					} else if (p.getViewtype().equals(SPIN_STATE + "")
-							|| p.getViewtype().equals(MORE_STATE + "")) {
-						pro_spin.add(p);
-					} else if (p.getViewtype().equals(TWO_STATE + "")) {
-						pro_two.add(p);
-					} else if (p.getViewtype().equals(MOREM_STATE + "")) {
-						pro_morem.add(p);
+				// Datajson obj = null;
+				// obj = (Datajson) getXmlStream("property.xml",
+				// PropertyBean.class, Datajson.class);
+				// List<PropertyBean> mPropertyBean = obj.getmPropertyBean();
+				if (null != mPropertyBean) {
+					for (PropertyBean p : mPropertyBean) {
+						System.out.println("属性id:" + p.getNatureid()
+								+ "   属性名称:" + p.getNaturename() + "   展示类型:"
+								+ p.getViewtype() + "   属性明细ID:"
+								+ p.getNaturedetailid() + "  属性明细名称:"
+								+ p.getNaturedetailname());
+						if (p.getViewtype().equals(TEXT_STATE + "")) {
+							pro_text.add(p);
+						} else if (p.getViewtype().equals(SPIN_STATE + "")
+								|| p.getViewtype().equals(MORE_STATE + "")) {
+							pro_spin.add(p);
+						} else if (p.getViewtype().equals(TWO_STATE + "")) {
+							pro_two.add(p);
+						} else if (p.getViewtype().equals(MOREM_STATE + "")) {
+							pro_morem.add(p);
+						}
 					}
 				}
-
 				if (pro_text.size() > 0) {
-					if (pro_text.size() > 1) {
-						tv_tag.setText(pro_text.get(1).getNaturename() + ":");
-						tv_tagcontent.setText(pro_text.get(1)
-								.getNaturedetailname());
-					}
 
 				} else {
 
 				}
 				if (pro_two.size() > 0) {
-					tv_get.setText(pro_two.get(0).getNaturename() + ":");
+					tv_get.setVisibility(View.VISIBLE);
+					tv_comecontent.setVisibility(View.VISIBLE);
+					rg_come.setVisibility(View.VISIBLE);
+					tv_get.setText(pro_two.get(0).getNaturename());
 
 					tv_comecontent
 							.setText(pro_two.get(0).getNaturedetailname());
@@ -199,14 +202,14 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 		rb_off = (RadioButton) findViewById(R.id.rbtn_off);
 		rg_come = (RadioGroup) findViewById(R.id.radiogroup_type);
 		tv_chosem = (TextView) findViewById(R.id.hangye_more);
-		tv_tag = (TextView) findViewById(R.id.tag_porper);
+		// tv_tag = (TextView) findViewById(R.id.tag_porper);
 		tv_get = (TextView) findViewById(R.id.get_proper);
 		tv_hangye = (TextView) findViewById(R.id.hangye);
 		tv_choosem = (TextView) findViewById(R.id.tv_choosemore);
 		tv_choosem.setOnClickListener(this);
 		tv_chosem.setOnClickListener(this);
 
-		tv_tagcontent = (TextView) findViewById(R.id.tagname);
+		// tv_tagcontent = (TextView) findViewById(R.id.tagname);
 		tv_comecontent = (TextView) findViewById(R.id.getname);
 		if (tag == 0) {
 			btn_choose = (Button) findViewById(R.id.btn_choose);
@@ -263,6 +266,8 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 						rr = rr + "/" + p.getNaturedetailname();
 					}
 				}
+				pro_morem1.clear();
+				pro_morem1.addAll(mPropertyBean);
 				tv_choosem.setText(rr);
 			}
 			break;
@@ -287,6 +292,14 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 					long arg3) {
 
 				btn_choose.setText(pro_spin.get(arg2).getNaturedetailname());
+				MaterialPropertyBean m = new MaterialPropertyBean();
+				m.setClassid(classid);
+				m.setNatureid(pro_spin.get(arg2).getNatureid());
+				m.setNaturedetailid(pro_spin.get(arg2).getNaturedetailid());
+				m.setMaterialguid(getMyUUID());
+				m.setNaturevalue(pro_spin.get(arg2).getNaturedetailname());
+
+				mMaterialPropertyBean.add(m);
 				// adapter.setSeclection(arg2);
 				// adapter.notifyDataSetChanged();
 				dialog.dismiss();
@@ -346,9 +359,7 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 			break;
 		case R.id.save:
 			// classid
-			RadioButton rb_on,
-			rb_off;
-			List<MaterialPropertyBean> mMaterialPropertyBean = new ArrayList<MaterialPropertyBean>();
+
 			if (pro_text.size() > 0) {
 				MaterialPropertyBean m = new MaterialPropertyBean();
 				m.setClassid(classid);
@@ -357,21 +368,44 @@ public class PropertyActivity extends ActivityBase implements OnClickListener {
 				m.setMaterialguid(getMyUUID());
 				m.setNaturevalue(pro_text.get(0).getNaturename());
 				// m.setMatnatureid(pro_text.get(0).);
+				mMaterialPropertyBean.add(m);
 			}
 			if (pro_two.size() > 0) {
 				MaterialPropertyBean m = new MaterialPropertyBean();
 				m.setClassid(classid);
-				m.setNatureid(pro_text.get(0).getNatureid());
-				m.setNaturedetailid(pro_text.get(0).getNaturedetailid());
+				m.setNatureid(pro_two.get(0).getNatureid());
+				m.setNaturedetailid(pro_two.get(0).getNaturedetailid());
 				m.setMaterialguid(getMyUUID());
-				m.setNaturevalue(pro_text.get(0).getNaturename());
+				String temp = "";
+				if (rb_on.isChecked()) {
+					temp = "是";
+				}
+				if (rb_off.isChecked()) {
+					temp = "否";
+				}
+				m.setNaturevalue(temp);
 				// m.setMatnatureid(pro_text.get(0).);
+				mMaterialPropertyBean.add(m);
 			}
 
-			List<PropertyBean> pro_spin = new ArrayList<PropertyBean>();
-			List<PropertyBean> pro_two = new ArrayList<PropertyBean>();
-			List<PropertyBean> pro_morem = new ArrayList<PropertyBean>();
-
+			if (pro_morem1.size() > 0) {
+				for (PropertyBean p : pro_morem1) {
+					MaterialPropertyBean m = new MaterialPropertyBean();
+					m.setClassid(classid);
+					m.setNatureid(p.getNatureid());
+					m.setNaturedetailid(p.getNaturedetailid());
+					m.setMaterialguid(getMyUUID());
+					m.setNaturevalue(p.getNaturedetailname());
+					// m.setMatnatureid(pro_text.get(0).);
+					mMaterialPropertyBean.add(m);
+				}
+			}
+			Intent intent = new Intent(this, MaterialAddActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("proper",
+					(Serializable) mMaterialPropertyBean);
+			intent.putExtras(bundle);
+			startActivity(intent);
 			finish();
 			break;
 		}

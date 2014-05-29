@@ -4,8 +4,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.victop.ibs.db.base.BaseBean;
 import com.victop.ibs.xml.DConverter;
-
-import com.victop.ibs.db.base.BaseBean;
 /**
  * 素材
  * 
@@ -15,14 +13,14 @@ import com.victop.ibs.db.base.BaseBean;
 @XStreamAlias("AddMaterialBean")
 @XStreamConverter(DConverter.class)
 public class AddMaterialBean extends BaseBean {
-//	private String modelId = "IBS11112";// 数据模型编号
-//	private String datasetId = "11";// 数据集编号
+	private String modelId = "IBS11112";// 数据模型编号
+	private String datasetId = "11";// 数据集编号
 	private String ftpguid;// ftp批次号
 	private String taskid;// 任务id
 	private String taskcode;// 任务单号
 	private String isdelete;// 删除标识
 	private String addman;// 提交人
-	private String addid;// 提交人id
+	private String addmanid;// 提交人id
 	private String adddate;// 添加日期
 	private String versioncode;// 版本号   初次1.0，每次审核通过加0.1
 	private String materialid;// 素材id
@@ -73,12 +71,15 @@ public class AddMaterialBean extends BaseBean {
 	public void setAddman(String addman) {
 		this.addman = addman;
 	}
-	public String getAddid() {
-		return addid;
+	 
+	public String getAddmanid() {
+		return addmanid;
 	}
-	public void setAddid(String addid) {
-		this.addid = addid;
+
+	public void setAddmanid(String addmanid) {
+		this.addmanid = addmanid;
 	}
+
 	public String getAdddate() {
 		return adddate;
 	}

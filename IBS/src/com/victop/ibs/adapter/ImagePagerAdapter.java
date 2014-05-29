@@ -1,6 +1,4 @@
 package com.victop.ibs.adapter;
-import com.victop.ibs.activity.R;
-
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.victop.ibs.activity.R;
 
 public class ImagePagerAdapter extends PagerAdapter {
     private Context context;

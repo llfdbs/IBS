@@ -18,7 +18,6 @@ import com.example.android.bitmapfun.util.ImageFetcher;
 import com.victop.ibs.activity.MaterialDetailActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.MaterialDetailPictureBean;
-import com.victop.ibs.util.Constants;
 
 public class MaterialDetail_ImageAdapter extends BaseAdapter {
 	// private List<String> imageUrls; // 图片地址list

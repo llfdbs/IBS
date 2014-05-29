@@ -8,7 +8,6 @@ import android.os.Handler;
 
 import com.victop.android.datachannel.GetDataParam;
 import com.victop.android.datachannel.SaveDataParam;
-import com.victop.android.session.Container;
 import com.victop.ibs.bean.Page;
 import com.victop.ibs.bean.TasksaveBean;
 import com.victop.ibs.bean.UnCheckedMaterialBean;
@@ -26,7 +25,7 @@ public class Materialpresenter {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("addmanid", Container.getInstance().getUser().getUserCode());
+		dataMap.put("addmanid", "1");
 		dataMap.put("ispage", page.getIspage() + "");
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
@@ -58,7 +57,7 @@ public class Materialpresenter {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("addmanid", Container.getInstance().getUser().getUserCode());
+		dataMap.put("addmanid", "1");
 		dataMap.put("ispage", page.getIspage() + "");
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
@@ -90,7 +89,7 @@ public class Materialpresenter {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("addmanid", Container.getInstance().getUser().getUserCode());
+		dataMap.put("addmanid", "1");
 		dataMap.put("ispage", page.getIspage() + "");
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
@@ -122,7 +121,7 @@ public class Materialpresenter {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
-		dataMap.put("addmanid", Container.getInstance().getUser().getUserCode());
+		dataMap.put("addmanid", "1");
 		dataMap.put("ispage", page.getIspage() + "");
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");

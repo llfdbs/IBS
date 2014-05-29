@@ -2,9 +2,11 @@ package com.victop.ibs.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import android.os.Handler;
+
 import com.victop.android.datachannel.DataChannelManager;
 import com.victop.android.datachannel.GetDataParam;
-import android.os.Handler;
 
 public class PresenterTools {
 	final static String SYSTEMID = "100";

@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.victop.ibs.activity.ImgFileListActivity;
 import com.victop.ibs.activity.ImgShowActivity;

@@ -3,19 +3,12 @@ package com.victop.ibs.handler;
 import java.util.List;
 import java.util.Map;
 
-import com.victop.android.session.ReturnDataEnum;
-import com.victop.ibs.bean.CheckedMaterailCountBean;
-import com.victop.ibs.bean.GetTaskCountBean;
-import com.victop.ibs.bean.MaterialCountBean;
-import com.victop.ibs.bean.SendTaskCountBean;
-import com.victop.ibs.bean.UnCheckedMaterialCountBean;
-import com.victop.ibs.bean.UnfinishedMaterialCountBean;
-import com.victop.ibs.bean.UserMessageBean;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.victop.android.session.ReturnDataEnum;
 
 
 

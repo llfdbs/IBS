@@ -9,7 +9,6 @@ import android.os.Message;
 import android.util.Log;
 
 import com.victop.android.session.ReturnDataEnum;
-import com.victop.ibs.bean.SendTaskBean;
 import com.victop.ibs.bean.UnCheckedMaterialBean;
 
 public class MaterialunCheckHandler extends Handler {
