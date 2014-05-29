@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -22,9 +24,6 @@ import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.handler.LoginHandler;
 import com.victop.ibs.util.Container;
 
-
-
-
 /**
  * 登录类 登录类业务逻辑
  * 
@@ -39,6 +38,8 @@ public class LoginActivity extends ActivityBase {
 	public static String TAG = LoginActivity.class.getSimpleName();
 	public ProgressDialog loginProgressDialog;
 	private Handler loginHandler;
+	SharedPreferences sp_user;
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -46,7 +47,7 @@ public class LoginActivity extends ActivityBase {
 		final View view = View.inflate(this, R.layout.loginlayout, null);
 		setContentView(view);
 		IBSApplication.getInstance().addActivity(this);
-		
+
 		initViews();
 		initData();
 		initListeners();
@@ -62,10 +63,19 @@ public class LoginActivity extends ActivityBase {
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
+		
 		actionBar = getSupportActionBar();
 		actionBar.hide();
+		
+		sp_user = getSharedPreferences("user", MODE_WORLD_READABLE);
+		
 		edt_username = (EditText) findViewById(R.id.edt_username);
 		edt_password = (EditText) findViewById(R.id.edt_password);
+
+		String name = sp_user.getString("name", "");
+		String password = sp_user.getString("password", "");
+		edt_username.setText(name);
+		edt_password.setText(password);
 		btn_login = (Button) findViewById(R.id.btn_login);
 		loginProgressDialog = new ProgressDialog(this);
 		loginProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置风格为圆形进度条
@@ -75,6 +85,7 @@ public class LoginActivity extends ActivityBase {
 		loginProgressDialog.setIndeterminate(false);// 设置进度条是否为不明确
 		loginHandler = new LoginHandler(this);
 	}
+
 	/**
 	 * 初始化服务
 	 */
@@ -94,6 +105,7 @@ public class LoginActivity extends ActivityBase {
 		}
 		MessageType.getInstance().setProperties(properties);
 	}
+
 	// 登陆按钮的点击事件
 	OnClickListener mOnClick = new OnClickListener() {
 
@@ -106,16 +118,17 @@ public class LoginActivity extends ActivityBase {
 				user.setClientId("ibs");
 				user.setUserCode(userName);
 				user.setUserPwd(passWord);
-				 new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							DataChannelManager.getInstance().login(user, loginHandler);
-						}
-					}).start();
-				//openActivity(MainActivity.class, null);
-				//finish();
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						DataChannelManager.getInstance().login(user,
+								loginHandler);
+					}
+				}).start();
+				// openActivity(MainActivity.class, null);
+				// finish();
 			}
 		}
 	};
@@ -141,6 +154,10 @@ public class LoginActivity extends ActivityBase {
 					Toast.LENGTH_SHORT).show();
 			return false;
 		}
+		Editor editor = sp_user.edit();
+		editor.putString("name", userName);
+		editor.putString("password", passWord);
+		editor.commit();
 		return true;
 	}
 
