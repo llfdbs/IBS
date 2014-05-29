@@ -71,6 +71,7 @@ public class MaterialAllActivity extends ActivityBase implements
 	HashMap<String, String> map = new HashMap<String, String>();
 	Map<String, Class> clsMap = new HashMap<String, Class>();
     String count ="" ;
+    String keyword = "";
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -202,22 +203,22 @@ public class MaterialAllActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page,keyword);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page,keyword);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page);
+			mGetpresenter.GetCMaterial(unCheckHandler, page,keyword);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page,keyword);
 			break;
 
 		}
@@ -292,22 +293,22 @@ public class MaterialAllActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page,keyword);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page,keyword);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page);
+			mGetpresenter.GetCMaterial(unCheckHandler, page,keyword);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page,keyword);
 			break;
 
 		}

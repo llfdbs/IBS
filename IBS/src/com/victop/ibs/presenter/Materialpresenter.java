@@ -22,7 +22,7 @@ public class Materialpresenter {
 	 * @param handler
 	 * @param bean
 	 */
-	public void GetUfMaterial(Handler handler, Page page) {
+	public void GetUfMaterial(Handler handler, Page page,String keyword) {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
@@ -31,7 +31,13 @@ public class Materialpresenter {
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
 		sdp.setDataparamMap(dataMap);
+		HashMap<String,String> whereMap = new HashMap<String, String>();
+		if(null!= keyword){
+		whereMap.put("1","materialguid like '%"+keyword+"%' ");
+		sdp.setWhereMap(whereMap);
+		}else{
 		sdp.setWhereMap(null);
+		}
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("1", UnCheckedMaterialBean.class);
 		sdp.setClassMap(clsMap);
@@ -48,7 +54,7 @@ public class Materialpresenter {
 	 * @param handler
 	 * @param bean
 	 */
-	public void GetCMaterial(Handler handler, Page page) {
+	public void GetCMaterial(Handler handler, Page page,String keyword) {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
@@ -57,7 +63,13 @@ public class Materialpresenter {
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
 		sdp.setDataparamMap(dataMap);
-		sdp.setWhereMap(null);
+		HashMap<String,String> whereMap = new HashMap<String, String>();
+		if(null!= keyword){
+			whereMap.put("6","materialguid like '%"+keyword+"%' ");
+			sdp.setWhereMap(whereMap);
+			}else{
+			sdp.setWhereMap(null);
+			}
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("6", UnCheckedMaterialBean.class);
 		sdp.setClassMap(clsMap);
@@ -74,7 +86,7 @@ public class Materialpresenter {
 	 * @param handler
 	 * @param bean
 	 */
-	public void GetUCMaterial(Handler handler, Page page) {
+	public void GetUCMaterial(Handler handler, Page page,String keyword) {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
@@ -83,7 +95,13 @@ public class Materialpresenter {
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
 		sdp.setDataparamMap(dataMap);
-		sdp.setWhereMap(null);
+		HashMap<String,String> whereMap = new HashMap<String, String>();
+		if(null!= keyword){
+			whereMap.put("1","materialguid like '%"+keyword+"%' ");
+			sdp.setWhereMap(whereMap);
+			}else{
+			sdp.setWhereMap(null);
+			}
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("1", UnCheckedMaterialBean.class);
 		sdp.setClassMap(clsMap);
@@ -100,7 +118,7 @@ public class Materialpresenter {
 	 * @param handler
 	 * @param bean
 	 */
-	public void GetAlMaterial(Handler handler, Page page) {
+	public void GetAlMaterial(Handler handler, Page page,String keyword) {
 		get = Getpresenter.getInstance();
 		GetDataParam sdp = get.initGetData();
 		Map<String, String> dataMap = new HashMap<String, String>();
@@ -109,7 +127,13 @@ public class Materialpresenter {
 		dataMap.put("pageno", page.getPageno() + "");
 		dataMap.put("pagesize", page.getPagesize() + "");
 		sdp.setDataparamMap(dataMap);
-		sdp.setWhereMap(null);
+		HashMap<String,String> whereMap = new HashMap<String, String>();
+		if(null!= keyword){
+			whereMap.put("1","materialguid like '%"+keyword+"%' ");
+			sdp.setWhereMap(whereMap);
+			}else{
+			sdp.setWhereMap(null);
+			}
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("1", UnCheckedMaterialBean.class);
 		sdp.setClassMap(clsMap);

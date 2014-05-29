@@ -222,7 +222,7 @@ public class TaskDetailActivity extends ActivityBase {
 		save.setTitle("完工");
 		save.setIcon(null);
 		// 未完成
-		if (status.equals("00")) {
+		if (status.equals("1")) {
 			imgbtn_addmaterial.setVisibility(View.VISIBLE);
 			save.setVisible(true);
 		} else {

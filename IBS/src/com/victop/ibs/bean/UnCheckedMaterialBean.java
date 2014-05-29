@@ -20,7 +20,14 @@ public class UnCheckedMaterialBean extends BaseBean{
 	private String imgwidth;// 缩略图宽度
 	private String imgrule;// 缩略图规则
 	private String imghigh;// 缩略图高度
+	private String materialguid;//素材GUID
 
+	public String getMaterialguid() {
+		return materialguid;
+	}
+	public void setMaterialguid(String materialguid) {
+		this.materialguid = materialguid;
+	}
 	public String getImgname() {
 		return imgname;
 	}

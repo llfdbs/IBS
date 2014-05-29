@@ -33,7 +33,7 @@ import com.victop.ibs.presenter.Materialpresenter;
 //import com.dodola.model.DuitangInfo;
 
 /**
- * 全部素材，未审核素材 搜素素材 未完成素材
+ * 全部素材，未审核素材 搜素素材 未完成素材搜索结果
  * 
  * @author vv
  * 
@@ -46,9 +46,9 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 	private Button btn_search = null;
 	private Spinner sp_newtime;
 	private final String MATERIAL = "material_style";
-	private final String AUDIT = "audit";
-	private final String UNADIT = "unaudit";
-	private final String CHECKED = "check";
+	private final String AUDIT = "audit";//全部
+	private final String UNADIT = "unaudit";//未审核
+	private final String CHECKED = "check";//已审核
 	private final String NOTCOMPLETE = "notcomplete";
 	private final String[] mCountries = { "最新时间", "按首字母排序" };
 	private ActionBar actionBar;// 导航栏
@@ -198,22 +198,22 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page,null);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page,null);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page);
+			mGetpresenter.GetCMaterial(unCheckHandler, page,null);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, ++pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page,null);
 			break;
 
 		}
@@ -282,22 +282,22 @@ public class Search_MaterialResultActivity extends ActivityBase implements
 		case UNCOMPLETE:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUfMaterial(unCheckHandler, page);
+			mGetpresenter.GetUfMaterial(unCheckHandler, page,null);
 			break;
 		case UNCHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetUCMaterial(unCheckHandler, page);
+			mGetpresenter.GetUCMaterial(unCheckHandler, page,null);
 			break;
 		case CHECK:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "6");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetCMaterial(unCheckHandler, page);
+			mGetpresenter.GetCMaterial(unCheckHandler, page,null);
 			break;
 		case ALLMATL:
 			unCheckHandler = new MaterialunCheckHandler(this, mHandler, "1");
 			page = setPage(ISPAGE, pageno, PAGESIAE);
-			mGetpresenter.GetAlMaterial(unCheckHandler, page);
+			mGetpresenter.GetAlMaterial(unCheckHandler, page,null);
 			break;
 
 		}
