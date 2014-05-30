@@ -12,9 +12,12 @@ import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.victop.ibs.adapter.TaskAllocationAdapter;
 import com.victop.ibs.app.IBSApplication;
@@ -44,7 +47,7 @@ public class TaskAllocationActivity extends ActivityBase {
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	private CharacterParser characterParser;
 	private PinyinComparator pinyinComparator;
-
+	List<AddTaskEmployesBean> mUnCheckedMaterialBean;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,8 +85,11 @@ public class TaskAllocationActivity extends ActivityBase {
 
 			case 0:// 获取到数据
 				Map<String, List> dataMap = (Map<String, List>) msg.obj;
-				List<AddTaskEmployesBean> mUnCheckedMaterialBean = dataMap
+				 mUnCheckedMaterialBean = dataMap
 						.get(AddTaskEmployesBean.datasetId);
+				 if(null==mUnCheckedMaterialBean){
+					 mUnCheckedMaterialBean = new ArrayList<AddTaskEmployesBean>();
+				 }
 				employeeAdapter = new TaskAllocationAdapter(
 						TaskAllocationActivity.this, mUnCheckedMaterialBean,
 						"visiable");
@@ -102,7 +108,15 @@ public class TaskAllocationActivity extends ActivityBase {
 			}
 		}
 	};
+OnItemClickListener mOnItemClick = new OnItemClickListener() {
 
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		// TODO Auto-generated method stub
+		TranslateData(position);
+	}
+};
 	@Override
 	protected void initViews() {
 		// TODO Auto-generated method stub
@@ -119,6 +133,7 @@ public class TaskAllocationActivity extends ActivityBase {
 	protected void initListeners() {
 		// TODO Auto-generated method stub
 		// radioGroup.setOnCheckedChangeListener(onCheckedChangeListener);
+		employeelistview.setOnItemClickListener(mOnItemClick);
 	}
 
 	public static void setTitle(String name) {
@@ -136,7 +151,7 @@ public class TaskAllocationActivity extends ActivityBase {
 		save = menu.findItem(R.id.save);
 		search.setVisible(false);
 		add.setVisible(false);
-		save.setVisible(true);
+		save.setVisible(false);
 		save.setTitle("确定");
 		save.setIcon(null);
 
@@ -156,24 +171,24 @@ public class TaskAllocationActivity extends ActivityBase {
 			break;
 
 		case R.id.save:
-			TranslateData();
+			//TranslateData();
 			break;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void TranslateData() {
+	public void TranslateData(int position) {
 
-		AddTaskEmployesBean mUserMessageBean = TaskAllocationAdapter.isSelectedName
-				.get("user");
+//		AddTaskEmployesBean mUserMessageBean = TaskAllocationAdapter.isSelectedName
+//				.get("user");
 		Intent intent = new Intent(TaskAllocationActivity.this,
 				AddTaskActivity.class);
-		if (null != mUserMessageBean) {
+		//if (null != mUserMessageBean) {
 			Bundle bundle = new Bundle();
-			bundle.putString("user", mUserMessageBean.getHrname());
+			bundle.putString("user",mUnCheckedMaterialBean.get(position).getHrname());
 			intent.putExtras(bundle);
-		}
+		//}
 		setResult(RESULT_OK, intent);
 		finish();
 	}

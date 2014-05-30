@@ -117,7 +117,13 @@ public class ListImagesAdapter extends BaseAdapter {
 		Constants.imageLoader.displayImage("file://"
 				+ list.get(position).getURL(), holder.image,
 				Constants.image_display_options, null);
-
+		Bitmap bit = Constants.GetLocalOrNetBitmap("file://"
+				+ list.get(position).getURL());
+		list.get(position).setHieght(bit.getHeight() + "");
+		list.get(position).setWidth(bit.getWidth() + "");
+		((ImgShowActivity) context).img_list.get(position).setHieght(
+				bit.getHeight() + "");
+		bit = null;
 		holder.editText.addTextChangedListener(new TextWatcher() {
 
 			@Override

@@ -89,7 +89,6 @@ public class MaterialAddActivity extends ActivityBase implements
 		final View view = View.inflate(this, R.layout.materialadd, null);
 		setContentView(view);
 		IBSApplication.getInstance().addActivity(this);
-
 		initData();
 		initViews();
 		initListeners();
@@ -195,8 +194,9 @@ public class MaterialAddActivity extends ActivityBase implements
 		super.onNewIntent(intent);
 		Bundle b = intent.getExtras();
 		if (b != null) {
-			mMaterialPropertyBean = (List<MaterialPropertyBean>) b
-					.getSerializable("proper");
+			if (null != b.getSerializable("proper"))
+				mMaterialPropertyBean = (List<MaterialPropertyBean>) b
+						.getSerializable("proper");
 			List<Entity> ee = (List<Entity>) b.getSerializable("imgshow_data");// 非编辑状态
 			List<Entity> ee1 = (List<Entity>) b
 					.getSerializable("edit_imgshow_data");// 编辑状态
@@ -246,14 +246,16 @@ public class MaterialAddActivity extends ActivityBase implements
 			if (null != img_list)
 				for (Entity e : img_list) {
 					MaterialPictureBean materialPictureBean = new MaterialPictureBean();
-					materialPictureBean.setImgabbrurl("");
-					materialPictureBean.setImgheight(e.getHieght());
+
 					materialPictureBean.setImgmemo(e.getText());
 					materialPictureBean.setImgname(e.getURL().substring(
 							e.getURL().length() - 15, e.getURL().length()));
-					materialPictureBean.setImgurl(e.getURL());
-					materialPictureBean.setMaterialid("111221");
-					materialPictureBean.setMatimgid("22332");
+					materialPictureBean.setMatimgid(getMyUUID());
+					materialPictureBean.setImghigh(e.getHieght());
+					materialPictureBean.setImgrule("");
+//					 materialPictureBean.setImgwidth(imgwidth);
+					materialPictureBean.setMaterialguid(getMyUUID());
+
 					mMaterialPictureBean.add(materialPictureBean);
 
 				}
@@ -502,6 +504,8 @@ public class MaterialAddActivity extends ActivityBase implements
 				Toast.makeText(this, "请添加描述", 500).show();
 			} else {
 
+				
+				
 				BaseHandler bHandler = new BaseHandler(this, mHandler);
 				tAddMaterialBean = new ArrayList<AddMaterialBean>();
 				// mMaterialPropertyBean = new
@@ -539,7 +543,8 @@ public class MaterialAddActivity extends ActivityBase implements
 				mAddMaterialBean.setIsdelete("0");
 				mAddMaterialBean.setAddman(com.victop.android.session.Container
 						.getInstance().getUser().getUserName());
-				mAddMaterialBean.setAddmanid("1");
+				mAddMaterialBean.setAddmanid(com.victop.android.session.Container
+						.getInstance().getUser().getUserCode());
 				mAddMaterialBean.setAdddate(time);
 				// mAddMaterialBean.setVersioncode("1");
 				// mAddMaterialBean.setMaterialid("");

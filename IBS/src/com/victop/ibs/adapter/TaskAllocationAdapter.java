@@ -108,6 +108,7 @@ public class TaskAllocationAdapter extends BaseAdapter {
 
 					}
 				});
+		holder.ckb_choise.setVisibility(View.GONE);
 		holder.ckb_choise.setChecked(isSelected.get(position));
 		if (tag.equals("gone")) {
 			holder.img_employeehead.setVisibility(View.GONE);

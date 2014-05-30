@@ -54,7 +54,8 @@ public class Container {
 	public static final int S_MODEL_FINISH = 9;
 	public static final int PAGESIZE = 10;
 	
-	
+	public static final String ACTION_TEST = "http://192.168.40.149:8080/fsweb/upload";//图片上传服务器测试地址
+	public static final String ACTION = "http://192.168.40.191:8080/fsweb/upload";//图片上传地址
 	/**
 	 * 用来存放一些键值对
 	 */

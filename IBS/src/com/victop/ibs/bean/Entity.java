@@ -10,6 +10,15 @@ public class Entity implements Serializable {
 
 	String Text;
 	String hieght;
+	String width;
+
+	public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
 
 	public String getHieght() {
 		return hieght;
@@ -19,7 +28,6 @@ public class Entity implements Serializable {
 		this.hieght = hieght;
 	}
 
-	
 	public String getURL() {
 		return URL;
 	}
