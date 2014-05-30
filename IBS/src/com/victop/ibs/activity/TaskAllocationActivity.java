@@ -36,7 +36,7 @@ public class TaskAllocationActivity extends ActivityBase {
 
 	private ClearEditText filter_edit;
 	private ListView employeelistview;
-	private RadioGroup radioGroup;
+	//private RadioGroup radioGroup;
 	private TaskAllocationAdapter employeeAdapter;
 	private List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 	private List<Map<String, String>> employ_list = new ArrayList<Map<String, String>>();
@@ -112,7 +112,7 @@ public class TaskAllocationActivity extends ActivityBase {
 		actionBar.setIcon(R.drawable.btn_back);
 		filter_edit = (ClearEditText) findViewById(R.id.filter_edit);
 		employeelistview = (ListView) findViewById(R.id.employeelist);
-		radioGroup = (RadioGroup) findViewById(R.id.allocation_group);
+		//radioGroup = (RadioGroup) findViewById(R.id.allocation_group);
 	}
 
 	@Override

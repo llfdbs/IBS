@@ -73,17 +73,17 @@ public class MUnCheckAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.imageView.setImageWidth(200);
-		if (null != duitangInfo.getImghigh()
-				&& null != duitangInfo.getImgwidth()
-				&& !"".equals(duitangInfo.getImghigh())
-				&& !"".equals(duitangInfo.getImgwidth())) {
-			float height = ((Float.valueOf(duitangInfo.getImghigh())) / Float
-					.valueOf(duitangInfo.getImgwidth())) * 200;
-
-			holder.imageView.setImageHeight((int) height + 100);
-		} else {
+//		if (null != duitangInfo.getImghigh()
+//				&& null != duitangInfo.getImgwidth()
+//				&& !"".equals(duitangInfo.getImghigh())
+//				&& !"".equals(duitangInfo.getImgwidth())) {
+//			float height = ((Float.valueOf(duitangInfo.getImghigh())) / Float
+//					.valueOf(duitangInfo.getImgwidth())) * 200;
+//
+//			holder.imageView.setImageHeight((int) height + 100);
+//		} else {
 			holder.imageView.setImageHeight(150);
-		}
+//		}
 		if (null != duitangInfo.getMaterialmemo())
 			holder.contentView.setText(duitangInfo.getMaterialmemo());
 		if (null != duitangInfo.getImgname()) {
