@@ -1,5 +1,7 @@
 package com.victop.ibs.activity;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.uploadfiles.UploadFiles;
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
 import com.victop.ibs.app.IBSApplication;
@@ -124,6 +127,54 @@ public class MaterialAddActivity extends ActivityBase implements
 			case 3:
 				String r2r = (String) msg.obj;
 				Toast.makeText(getApplicationContext(), r2r, 1000).show();
+				break;
+			case 5:
+				List<String> list = (List<String>) msg.obj;
+				if (null != list)
+					for (int i = 0; i < list.size(); i++) {
+							MaterialPictureBean m =mMaterialPictureBean.get(i);
+							m.setImgname(list.get(i));
+					}
+
+				BaseHandler bHandler = new BaseHandler(getApplicationContext(),
+						mHandler);
+				tAddMaterialBean = new ArrayList<AddMaterialBean>();
+
+				String time = getTime();
+				AddMaterialBean mAddMaterialBean = new AddMaterialBean();
+
+				if (null != taskid_status && !"".equals(taskid_status))
+					taskid = taskid_status;
+				mAddMaterialBean.setTaskid(taskid);
+				if (null != taskcode_status && !"".equals(taskcode_status)) {
+					mAddMaterialBean.setTaskcode(taskcode_status);
+				} else {
+					mAddMaterialBean.setTaskcode(taskcode);
+				}
+				mAddMaterialBean.setIsdelete("0");
+				mAddMaterialBean.setAddman(com.victop.android.session.Container
+						.getInstance().getUser().getUserName());
+				mAddMaterialBean
+						.setAddmanid(com.victop.android.session.Container
+								.getInstance().getUser().getUserCode());
+				mAddMaterialBean.setAdddate(time);
+				 mAddMaterialBean.setVersioncode("1.0");
+				// mAddMaterialBean.setMaterialid("");
+				mAddMaterialBean.setMaterialmemo(et_memo.getText().toString());
+				mAddMaterialBean.setMaterialstatus("0");
+				// mAddMaterialBean.setMaterialcode("");
+				mAddMaterialBean.setMaterialguid(getMyUUID());
+				tAddMaterialBean.add(mAddMaterialBean);
+				Map<String, List> dataMap1 = new HashMap<String, List>();
+
+				dataMap1.put("13", mMaterialPropertyBean);
+				dataMap1.put("16", mMaterialPictureBean);
+				dataMap1.put("11", tAddMaterialBean);
+				dataMap1.put("18", mMaterialTagBean);
+				SavePresenter.getInstance().SaveInitData(bHandler, "11112",
+						"IBS11112", "11,13,16,18", dataMap1, null);
+				break;
+			case 6:
 				break;
 			}
 		}
@@ -248,12 +299,11 @@ public class MaterialAddActivity extends ActivityBase implements
 					MaterialPictureBean materialPictureBean = new MaterialPictureBean();
 
 					materialPictureBean.setImgmemo(e.getText());
-					materialPictureBean.setImgname(e.getURL().substring(
-							e.getURL().length() - 15, e.getURL().length()));
+					materialPictureBean.setImgname(e.getURL());
 					materialPictureBean.setMatimgid(getMyUUID());
 					materialPictureBean.setImghigh(e.getHieght());
 					materialPictureBean.setImgrule("");
-//					 materialPictureBean.setImgwidth(imgwidth);
+					// materialPictureBean.setImgwidth(imgwidth);
 					materialPictureBean.setMaterialguid(getMyUUID());
 
 					mMaterialPictureBean.add(materialPictureBean);
@@ -503,80 +553,51 @@ public class MaterialAddActivity extends ActivityBase implements
 					|| et_memo.getText().toString() == null) {
 				Toast.makeText(this, "请添加描述", 500).show();
 			} else {
+				List<File> fileList = new ArrayList<File>();
+				for (MaterialPictureBean m : mMaterialPictureBean) {
 
-				
-				
-				BaseHandler bHandler = new BaseHandler(this, mHandler);
-				tAddMaterialBean = new ArrayList<AddMaterialBean>();
-				// mMaterialPropertyBean = new
-				// ArrayList<MaterialPropertyBean>();
-				// MaterialPropertyBean property = new MaterialPropertyBean();
-				// property.setClassid("233");
-				// property.setNatureid("233");
-				// property.setNaturevalue("233");
-				//
-				// property.setMaterialguid(getMyUUID());
-				// property.setMatnatureid("233");
-				// property.setNaturedetailid("788");
-				// mMaterialPropertyBean.add(property);
-
-				// mMaterialTagBean = new ArrayList<MaterialTagBean>();
-				// MaterialTagBean m = new MaterialTagBean();
-				//
-				// m.setLableid("223");
-				// m.setMaterialid("223");
-				// m.setMatlableid("223");
-				// mMaterialTagBean.add(m);
-
-				String time = getDate();
-				AddMaterialBean mAddMaterialBean = new AddMaterialBean();
-				// mAddMaterialBean.setFtpguid("11");
-
-				if (null != taskid_status && !"".equals(taskid_status))
-					taskid = taskid_status;
-				mAddMaterialBean.setTaskid(taskid);
-				if (null != taskcode_status && !"".equals(taskcode_status)) {
-					mAddMaterialBean.setTaskcode(taskcode_status);
-				} else {
-					mAddMaterialBean.setTaskcode(taskcode);
+					File f = new File(m.getImgname());
+					fileList.add(f);
 				}
-				mAddMaterialBean.setIsdelete("0");
-				mAddMaterialBean.setAddman(com.victop.android.session.Container
-						.getInstance().getUser().getUserName());
-				mAddMaterialBean.setAddmanid(com.victop.android.session.Container
-						.getInstance().getUser().getUserCode());
-				mAddMaterialBean.setAdddate(time);
-				// mAddMaterialBean.setVersioncode("1");
-				// mAddMaterialBean.setMaterialid("");
-				mAddMaterialBean.setMaterialmemo(et_memo.getText().toString());
-				mAddMaterialBean.setMaterialstatus("0");
-				// mAddMaterialBean.setMaterialcode("");
-				mAddMaterialBean.setMaterialguid(getMyUUID());
-				tAddMaterialBean.add(mAddMaterialBean);
-				Map<String, List> dataMap = new HashMap<String, List>();
+				saveImage(fileList);
 
-				dataMap.put("13", mMaterialPropertyBean);
-				dataMap.put("16", mMaterialPictureBean);
-				dataMap.put("11", tAddMaterialBean);
-				dataMap.put("18", mMaterialTagBean);
-				SavePresenter.getInstance().SaveInitData(bHandler, "11112",
-						"IBS11112", "11,13,16,18", dataMap, null);
 			}
 
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	// private String ftpguid;// ftp批次号
-	// private String taskid;// 任务id
-	// private String taskcode;// 任务单号
-	// private String isdelete;// 删除标识
-	// private String addman;// 提交人
-	// private String addid;// 提交人id
-	// private String adddate;// 添加日期
-	// private String versioncode;// 版本号
-	// private String materialid;// 素材id
-	// private String materialmemo;// 素材内容
-	// private String materialstatus;// 素材状态
-	// private String materialcode;// 素材编号
+
+	private void saveImage(final List<File> fileList) {
+		String newName = getMyUUID() + ".jpg";
+		System.out.println(newName + "--------------");
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+
+				try {
+
+					List<String> list = (new UploadFiles()).uploadFileClient(
+							Container.ACTION, fileList);
+					if (null != list) {
+						Message msg = new Message();
+						msg.what = 5;
+						msg.obj = list;
+						mHandler.sendMessage(msg);
+					} else {
+						Message msgs = new Message();
+						msgs.what = 6;
+						mHandler.sendMessage(msgs);
+					}
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
+	}
 }

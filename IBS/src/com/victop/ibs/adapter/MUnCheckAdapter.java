@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.dodowaterfall.widget.ScaleImageView;
 import com.example.android.bitmapfun.util.ImageFetcher;
-import com.victop.ibs.activity.MaterialAllActivity;
 import com.victop.ibs.activity.MaterialDetailActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.UnCheckedMaterialBean;
+import com.victop.ibs.util.Container;
 
 public class MUnCheckAdapter extends BaseAdapter {
 	private Context mContext;
@@ -88,9 +88,13 @@ public class MUnCheckAdapter extends BaseAdapter {
 			holder.contentView.setText(duitangInfo.getMaterialmemo());
 		if (null != duitangInfo.getImgname()) {
 			mImageFetcher
-					.loadImage(
-							"http://img4.duitang.com/uploads/item/201307/29/20130729153409_YCfU2.thumb.200_0.jpeg",
-							holder.imageView);
+			.loadImage(
+					Container.Imgurl ,
+					holder.imageView);
+//			mImageFetcher
+//					.loadImage(
+//							"http://img4.duitang.com/uploads/item/201307/29/20130729153409_YCfU2.thumb.200_0.jpeg",
+//							holder.imageView);
 		} else {
 			holder.imageView.setBackgroundResource(R.drawable.one);
 		}
