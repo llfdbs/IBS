@@ -29,7 +29,7 @@ public class GetTaskPresenter {
 		getDataParam.setModelId(modelId);
 		getDataParam.setDatasetId(datasetId);
 		HashMap<String, String> map =new HashMap<String, String>();
-		map.put("hrid",Container.getInstance().getUser().getUserCode());
+		map.put("hrid",Container.getInstance().getUserInfo().getUsercode());
 		map.put("ispage", page.getIspage()+"");
 		map.put("pageno", page.getPageno()+"");
 		map.put("pagesize",page.getPagesize()+"");

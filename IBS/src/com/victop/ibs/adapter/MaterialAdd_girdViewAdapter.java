@@ -25,13 +25,14 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 	private int int_temp = 0;
 	// =new ArrayList<Map<String, String>>()
 	List<Entity> list;
-	
+	ShowUploadWayClass showUploadWay;
 
 	public MaterialAdd_girdViewAdapter(Context context, List<Entity> list,
-			int temp) {
+			int temp,ShowUploadWayClass showUploadWay) {
 
 		this.context = context;
 		this.temp = temp;
+		this.showUploadWay = showUploadWay;
 		if (list != null)
 			this.list = list;
 		else
@@ -81,12 +82,9 @@ public class MaterialAdd_girdViewAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					Intent _Intent = new Intent(context,
-							ImgFileListActivity.class);
-					context.startActivity(_Intent);
 
 					// MaterialAddActivity.showUploadWayDialog();
-					
+					showUploadWay.showUploadWayDialog();
 					// Intent _Intent = new Intent(context,
 					// ImgFileListActivity.class);
 					// context.startActivity(_Intent);
