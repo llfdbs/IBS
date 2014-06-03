@@ -27,7 +27,7 @@ import com.victop.ibs.bean.SendTaskCountBean;
 import com.victop.ibs.bean.UnCheckedMaterialCountBean;
 import com.victop.ibs.bean.UnfinishedMaterialCountBean;
 import com.victop.ibs.bean.UserMessageBean;
-import com.victop.ibs.handler.HomeHandler;
+import com.victop.ibs.handler.PersonCenterHandler;
 import com.victop.ibs.presenter.PersonCenterPresenter;
 
 /**
@@ -48,7 +48,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	private String str_userName, str_headUrl, str_unfinishedMaterialCount,
 			str_checkedMaterialCount, str_uncheckedMaterialCount,
 			str_getTaskCount, str_sendTaskCount;
-	private HomeHandler homeHandler;
+	private PersonCenterHandler personCenterHandler;
 	private PersonCenterPresenter pcp;
 	private List<UserMessageBean> userMessage = new ArrayList<UserMessageBean>();
 	private List<MaterialCountBean> materialCount = new ArrayList<MaterialCountBean>();
@@ -124,9 +124,9 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	 * 请求网络数据装配方法
 	 * */
 	private void initHandler(Handler handler) {
-		homeHandler = new HomeHandler((MainActivity) getActivity(), handler);
+		personCenterHandler = new PersonCenterHandler((MainActivity) getActivity(), handler);
 		pcp = new PersonCenterPresenter();
-		pcp.getInitData(homeHandler);
+		pcp.getInitData(personCenterHandler);
 	}
 
 	public void initData() {

@@ -44,6 +44,7 @@ import android.widget.Toast;
 import com.android.uploadfiles.UploadFiles;
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
+import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter.ShowUploadWayClass;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.AddMaterialBean;
@@ -65,7 +66,7 @@ import com.victop.ibs.view.MyGridView;
  * 
  */
 public class MaterialAddActivity extends ActivityBase implements
-		OnClickListener {
+		OnClickListener,ShowUploadWayClass{
 	private LinearLayout llt_sort, llt_property, llt_task, llt_tag;
 	private TextView tv_sort, tv_task, tv_tag;
 	private MyGridView mgv_material;
@@ -97,6 +98,7 @@ public class MaterialAddActivity extends ActivityBase implements
 	private UUID uuid;
 	private Entity e;
 	private AlertDialog dialog;
+	
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -278,7 +280,7 @@ public class MaterialAddActivity extends ActivityBase implements
 						iv_addimg.setVisibility(View.GONE);
 						ibtn_edit.setVisibility(View.VISIBLE);
 						mAdapter = new MaterialAdd_girdViewAdapter(this,
-								img_list, 0);
+								img_list, 0,this);
 						mgv_material.setAdapter(mAdapter);
 					}
 				} else {
@@ -287,7 +289,7 @@ public class MaterialAddActivity extends ActivityBase implements
 					iv_addimg.setVisibility(View.GONE);
 					ibtn_edit.setVisibility(View.VISIBLE);
 					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
-							0);
+							0,this);
 					mgv_material.setAdapter(mAdapter);
 
 				}
@@ -304,7 +306,7 @@ public class MaterialAddActivity extends ActivityBase implements
 					iv_addimg.setVisibility(View.GONE);
 					ibtn_edit.setVisibility(View.VISIBLE);
 					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
-							0);
+							0,this);
 					mgv_material.setAdapter(mAdapter);
 				}
 			}
@@ -466,7 +468,7 @@ public class MaterialAddActivity extends ActivityBase implements
 				showDialogs(arg2);
 			}
 		});
-		mAdapter = new MaterialAdd_girdViewAdapter(this, img_list, 0);
+		mAdapter = new MaterialAdd_girdViewAdapter(this, img_list, 0,this);
 		mgv_material.setAdapter(mAdapter);
 		llt_sort.setOnClickListener(this);
 		llt_property.setOnClickListener(this);
@@ -684,5 +686,11 @@ public class MaterialAddActivity extends ActivityBase implements
 
 			}
 		}).start();
+	}
+
+	@Override
+	public void showUploadWayDialog() {
+		// TODO Auto-generated method stub
+		showUploadWayDialogs();
 	}
 }
