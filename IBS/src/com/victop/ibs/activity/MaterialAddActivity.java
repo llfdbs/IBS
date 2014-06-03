@@ -168,10 +168,10 @@ public class MaterialAddActivity extends ActivityBase implements
 				}
 				mAddMaterialBean.setIsdelete("0");
 				mAddMaterialBean.setAddman(com.victop.android.session.Container
-						.getInstance().getUser().getUserName());
+						.getInstance().getUserInfo().getUserName());
 				mAddMaterialBean
 						.setAddmanid(com.victop.android.session.Container
-								.getInstance().getUser().getUserCode());
+								.getInstance().getUserInfo().getUsercode());
 				mAddMaterialBean.setAdddate(time);
 				 mAddMaterialBean.setVersioncode("1.0");
 				// mAddMaterialBean.setMaterialid("");
