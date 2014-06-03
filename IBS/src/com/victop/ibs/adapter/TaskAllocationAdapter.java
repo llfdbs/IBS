@@ -26,13 +26,23 @@ public class TaskAllocationAdapter extends BaseAdapter {
 	public static HashMap<Integer, Boolean> isSelectedCount = new HashMap<Integer, Boolean>();
 	public static HashMap<String, AddTaskEmployesBean> isSelectedName = new HashMap<String, AddTaskEmployesBean>();
 
-	public TaskAllocationAdapter(Context context, List<AddTaskEmployesBean> list,
-			String tag) {
+	public TaskAllocationAdapter(Context context,
+			List<AddTaskEmployesBean> list, String tag) {
 		this.context = context;
 		this.list = list;
 		this.layoutInflater = LayoutInflater.from(context);
 		this.tag = tag;
 		init();
+	}
+
+	/**
+	 * 当ListView数据发生变化时,调用此方法来更新ListView
+	 * 
+	 * @param list
+	 */
+	public void updateListView(List<AddTaskEmployesBean> list) {
+		this.list = list;
+		notifyDataSetChanged();
 	}
 
 	private void init() {
@@ -82,34 +92,27 @@ public class TaskAllocationAdapter extends BaseAdapter {
 			holder = (Holder) convertView.getTag();
 		}
 		holder.tv_employeename.setText(list.get(position).getHrname());
-		holder.ckb_choise
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						// TODO Auto-generated method stub
-						isSelected.put(position, isChecked);
-
-						if (isChecked) {
-							isSelectedCount.put(position, isChecked);
-							isSelectedName.put("user", list.get(position));
-						} else {
-							isSelectedCount.remove(position);
-							isSelectedName.remove("user");
-						}
-						// if (tag.equals("gone")) {
-						// TaskAllocationActivity.setTitle("已选"
-						// + isSelectedCount.size() + "个小组");
-						// } else {
-						// TaskAllocationActivity.setTitle("已选"
-						// + isSelectedCount.size() + "人");
-						// }
-
-					}
-				});
-		holder.ckb_choise.setVisibility(View.GONE);
-		holder.ckb_choise.setChecked(isSelected.get(position));
+		// holder.ckb_choise
+		// .setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		//
+		// @Override
+		// public void onCheckedChanged(CompoundButton buttonView,
+		// boolean isChecked) {
+		// // TODO Auto-generated method stub
+		// isSelected.put(position, isChecked);
+		//
+		// if (isChecked) {
+		// isSelectedCount.put(position, isChecked);
+		// isSelectedName.put("user", list.get(position));
+		// } else {
+		// isSelectedCount.remove(position);
+		// isSelectedName.remove("user");
+		// }
+		//
+		// }
+		// });
+		 holder.ckb_choise.setVisibility(View.GONE);
+		// holder.ckb_choise.setChecked(isSelected.get(position));
 		if (tag.equals("gone")) {
 			holder.img_employeehead.setVisibility(View.GONE);
 		} else {
@@ -117,6 +120,37 @@ public class TaskAllocationAdapter extends BaseAdapter {
 		}
 
 		return convertView;
+	}
+
+	public int getSectionForPosition(int position) {
+		return list.get(position).getSortLetters().charAt(0);
+	}
+
+	public int getPositionForString(String section) {
+		for (int i = 0; i < getCount(); i++) {
+			String sortStr = list.get(i).getHrname();
+			// char firstChar = sortStr.toUpperCase().charAt(0);
+			if (sortStr == section) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	public int getLastPositionForSection(int section) {
+		int temp = 0;
+		for (int i = 0; i < getCount(); i++) {
+			String sortStr = list.get(i).getSortLetters();
+			char firstChar = sortStr.toUpperCase().charAt(0);
+			if (firstChar == section) {
+				temp++;
+
+			}
+
+		}
+
+		return temp;
 	}
 
 	class Holder {
