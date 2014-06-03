@@ -71,7 +71,7 @@ public class TaskAllocationActivity extends ActivityBase {
 		Getpresenter.getInstance().getInitbData(bHandler, clsMap, null,
 				AddTaskEmployesBean.modelId, AddTaskEmployesBean.datasetId,
 				null, AddTaskEmployesBean.fromId);
-
+  
 	}
 
 	Handler mHandler = new Handler() {
