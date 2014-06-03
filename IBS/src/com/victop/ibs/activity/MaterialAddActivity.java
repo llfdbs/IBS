@@ -32,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.uploadfiles.UploadFiles;
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
@@ -64,7 +63,6 @@ public class MaterialAddActivity extends ActivityBase implements
 	MaterialAdd_girdViewAdapter mAdapter;
 	private TextView tv_position, tv_detail;
 	private ImageView iv_addimg;
-
 	private ActionBar actionBar;// 导航栏
 	private MenuItem search, add, save;// 搜索,添加，保存按钮
 	public List<Entity> img_list = null;// 传递数据

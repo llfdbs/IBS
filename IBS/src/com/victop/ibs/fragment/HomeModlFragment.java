@@ -63,18 +63,6 @@ public class HomeModlFragment extends Fragment {
 				materialCount = dataMap.get("3");
 				sendTaskCount = dataMap.get("4");
 				getTaskCount = dataMap.get("5");
-				if (null == userMessage) {
-					userMessage = new ArrayList<UserMessageBean>();
-				}
-				if (null == materialCount) {
-					materialCount = new ArrayList<MaterialCountBean>();
-				}
-				if (null == sendTaskCount) {
-					sendTaskCount = new ArrayList<SendTaskCountBean>();
-				}
-				if (null == getTaskCount) {
-					getTaskCount = new ArrayList<GetTaskCountBean>();
-				}
 				initData();
 
 			}
@@ -103,26 +91,26 @@ public class HomeModlFragment extends Fragment {
 	}
 
 	public void initData() {
-		if (userMessage.size() > 0) {
+		if (null!=userMessage && userMessage.size() > 0) {
 			str_userName = userMessage.get(0).getHrname();
 			str_headUrl = userMessage.get(0).getHeadimage();
 			tv_role.setText(str_userName);
 		} else {
 			tv_role.setText("");
 		}
-		if (userMessage.size() > 0) {
+		if (null != materialCount && materialCount.size() > 0) {
 			str_materialCout = materialCount.get(0).getSummaterialid();
 			btn_manager_material.setText("素材(" + str_materialCout + ")");
 		} else {
 			btn_manager_material.setText("素材");
 		}
-		if (userMessage.size() > 0) {
+		if (null != getTaskCount && getTaskCount.size() > 0) {
 			str_getTaskCount = getTaskCount.get(0).getSumtaskid();
 			btn_manager_receivedtask.setText("接受的任务(" + str_getTaskCount + ")");
 		} else {
 			btn_manager_receivedtask.setText("接受的任务");
 		}
-		if (userMessage.size() > 0) {
+		if (null!= sendTaskCount && sendTaskCount.size() > 0) {
 			str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
 			btn_manager_sendedtask.setText("发布的任务(" + str_sendTaskCount + ")");
 		} else {
