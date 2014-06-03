@@ -26,9 +26,9 @@ public class TasksaveBean extends BaseBean {
 
 	 private String responsibleid;// 负责人ID
 	 private String responsiblename;// 负责人姓名
-	public TasksaveBean() {
-		setRowState("4");
-	}
+	 public TasksaveBean(String RawStatus) {
+			setRowState(RawStatus);
+		}
 
 	public String getTaskid() {
 		return taskid;

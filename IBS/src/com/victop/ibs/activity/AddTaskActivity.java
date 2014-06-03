@@ -480,7 +480,7 @@ public class AddTaskActivity extends ActivityBase {
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 
-						TasksaveBean tasksaveBean = new TasksaveBean();
+						TasksaveBean tasksaveBean = new TasksaveBean("4");
 						tasksaveBean.setTaskname(edt_taskname.getText()
 								.toString());
 						tasksaveBean.setTaskmemo(edt_taskdetail.getText()
@@ -520,7 +520,7 @@ public class AddTaskActivity extends ActivityBase {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				TasksaveBean tasksaveBean = new TasksaveBean();
+				TasksaveBean tasksaveBean = new TasksaveBean("4");
 				tasksaveBean.setTaskname(edt_taskname.getText().toString());
 				tasksaveBean.setTaskmemo(edt_taskdetail.getText().toString());
 				tasksaveBean.setTaskstatus("1");

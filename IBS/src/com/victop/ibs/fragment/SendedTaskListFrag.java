@@ -53,10 +53,10 @@ public class SendedTaskListFrag extends Fragment implements
 	private Page task_unfinishPage = new Page();// 未完成分页对象
 	private Page task_finishPage = new Page();// 已完成分页对象
 	private Page task_unsendPage = new Page();// 未发放分页对象
-	private int pageno_all = 1;// 全部任务页码
-	private int pageno_unfinish = 1;// 未完成任务页码
-	private int pageno_finish = 1;// 已完成任务页码
-	private int pageno_unsend = 1;// 未发放任务页码
+	//private int pageno_all = 1;// 全部任务页码
+	//private int pageno_unfinish = 1;// 未完成任务页码
+	//private int pageno_finish = 1;// 已完成任务页码
+	//private int pageno_unsend = 1;// 未发放任务页码
 	private int pageSize;// 页面显示的条目数量
 	private SendTaskListAdapter adapter;
 	private ListView mListView;
@@ -106,7 +106,8 @@ public class SendedTaskListFrag extends Fragment implements
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_list.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
-					pageno_all++;
+					task_allPage.setPageno(task_allPage.getPageno()+1);
+					//pageno_all++;
 				} else {
 					mPullListView.setHasMoreData(false);
 				}
@@ -150,7 +151,8 @@ public class SendedTaskListFrag extends Fragment implements
 				// 当返回的数量大于页面显示的条目数量,页码加一,设置列表有更多数据
 				if (task_unfinishList.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
-					pageno_unfinish++;
+					//pageno_unfinish++;
+					task_unfinishPage.setPageno(task_unfinishPage.getPageno()+1);
 				} else {
 					mPullListView.setHasMoreData(false);
 				}
@@ -192,7 +194,8 @@ public class SendedTaskListFrag extends Fragment implements
 				}
 				if (task_finishList.size() >= pageSize) {
 					mPullListView.setHasMoreData(true);
-					pageno_finish++;
+					task_finishPage.setPageno(task_finishPage.getPageno()+1);
+					//pageno_finish++;
 				} else {
 					mPullListView.setHasMoreData(false);
 				}
@@ -237,7 +240,8 @@ public class SendedTaskListFrag extends Fragment implements
 					}
 					if (task_unsendList.size() >= pageSize) {
 						mPullListView.setHasMoreData(true);
-						pageno_unsend++;
+						task_unsendPage.setPageno(task_unsendPage.getPageno()+1);
+						//pageno_unsend++;
 					} else {
 						mPullListView.setHasMoreData(false);
 
@@ -350,8 +354,7 @@ public class SendedTaskListFrag extends Fragment implements
 				task_list_data.clear();
 			}
 			// 设置页码数为1
-			pageno_all = 1;
-			setPage(task_allPage, 1, pageno_all, pageSize);
+			task_allPage.setPageno(1);
 			initHandler(handler, null, task_allPage);
 			break;
 		case Container.MODEL_UNFINISH:
@@ -360,8 +363,7 @@ public class SendedTaskListFrag extends Fragment implements
 				task_unfinishList_data.clear();
 			}
 			// 设置页码数为1
-			pageno_unfinish = 1;
-			setPage(task_unfinishPage, 1, pageno_unfinish, pageSize);
+			task_unfinishPage.setPageno(1);
 			initHandler(handler_unfinish, Container.STATUS_UNFINISH,
 					task_unfinishPage);
 			break;
@@ -371,8 +373,7 @@ public class SendedTaskListFrag extends Fragment implements
 				task_finishList_data.clear();
 			}
 			// 设置页码数为1
-			pageno_finish = 1;
-			setPage(task_finishPage, 1, 1, pageSize);
+			task_finishPage.setPageno(1);
 			initHandler(handler_finish, Container.STATUS_FINISH,
 					task_finishPage);
 			break;
@@ -382,8 +383,7 @@ public class SendedTaskListFrag extends Fragment implements
 				task_unsendList_data.clear();
 			}
 			// 设置页码数为1
-			pageno_finish = 1;
-			setPage(task_unsendPage, 1, 1, pageSize);
+			task_unsendPage.setPageno(1);
 			initHandler(handler_unsend, Container.STATUS_ALL, task_unsendPage);
 			break;
 		}
@@ -398,43 +398,29 @@ public class SendedTaskListFrag extends Fragment implements
 		switch (Model) {
 		case Container.MODEL_ALL:
 
-			setPage(task_allPage, 1, pageno_all, pageSize);
+			
 			initHandler(handler, null, task_allPage);
 			break;
 		case Container.MODEL_UNFINISH:
 
-			setPage(task_unfinishPage, pageno_unfinish, 1, pageSize);
+			
 			initHandler(handler_unfinish, "1", task_unfinishPage);
 			break;
 		case Container.MODEL_FINISH:
 
-			setPage(task_finishPage, 1, pageno_finish, pageSize);
+			
 			initHandler(handler_finish, "2", task_finishPage);
 			break;
 		case Container.MODEL_UNSEND:
 
-			setPage(task_finishPage, 1, pageno_unsend, pageSize);
+			
 			initHandler(handler_finish, "0", task_finishPage);
 			break;
 		}
 
 	}
 
-	/**
-	 * 设置分页参数
-	 * 
-	 * @page 分页对象
-	 * @ispage 是否分页（0不分页,1分页）
-	 * @param pageno页码
-	 * @param pagesize
-	 *            页面显示的条数
-	 * */
-	public void setPage(Page page, int ispage, int pageno, int pagesize) {
-		page.setIspage(ispage);// 是否分页（1分页，0不分页）
-		page.setPageno(pageno);// 页码
-		page.setPagesize(pagesize);// 页面显示条目
-	}
-
+	
 	/**
 	 * 请求网络数据装配方法
 	 * */
