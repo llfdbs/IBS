@@ -38,9 +38,9 @@ public class PersonCenterPresenter {
 		getDataParam.setModelId(modelId);
 		getDataParam.setDatasetId(datasetId);
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("addmanid",Container.getInstance().getUser().getUserCode());
-		map.put("responsibleid",Container.getInstance().getUser().getUserCode());
-		map.put("hrid", Container.getInstance().getUser().getUserCode());
+		map.put("addmanid",Container.getInstance().getUserInfo().getUsercode());
+		map.put("responsibleid",Container.getInstance().getUserInfo().getUsercode());
+		map.put("hrid", Container.getInstance().getUserInfo().getUsercode());
 		getDataParam.setDataparamMap(map);
 		Map<String, Class> clsMap = new HashMap<String, Class>();
 		clsMap.put("10", UserMessageBean.class);

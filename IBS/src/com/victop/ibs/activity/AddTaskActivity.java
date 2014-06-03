@@ -72,7 +72,8 @@ public class AddTaskActivity extends ActivityBase {
 	String mUserMessageBean;
 	String taskid = "";
 	String taskstatus = "";
-
+	Bundle b;
+	TasksaveBean tasksaveBean;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -115,19 +116,21 @@ public class AddTaskActivity extends ActivityBase {
 //					Date date = fmt.parse(s);
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 					try {
-						d1 = df.parse(mTaskDetailBean.getDuedate());
-						d2 = new Date(System.currentTimeMillis());
-						if (d2.getTime() < d1.getTime()) {
+						d1 = new Date(System.currentTimeMillis());//当前时间
+						d2 = df.parse(mTaskDetailBean.getDuedate());//用户选择的时间
+						if (d1.getTime() < d2.getTime()) {
+							days = daysBetween(d1, d2);
+							tv_date.setText(mTaskDetailBean.getDuedate());
+							tv_datecount.setText(days + "天");
+							
+						} else {
 							Calendar cals = Calendar.getInstance();
 							cal.setTime(d1);
+							currentdate = df.format(new Date());
 							Toast.makeText(AddTaskActivity.this,
 									"截止日期要大于当前时间,当前日期为:" + currentdate,
 									Toast.LENGTH_SHORT).show();
 							return;
-						} else {
-							days = daysBetween(d1, d2);
-							tv_date.setText(mTaskDetailBean.getDuedate());
-							tv_datecount.setText(days + "天");
 						}
 
 					} catch (ParseException e1) {
@@ -148,7 +151,7 @@ public class AddTaskActivity extends ActivityBase {
 
 	@Override
 	public void initData() {
-		Bundle b = getIntent().getExtras();
+		b = getIntent().getExtras();
 		if (null != b) {
 			String taskid = b.getString("taskid");
 			String taskstatus = b.getString("status");
@@ -479,8 +482,12 @@ public class AddTaskActivity extends ActivityBase {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-
-						TasksaveBean tasksaveBean = new TasksaveBean("4");
+                        if(null != b){
+                        tasksaveBean = new TasksaveBean("8");
+                        }else{
+                        tasksaveBean = new TasksaveBean("4");
+                        }
+						
 						tasksaveBean.setTaskname(edt_taskname.getText()
 								.toString());
 						tasksaveBean.setTaskmemo(edt_taskdetail.getText()
@@ -520,7 +527,11 @@ public class AddTaskActivity extends ActivityBase {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				TasksaveBean tasksaveBean = new TasksaveBean("4");
+				 if(null != b){
+                     tasksaveBean = new TasksaveBean("8");
+                     }else{
+                     tasksaveBean = new TasksaveBean("4");
+                     }
 				tasksaveBean.setTaskname(edt_taskname.getText().toString());
 				tasksaveBean.setTaskmemo(edt_taskdetail.getText().toString());
 				tasksaveBean.setTaskstatus("1");
