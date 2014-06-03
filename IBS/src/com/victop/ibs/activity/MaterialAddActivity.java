@@ -8,13 +8,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
@@ -24,14 +29,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.uploadfiles.UploadFiles;
 import com.victop.ibs.adapter.Mat_add_ImagePagerAdapter;
 import com.victop.ibs.adapter.MaterialAdd_girdViewAdapter;
@@ -46,6 +55,7 @@ import com.victop.ibs.bean.TagBean;
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.SavePresenter;
 import com.victop.ibs.util.Container;
+import com.victop.ibs.util.Tools;
 import com.victop.ibs.view.MyGridView;
 
 /**
@@ -82,6 +92,11 @@ public class MaterialAddActivity extends ActivityBase implements
 	private String taskid = "";
 	private String taskcode_status = "";// 从未完成任务详情过来，添加
 	private String taskid_status = "";
+	public static final int PHOTOHRAPH = 3;// 拍照
+	public File picture;
+	private UUID uuid;
+	private Entity e;
+	private AlertDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -224,7 +239,8 @@ public class MaterialAddActivity extends ActivityBase implements
 			openActivity(ImgShowActivity.class, b);
 			break;
 		case R.id.img:
-			openActivity(ImgFileListActivity.class, null);
+			//openActivity(ImgFileListActivity.class, null);
+			showUploadWayDialogs();
 			break;
 		}
 	}
@@ -355,6 +371,24 @@ public class MaterialAddActivity extends ActivityBase implements
 				taskid = b.getString("taskid");
 				tv_task.setText(taskcode);
 			}
+			break;
+		case PHOTOHRAPH:
+			// 拍照
+
+			// 设置文件保存路径这里放在跟目录下
+			picture = new File(Environment.getExternalStorageDirectory() + "/"
+					+ uuid + ".jpg");
+			String url = picture.getPath().toString();
+			// startPhotoZoom(Uri.fromFile(picture));
+			// Bitmap map = getBitmapByPath(picture.getPath().toString());
+			Bundle b = new Bundle();
+			List<Entity> ee = new ArrayList<Entity>();
+			e = new Entity();
+			e.setText("");
+			e.setURL(url);
+			ee.add(e);
+			b.putSerializable("data", (Serializable) ee);
+			openActivity(ImgShowActivity.class, b);
 			break;
 		// case Container.PROPER:// 属性
 		// if (data != null) {
@@ -511,6 +545,59 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_position.setText(rr);
 		tv_detail.setText(dd);
 	}
+	// 弹出上传图片方式对话框
+		public void showUploadWayDialogs() {
+			dialog = new AlertDialog.Builder(MaterialAddActivity.this).create();
+			dialog.show();
+			Window window = dialog.getWindow();
+			WindowManager.LayoutParams lp = window.getAttributes();
+			lp.x = 0;
+			lp.y = 330;
+			dialog.onWindowAttributesChanged(lp);
+			window.setContentView(R.layout.uploadimageways);
+			Button uploadbycream = (Button) window.findViewById(R.id.uploadbycream);
+			Button uploadbyphotos = (Button) window
+					.findViewById(R.id.uploadbyphotos);
+			Button uploadcancle = (Button) window.findViewById(R.id.uploadcancle);
+			uploadbycream.setOnClickListener(btn_uploadByCream);
+			uploadbyphotos.setOnClickListener(btn_uploadByPhotos);
+			uploadcancle.setOnClickListener(btn_uploadcancle);
+		}
+
+		// 拍照上传图片
+		OnClickListener btn_uploadByCream = new OnClickListener() {
+
+			public void onClick(View v) {
+				uuid = Tools.generateUUid();
+				Bundle bundle = new Bundle();
+				bundle.putParcelable(MediaStore.EXTRA_OUTPUT, Uri
+						.fromFile(new File(Environment
+								.getExternalStorageDirectory(), uuid + ".jpg")));
+				openCameraActivityForResult(bundle, PHOTOHRAPH,
+						MediaStore.ACTION_IMAGE_CAPTURE);
+				dialog.dismiss();
+
+			}
+		};
+		// 从图片库中选择图片
+		OnClickListener btn_uploadByPhotos = new OnClickListener() {
+
+			public void onClick(View v) {
+
+				dialog.dismiss();
+				openActivity(ImgFileListActivity.class, null);
+
+			}
+		};
+		// 取消上传图片
+		OnClickListener btn_uploadcancle = new OnClickListener() {
+
+			public void onClick(View v) {
+
+				dialog.dismiss();
+
+			}
+		};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
