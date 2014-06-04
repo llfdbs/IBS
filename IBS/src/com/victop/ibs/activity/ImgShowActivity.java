@@ -20,7 +20,7 @@ import com.victop.ibs.adapter.ListImagesAdapter;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.Entity;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.ibs.view.BaseSwipeListViewListener;
 import com.victop.ibs.view.SwipeListView;
 
@@ -83,8 +83,8 @@ public class ImgShowActivity extends ActivityBase {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		Container.et_Map.clear();
-		Container.tv_Map.clear();
+		MyContainer.et_Map.clear();
+		MyContainer.tv_Map.clear();
 		finish();
 
 	}
@@ -231,8 +231,8 @@ public class ImgShowActivity extends ActivityBase {
 		public void onDismiss(int[] reverseSortedPositions) {
 
 			for (int position : reverseSortedPositions) {
-				Container.et_Map.remove(position);
-				Container.tv_Map.remove(position);
+				MyContainer.et_Map.remove(position);
+				MyContainer.tv_Map.remove(position);
 				img_list.remove(position);
 			}
 			SpannableString sp = new SpannableString("已选择" + img_list.size()
@@ -269,15 +269,15 @@ public class ImgShowActivity extends ActivityBase {
 			for (int i = start; i <= end; i++) {
 				if (i != position) {
 					listView.closeAnimate(i);
-					Container.et_Map.get(i).setVisibility(View.VISIBLE);
+					MyContainer.et_Map.get(i).setVisibility(View.VISIBLE);
 					// Container.et_list.get(i).setVisibility(View.VISIBLE);
-					Container.tv_Map.get(i).setVisibility(View.GONE);
+					MyContainer.tv_Map.get(i).setVisibility(View.GONE);
 				} else {
 					// Container.et_list.get(i).setVisibility(View.GONE);
-					Container.et_Map.get(i).setVisibility(View.GONE);
-					Container.tv_Map.get(i).setVisibility(View.VISIBLE);
-					Container.tv_Map.get(i).setText(
-							Container.et_Map.get(i).getText().toString());
+					MyContainer.et_Map.get(i).setVisibility(View.GONE);
+					MyContainer.tv_Map.get(i).setVisibility(View.VISIBLE);
+					MyContainer.tv_Map.get(i).setText(
+							MyContainer.et_Map.get(i).getText().toString());
 				}
 
 			}
@@ -330,8 +330,8 @@ public class ImgShowActivity extends ActivityBase {
 			super.onClosed(position, fromRight);
 			// if (isAPI)
 			// return;
-			Container.et_Map.get(position).setVisibility(View.VISIBLE);
-			Container.tv_Map.get(position).setVisibility(View.GONE);
+			MyContainer.et_Map.get(position).setVisibility(View.VISIBLE);
+			MyContainer.tv_Map.get(position).setVisibility(View.GONE);
 
 			// et.setVisibility(View.VISIBLE);
 			// text.setVisibility(View.GONE);
@@ -372,8 +372,8 @@ public class ImgShowActivity extends ActivityBase {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			Container.et_Map.clear();
-			Container.tv_Map.clear();
+			MyContainer.et_Map.clear();
+			MyContainer.tv_Map.clear();
 
 			finish();
 			break;

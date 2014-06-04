@@ -11,16 +11,21 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.victop.android.session.Constant;
+import com.victop.android.session.Container;
 import com.victop.ibs.activity.LoginActivity;
 import com.victop.ibs.activity.MainActivity;
+import com.victop.ibs.activity.R;
+import com.victop.ibs.util.MyContainer;
 import com.victop.platform.common.json.JsonHelper;
 import com.victop.platform.core.bean.ReplyMessage;
+import com.victop.platform.core.bean.UserInfo;
 
 public class LoginHandler extends Handler {
 
 	public static final String TAG = "LoginHandler";
 
 	private Context mContext;
+
 	public LoginHandler(Context context) {
 		this.mContext = context;
 	}
@@ -36,8 +41,7 @@ public class LoginHandler extends Handler {
 				Toast.makeText(mContext, "取数不成功", Toast.LENGTH_SHORT).show();
 				Log.d(TAG, "取数不成功");
 			} else {
-				
-				
+
 				String tag = replyMessage.getReplyMode().name() + " "
 						+ replyMessage.getReplyControl() + " "
 						+ replyMessage.getReplyContent();
@@ -46,7 +50,8 @@ public class LoginHandler extends Handler {
 				String saas = JsonHelper.readeJsonString(
 						replyMessage.getReplyContent(), "saas");
 				Map saasMap = JsonHelper.readeJsonObject(saas, Map.class);
-				if (null!=saasMap&&null!=saasMap.get("mobileUrl")&&null != saasMap.get(saasMap.get("mobileUrl"))) {
+				if (null != saasMap && null != saasMap.get("mobileUrl")
+						&& null != saasMap.get(saasMap.get("mobileUrl"))) {
 					String mobileUrl = saasMap.get("mobileUrl").toString();
 					// Container.getInstance().getMobileUrls().add(mobileUrl);
 					Log.d(TAG, "服务器插件： " + mobileUrl);
@@ -54,18 +59,16 @@ public class LoginHandler extends Handler {
 					Log.d(TAG, "服务器插件 为空 ");
 				}
 
-				Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
 
 				// FIXME 厦门项目POS
 				showCustomerPos();
 
 				// FIXME 演示专用
-//				 showCustomer();
+				// showCustomer();
 
 				// FIXME 初始化门户插件的app信息
-				 //initApp();
-				
+				// initApp();
 
 			}
 			break;
@@ -79,35 +82,43 @@ public class LoginHandler extends Handler {
 	}
 
 	private void showCustomerPos() {
-		
+
+		String[] data = mContext.getResources().getStringArray(R.array.limite);
+		for (String s : data) {
+			if (s.equals(Container.getInstance().getUserInfo().getUsercode())) {
+				MyContainer.limit_state = MyContainer.limit_admin;
+			}
+		}
+
 		Intent intent = new Intent(mContext, MainActivity.class);
 		mContext.startActivity(intent);
 		((Activity) mContext).finish();
 	}
 
-//	private void showCustomer() {
-//		User user = Container.getInstance().getUser();
-//		// String url =
-//		// "http://122.227.218.50:9898/read/phone/login.action?spaceId="
-//		String url = "http://110.86.1.90:8084/web-toread/phone/login.action?spaceId="
-//				+ user.getClientId()
-//				+ "&userCode="
-//				+ user.getUserCode()
-//				+ "&password=" + user.getUserPwd();
-//		WebUtil.openWebUrl(mContext, url);
-//	}
+	// private void showCustomer() {
+	// User user = Container.getInstance().getUser();
+	// // String url =
+	// // "http://122.227.218.50:9898/read/phone/login.action?spaceId="
+	// String url =
+	// "http://110.86.1.90:8084/web-toread/phone/login.action?spaceId="
+	// + user.getClientId()
+	// + "&userCode="
+	// + user.getUserCode()
+	// + "&password=" + user.getUserPwd();
+	// WebUtil.openWebUrl(mContext, url);
+	// }
 
-//	private void initApp() {
-//		// TODO 从服务器获得插件信息，需改写服务端
-//		Container.getInstance().getMobileUrls()
-//				.add("http://110.86.1.90:8084/web-toread");
-//		Container.getInstance().getMobileUrls()
-//				.add("http://192.168.25.144:8087/jjl");
-//
-//		// FIXME 暂且读取已安装的app，待服务端完成后，从服务器上下载插件信息
-//		List<AppInfo> pluginApps = PackageUtil.getInstalledApp(mContext
-//				.getApplicationContext());
-//		//给全局容器添加当前所有插件的基本信息
-//		Container.getInstance().setAppPlugins(pluginApps);
-//	}
+	// private void initApp() {
+	// // TODO 从服务器获得插件信息，需改写服务端
+	// Container.getInstance().getMobileUrls()
+	// .add("http://110.86.1.90:8084/web-toread");
+	// Container.getInstance().getMobileUrls()
+	// .add("http://192.168.25.144:8087/jjl");
+	//
+	// // FIXME 暂且读取已安装的app，待服务端完成后，从服务器上下载插件信息
+	// List<AppInfo> pluginApps = PackageUtil.getInstalledApp(mContext
+	// .getApplicationContext());
+	// //给全局容器添加当前所有插件的基本信息
+	// Container.getInstance().setAppPlugins(pluginApps);
+	// }
 }

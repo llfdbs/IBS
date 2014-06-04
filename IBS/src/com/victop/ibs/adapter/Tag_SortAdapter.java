@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.activity.TagActivity;
 import com.victop.ibs.bean.TagBean;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.ibs.view.MyGridView;
 
 public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
@@ -130,10 +130,10 @@ public class Tag_SortAdapter extends BaseAdapter implements SectionIndexer {
 				// bn.setPadding(1, 1, 1, 1);
 				// bn.setGravity(Gravity.CENTER);
 				System.out.println(int_temp + "-------------");
-				HashMap<Integer, TagBean> hashMap = Container.getInstance()
+				HashMap<Integer, TagBean> hashMap = MyContainer.getInstance()
 						.getTaghashSortModel();
 				if (int_temp == 1) {
-					Container.getInstance().setTaghashSortModle(temp,
+					MyContainer.getInstance().setTaghashSortModle(temp,
 							list.get(temp));
 					list.get(temp).setTag(1);
 				} else {

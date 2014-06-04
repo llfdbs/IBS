@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.victop.ibs.activity.MainActivity;
@@ -26,7 +27,7 @@ import com.victop.ibs.bean.SendTaskCountBean;
 import com.victop.ibs.bean.UserMessageBean;
 import com.victop.ibs.handler.HomeHandler;
 import com.victop.ibs.presenter.HomePresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 
 /**
  * 首页模块 展示 首页的功能项
@@ -51,6 +52,7 @@ public class HomeModlFragment extends Fragment {
 	private HomePresenter hp;
 	private String str_userName, str_headUrl, str_materialCout,
 			str_getTaskCount, str_sendTaskCount;
+	private LinearLayout linear_01, linear_02, linear_03;
 	Handler handler = new Handler() {
 
 		@Override
@@ -91,7 +93,7 @@ public class HomeModlFragment extends Fragment {
 	}
 
 	public void initData() {
-		if (null!=userMessage && userMessage.size() > 0) {
+		if (null != userMessage && userMessage.size() > 0) {
 			str_userName = userMessage.get(0).getHrname();
 			str_headUrl = userMessage.get(0).getHeadimage();
 			tv_role.setText(str_userName);
@@ -101,6 +103,7 @@ public class HomeModlFragment extends Fragment {
 		if (null != materialCount && materialCount.size() > 0) {
 			str_materialCout = materialCount.get(0).getSummaterialid();
 			btn_manager_material.setText("素材(" + str_materialCout + ")");
+			
 		} else {
 			btn_manager_material.setText("素材");
 		}
@@ -110,12 +113,16 @@ public class HomeModlFragment extends Fragment {
 		} else {
 			btn_manager_receivedtask.setText("接受的任务");
 		}
-		if (null!= sendTaskCount && sendTaskCount.size() > 0) {
+		if (null != sendTaskCount && sendTaskCount.size() > 0) {
 			str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
 			btn_manager_sendedtask.setText("发布的任务(" + str_sendTaskCount + ")");
 		} else {
 			btn_manager_sendedtask.setText("发布的任务");
 		}
+		
+		
+		
+		
 	}
 
 	protected void initViews() {
@@ -141,6 +148,14 @@ public class HomeModlFragment extends Fragment {
 		btn_addtask = (Button) view.findViewById(R.id.btn_addtask);
 		btn_employee_addmateria = (Button) view
 				.findViewById(R.id.btn_employee_addmateria);
+
+		linear_02 = (LinearLayout) view.findViewById(R.id.layout_linear2);
+		linear_03 = (LinearLayout) view.findViewById(R.id.layout_linear5);
+		// 普通用户权限
+		if (MyContainer.limit_state != MyContainer.limit_admin) {
+			linear_02.setVisibility(View.GONE);
+			linear_03.setVisibility(View.VISIBLE);
+		}
 
 	}
 
@@ -173,7 +188,7 @@ public class HomeModlFragment extends Fragment {
 						MaterialSearchActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("modeobj", "material");
-				bundle.putString("title","全部素材搜索结果");
+				bundle.putString("title", "全部素材搜索结果");
 				bundle.putString("material_style", "audit");
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -196,14 +211,19 @@ public class HomeModlFragment extends Fragment {
 						str_sendTaskCount);
 				break;
 			case R.id.btn_employee_material:
+				((MainActivity) getActivity()).rightToCenter(9,
+						str_materialCout);
 				break;
 			case R.id.btn_employee_task:
+				((MainActivity) getActivity()).rightToCenter(5,
+						str_getTaskCount);
 				break;
 			case R.id.btn_addtask:// 新增任务
 				((MainActivity) getActivity()).rightToCenter(7, "");
 
 				break;
 			case R.id.btn_employee_addmateria:
+				((MainActivity) getActivity()).rightToCenter(3, "");
 				break;
 			default:
 				;

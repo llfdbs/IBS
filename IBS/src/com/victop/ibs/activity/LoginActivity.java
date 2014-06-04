@@ -22,7 +22,7 @@ import com.victop.android.session.MessageType;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.handler.LoginHandler;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 
 /**
  * 登录类 登录类业务逻辑
@@ -91,7 +91,7 @@ public class LoginActivity extends ActivityBase {
 	 */
 	private void initServer() {
 		initProperties();
-		Container.getInstance();
+		MyContainer.getInstance();
 		// SoundPoolManager.initSoundPool(getApplicationContext());
 	}
 

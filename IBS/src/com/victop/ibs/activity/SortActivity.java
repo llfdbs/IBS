@@ -32,7 +32,7 @@ import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.SortBean;
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.Getpresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.ibs.view.CustomViewPager;
 
 /**
@@ -204,7 +204,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 					b.putString("info", info);
 					b.putString("classid", classid);
 					i.putExtras(b);
-					setResult(Container.SORT, i);
+					setResult(MyContainer.SORT, i);
 					finish();
 
 					// pager.setCurrentItem(2);
@@ -244,7 +244,7 @@ public class SortActivity extends ActivityBase implements OnClickListener {
 						b.putString("classid", classid);
 						b.putString("info", info);
 						i.putExtras(b);
-						setResult(Container.SORT, i);
+						setResult(MyContainer.SORT, i);
 						finish();
 
 					}

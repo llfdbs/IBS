@@ -66,13 +66,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_linear2"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_below="@id/layout_linear"
                 android:background="@drawable/index_bottom"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
-                 >
+                android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/layout_linear1"
@@ -107,10 +106,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_linear2"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_linear1"
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal" >
@@ -149,17 +146,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_linear5"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_below="@id/layout_linear"
                 android:background="@drawable/index_bottom"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" 
-                android:visibility="gone"
-                >
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <LinearLayout
-                    android:id="@+id/layout_linear1"
+                    android:id="@+id/layout_linear3"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -173,7 +169,7 @@
                         android:background="@drawable/btn_managermaterial"
                         android:gravity="bottom|center_horizontal"
                         android:paddingBottom="15dp"
-                        android:text="素材(99)"
+                        android:text="素材(0)"
                         android:textColor="#303030"
                         android:textSize="@dimen/text_medial" />
 
@@ -185,7 +181,7 @@
                         android:background="@drawable/btn_usertask"
                         android:gravity="bottom|center_horizontal"
                         android:paddingBottom="15dp"
-                        android:text="任务(99)"
+                        android:text="任务(0)"
                         android:textColor="#303030"
                         android:textSize="@dimen/text_medial" />
                 </LinearLayout>

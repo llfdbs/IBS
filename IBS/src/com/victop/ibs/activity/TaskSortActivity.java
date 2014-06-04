@@ -26,7 +26,7 @@ import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.bean.TaskBean;
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.Getpresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 
 /**
  * 素材模块，选择任务界面
@@ -136,7 +136,7 @@ public class TaskSortActivity extends ActivityBase implements OnClickListener {
 				b.putString("tasknumber", mTaskBean.get(arg2).getTaskcode());
 				b.putString("taskid", mTaskBean.get(arg2).getTaskid());
 				i.putExtras(b);
-				setResult(Container.TASK, i);
+				setResult(MyContainer.TASK, i);
 				finish();
 			}
 		});

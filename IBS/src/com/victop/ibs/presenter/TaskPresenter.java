@@ -17,7 +17,9 @@ public class TaskPresenter {
 		return new TaskPresenter();
 	}
 
-	/**保存
+	/**
+	 * 保存
+	 * 
 	 * @param handler
 	 * @param bean
 	 */
@@ -34,19 +36,27 @@ public class TaskPresenter {
 
 	}
 
-	/**分配
+	/**
+	 * 分配
+	 * 
 	 * @param handler
 	 * @param bean
 	 */
-	public void AllocationTask(Handler handler, List<TasksaveBean> bean) {
+	public void AllocationTask(Handler handler, List<TasksaveBean> bean1,
+			List<TasksaveBean> bean, String isfinish, String hrid) {
 		save = SavePresenter.getInstance();
 		SaveDataParam sdp = save.initSaveData();
 		Map<String, List> dataMap = new HashMap<String, List>();
+		dataMap.put("8", bean1);
 		dataMap.put("7", bean);
+		Map<String, String> dataParamMap = new HashMap<String, String>();
+		dataParamMap.put("hrid", hrid);
+		dataParamMap.put("isfinish", isfinish);
+		sdp.setDataParamMap(dataParamMap);
 		sdp.setDataMap(dataMap);
 		sdp.setFormId("11117");
 		sdp.setModelId("IBS11117");
-		sdp.setDatasetId("7");
+		sdp.setDatasetId("8,7");
 		save.startSave(sdp, handler);
 
 	}

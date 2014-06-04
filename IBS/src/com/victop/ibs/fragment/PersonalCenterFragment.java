@@ -29,6 +29,7 @@ import com.victop.ibs.bean.UnfinishedMaterialCountBean;
 import com.victop.ibs.bean.UserMessageBean;
 import com.victop.ibs.handler.PersonCenterHandler;
 import com.victop.ibs.presenter.PersonCenterPresenter;
+import com.victop.ibs.util.MyContainer;
 
 /**
  * 个人中心模块 功能描述：列表Fragment，用来显示滑动菜单打开后的个人中心内容
@@ -58,6 +59,8 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	private List<GetTaskCountBean> getTaskCount = new ArrayList<GetTaskCountBean>();
 	private List<SendTaskCountBean> sendTaskCount = new ArrayList<SendTaskCountBean>();
 	private Map<String, List> dataMap;
+
+	
 	Handler handler = new Handler() {
 
 		@Override
@@ -97,6 +100,9 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.personalcenter, null);
 		initView(view);
+		if (MyContainer.limit_state != MyContainer.limit_admin) {
+			lly_settask.setVisibility(View.GONE);
+		}
 		initHandler(handler);
 		return view;
 	}
@@ -124,47 +130,49 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	 * 请求网络数据装配方法
 	 * */
 	private void initHandler(Handler handler) {
-		personCenterHandler = new PersonCenterHandler((MainActivity) getActivity(), handler);
+		personCenterHandler = new PersonCenterHandler(
+				(MainActivity) getActivity(), handler);
 		pcp = new PersonCenterPresenter();
 		pcp.getInitData(personCenterHandler);
 	}
 
 	public void initData() {
 		// TODO Auto-generated method stub
-		if (null!=userMessage&&userMessage.size() > 0) {
+		if (null != userMessage && userMessage.size() > 0) {
 			str_userName = userMessage.get(0).getHrname();
 			str_headUrl = userMessage.get(0).getHeadimage();
 		} else {
 			str_userName = "";
 		}
-		if (null!=unfinishedMaterialCount&&unfinishedMaterialCount.size() > 0) {
+		if (null != unfinishedMaterialCount
+				&& unfinishedMaterialCount.size() > 0) {
 			str_unfinishedMaterialCount = unfinishedMaterialCount.get(0)
 					.getSummaterialid();
 		} else {
 			str_unfinishedMaterialCount = "0";
 		}
 
-		if (null!=checkedMaterialCount&&checkedMaterialCount.size() > 0) {
+		if (null != checkedMaterialCount && checkedMaterialCount.size() > 0) {
 			str_checkedMaterialCount = checkedMaterialCount.get(0)
 					.getSummaterialid();
 		} else {
 			str_checkedMaterialCount = "0";
 		}
 
-		if (null!=uncheckedMaterialCount&&uncheckedMaterialCount.size() > 0) {
+		if (null != uncheckedMaterialCount && uncheckedMaterialCount.size() > 0) {
 			str_uncheckedMaterialCount = uncheckedMaterialCount.get(0)
 					.getSummaterialid();
 		} else {
 			str_uncheckedMaterialCount = "0";
 		}
 
-		if (null!=getTaskCount&&getTaskCount.size() > 0) {
+		if (null != getTaskCount && getTaskCount.size() > 0) {
 			str_getTaskCount = getTaskCount.get(0).getSumtaskid();
 		} else {
 			str_getTaskCount = "0";
 		}
 
-		if (null!=sendTaskCount&&sendTaskCount.size() > 0) {
+		if (null != sendTaskCount && sendTaskCount.size() > 0) {
 			str_sendTaskCount = sendTaskCount.get(0).getSumtaskid();
 		} else {
 			str_sendTaskCount = "0";

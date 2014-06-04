@@ -30,7 +30,7 @@ import com.victop.ibs.bean.UnCheckedMaterialBean;
 import com.victop.ibs.db.model.AddMaterialModel;
 import com.victop.ibs.handler.MaterialunCheckHandler;
 import com.victop.ibs.presenter.Materialpresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 
 //import com.dodola.model.DuitangInfo;
 

@@ -29,7 +29,7 @@ import com.victop.ibs.handler.GetTaskHandler;
 import com.victop.ibs.handler.SendTaskHandler;
 import com.victop.ibs.presenter.GetTaskListSearchResultPresenter;
 import com.victop.ibs.presenter.SendTaskSearchResultPresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.pulltorefreshui.PullToRefreshBase;
 import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
 import com.victop.pulltorefreshui.PullToRefreshListView;
@@ -206,9 +206,9 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 				long id) {
 			// TODO Auto-generated method stub
 			Bundle bundle = new Bundle();
-            if(String.valueOf(model).equals(String.valueOf(Container.MODEL_ALL))||
-            		String.valueOf(model).equals(String.valueOf(Container.MODEL_UNFINISH)) ||
-            				String.valueOf(model).equals(String.valueOf(Container.MODEL_FINISH))){
+            if(String.valueOf(model).equals(String.valueOf(MyContainer.MODEL_ALL))||
+            		String.valueOf(model).equals(String.valueOf(MyContainer.MODEL_UNFINISH)) ||
+            				String.valueOf(model).equals(String.valueOf(MyContainer.MODEL_FINISH))){
             	bundle.putString("statue", task_list_data.get(arg2)
     					.getTaskstatus());
             	bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
@@ -317,26 +317,26 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 		// 设置页码数为1
 		task_allPage.setPageno(1);
 		switch (model) {
-		case Container.MODEL_ALL:
+		case MyContainer.MODEL_ALL:
 
 			initHandler(handler, null, task_allPage);
 			break;
-		case Container.MODEL_UNFINISH:
+		case MyContainer.MODEL_UNFINISH:
 			initHandler(handler, "1", task_allPage);
 			break;
-		case Container.MODEL_FINISH:
+		case MyContainer.MODEL_FINISH:
 			initHandler(handler, "2", task_allPage);
 			break;
-		case Container.S_MODEL_ALL:
+		case MyContainer.S_MODEL_ALL:
 			initSendHandler(handler_send,null, task_allPage);
 			break;
-		case Container.S_MODEL_UNFINISH:
+		case MyContainer.S_MODEL_UNFINISH:
 			initSendHandler(handler_send,"1", task_allPage);
 			break;
-		case Container.S_MODEL_FINISH:
+		case MyContainer.S_MODEL_FINISH:
 			initSendHandler(handler_send,"2", task_allPage);
 			break;
-		case Container.MODEL_UNSEND:
+		case MyContainer.MODEL_UNSEND:
 			initSendHandler(handler_send,"0", task_allPage);
 			break;
 
@@ -348,25 +348,25 @@ public class Search_GetTaskListResultActivity extends ActivityBase implements
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO Auto-generated method stub
 		switch (model) {
-		case Container.MODEL_ALL:
+		case MyContainer.MODEL_ALL:
 			initHandler(handler, null, task_allPage);
 			break;
-		case Container.MODEL_UNFINISH:
+		case MyContainer.MODEL_UNFINISH:
 			initHandler(handler, "1", task_allPage);
 			break;
-		case Container.MODEL_FINISH:
+		case MyContainer.MODEL_FINISH:
 			initHandler(handler, "2", task_allPage);
 			break;
-		case Container.S_MODEL_ALL:
+		case MyContainer.S_MODEL_ALL:
 			initSendHandler(handler_send,null, task_allPage);
 			break;
-		case Container.S_MODEL_UNFINISH:
+		case MyContainer.S_MODEL_UNFINISH:
 			initSendHandler(handler_send,"1", task_allPage);
 			break;
-		case Container.S_MODEL_FINISH:
+		case MyContainer.S_MODEL_FINISH:
 			initSendHandler(handler_send,"2", task_allPage);
 			break;
-		case Container.MODEL_UNSEND:
+		case MyContainer.MODEL_UNSEND:
 			initSendHandler(handler_send,"0", task_allPage);
 			break;
 		}

@@ -74,6 +74,8 @@ public class AddTaskActivity extends ActivityBase {
 	String taskstatus = "";
 	Bundle b;
 	TasksaveBean tasksaveBean;
+	private String taskcode;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,7 +99,8 @@ public class AddTaskActivity extends ActivityBase {
 
 				if (null != taskDetailList && taskDetailList.size() > 0) {
 					TaskDetailBean mTaskDetailBean = taskDetailList.get(0);
-
+					taskcode = mTaskDetailBean.getTaskcode();
+					taskid = mTaskDetailBean.getTaskid();
 					edt_taskname.setText(mTaskDetailBean.getTaskname());
 					tv_allocationname.setText(mTaskDetailBean.getReceptname());
 					edt_taskdetail.setText(mTaskDetailBean.getTaskmemo());
@@ -111,18 +114,19 @@ public class AddTaskActivity extends ActivityBase {
 						rbn_2.setChecked(true);
 					}
 					type = rr;
-//					DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-//					String s = "1987-10-10";
-//					Date date = fmt.parse(s);
-					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+					// DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+					// String s = "1987-10-10";
+					// Date date = fmt.parse(s);
+					SimpleDateFormat df = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss");// 设置日期格式
 					try {
-						d1 = new Date(System.currentTimeMillis());//当前时间
-						d2 = df.parse(mTaskDetailBean.getDuedate());//用户选择的时间
+						d1 = new Date(System.currentTimeMillis());// 当前时间
+						d2 = df.parse(mTaskDetailBean.getDuedate());// 用户选择的时间
 						if (d1.getTime() < d2.getTime()) {
 							days = daysBetween(d1, d2);
 							tv_date.setText(mTaskDetailBean.getDuedate());
 							tv_datecount.setText(days + "天");
-							
+
 						} else {
 							Calendar cals = Calendar.getInstance();
 							cal.setTime(d1);
@@ -340,38 +344,6 @@ public class AddTaskActivity extends ActivityBase {
 					showDialog(getResources().getString(R.string.tasksave),
 							"gone");
 				}
-				// mAddTaskBean.setTaskstatus("taskstatus");
-				// mAddTaskBean.setTaskcode("taskcode");
-				// mAddTaskBean.setFinishtime("finishtime");
-				// mAddTaskBean.setPostdate("postdate");
-				// mAddTaskBean.setAdddate(getTime());
-				// mAddTaskBean.setResponsibleid("10021");
-				// mAddTaskBean.setResponsiblename("路人甲");
-				// mAddTaskBean.setReceptname("酱油男");
-				// mAddTaskBean.setTaskid("201405130001");
-				// TaskAllocationBean taskAllocationBean = new
-				// TaskAllocationBean();
-				// taskAllocationBean.setHrid("6655");
-				// taskAllocationBean.setTaskallotid("t3332");
-				// taskAllocationBean.setIsfinish("0");
-				// taskAllocationBean.setTaskid("66999");
-
-				// List<AddTaskModel> addTaskModel = new
-				// ArrayList<AddTaskModel>();
-				// AddTaskModel mAddTaskModel = new AddTaskModel();
-				// mAddTaskModel.setAddtaskbean(mAddTaskBean);
-				// mAddTaskModel.setTaskallocation(taskAllocationBean);
-				// addTaskModel.add(mAddTaskModel);
-				//
-				// mDataaddtask.setAddTaskModel(addTaskModel);
-				// // 保存数据xml到本地
-				// Datajson obj = new Datajson();
-				// Gson gson = new Gson();
-				// String name = gson.toJson(mDataaddtask);
-				// obj.setName(name);
-				// System.out.println(obj.getName());
-				// saveXmlStream("/sdcard", "addtask.xml", obj,
-				// Datajson.class);
 
 				break;
 			}
@@ -482,38 +454,14 @@ public class AddTaskActivity extends ActivityBase {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-                        if(null != b){
-                        tasksaveBean = new TasksaveBean("8");
-                        }else{
-                        tasksaveBean = new TasksaveBean("4");
-                        }
-						
-						tasksaveBean.setTaskname(edt_taskname.getText()
-								.toString());
-						tasksaveBean.setTaskmemo(edt_taskdetail.getText()
-								.toString());
-						tasksaveBean.setTaskstatus("0");
-						tasksaveBean.setResponsibleid(Container.getInstance()
-								.getUser().getUserCode());
-						tasksaveBean.setReceptname(Container.getInstance()
-								.getUser().getUserName());
-						tasksaveBean.setTaskcode(getMyUUID());
-						tasksaveBean.setTasklevel(type);
-						// tasksaveBean.setFinishtime();
-						tasksaveBean.setDuedate(date);
-						if (null != mUserMessageBean)
-							tasksaveBean.setReceptname(mUserMessageBean);
-						tasksaveBean.setAdddate(getDate());
-						tasksaveBean.setPostdate(date);
-						List<TasksaveBean> mTasksaveBean = new ArrayList<TasksaveBean>();
-						mTasksaveBean.add(tasksaveBean);
+
 						TaskAddHandler taskAddHandler;
 
 						taskAddHandler = new TaskAddHandler(
 								AddTaskActivity.this, mHandler, "8");
 
 						TaskPresenter.getInstance().saveTask(taskAddHandler,
-								mTasksaveBean);
+								initData("0", getMyUUID()));
 
 						// SavePresenter.getInstance().SaveInitData(
 						// taskAddHandler, "IBS11117", "8", dataMap,
@@ -527,44 +475,50 @@ public class AddTaskActivity extends ActivityBase {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				 if(null != b){
-                     tasksaveBean = new TasksaveBean("8");
-                     }else{
-                     tasksaveBean = new TasksaveBean("4");
-                     }
-				tasksaveBean.setTaskname(edt_taskname.getText().toString());
-				tasksaveBean.setTaskmemo(edt_taskdetail.getText().toString());
-				tasksaveBean.setTaskstatus("1");
-				tasksaveBean.setResponsibleid(Container.getInstance().getUser()
-						.getUserCode());
-				tasksaveBean.setReceptname(Container.getInstance().getUser()
-						.getUserName());
-				tasksaveBean.setTaskcode(getMyUUID());
-				tasksaveBean.setTasklevel(type);
-				// tasksaveBean.setFinishtime();
-				tasksaveBean.setDuedate(date);
-				if (null != mUserMessageBean)
-					tasksaveBean.setReceptname(mUserMessageBean);
-				tasksaveBean.setAdddate(getDate());
-				tasksaveBean.setPostdate(date);
-				List<TasksaveBean> mTasksaveBean = new ArrayList<TasksaveBean>();
-				mTasksaveBean.add(tasksaveBean);
 				TaskAddHandler taskAddHandler;
-
+				String uuid = getMyUUID();
 				taskAddHandler = new TaskAddHandler(AddTaskActivity.this,
 						mHandler, "7");
 				TaskPresenter.getInstance().AllocationTask(taskAddHandler,
-						mTasksaveBean);
-
-				// SavePresenter.getInstance().SaveInitData(
-				// taskAddHandler, "IBS11117", "8", dataMap,
-				// dataParamMap);
+						initData("1", uuid), initData("0", uuid), "0",
+						Container.getInstance().getUserInfo().getUsercode());
 
 				dialog.dismiss();
 
 			}
 		});
 
+	}
+
+	private List<TasksaveBean> initData(String status_num, String uuid) {
+		List<TasksaveBean> mTasksaveBean = new ArrayList<TasksaveBean>();
+		TasksaveBean tasksaveBean;
+		if (null != b) {
+			tasksaveBean = new TasksaveBean("8");
+			tasksaveBean.setTaskcode(taskcode);
+			tasksaveBean.setTaskid(taskid);
+		} else {
+			tasksaveBean = new TasksaveBean("4");
+			tasksaveBean.setTaskcode(uuid);
+		}
+		tasksaveBean.setTaskname(edt_taskname.getText().toString());
+		tasksaveBean.setTaskmemo(edt_taskdetail.getText().toString());
+		tasksaveBean.setTaskstatus(status_num);
+		tasksaveBean.setResponsibleid(Container.getInstance().getUserInfo()
+				.getUsercode());
+		tasksaveBean.setResponsiblename(Container.getInstance().getUserInfo()
+				.getUserName());
+
+		tasksaveBean.setTasklevel(type);
+		// tasksaveBean.setFinishtime();
+		tasksaveBean.setDuedate(date);
+		if (null != mUserMessageBean)
+			tasksaveBean.setReceptname(mUserMessageBean);
+		tasksaveBean.setAdddate(getDate());
+		tasksaveBean.setPostdate(date);
+		mTasksaveBean.add(tasksaveBean);
+
+		return mTasksaveBean;
 	}
 
 	@Override

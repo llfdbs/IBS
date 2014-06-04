@@ -70,6 +70,17 @@
         <item>BOBO</item>
         <item>Jobs</item>
         <item>动力火车</item>
+        
+    </string-array>
+     <string-array name="limite">
+        <item>tianshengtao</item>
+        <item>zhaozhan</item>
+        <item>wangc</item>
+        <item>hanhc</item>
+        <item>hanhc2</item>
+        <item>yaoyong</item>
+        <item>zhangbin</item>
+        <item>lilf</item>
     </string-array>
 
 </resources>

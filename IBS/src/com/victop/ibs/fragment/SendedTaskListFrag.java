@@ -27,7 +27,7 @@ import com.victop.ibs.bean.Page;
 import com.victop.ibs.bean.SendTaskBean;
 import com.victop.ibs.handler.SendTaskHandler;
 import com.victop.ibs.presenter.SendTaskPresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.pulltorefreshui.PullToRefreshBase;
 import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
 import com.victop.pulltorefreshui.PullToRefreshListView;
@@ -287,7 +287,7 @@ public class SendedTaskListFrag extends Fragment implements
 		mListView.setDivider(null);
 		mListView.setDividerHeight(5);
 		mListView.setCacheColorHint(R.drawable.translates);
-		pageSize = Container.PAGESIZE;// 设置页面显示的条目数量
+		pageSize = MyContainer.PAGESIZE;// 设置页面显示的条目数量
 	}
 
 	/**
@@ -305,7 +305,7 @@ public class SendedTaskListFrag extends Fragment implements
 			// TODO Auto-generated method stub
 			Intent intent;
 			Bundle bundle = new Bundle();
-			if (status.equals(Container.STATUS_ALL)) {
+			if (status.equals(MyContainer.STATUS_ALL)) {
 
 				if ("0".equals(task_list_data.get(arg2).getTaskstatus())) {
 					intent = new Intent(context, AddTaskActivity.class);
@@ -315,13 +315,13 @@ public class SendedTaskListFrag extends Fragment implements
 				bundle.putString("statue", task_list_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
-			} else if (status.equals(Container.STATUS_UNFINISH)) {
+			} else if (status.equals(MyContainer.STATUS_UNFINISH)) {
 				intent = new Intent(context, TaskDetailActivity.class);
 				bundle.putString("statue", task_unfinishList_data.get(arg2)
 						.getTaskstatus());
 				bundle.putString("taskid", task_unfinishList_data.get(arg2)
 						.getTaskid());
-			} else if (status.equals(Container.STATUS_FINISH)) {
+			} else if (status.equals(MyContainer.STATUS_FINISH)) {
 				intent = new Intent(context, TaskDetailActivity.class);
 				bundle.putString("statue", task_finishList_data.get(arg2)
 						.getTaskstatus());
@@ -348,7 +348,7 @@ public class SendedTaskListFrag extends Fragment implements
 		// TODO Auto-generated method stub
 
 		switch (Model) {
-		case Container.MODEL_ALL:
+		case MyContainer.MODEL_ALL:
 			// 清空原有数据
 			if (task_list_data.size() > 0) {
 				task_list_data.clear();
@@ -357,34 +357,34 @@ public class SendedTaskListFrag extends Fragment implements
 			task_allPage.setPageno(1);
 			initHandler(handler, null, task_allPage);
 			break;
-		case Container.MODEL_UNFINISH:
+		case MyContainer.MODEL_UNFINISH:
 			// 清空原有数据
 			if (task_unfinishList_data.size() > 0) {
 				task_unfinishList_data.clear();
 			}
 			// 设置页码数为1
 			task_unfinishPage.setPageno(1);
-			initHandler(handler_unfinish, Container.STATUS_UNFINISH,
+			initHandler(handler_unfinish, MyContainer.STATUS_UNFINISH,
 					task_unfinishPage);
 			break;
-		case Container.MODEL_FINISH:
+		case MyContainer.MODEL_FINISH:
 			// 清空原有数据
 			if (task_finishList_data.size() > 0) {
 				task_finishList_data.clear();
 			}
 			// 设置页码数为1
 			task_finishPage.setPageno(1);
-			initHandler(handler_finish, Container.STATUS_FINISH,
+			initHandler(handler_finish, MyContainer.STATUS_FINISH,
 					task_finishPage);
 			break;
-		case Container.MODEL_UNSEND:
+		case MyContainer.MODEL_UNSEND:
 			// 清空原有数据
 			if (task_unsendList_data.size() > 0) {
 				task_unsendList_data.clear();
 			}
 			// 设置页码数为1
 			task_unsendPage.setPageno(1);
-			initHandler(handler_unsend, Container.STATUS_ALL, task_unsendPage);
+			initHandler(handler_unsend, MyContainer.STATUS_ALL, task_unsendPage);
 			break;
 		}
 	}
@@ -396,22 +396,22 @@ public class SendedTaskListFrag extends Fragment implements
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO Auto-generated method stub
 		switch (Model) {
-		case Container.MODEL_ALL:
+		case MyContainer.MODEL_ALL:
 
 			
 			initHandler(handler, null, task_allPage);
 			break;
-		case Container.MODEL_UNFINISH:
+		case MyContainer.MODEL_UNFINISH:
 
 			
 			initHandler(handler_unfinish, "1", task_unfinishPage);
 			break;
-		case Container.MODEL_FINISH:
+		case MyContainer.MODEL_FINISH:
 
 			
 			initHandler(handler_finish, "2", task_finishPage);
 			break;
-		case Container.MODEL_UNSEND:
+		case MyContainer.MODEL_UNSEND:
 
 			
 			initHandler(handler_finish, "0", task_finishPage);

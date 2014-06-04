@@ -21,7 +21,7 @@ import com.example.android.bitmapfun.util.ImageFetcher;
 import com.victop.ibs.activity.MaterialDetailActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.UnCheckedMaterialBean;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 
 public class MUnCheckAdapter extends BaseAdapter {
 	private Context mContext;
@@ -89,7 +89,7 @@ public class MUnCheckAdapter extends BaseAdapter {
 		if (null != duitangInfo.getImgname()) {
 			mImageFetcher
 			.loadImage(
-					Container.Imgurl ,
+					MyContainer.Imgurl+duitangInfo.getImgname() ,
 					holder.imageView);
 //			mImageFetcher
 //					.loadImage(

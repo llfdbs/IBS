@@ -26,7 +26,7 @@ import com.victop.ibs.bean.GetTaskBean;
 import com.victop.ibs.bean.Page;
 import com.victop.ibs.handler.GetTaskHandler;
 import com.victop.ibs.presenter.GetTaskPresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.pulltorefreshui.PullToRefreshBase;
 import com.victop.pulltorefreshui.PullToRefreshBase.OnRefreshListener;
 import com.victop.pulltorefreshui.PullToRefreshListView;
@@ -226,7 +226,7 @@ public class GetTaskListFrag extends Fragment implements
 		mListView.setDivider(null);
 		mListView.setDividerHeight(5);
 		mListView.setCacheColorHint(R.drawable.translates);
-		pageSize = Container.PAGESIZE;// 设置页面显示的条目数量
+		pageSize = MyContainer.PAGESIZE;// 设置页面显示的条目数量
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class GetTaskListFrag extends Fragment implements
 				bundle.putString("taskid", task_list_data.get(arg2).getTaskid());
 				
 
-			} else if (status.equals(Container.STATUS_UNFINISH)) {
+			} else if (status.equals(MyContainer.STATUS_UNFINISH)) {
 				
 				bundle.putString("statue", task_unlist_data.get(arg2)
 						.getTaskstatus());
@@ -279,20 +279,20 @@ public class GetTaskListFrag extends Fragment implements
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO Auto-generated method stub
 		switch (Model) {
-		case Container.MODEL_ALL:
+		case MyContainer.MODEL_ALL:
 
 			
 			initHandler(handler, null, task_allPage);
 			break;
-		case Container.MODEL_UNFINISH:
+		case MyContainer.MODEL_UNFINISH:
 
 			
-			initHandler(handler_unfinish, Container.STATUS_UNFINISH, task_unfinishPage);
+			initHandler(handler_unfinish, MyContainer.STATUS_UNFINISH, task_unfinishPage);
 			break;
-		case Container.MODEL_FINISH:
+		case MyContainer.MODEL_FINISH:
 
 			
-			initHandler(handler_finish,Container.STATUS_FINISH, task_finishPage);
+			initHandler(handler_finish,MyContainer.STATUS_FINISH, task_finishPage);
 			break;
 		}
 	}
@@ -308,7 +308,7 @@ public class GetTaskListFrag extends Fragment implements
 		task_unfinishPage.setPageno(1);
 		task_finishPage.setPageno(1);
 		switch (Model) {
-		case Container.MODEL_ALL:
+		case MyContainer.MODEL_ALL:
 			// 清空原有数据
 			if (task_list_data.size() > 0) {
 				task_list_data.clear();
@@ -316,7 +316,7 @@ public class GetTaskListFrag extends Fragment implements
 			
 			initHandler(handler, null, task_allPage);
 			break;
-		case Container.MODEL_UNFINISH:
+		case MyContainer.MODEL_UNFINISH:
 			// 清空原有数据
 			if (task_unlist_data.size() > 0) {
 				task_unlist_data.clear();
@@ -324,7 +324,7 @@ public class GetTaskListFrag extends Fragment implements
 
 			initHandler(handler_unfinish, "1", task_unfinishPage);
 			break;
-		case Container.MODEL_FINISH:
+		case MyContainer.MODEL_FINISH:
 			// 清空原有数据
 			if (task_filist_data.size() > 0) {
 				task_filist_data.clear();

@@ -13,7 +13,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.fragment.SendedTaskListFrag;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 
 /**
  * 发布的任务列表fragmentActivity
@@ -48,7 +48,7 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 	protected void initData() {
 		// TODO Auto-generated method stub
 
-		CheckChange(allFrag, String.valueOf(Container.S_MODEL_ALL));
+		CheckChange(allFrag, String.valueOf(MyContainer.S_MODEL_ALL));
 	}
 
 	/**
@@ -85,14 +85,14 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 	 * 初始化fragment
 	 */
 	private void initFrag() {
-		allFrag = new SendedTaskListFrag(Container.MODEL_ALL,
-				SendedTaskListFragmentActivity.this, Container.STATUS_ALL);
-		unfinishFrag = new SendedTaskListFrag(Container.MODEL_UNFINISH,
-				SendedTaskListFragmentActivity.this, Container.STATUS_UNFINISH);
-		finishFrag = new SendedTaskListFrag(Container.MODEL_FINISH,
-				SendedTaskListFragmentActivity.this, Container.STATUS_FINISH);
-		unsendFrag = new SendedTaskListFrag(Container.MODEL_UNSEND,
-				SendedTaskListFragmentActivity.this, Container.STATUS_UNSEND);
+		allFrag = new SendedTaskListFrag(MyContainer.MODEL_ALL,
+				SendedTaskListFragmentActivity.this, MyContainer.STATUS_ALL);
+		unfinishFrag = new SendedTaskListFrag(MyContainer.MODEL_UNFINISH,
+				SendedTaskListFragmentActivity.this, MyContainer.STATUS_UNFINISH);
+		finishFrag = new SendedTaskListFrag(MyContainer.MODEL_FINISH,
+				SendedTaskListFragmentActivity.this, MyContainer.STATUS_FINISH);
+		unsendFrag = new SendedTaskListFrag(MyContainer.MODEL_UNSEND,
+				SendedTaskListFragmentActivity.this, MyContainer.STATUS_UNSEND);
 
 	}
 
@@ -130,22 +130,22 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (checkedId) {
 			case R.id.rbn_sendedtask_all:
-				status = Container.STATUS_ALL;
-				CheckChange(allFrag, String.valueOf(Container.S_MODEL_ALL));
+				status = MyContainer.STATUS_ALL;
+				CheckChange(allFrag, String.valueOf(MyContainer.S_MODEL_ALL));
 
 				break;
 			case R.id.rbn_sendedtask_unfinish:
-				status = Container.STATUS_UNFINISH;
+				status = MyContainer.STATUS_UNFINISH;
 				CheckChange(unfinishFrag,
-						String.valueOf(Container.S_MODEL_UNFINISH));
+						String.valueOf(MyContainer.S_MODEL_UNFINISH));
 				break;
 			case R.id.rbn_sendedtask_finished:
-				status = Container.STATUS_FINISH;
-				CheckChange(finishFrag, String.valueOf(Container.S_MODEL_FINISH));
+				status = MyContainer.STATUS_FINISH;
+				CheckChange(finishFrag, String.valueOf(MyContainer.S_MODEL_FINISH));
 				break;
 			case R.id.rbn_sendedtask_unsend:
-				status = Container.STATUS_UNSEND;
-				CheckChange(unsendFrag, String.valueOf(Container.MODEL_UNSEND));
+				status = MyContainer.STATUS_UNSEND;
+				CheckChange(unsendFrag, String.valueOf(MyContainer.MODEL_UNSEND));
 				break;
 			default:
 				break;
@@ -188,21 +188,21 @@ public class SendedTaskListFragmentActivity extends ActivityBase {
 			break;
 		case R.id.search:
 			Bundle bundle = new Bundle();
-			if(status.equals(Container.STATUS_ALL)){
+			if(status.equals(MyContainer.STATUS_ALL)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.S_MODEL_ALL);
+				bundle.putInt("tag",MyContainer.S_MODEL_ALL);
 				bundle.putString("title","全部任务搜索结果");
-			}else if(status.equals(Container.STATUS_UNFINISH)){
+			}else if(status.equals(MyContainer.STATUS_UNFINISH)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.S_MODEL_UNFINISH);
+				bundle.putInt("tag",MyContainer.S_MODEL_UNFINISH);
 				bundle.putString("title","未完成任务搜索结果");
-			}else if(status.equals(Container.STATUS_FINISH)){
+			}else if(status.equals(MyContainer.STATUS_FINISH)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.S_MODEL_FINISH);
+				bundle.putInt("tag",MyContainer.S_MODEL_FINISH);
 				bundle.putString("title","已完成任务搜索结果");
 			}else{
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_UNSEND);
+				bundle.putInt("tag",MyContainer.MODEL_UNSEND);
 				bundle.putString("title","未发放任务搜索结果");
 			}
 			

@@ -13,7 +13,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.victop.ibs.app.IBSApplication;
 import com.victop.ibs.base.ActivityBase;
 import com.victop.ibs.fragment.GetTaskListFrag;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 
 /**
  * 接受的任务列表fragmentActivity
@@ -47,7 +47,7 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 	protected void initData() {
 		// TODO Auto-generated method stub
 
-		CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
+		CheckChange(allFrag, String.valueOf(MyContainer.MODEL_ALL));
 
 	}
 
@@ -85,12 +85,12 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 	 * 初始化fragment
 	 */
 	private void initFrag() {
-		allFrag = new GetTaskListFrag(Container.MODEL_ALL,
-				TaskListFragmentAvtivity.this, Container.STATUS_ALL);
-		unfinishFrag = new GetTaskListFrag(Container.MODEL_UNFINISH,
-				TaskListFragmentAvtivity.this, Container.STATUS_UNFINISH);
-		finishFrag = new GetTaskListFrag(Container.MODEL_FINISH,
-				TaskListFragmentAvtivity.this, Container.STATUS_FINISH);
+		allFrag = new GetTaskListFrag(MyContainer.MODEL_ALL,
+				TaskListFragmentAvtivity.this, MyContainer.STATUS_ALL);
+		unfinishFrag = new GetTaskListFrag(MyContainer.MODEL_UNFINISH,
+				TaskListFragmentAvtivity.this, MyContainer.STATUS_UNFINISH);
+		finishFrag = new GetTaskListFrag(MyContainer.MODEL_FINISH,
+				TaskListFragmentAvtivity.this, MyContainer.STATUS_FINISH);
 
 	}
 
@@ -128,18 +128,18 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 			// TODO Auto-generated method stub
 			switch (checkedId) {
 			case R.id.rbn_taskall:
-				status = Container.STATUS_ALL;
-				CheckChange(allFrag, String.valueOf(Container.MODEL_ALL));
+				status = MyContainer.STATUS_ALL;
+				CheckChange(allFrag, String.valueOf(MyContainer.MODEL_ALL));
 
 				break;
 			case R.id.rbn_taskunfinish:
-				status = Container.STATUS_UNFINISH;
+				status = MyContainer.STATUS_UNFINISH;
 				CheckChange(unfinishFrag,
-						String.valueOf(Container.MODEL_UNFINISH));
+						String.valueOf(MyContainer.MODEL_UNFINISH));
 				break;
 			case R.id.rbn_taskfinished:
-				status = Container.STATUS_FINISH;
-				CheckChange(finishFrag, String.valueOf(Container.MODEL_FINISH));
+				status = MyContainer.STATUS_FINISH;
+				CheckChange(finishFrag, String.valueOf(MyContainer.MODEL_FINISH));
 				break;
 
 			}
@@ -179,17 +179,17 @@ public class TaskListFragmentAvtivity extends ActivityBase {
 			break;
 		case R.id.search:
 			Bundle bundle = new Bundle();
-			if(status.equals(Container.STATUS_ALL)){
+			if(status.equals(MyContainer.STATUS_ALL)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_ALL);
+				bundle.putInt("tag",MyContainer.MODEL_ALL);
 				bundle.putString("title","全部任务搜索结果");
-			}else if(status.equals(Container.STATUS_UNFINISH)){
+			}else if(status.equals(MyContainer.STATUS_UNFINISH)){
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_UNFINISH);
+				bundle.putInt("tag",MyContainer.MODEL_UNFINISH);
 				bundle.putString("title","未完成任务搜索结果");
 			}else{
 				bundle.putString("modeobj", "task");
-				bundle.putInt("tag",Container.MODEL_FINISH);
+				bundle.putInt("tag",MyContainer.MODEL_FINISH);
 				bundle.putString("title","已完成任务搜索结果");
 			}
 			

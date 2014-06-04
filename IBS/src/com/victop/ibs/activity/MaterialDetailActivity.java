@@ -41,6 +41,7 @@ import com.victop.ibs.bean.MaterialDetailSortBean;
 import com.victop.ibs.bean.MaterialDetailTagBean;
 import com.victop.ibs.handler.MaterialDetailHandler;
 import com.victop.ibs.presenter.MaterialDetailPresenter;
+import com.victop.ibs.util.MyContainer;
 import com.victop.ibs.view.MyGallery;
 
 /**
@@ -189,6 +190,9 @@ public class MaterialDetailActivity extends ActivityBase {
 		if(materialstatus.equals("1")){
 			btn_materialdetail_check.setVisibility(View.VISIBLE);
 		}else{
+			btn_materialdetail_check.setVisibility(View.GONE);
+		}
+		if (MyContainer.limit_state != MyContainer.limit_admin) {
 			btn_materialdetail_check.setVisibility(View.GONE);
 		}
 		materialDetailHandler = new MaterialDetailHandler(

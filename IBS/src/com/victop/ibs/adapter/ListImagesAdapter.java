@@ -26,7 +26,7 @@ import com.victop.ibs.activity.ImgShowActivity;
 import com.victop.ibs.activity.R;
 import com.victop.ibs.bean.Entity;
 import com.victop.ibs.util.Constants;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.ibs.util.ImgCallBack;
 import com.victop.ibs.util.Util;
 import com.victop.ibs.view.SwipeListView;
@@ -112,8 +112,8 @@ public class ListImagesAdapter extends BaseAdapter {
 		}
 		// Container.et_list.add(position, holder.editText);
 		// Container.tv_list.add(position, holder.textView);
-		Container.et_Map.put(position, holder.editText);
-		Container.tv_Map.put(position, holder.textView);
+		MyContainer.et_Map.put(position, holder.editText);
+		MyContainer.tv_Map.put(position, holder.textView);
 		Constants.imageLoader.displayImage("file://"
 				+ list.get(position).getURL(), holder.image,
 				Constants.image_display_options, null);

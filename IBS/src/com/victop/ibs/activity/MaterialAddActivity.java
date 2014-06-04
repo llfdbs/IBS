@@ -55,7 +55,7 @@ import com.victop.ibs.bean.MaterialTagBean;
 import com.victop.ibs.bean.TagBean;
 import com.victop.ibs.handler.BaseHandler;
 import com.victop.ibs.presenter.SavePresenter;
-import com.victop.ibs.util.Container;
+import com.victop.ibs.util.MyContainer;
 import com.victop.ibs.util.Tools;
 import com.victop.ibs.view.MyGridView;
 
@@ -66,7 +66,7 @@ import com.victop.ibs.view.MyGridView;
  * 
  */
 public class MaterialAddActivity extends ActivityBase implements
-		OnClickListener,ShowUploadWayClass{
+		OnClickListener, ShowUploadWayClass {
 	private LinearLayout llt_sort, llt_property, llt_task, llt_tag;
 	private TextView tv_sort, tv_task, tv_tag;
 	private MyGridView mgv_material;
@@ -95,10 +95,10 @@ public class MaterialAddActivity extends ActivityBase implements
 	private String taskid_status = "";
 	public static final int PHOTOHRAPH = 3;// 拍照
 	public File picture;
-	private UUID uuid;
+
 	private Entity e;
 	private AlertDialog dialog;
-	
+	String uuid = "";
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -144,11 +144,12 @@ public class MaterialAddActivity extends ActivityBase implements
 				Toast.makeText(getApplicationContext(), r2r, 1000).show();
 				break;
 			case 5:
+
 				List<String> list = (List<String>) msg.obj;
 				if (null != list)
 					for (int i = 0; i < list.size(); i++) {
-							MaterialPictureBean m =mMaterialPictureBean.get(i);
-							m.setImgname(list.get(i));
+						MaterialPictureBean m = mMaterialPictureBean.get(i);
+						m.setImgname(list.get(i).substring(0, list.get(i).length()-4));
 					}
 
 				BaseHandler bHandler = new BaseHandler(getApplicationContext(),
@@ -173,13 +174,22 @@ public class MaterialAddActivity extends ActivityBase implements
 						.setAddmanid(com.victop.android.session.Container
 								.getInstance().getUserInfo().getUsercode());
 				mAddMaterialBean.setAdddate(time);
-				 mAddMaterialBean.setVersioncode("1.0");
+				mAddMaterialBean.setVersioncode("1.0");
 				// mAddMaterialBean.setMaterialid("");
 				mAddMaterialBean.setMaterialmemo(et_memo.getText().toString());
 				mAddMaterialBean.setMaterialstatus("0");
+
 				// mAddMaterialBean.setMaterialcode("");
-				mAddMaterialBean.setMaterialguid(getMyUUID());
+				mAddMaterialBean.setMaterialguid(uuid);
 				tAddMaterialBean.add(mAddMaterialBean);
+				if (null != mMaterialPropertyBean
+						&& mMaterialPropertyBean.size() > 0)
+					mMaterialPropertyBean.get(0).setMaterialguid(uuid);
+				if (null != mMaterialTagBean && mMaterialTagBean.size() > 0)
+					for (MaterialTagBean m : mMaterialTagBean) {
+						m.setMaterialguid(uuid);
+
+					}
 				Map<String, List> dataMap1 = new HashMap<String, List>();
 
 				dataMap1.put("13", mMaterialPropertyBean);
@@ -201,7 +211,7 @@ public class MaterialAddActivity extends ActivityBase implements
 		switch (v.getId()) {
 
 		case R.id.llt_sort:
-			openActivityForResult(SortActivity.class, null, Container.SORT);
+			openActivityForResult(SortActivity.class, null, MyContainer.SORT);
 
 			break;
 		case R.id.llt_property:
@@ -217,7 +227,8 @@ public class MaterialAddActivity extends ActivityBase implements
 			break;
 		case R.id.llt_task:
 
-			openActivityForResult(TaskSortActivity.class, null, Container.TASK);
+			openActivityForResult(TaskSortActivity.class, null,
+					MyContainer.TASK);
 			break;
 		case R.id.llt_tag:
 
@@ -225,8 +236,8 @@ public class MaterialAddActivity extends ActivityBase implements
 
 				Bundle b = new Bundle();
 				b.putString("classid", classid);
-				Container.getInstance().getTaghashSortModel().clear();
-				openActivityForResult(TagActivity.class, b, Container.TAG);
+				MyContainer.getInstance().getTaghashSortModel().clear();
+				openActivityForResult(TagActivity.class, b, MyContainer.TAG);
 			} else {
 				Toast.makeText(this, "请先填写分类", 500).show();
 			}
@@ -241,7 +252,7 @@ public class MaterialAddActivity extends ActivityBase implements
 			openActivity(ImgShowActivity.class, b);
 			break;
 		case R.id.img:
-			//openActivity(ImgFileListActivity.class, null);
+			// openActivity(ImgFileListActivity.class, null);
 			showUploadWayDialogs();
 			break;
 		}
@@ -280,7 +291,7 @@ public class MaterialAddActivity extends ActivityBase implements
 						iv_addimg.setVisibility(View.GONE);
 						ibtn_edit.setVisibility(View.VISIBLE);
 						mAdapter = new MaterialAdd_girdViewAdapter(this,
-								img_list, 0,this);
+								img_list, 0, this);
 						mgv_material.setAdapter(mAdapter);
 					}
 				} else {
@@ -289,7 +300,7 @@ public class MaterialAddActivity extends ActivityBase implements
 					iv_addimg.setVisibility(View.GONE);
 					ibtn_edit.setVisibility(View.VISIBLE);
 					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
-							0,this);
+							0, this);
 					mgv_material.setAdapter(mAdapter);
 
 				}
@@ -306,21 +317,21 @@ public class MaterialAddActivity extends ActivityBase implements
 					iv_addimg.setVisibility(View.GONE);
 					ibtn_edit.setVisibility(View.VISIBLE);
 					mAdapter = new MaterialAdd_girdViewAdapter(this, img_list,
-							0,this);
+							0, this);
 					mgv_material.setAdapter(mAdapter);
 				}
 			}
 			if (null != img_list)
 				for (Entity e : img_list) {
 					MaterialPictureBean materialPictureBean = new MaterialPictureBean();
-
+					uuid = getMyUUID();
 					materialPictureBean.setImgmemo(e.getText());
 					materialPictureBean.setImgname(e.getURL());
 					materialPictureBean.setMatimgid(getMyUUID());
 					materialPictureBean.setImghigh(e.getHieght());
 					materialPictureBean.setImgrule("");
 					// materialPictureBean.setImgwidth(imgwidth);
-					materialPictureBean.setMaterialguid(getMyUUID());
+					materialPictureBean.setMaterialguid(uuid);
 
 					mMaterialPictureBean.add(materialPictureBean);
 
@@ -332,10 +343,10 @@ public class MaterialAddActivity extends ActivityBase implements
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		case Container.TAG:
+		case MyContainer.TAG:
 			if (resultCode == RESULT_OK) {
 				String nametext = "";
-				HashMap<Integer, TagBean> hashMap = Container.getInstance()
+				HashMap<Integer, TagBean> hashMap = MyContainer.getInstance()
 						.getTaghashSortModel();
 				Iterator iter = hashMap.keySet().iterator();
 				while (iter.hasNext()) {
@@ -355,18 +366,18 @@ public class MaterialAddActivity extends ActivityBase implements
 			}
 
 			break;
-		case Container.SORT:
+		case MyContainer.SORT:
 			if (data != null) {
 				Bundle b = data.getExtras();
 				String tasknumber = b.getString("info");
 				classid = b.getString("classid");
 				tv_sort.setText(tasknumber);
 				tv_tag.setText("");
-				Container.getInstance().getTaghashSortModel().clear();
+				MyContainer.getInstance().getTaghashSortModel().clear();
 			}
 
 			break;
-		case Container.TASK:// 任务编号
+		case MyContainer.TASK:// 任务编号
 			if (data != null) {
 				Bundle b = data.getExtras();
 				taskcode = b.getString("tasknumber");
@@ -468,7 +479,7 @@ public class MaterialAddActivity extends ActivityBase implements
 				showDialogs(arg2);
 			}
 		});
-		mAdapter = new MaterialAdd_girdViewAdapter(this, img_list, 0,this);
+		mAdapter = new MaterialAdd_girdViewAdapter(this, img_list, 0, this);
 		mgv_material.setAdapter(mAdapter);
 		llt_sort.setOnClickListener(this);
 		llt_property.setOnClickListener(this);
@@ -547,59 +558,60 @@ public class MaterialAddActivity extends ActivityBase implements
 		tv_position.setText(rr);
 		tv_detail.setText(dd);
 	}
+
 	// 弹出上传图片方式对话框
-		public void showUploadWayDialogs() {
-			dialog = new AlertDialog.Builder(MaterialAddActivity.this).create();
-			dialog.show();
-			Window window = dialog.getWindow();
-			WindowManager.LayoutParams lp = window.getAttributes();
-			lp.x = 0;
-			lp.y = 330;
-			dialog.onWindowAttributesChanged(lp);
-			window.setContentView(R.layout.uploadimageways);
-			Button uploadbycream = (Button) window.findViewById(R.id.uploadbycream);
-			Button uploadbyphotos = (Button) window
-					.findViewById(R.id.uploadbyphotos);
-			Button uploadcancle = (Button) window.findViewById(R.id.uploadcancle);
-			uploadbycream.setOnClickListener(btn_uploadByCream);
-			uploadbyphotos.setOnClickListener(btn_uploadByPhotos);
-			uploadcancle.setOnClickListener(btn_uploadcancle);
+	public void showUploadWayDialogs() {
+		dialog = new AlertDialog.Builder(MaterialAddActivity.this).create();
+		dialog.show();
+		Window window = dialog.getWindow();
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.x = 0;
+		lp.y = 330;
+		dialog.onWindowAttributesChanged(lp);
+		window.setContentView(R.layout.uploadimageways);
+		Button uploadbycream = (Button) window.findViewById(R.id.uploadbycream);
+		Button uploadbyphotos = (Button) window
+				.findViewById(R.id.uploadbyphotos);
+		Button uploadcancle = (Button) window.findViewById(R.id.uploadcancle);
+		uploadbycream.setOnClickListener(btn_uploadByCream);
+		uploadbyphotos.setOnClickListener(btn_uploadByPhotos);
+		uploadcancle.setOnClickListener(btn_uploadcancle);
+	}
+
+	// 拍照上传图片
+	OnClickListener btn_uploadByCream = new OnClickListener() {
+
+		public void onClick(View v) {
+			UUID uuid = Tools.generateUUid();
+			Bundle bundle = new Bundle();
+			bundle.putParcelable(MediaStore.EXTRA_OUTPUT, Uri
+					.fromFile(new File(Environment
+							.getExternalStorageDirectory(), uuid + ".jpg")));
+			openCameraActivityForResult(bundle, PHOTOHRAPH,
+					MediaStore.ACTION_IMAGE_CAPTURE);
+			dialog.dismiss();
+
 		}
+	};
+	// 从图片库中选择图片
+	OnClickListener btn_uploadByPhotos = new OnClickListener() {
 
-		// 拍照上传图片
-		OnClickListener btn_uploadByCream = new OnClickListener() {
+		public void onClick(View v) {
 
-			public void onClick(View v) {
-				uuid = Tools.generateUUid();
-				Bundle bundle = new Bundle();
-				bundle.putParcelable(MediaStore.EXTRA_OUTPUT, Uri
-						.fromFile(new File(Environment
-								.getExternalStorageDirectory(), uuid + ".jpg")));
-				openCameraActivityForResult(bundle, PHOTOHRAPH,
-						MediaStore.ACTION_IMAGE_CAPTURE);
-				dialog.dismiss();
+			dialog.dismiss();
+			openActivity(ImgFileListActivity.class, null);
 
-			}
-		};
-		// 从图片库中选择图片
-		OnClickListener btn_uploadByPhotos = new OnClickListener() {
+		}
+	};
+	// 取消上传图片
+	OnClickListener btn_uploadcancle = new OnClickListener() {
 
-			public void onClick(View v) {
+		public void onClick(View v) {
 
-				dialog.dismiss();
-				openActivity(ImgFileListActivity.class, null);
+			dialog.dismiss();
 
-			}
-		};
-		// 取消上传图片
-		OnClickListener btn_uploadcancle = new OnClickListener() {
-
-			public void onClick(View v) {
-
-				dialog.dismiss();
-
-			}
-		};
+		}
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -667,7 +679,7 @@ public class MaterialAddActivity extends ActivityBase implements
 				try {
 
 					List<String> list = (new UploadFiles()).uploadFileClient(
-							Container.ACTION, fileList);
+							MyContainer.ACTION, fileList);
 					if (null != list) {
 						Message msg = new Message();
 						msg.what = 5;
